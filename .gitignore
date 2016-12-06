@@ -1,0 +1,28 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
+
+# idea
+out
+*.ipr
+*.iws
+*.iml
+.idea
+
+# file
+*.txt
+gradle-wrapper.jar
+gradle-wrapper.properties
+gradlew.bat
+gradlew
+
+# folder
+.gradle
+build
+eclipse
+run
+*/src/main/java/net/minecraft/

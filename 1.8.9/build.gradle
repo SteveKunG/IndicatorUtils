@@ -1,0 +1,34 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.1-SNAPSHOT'
+    }
+}
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "2.0.0"
+group = "stevekung.mods.indicatorutils"
+archivesBaseName = "Indicator-Utils-1.8.9"
+
+minecraft {
+    version = "1.8.9-11.15.1.1902-1.8.9"
+    runDir = "run"
+    mappings = "stable_20"
+}
+
+dependencies {
+}
+
+processResources
+{
+    // copy everything else, thats not the mcmod.info
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}

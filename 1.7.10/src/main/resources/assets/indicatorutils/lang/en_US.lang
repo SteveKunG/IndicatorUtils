@@ -1,0 +1,53 @@
+indicatorutilmaingui=Main Settings
+indicatorutilrenderinfogui=Render Info Settings
+indicatorutilingamerendergui=In-game Render Settings
+indicatorutiloffsetgui=Offset Settings
+indicatorutiltimeinfogui=Time Info Settings
+indicatorutilcustomcolorgui=Custom Text Color Settings
+indicatorutilcustomtextgui=Custom Text Settings
+
+gui.indicatorutils.config.name0=Indicator Utils
+gui.indicatorutils.config.name1=Configuration
+gui.indicatorutil.config.name=Indicator Utils Configuration GUI
+gui.config.indicatorutils.advanced=For advanced user only!
+gui.config.indicatorutils.movementhandler=This is an option for enable/disable movement handler (Toggle Sprint/Sneak, AFK System)
+gui.config.indicatorutils.ingamegui=This is an option for replacing In-game GUI. It will fix armor status and held item rendering behind Chat GUI.
+gui.config.indicatorutils.customcape=This is an option for enable/disable custom cape feature in the game, you can upload your custom cape texture to any website.
+
+commands.getplayerpos.success=%s position is: X:%s Y:%s Z:%s Dim:%s
+commands.getplayerpos.playernull=Player %s doesn't exist
+commands.getplayerpos.fail=/getplayerpos <player>
+commands.indicatorutils.usage=/indicatorutil <help|displaymode|togglesprint|togglesneak|cps|keystroke|autoclearchat|armorstatus|potionstatus|autoswim>
+commands.indicatorutils.displaymode.usage=/indicatorutil displaymode <default|uhc|pvp|command|mode>
+commands.indicatorutils.displaymode.mode.usage=/indicatorutil displaymode mode <keybinding|command>
+commands.indicatorutils.togglesprint.usage=/indicatorutil togglesprint <enable|disable|mode>
+commands.indicatorutils.togglesneak.usage=/indicatorutil togglesneak <enable|disable|mode>
+commands.indicatorutils.togglesprint.mode.usage=/indicatorutil togglesprint mode <keybinding|command>
+commands.indicatorutils.togglesneak.mode.usage=/indicatorutil togglesneak mode <keybinding|command>
+commands.indicatorutils.cps.usage=/indicatorutil cps <left|right|record>
+commands.indicatorutils.keystroke.usage=/indicatorutil keystroke <reset|x|y> <value>
+commands.indicatorutils.autoclearchat.usage=/indicatorutil autoclearchat <enable|disable|mode|set>
+commands.indicatorutils.autoclearchat.set.usage=/indicatorutil autoclearchat set <value>
+commands.indicatorutils.armorstatus.usage=/indicatorutil armorstatus <reset|y> <value>
+commands.indicatorutils.potionstatus.usage=/indicatorutil potionstatus <reset|y> <value>
+commands.afk.usage=/afk <start:reason|stop|changereason|mode...>
+commands.rectemp.usage=/rectemp <start|stop>
+commands.indicatorutils.autoswim.usage=/indicatorutil autoswim <enable|disable|mode>
+commands.indicatorutils.autoswim.mode.usage=/indicatorutil autoswim mode <keybinding|command>
+commands.indicatorutils.autoclearchat.mode.usage=/indicatorutil autoclearchat mode <all|onlychat|onlysendmessage>
+commands.afk.reason=%s
+commands.autofish.usage=/autofish <enable|disable>
+
+gui.capedownloader=Custom Cape Downloader
+gui.capedownloader.desc=Put your Cape URL (Must be .png or image format)
+gui.resetcape=Reset Cape
+
+key.indicatorutils.category=Indicator Utils
+key.togglesprint.desc=Toggle Sprint
+key.togglesneak.desc=Toggle Sneak
+key.autoswim.desc=Auto Swim
+key.displaymode.next.desc=Display Mode Next
+key.displaymode.previous.desc=Display Mode Previous
+key.reccommand.desc=/rec Command
+key.endgamemessage.desc=End Game Message
+key.capedownloadgui.desc=Cape Downloader GUI

@@ -107,9 +107,10 @@ public class GameInfoHelper
         }
     }
 
-    // Credit to lib12time (Bukkit)
+    // Credit to lib24time (Bukkit)
     public String getInGameTime(long worldTick)
     {
+        JsonMessageUtils json = new JsonMessageUtils();
         int hours = (int)((worldTick / 1000 + 6) % 24);
         int minutes = (int)(60 * (worldTick % 1000) / 1000);
         String sminutes = "" + minutes;
@@ -123,9 +124,10 @@ public class GameInfoHelper
         {
             sminutes = 0 + "" + minutes;
         }
-        String AMPM = JsonMessageUtils.textToJson(hours >= 12 ? "PM" : "AM", ConfigManager.customColorTimeAMPM).getFormattedText();
-        String game = JsonMessageUtils.textToJson("Game: ", ConfigManager.customColorGameTime).getFormattedText();
-        String value = JsonMessageUtils.textToJson(shours + ":" + sminutes, ConfigManager.customColorGameTimeValue).getFormattedText();
+
+        String AMPM = json.text(hours >= 12 ? "PM" : "AM").setStyle(json.colorFromConfig(ConfigManager.customColorTimeAMPM)).getFormattedText();
+        String game = json.text("Game: ").setStyle(json.colorFromConfig(ConfigManager.customColorGameTime)).getFormattedText();
+        String value = json.text(shours + ":" + sminutes).setStyle(json.colorFromConfig(ConfigManager.customColorGameTimeValue)).getFormattedText();
 
         if (ConfigManager.useCustomTextGameTime)
         {

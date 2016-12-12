@@ -73,11 +73,12 @@ public class CommandBlockStatusRenderer
 
     public static List<String> renderIndicator(Minecraft mc)
     {
-        List<String> list = Lists.newArrayList(new String[] {});
+        List<String> list = Lists.newArrayList();
+        JsonMessageUtils json = new JsonMessageUtils();
 
         if (ConfigManager.enablePing)
         {
-            String ping = JsonMessageUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
+            String ping = json.text("Ping: ").setStyle(json.colorFromConfig(ConfigManager.customColorPing)).getFormattedText();
 
             if (ConfigManager.useCustomTextPing)
             {
@@ -103,14 +104,14 @@ public class CommandBlockStatusRenderer
 
                 if (!GameInfoHelper.INSTANCE.isSinglePlayer())
                 {
-                    list.add(ping + JsonMessageUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
+                    list.add(ping + json.text(GameInfoHelper.INSTANCE.getPing() + "ms").setStyle(json.colorFromConfig(pingcolor)).getFormattedText());
                 }
             }
             else
             {
-                String pingna = JsonMessageUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
+                String pingna = json.text("n/a").setStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
 
-                if (IndicatorUtilsEventHandler.checkUUID == false && GameInfoHelper.INSTANCE.isHypixel())
+                if (!IndicatorUtilsEventHandler.checkUUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.checkUUID = true;
                     IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
@@ -128,8 +129,8 @@ public class CommandBlockStatusRenderer
             {
                 if (mc.getCurrentServerData() != null)
                 {
-                    String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
-                    String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
+                    String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
+                    String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();
                     String version = "";
 
                     if (ConfigManager.useCustomTextIP)
@@ -139,7 +140,7 @@ public class CommandBlockStatusRenderer
 
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
-                        version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
+                        version = "/" + json.text(IndicatorUtils.MC_VERSION).setStyle(json.colorFromConfig(ConfigManager.customColorIPMCValue)).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
                 }
@@ -147,7 +148,7 @@ public class CommandBlockStatusRenderer
         }
         if (ConfigManager.enableFPS)
         {
-            String fps = JsonMessageUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
+            String fps = json.text("FPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorFPS)).getFormattedText();
             String color = ConfigManager.customColorFPSValue1;
 
             if (ConfigManager.useCustomTextFPS)
@@ -163,21 +164,21 @@ public class CommandBlockStatusRenderer
             {
                 color = ConfigManager.customColorFPSValue3;
             }
-            list.add(fps + JsonMessageUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
+            list.add(fps + json.text(String.valueOf(Minecraft.getDebugFPS())).setStyle(json.colorFromConfig(color)).getFormattedText());
         }
         if (ConfigManager.enableXYZ)
         {
             if (mc.getRenderViewEntity() != null)
             {
                 BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                String xyz = JsonMessageUtils.textToJson("XYZ: ", ConfigManager.customColorXYZ).getFormattedText();
-                String nether = JsonMessageUtils.textToJson("Nether ", ConfigManager.customColorXYZNether).getFormattedText();
-                String overworld = JsonMessageUtils.textToJson("Overworld ", ConfigManager.customColorXYZOverworld).getFormattedText();
-                String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-                String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-                String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-                String xPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getX() * 8), ConfigManager.customColorXValue).getFormattedText();
-                String zPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getZ() * 8), ConfigManager.customColorZValue).getFormattedText();
+                String xyz = json.text("XYZ: ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZ)).getFormattedText();
+                String nether = json.text("Nether ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZNether)).getFormattedText();
+                String overworld = json.text("Overworld ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZOverworld)).getFormattedText();
+                String xPosition = json.text(String.valueOf(pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String yPosition = json.text(String.valueOf(pos.getY())).setStyle(json.colorFromConfig(ConfigManager.customColorYValue)).getFormattedText();
+                String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+                String xPosition1 = json.text(String.valueOf(pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String zPosition1 = json.text(String.valueOf(pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
 
                 if (ConfigManager.useCustomTextXYZ)
                 {
@@ -198,10 +199,10 @@ public class CommandBlockStatusRenderer
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == Type.BLOCK && mc.objectMouseOver.getBlockPos() != null)
         {
             BlockPos pos = mc.objectMouseOver.getBlockPos();
-            String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-            String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-            String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-            String lookingAt = JsonMessageUtils.textToJson("Looking at: ", ConfigManager.customColorLookingAt).getFormattedText();
+            String xPosition = json.text(String.valueOf(pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+            String yPosition = json.text(String.valueOf(pos.getY())).setStyle(json.colorFromConfig(ConfigManager.customColorYValue)).getFormattedText();
+            String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+            String lookingAt = json.text("Looking at: ").setStyle(json.colorFromConfig(ConfigManager.customColorLookingAt)).getFormattedText();
 
             if (ConfigManager.useCustomTextLookingAt)
             {
@@ -261,8 +262,8 @@ public class CommandBlockStatusRenderer
                 break;
             }
 
-            String directionText = JsonMessageUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
-            String directionValue = JsonMessageUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
+            String directionText = json.text("Direction: ").setStyle(json.colorFromConfig(ConfigManager.customColorDirection)).getFormattedText();
+            String directionValue = json.text(direction).setStyle(json.colorFromConfig(ConfigManager.customColorDirectionValue)).getFormattedText();
 
             if (ConfigManager.useCustomTextDirection)
             {

@@ -17,7 +17,6 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandIndicatorUtils extends CommandBase
@@ -49,419 +48,374 @@ public class CommandIndicatorUtils extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length > 0)
+        JsonMessageUtils json = new JsonMessageUtils();
+
+        if (args.length < 1)
         {
-            if (args[0].equals("help"))
+            throw new WrongUsageException("commands.indicatorutils.usage");
+        }
+        else
+        {
+            if ("togglesprint".equalsIgnoreCase(args[0]))
             {
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_DISPLAY_MODE_NEXT.getDisplayName() + "/" + KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS.getDisplayName() + " = Switch Display Mode\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_TOGGLE_SPRINT.getDisplayName() + " = Toggle Sprint\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_TOGGLE_SNEAK.getDisplayName() + " = Toggle Sneak\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_AUTO_SWIM.getDisplayName() + " = Auto Swim\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_REC_COMMAND.getDisplayName() + " = Record Overlay\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + KeyBindingHandler.KEY_END_GAME_MESSAGE.getDisplayName() + " = End Game Message\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                return;
-            }
-            else if (args[0].equals("togglesprint"))
-            {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage");
                 }
-                if (!(args[1].equals("enable") || args[1].equals("disable") || args[1].equals("mode")))
+
+                if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("enable"))
-                {
-                    if (args.length != 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
                     ExtendedModSettings.TOGGLE_SPRINT = true;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sprint to Enabled"));
+                    sender.addChatMessage(json.text("Set toggle sprint to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("disable"))
+                else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
                     ExtendedModSettings.TOGGLE_SPRINT = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sprint to Disabled"));
+                    sender.addChatMessage(json.text("Set toggle sprint to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("mode"))
+                else if ("mode".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length < 3 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage");
                     }
-                    if (!(args[2].equals("keybinding") || args[2].equals("command")))
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    if (args[2].equals("keybinding"))
+
+                    if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = "keybinding";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sprint to use Key Binding"));
+                        sender.addChatMessage(json.text("Set toggle sprint to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("command"))
+                    else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = "command";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sprint to use Command"));
+                        sender.addChatMessage(json.text("Set toggle sprint to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
+                    else
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage");
+                    }
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage");
                 }
             }
-            else if (args[0].equals("togglesneak"))
+            else if ("togglesneak".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage");
                 }
-                if (!(args[1].equals("enable") || args[1].equals("disable") || args[1].equals("mode")))
+
+                if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("enable"))
-                {
-                    if (args.length != 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
                     ExtendedModSettings.TOGGLE_SNEAK = true;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sneak to Enabled"));
+                    sender.addChatMessage(json.text("Set toggle sneak to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("disable"))
+                else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
                     ExtendedModSettings.TOGGLE_SNEAK = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sneak to Disabled"));
+                    sender.addChatMessage(json.text("Set toggle sneak to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("mode"))
+                else if ("mode".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length < 3 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage");
                     }
-                    if (!(args[2].equals("keybinding") || args[2].equals("command")))
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    if (args[2].equals("keybinding"))
+                    if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = "keybinding";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sneak to use Key Binding"));
+                        sender.addChatMessage(json.text("Set toggle sneak to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("command"))
+                    else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = "command";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set toggle sneak to use Command"));
+                        sender.addChatMessage(json.text("Set toggle sneak to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
+                    }
+                    else
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage");
                     }
                 }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage");
+                }
             }
-            else if (args[0].equals("cps"))
+            else if ("cps".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2)
+                if (args.length == 1 || args.length > 2)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.cps.usage");
                 }
-                if (!(args[1].equals("left") || args[1].equals("right") || args[1].equals("record")))
-                {
-                    throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("left"))
+
+                if ("left".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "left";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Left"));
+                    sender.addChatMessage(json.text("Set CPS position to Left"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("right"))
+                else if ("right".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "right";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Right"));
+                    sender.addChatMessage(json.text("Set CPS position to Right"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("record"))
+                else if ("record".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "record";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Record"));
+                    sender.addChatMessage(json.text("Set CPS position to Record"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.cps.usage");
                 }
             }
-            else if (args[0].equals("keystroke"))
+            else if ("keystroke".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                 }
-                if (!(args[1].equals("reset") || args[1].equals("y") || args[1].equals("x")))
+
+                if ("reset".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("reset"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                     }
                     ExtendedModSettings.KETSTROKE_Y_OFFSET = 0;
                     ExtendedModSettings.KETSTROKE_X_OFFSET = 0;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Reset Keystroke Offset"));
+                    sender.addChatMessage(json.text("Reset Keystroke Offset"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("y"))
+                else if ("x".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    ExtendedModSettings.KETSTROKE_Y_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set Keystroke Y Offset to " + args[2]));
-                    ExtendedModSettings.saveExtendedSettings();
-                    return;
-                }
-                if (args[1].equals("x"))
-                {
-                    if (args.length != 3 && args.length != 4)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                     }
                     ExtendedModSettings.KETSTROKE_X_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set Keystroke X Offset to " + args[2]));
+                    sender.addChatMessage(json.text("Set Keystroke X Offset to " + args[2]));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
+                }
+                else if ("y".equalsIgnoreCase(args[1]))
+                {
+                    if (args.length == 2 || args.length > 3)
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
+                    }
+                    ExtendedModSettings.KETSTROKE_Y_OFFSET = CommandBase.parseInt(args[2]);
+                    sender.addChatMessage(json.text("Set Keystroke Y Offset to " + args[2]));
+                    ExtendedModSettings.saveExtendedSettings();
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                 }
             }
-            else if (args[0].equals("displaymode"))
+            else if ("displaymode".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                 }
-                if (!(args[1].equals("default") || args[1].equals("uhc") || args[1].equals("pvp") || args[1].equals("command") || args[1].equals("mode")))
+
+                if ("default".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("default"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "default";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to Default"));
+                    sender.addChatMessage(json.text("Set display mode to Default"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("pvp"))
+                else if ("uhc".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    ExtendedModSettings.DISPLAY_MODE = "pvp";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to PvP"));
-                    ExtendedModSettings.saveExtendedSettings();
-                    return;
-                }
-                if (args[1].equals("uhc"))
-                {
-                    if (args.length != 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "uhc";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to UHC"));
+                    sender.addChatMessage(json.text("Set display mode to UHC"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("command"))
+                else if ("pvp".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
+                    if (args.length > 2)
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                    }
+                    ExtendedModSettings.DISPLAY_MODE = "pvp";
+                    sender.addChatMessage(json.text("Set display mode to PvP"));
+                    ExtendedModSettings.saveExtendedSettings();
+                }
+                else if ("command".equalsIgnoreCase(args[1]))
+                {
+                    if (args.length > 2)
                     {
                         throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
                     }
                     ExtendedModSettings.DISPLAY_MODE = "command";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to Command Block"));
+                    sender.addChatMessage(json.text("Set display mode to Command Block"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("mode"))
+                else if ("mode".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage");
                     }
-                    if (!(args[2].equals("keybinding") || args[2].equals("command")))
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    if (args[2].equals("keybinding"))
+
+                    if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.DISPLAY_MODE_USE_MODE = "keybinding";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to use Key Binding"));
+                        sender.addChatMessage(json.text("Set display mode to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("command"))
+                    else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.DISPLAY_MODE_USE_MODE = "command";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set display mode to use Command"));
+                        sender.addChatMessage(json.text("Set display mode to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
+                    }
+                    else
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage");
                     }
                 }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                }
             }
-            else if (args[0].equals("autoswim"))
+            else if ("autoswim".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                 }
-                if (!(args[1].equals("enable") || args[1].equals("disable") || args[1].equals("mode")))
+
+                if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("enable"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                     }
                     ExtendedModSettings.AUTO_SWIM = true;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set auto swim to Enabled"));
+                    sender.addChatMessage(json.text("Set auto swim to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("disable"))
+                else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                     }
                     ExtendedModSettings.AUTO_SWIM = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set auto swim to Disabled"));
+                    sender.addChatMessage(json.text("Set auto swim to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("mode"))
+                else if ("mode".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage");
                     }
-                    if (!(args[2].equals("keybinding") || args[2].equals("command")))
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    if (args[2].equals("keybinding"))
+
+                    if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_SWIM_USE_MODE = "keybinding";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto swim to use Key Binding"));
+                        sender.addChatMessage(json.text("Set auto swim to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("command"))
+                    else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_SWIM_USE_MODE = "command";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto swim to use Command"));
+                        sender.addChatMessage(json.text("Set auto swim to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
+                    else
+                    {
+                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage");
+                    }
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                 }
             }
-            else if (args[0].equals("autoclearchat"))
+            else if ("autoclearchat".equalsIgnoreCase(args[0]))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
                 }
-                if (!(args[1].equals("enable") || args[1].equals("disable") || args[1].equals("mode") || args[1].equals("set")))
+
+                if ("enable".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("enable"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = true;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set auto clear chat to Enabled"));
+                    sender.addChatMessage(json.text("Set auto clear chat to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("disable"))
+                else if ("disable".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set auto clear chat to Disabled"));
+                    sender.addChatMessage(json.text("Set auto clear chat to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("mode"))
+                else if ("mode".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.mode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.mode.usage");
                     }
-                    if (!(args[2].equals("all") || args[2].equals("onlychat") || args[2].equals("onlysentmessage")))
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.mode.usage", new Object[] { this.getCommandUsage(sender) });
-                    }
-                    if (args[2].equals("all"))
+
+                    if ("all".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "all";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto clear chat mode to clear all"));
+                        sender.addChatMessage(json.text("Set auto clear chat mode to clear all"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("onlychat"))
+                    if ("onlychat".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "onlychat";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto clear chat mode to chat only"));
+                        sender.addChatMessage(json.text("Set auto clear chat mode to chat only"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
-                    if (args[2].equals("onlysentmessage"))
+                    if ("onlysentmessage".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "onlysentmessage";
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto clear chat mode to sent message only"));
+                        sender.addChatMessage(json.text("Set auto clear chat mode to sent message only"));
                         ExtendedModSettings.saveExtendedSettings();
-                        return;
                     }
                 }
-                if (args[1].equals("set"))
+                if ("set".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.set.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.set.usage");
                     }
+
                     ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = CommandBase.parseInt(args[2], 1);
                     String s = "Set auto clear chat time to " + CommandBase.parseInt(args[2], 1) + " second";
 
@@ -469,79 +423,75 @@ public class CommandIndicatorUtils extends CommandBase
                     {
                         s = s + "s";
                     }
-                    sender.addChatMessage(JsonMessageUtils.textToJson(s));
+                    sender.addChatMessage(json.text(s));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
             }
-            else if (args[0].equals("armorstatus"))
+            else if (args[0].equalsIgnoreCase("armorstatus"))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                 }
-                if (!(args[1].equals("reset") || args[1].equals("y")))
+
+                if (args[1].equalsIgnoreCase("reset"))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("reset"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                     }
                     ExtendedModSettings.ARMOR_STATUS_OFFSET = 0;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Reset Armor Status Offset"));
+                    sender.addChatMessage(json.text("Reset Armor Status Offset"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("y"))
+                else if (args[1].equalsIgnoreCase("y"))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                     }
                     ExtendedModSettings.ARMOR_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set Armor Status Y Offset to " + CommandBase.parseInt(args[2])));
+                    sender.addChatMessage(json.text("Set Armor Status Y Offset to " + CommandBase.parseInt(args[2])));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                 }
             }
-            else if (args[0].equals("potionstatus"))
+            else if (args[0].equalsIgnoreCase("potionstatus"))
             {
-                if (args.length != 2 && args.length != 3)
+                if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.potionstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                    throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
                 }
-                if (!(args[1].equals("reset") || args[1].equals("y")))
+
+                if ("reset".equalsIgnoreCase(args[1]))
                 {
-                    throw new WrongUsageException("commands.indicatorutils.potionstatus.usage", new Object[] { this.getCommandUsage(sender) });
-                }
-                if (args[1].equals("reset"))
-                {
-                    if (args.length != 2)
+                    if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
                     }
                     ExtendedModSettings.POTION_STATUS_OFFSET = 0;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Reset Potion Status Offset"));
+                    sender.addChatMessage(json.text("Reset Potion Status Offset"));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
-                if (args[1].equals("y"))
+                if ("y".equalsIgnoreCase(args[1]))
                 {
-                    if (args.length != 3 && args.length != 4)
+                    if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
                     }
                     ExtendedModSettings.POTION_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set Potion Status Y Offset to " + CommandBase.parseInt(args[2])));
+                    sender.addChatMessage(json.text("Set Potion Status Y Offset to " + CommandBase.parseInt(args[2])));
                     ExtendedModSettings.saveExtendedSettings();
-                    return;
                 }
             }
+            else
+            {
+                throw new WrongUsageException("commands.indicatorutils.usage");
+            }
         }
-        throw new WrongUsageException("commands.indicatorutils.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override
@@ -549,46 +499,46 @@ public class CommandIndicatorUtils extends CommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "help", "displaymode", "togglesprint", "togglesneak", "cps", "keystroke", "autoclearchat", "armorstatus", "potionstatus", "autoswim");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "displaymode", "togglesprint", "togglesneak", "cps", "keystroke", "autoclearchat", "armorstatus", "potionstatus", "autoswim");
         }
         if (args.length == 2)
         {
-            if (args[0].equals("displaymode"))
+            if (args[0].equalsIgnoreCase("displaymode"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "default", "uhc", "pvp", "command", "mode");
             }
-            if (args[0].equals("autoclearchat"))
+            if (args[0].equalsIgnoreCase("autoclearchat"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable", "mode", "set");
             }
-            if (args[0].equals("togglesprint") || args[0].equals("togglesneak") || args[0].equals("autoswim"))
+            if (args[0].equalsIgnoreCase("togglesprint") || args[0].equalsIgnoreCase("togglesneak") || args[0].equalsIgnoreCase("autoswim"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable", "mode");
             }
-            if (args[0].equals("cps"))
+            if (args[0].equalsIgnoreCase("cps"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record");
             }
-            if (args[0].equals("keystroke"))
+            if (args[0].equalsIgnoreCase("keystroke"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "reset", "x", "y");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "x", "y", "reset");
             }
-            if (args[0].equals("armorstatus"))
+            if (args[0].equalsIgnoreCase("armorstatus"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "reset", "y");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "y", "reset");
             }
-            if (args[0].equals("potionstatus"))
+            if (args[0].equalsIgnoreCase("potionstatus"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "reset", "y");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "y", "reset");
             }
         }
         if (args.length == 3)
         {
-            if ((args[0].equals("togglesprint") || args[0].equals("togglesneak") || args[0].equals("displaymode") || args[0].equals("autoswim")) && args[1].equals("mode"))
+            if ((args[0].equalsIgnoreCase("togglesprint") || args[0].equalsIgnoreCase("togglesneak") || args[0].equalsIgnoreCase("displaymode") || args[0].equalsIgnoreCase("autoswim")) && args[1].equalsIgnoreCase("mode"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "keybinding", "command");
             }
-            if (args[0].equals("autoclearchat") && args[1].equals("mode"))
+            if (args[0].equalsIgnoreCase("autoclearchat") && args[1].equalsIgnoreCase("mode"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "all", "onlychat", "onlysentmessage");
             }

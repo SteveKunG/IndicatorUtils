@@ -43,30 +43,36 @@ public class CommandShowCape extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        if (args.length < 1)
         {
-            if ("disable".equals(args[0]))
+            throw new WrongUsageException("commands.capeiu.usage");
+        }
+        else
+        {
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.capeiu.usage");
+            }
+
+            if ("disable".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.SHOW_CAPE = false;
                 ExtendedModSettings.saveExtendedSettings();
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Disabled Custom Cape"));
-                return;
+                sender.addChatMessage(new JsonMessageUtils().text("Disabled Custom Cape"));
             }
-            if ("enable".equals(args[0]))
+            else if ("enable".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.SHOW_CAPE = true;
                 ExtendedModSettings.saveExtendedSettings();
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Enabled Custom Cape"));
-                return;
+                sender.addChatMessage(new JsonMessageUtils().text("Enabled Custom Cape"));
             }
         }
-        throw new WrongUsageException("commands.capeiu.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override

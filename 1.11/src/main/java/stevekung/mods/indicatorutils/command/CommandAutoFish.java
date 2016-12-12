@@ -44,23 +44,31 @@ public class CommandAutoFish extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        JsonMessageUtils json = new JsonMessageUtils();
+
+        if (args.length < 1)
         {
-            if ("disable".equals(args[0]))
+            throw new WrongUsageException("commands.autofish.usage");
+        }
+        else
+        {
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.autofish.usage");
+            }
+            if ("disable".equalsIgnoreCase(args[0]))
             {
                 if (IndicatorUtilsEventHandler.autoFishEnabled)
                 {
                     IndicatorUtilsEventHandler.autoFishEnabled = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Disabled auto fish"));
-                    return;
+                    sender.addChatMessage(json.text("Disabled auto fish"));
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /autofish command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have not start using /autofish command").setStyle(json.red()));
                 }
             }
-            if ("enable".equals(args[0]))
+            else if ("enable".equalsIgnoreCase(args[0]))
             {
                 if (!IndicatorUtilsEventHandler.autoFishEnabled)
                 {
@@ -68,25 +76,27 @@ public class CommandAutoFish extends CommandBase
                     {
                         if (Minecraft.getMinecraft().thePlayer.getHeldItem(hand).getItem() != Items.FISHING_ROD)
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("You are not held the fishing rod", "red"));
+                            sender.addChatMessage(json.text("You are not held the fishing rod").setStyle(json.red()));
                             return;
                         }
                         else
                         {
                             IndicatorUtilsEventHandler.autoFishEnabled = true;
-                            sender.addChatMessage(JsonMessageUtils.textToJson("Enabled auto fish"));
+                            sender.addChatMessage(json.text("Enabled auto fish"));
                             return;
                         }
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /autofish command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have already start /autofish command").setStyle(json.red()));
                 }
             }
+            else
+            {
+                throw new WrongUsageException("commands.autofish.usage");
+            }
         }
-        throw new WrongUsageException("commands.autofish.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override

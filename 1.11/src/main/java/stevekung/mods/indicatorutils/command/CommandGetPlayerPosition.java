@@ -47,15 +47,20 @@ public class CommandGetPlayerPosition extends CommandBase
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.getplayerpos.fail", new Object[] { this.getCommandUsage(sender) });
+            throw new WrongUsageException("commands.getplayerpos.fail");
         }
         else
         {
             EntityPlayer player = sender.getEntityWorld().getPlayerEntityByName(args[0]);
 
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.getplayerpos.fail");
+            }
+
             if (player == null)
             {
-                sender.addChatMessage(JsonMessageUtils.textToJson(I18n.format("commands.getplayerpos.playernull", args[0]), "red"));
+                sender.addChatMessage(new JsonMessageUtils().text(I18n.format("commands.getplayerpos.playernull", args[0])).setStyle(new JsonMessageUtils().red()));
             }
             else
             {

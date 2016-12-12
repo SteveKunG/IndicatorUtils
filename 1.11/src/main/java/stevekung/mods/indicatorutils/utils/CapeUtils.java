@@ -19,6 +19,7 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
+import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 
@@ -34,24 +35,37 @@ public class CapeUtils
 
     public static void setCapeURL(String url, boolean startup)
     {
+        URL jurl = null;
+        JsonMessageUtils json = new JsonMessageUtils();
+
+        try
+        {
+            jurl = new URL(url);
+        }
+        catch (MalformedURLException e)
+        {
+            e.printStackTrace();
+            return;
+        }
+
         if (CapeUtils.textureUploaded)
         {
             try
             {
-                CapeUtils.CAPE_TEXTURE.put(IndicatorUtils.USERNAME, new DynamicTexture(ImageIO.read(new URL(url))));
+                CapeUtils.CAPE_TEXTURE.put(IndicatorUtils.USERNAME, new DynamicTexture(ImageIO.read(jurl)));
                 ExtendedModSettings.CAPE_URL = CapeUtils.encodeCapeURL(url);
                 ExtendedModSettings.saveExtendedSettings();
                 CapeUtils.textureUploaded = false;
             }
             catch (MalformedURLException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Missing protocol or wrong URL format", "red"));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Missing protocol or wrong URL format").setStyle(json.style().setColor(TextFormatting.RED)));
                 e.printStackTrace();
                 return;
             }
             catch (IOException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Cannot read image from URL", "red"));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Cannot read image from URL").setStyle(json.style().setColor(TextFormatting.RED)));
                 e.printStackTrace();
                 return;
             }
@@ -59,7 +73,7 @@ public class CapeUtils
 
         if (!startup)
         {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Downloaded new cape texture from URL"));
+            Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Downloaded new cape texture from URL"));
         }
     }
 

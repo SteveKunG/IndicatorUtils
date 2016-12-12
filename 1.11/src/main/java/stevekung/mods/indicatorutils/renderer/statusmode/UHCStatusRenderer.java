@@ -78,11 +78,12 @@ public class UHCStatusRenderer
 
     private static List<String> renderIndicator(Minecraft mc)
     {
-        List<String> list = Lists.newArrayList(new String[] {} );
+        List<String> list = Lists.newArrayList();
+        JsonMessageUtils json = new JsonMessageUtils();
 
         if (ConfigManager.enablePing)
         {
-            String ping = JsonMessageUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
+            String ping = json.text("Ping: ").setStyle(json.colorFromConfig(ConfigManager.customColorPing)).getFormattedText();
 
             if (ConfigManager.useCustomTextPing)
             {
@@ -108,14 +109,14 @@ public class UHCStatusRenderer
 
                 if (!GameInfoHelper.INSTANCE.isSinglePlayer())
                 {
-                    list.add(ping + JsonMessageUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
+                    list.add(ping + json.text(GameInfoHelper.INSTANCE.getPing() + "ms").setStyle(json.colorFromConfig(pingcolor)).getFormattedText());
                 }
             }
             else
             {
-                String pingna = JsonMessageUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
+                String pingna = json.text("n/a").setStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
 
-                if (IndicatorUtilsEventHandler.checkUUID == false && GameInfoHelper.INSTANCE.isHypixel())
+                if (!IndicatorUtilsEventHandler.checkUUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.checkUUID = true;
                     IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
@@ -133,8 +134,8 @@ public class UHCStatusRenderer
             {
                 if (mc.getCurrentServerData() != null)
                 {
-                    String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
-                    String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
+                    String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
+                    String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();
                     String version = "";
 
                     if (ConfigManager.useCustomTextIP)
@@ -144,7 +145,7 @@ public class UHCStatusRenderer
 
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
-                        version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
+                        version = "/" + json.text(IndicatorUtils.MC_VERSION).setStyle(json.colorFromConfig(ConfigManager.customColorIPMCValue)).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
                 }
@@ -152,7 +153,7 @@ public class UHCStatusRenderer
         }
         if (ConfigManager.enableFPS)
         {
-            String fps = JsonMessageUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
+            String fps = json.text("FPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorFPS)).getFormattedText();
             String color = ConfigManager.customColorFPSValue1;
 
             if (ConfigManager.useCustomTextFPS)
@@ -168,21 +169,21 @@ public class UHCStatusRenderer
             {
                 color = ConfigManager.customColorFPSValue3;
             }
-            list.add(fps + JsonMessageUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
+            list.add(fps + json.text(String.valueOf(Minecraft.getDebugFPS())).setStyle(json.colorFromConfig(color)).getFormattedText());
         }
         if (ConfigManager.enableXYZ)
         {
             if (mc.getRenderViewEntity() != null)
             {
                 BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                String xyz = JsonMessageUtils.textToJson("XYZ: ", ConfigManager.customColorXYZ).getFormattedText();
-                String nether = JsonMessageUtils.textToJson("Nether ", ConfigManager.customColorXYZNether).getFormattedText();
-                String overworld = JsonMessageUtils.textToJson("Overworld ", ConfigManager.customColorXYZOverworld).getFormattedText();
-                String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-                String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-                String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-                String xPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getX() * 8), ConfigManager.customColorXValue).getFormattedText();
-                String zPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getZ() * 8), ConfigManager.customColorZValue).getFormattedText();
+                String xyz = json.text("XYZ: ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZ)).getFormattedText();
+                String nether = json.text("Nether ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZNether)).getFormattedText();
+                String overworld = json.text("Overworld ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZOverworld)).getFormattedText();
+                String xPosition = json.text(String.valueOf(pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String yPosition = json.text(String.valueOf(pos.getY())).setStyle(json.colorFromConfig(ConfigManager.customColorYValue)).getFormattedText();
+                String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+                String xPosition1 = json.text(String.valueOf(pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String zPosition1 = json.text(String.valueOf(pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
                 String inNether = mc.thePlayer.dimension == -1 ? nether : "";
                 list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
@@ -251,8 +252,8 @@ public class UHCStatusRenderer
                 break;
             }
 
-            String directionText = JsonMessageUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
-            String directionValue = JsonMessageUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
+            String directionText = json.text("Direction: ").setStyle(json.colorFromConfig(ConfigManager.customColorDirection)).getFormattedText();
+            String directionValue = json.text(direction).setStyle(json.colorFromConfig(ConfigManager.customColorDirectionValue)).getFormattedText();
 
             if (ConfigManager.useCustomTextDirection)
             {
@@ -271,8 +272,8 @@ public class UHCStatusRenderer
                 {
                     if (!chunk.isEmpty())
                     {
-                        String biome = JsonMessageUtils.textToJson("Biome: ", ConfigManager.customColorBiome).getFormattedText();
-                        String value = JsonMessageUtils.textToJson(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos), ConfigManager.customColorBiomeValue).getFormattedText();
+                        String biome = json.text("Biome: ").setStyle(json.colorFromConfig(ConfigManager.customColorBiome)).getFormattedText();
+                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
 
                         if (ConfigManager.useCustomTextBiome)
                         {
@@ -287,8 +288,8 @@ public class UHCStatusRenderer
         {
             if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
-                String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                String cps = json.text("CPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                String cpsValue = json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
 
                 if (ConfigManager.useCustomTextCPS)
                 {
@@ -299,7 +300,7 @@ public class UHCStatusRenderer
         }
         if (ConfigManager.enablePlayerDetector)
         {
-            if (ConfigManager.playerDetectorMode.equals("NORMAL"))
+            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("NORMAL"))
             {
                 AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - 32, mc.thePlayer.posY - 32, mc.thePlayer.posZ - 32, mc.thePlayer.posX + 32, mc.thePlayer.posY + 32, mc.thePlayer.posZ + 32);
                 List<EntityPlayer> player = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
@@ -320,7 +321,7 @@ public class UHCStatusRenderer
                     }
                 }
             }
-            if (ConfigManager.playerDetectorMode.equals("LIST"))
+            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("LIST"))
             {
                 String name;
 

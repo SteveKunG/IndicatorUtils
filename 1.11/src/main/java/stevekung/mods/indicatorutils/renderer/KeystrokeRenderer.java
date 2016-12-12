@@ -24,9 +24,9 @@ public class KeystrokeRenderer
     {
         GlStateManager.pushMatrix();
 
-        if (ConfigManager.keystrokeMode.equals("NORMAL"))
+        if (ConfigManager.keystrokeMode.equalsIgnoreCase("NORMAL"))
         {
-            if (ConfigManager.keystrokeSize.equals("NORMAL"))
+            if (ConfigManager.keystrokeSize.equalsIgnoreCase("NORMAL"))
             {
                 KeystrokeRenderer.renderNormalMode(mc);
             }
@@ -39,7 +39,7 @@ public class KeystrokeRenderer
         {
             if (mc.displayWidth >= 1268 && mc.displayHeight >= 720)
             {
-                if (ConfigManager.keystrokeSize.equals("NORMAL"))
+                if (ConfigManager.keystrokeSize.equalsIgnoreCase("NORMAL"))
                 {
                     KeystrokeRenderer.renderNormalAdvancedMode(mc);
                 }

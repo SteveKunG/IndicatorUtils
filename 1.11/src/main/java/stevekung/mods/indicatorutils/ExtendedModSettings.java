@@ -111,7 +111,6 @@ public class ExtendedModSettings
             nbttagcompound.setString("AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
             CompressedStreamTools.safeWrite(nbttagcompound, file);
-            IULog.info("Saving extended settings : %s", file.getPath());
         }
         catch (Exception e) {}
     }

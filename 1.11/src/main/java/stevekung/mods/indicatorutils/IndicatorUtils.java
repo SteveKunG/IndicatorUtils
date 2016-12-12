@@ -20,6 +20,8 @@ import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
+import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -149,12 +151,12 @@ public class IndicatorUtils
                 {
                     Entry<String, RenderPlayer> entry = it.next();
 
-                    if (entry.getKey().equals("default"))
+                    if (entry.getKey().equalsIgnoreCase("default"))
                     {
                         it.remove();
                         IULog.info("Successfully removed RenderPlayer.class.skinMap:default");
                     }
-                    if (entry.getKey().equals("slim"))
+                    if (entry.getKey().equalsIgnoreCase("slim"))
                     {
                         it.remove();
                         IULog.info("Successfully removed RenderPlayer.class.skinMap:slim");
@@ -196,6 +198,7 @@ public class IndicatorUtils
     {
         String URL = "https://www.mediafire.com/folder/11vdjbssscho2/Indicator_Utils";
         String changeLog = "http://pastebin.com/rJ7He59c";
+        JsonMessageUtils json = new JsonMessageUtils();
 
         if (event.player.worldObj.isRemote)
         {
@@ -203,15 +206,15 @@ public class IndicatorUtils
             {
                 if (!IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.noConnection())
                 {
-                    event.player.addChatMessage(JsonMessageUtils.textToJson("Unable to check latest version, Please check your internet connection", "red"));
-                    event.player.addChatMessage(JsonMessageUtils.textToJson(VersionChecker.INSTANCE.getExceptionMessage(), "red"));
+                    event.player.addChatMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.style().setColor(TextFormatting.RED)));
+                    event.player.addChatMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.style().setColor(TextFormatting.RED)));
                     IndicatorUtils.STATUS_CHECK[2] = true;
                     return;
                 }
                 if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
                 {
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "") + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Download Link \",\"color\":\"yellow\",\"extra\":[{\"text\":\"[CLICK HERE]\",\"color\":\"blue\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + TextFormatting.DARK_GREEN + "Click Here!\"},\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + URL + "\"}}]"));
+                    event.player.addChatMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "")).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
+                    event.player.addChatMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, URL)))));
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }
                 if (!IndicatorUtils.STATUS_CHECK[1] && !IndicatorUtils.STATUS_CHECK[2])
@@ -220,7 +223,7 @@ public class IndicatorUtils
                     {
                         if (ConfigManager.showChangeLogInGame)
                         {
-                            event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"" + log + "\",\"color\":\"gray\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + changeLog + "\"}"));
+                            event.player.addChatMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
                         }
                     }
                     IndicatorUtils.STATUS_CHECK[1] = true;
@@ -228,7 +231,7 @@ public class IndicatorUtils
             }
             if (IndicatorUtils.STATUS_CHECK[3])
             {
-                event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Ping will display as n/a causes by /nick command in Hypixel\",\"color\":\"red\",\"bold\":\"true\""));
+                event.player.addChatMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.style().setColor(TextFormatting.RED).setBold(true)));
                 IndicatorUtils.STATUS_CHECK[3] = false;
             }
         }

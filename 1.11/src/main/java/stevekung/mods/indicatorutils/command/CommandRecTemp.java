@@ -41,36 +41,44 @@ public class CommandRecTemp extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        if (args.length < 1)
         {
-            if ("stop".equals(args[0]))
+            throw new WrongUsageException("commands.rectemp.usage");
+        }
+        else
+        {
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.rectemp.usage");
+            }
+
+            if ("stop".equalsIgnoreCase(args[0]))
             {
                 if (IndicatorUtilsEventHandler.recEnabled)
                 {
                     IndicatorUtilsEventHandler.recEnabled = false;
-                    return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /rectemp command", "red"));
-                    return;
+                    sender.addChatMessage(new JsonMessageUtils().text("You have not start using /rectemp command").setStyle(new JsonMessageUtils().red()));
                 }
             }
-            if ("start".equals(args[0]))
+            else if ("start".equalsIgnoreCase(args[0]))
             {
                 if (!IndicatorUtilsEventHandler.recEnabled)
                 {
                     IndicatorUtilsEventHandler.recEnabled = true;
-                    return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /rectemp command", "red"));
-                    return;
+                    sender.addChatMessage(new JsonMessageUtils().text("You have already start /rectemp command").setStyle(new JsonMessageUtils().red()));
                 }
             }
+            else
+            {
+                throw new WrongUsageException("commands.rectemp.usage");
+            }
         }
-        throw new WrongUsageException("commands.rectemp.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override

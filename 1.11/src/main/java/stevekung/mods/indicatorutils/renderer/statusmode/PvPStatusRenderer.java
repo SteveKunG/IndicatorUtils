@@ -72,11 +72,12 @@ public class PvPStatusRenderer
 
     private static List<String> renderIndicator(Minecraft mc)
     {
-        List<String> list = Lists.newArrayList(new String[] {} );
+        List<String> list = Lists.newArrayList();
+        JsonMessageUtils json = new JsonMessageUtils();
 
         if (ConfigManager.enablePing)
         {
-            String ping = JsonMessageUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
+            String ping = json.text("Ping: ").setStyle(json.colorFromConfig(ConfigManager.customColorPing)).getFormattedText();
 
             if (ConfigManager.useCustomTextPing)
             {
@@ -102,14 +103,14 @@ public class PvPStatusRenderer
 
                 if (!GameInfoHelper.INSTANCE.isSinglePlayer())
                 {
-                    list.add(ping + JsonMessageUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
+                    list.add(ping + json.text(GameInfoHelper.INSTANCE.getPing() + "ms").setStyle(json.colorFromConfig(pingcolor)).getFormattedText());
                 }
             }
             else
             {
-                String pingna = JsonMessageUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
+                String pingna = json.text("n/a").setStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
 
-                if (IndicatorUtilsEventHandler.checkUUID == false && GameInfoHelper.INSTANCE.isHypixel())
+                if (!IndicatorUtilsEventHandler.checkUUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.checkUUID = true;
                     IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
@@ -127,8 +128,8 @@ public class PvPStatusRenderer
             {
                 if (mc.getCurrentServerData() != null)
                 {
-                    String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
-                    String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
+                    String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
+                    String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();
                     String version = "";
 
                     if (ConfigManager.useCustomTextIP)
@@ -138,7 +139,7 @@ public class PvPStatusRenderer
 
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
-                        version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
+                        version = "/" + json.text(IndicatorUtils.MC_VERSION).setStyle(json.colorFromConfig(ConfigManager.customColorIPMCValue)).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
                 }
@@ -146,7 +147,7 @@ public class PvPStatusRenderer
         }
         if (ConfigManager.enableFPS)
         {
-            String fps = JsonMessageUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
+            String fps = json.text("FPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorFPS)).getFormattedText();
             String color = ConfigManager.customColorFPSValue1;
 
             if (ConfigManager.useCustomTextFPS)
@@ -162,14 +163,14 @@ public class PvPStatusRenderer
             {
                 color = ConfigManager.customColorFPSValue3;
             }
-            list.add(fps + JsonMessageUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
+            list.add(fps + json.text(String.valueOf(Minecraft.getDebugFPS())).setStyle(json.colorFromConfig(color)).getFormattedText());
         }
         if (ConfigManager.enableCPS)
         {
             if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
-                String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                String cps = json.text("CPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                String cpsValue = json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
 
                 if (ConfigManager.useCustomTextCPS)
                 {
@@ -230,8 +231,8 @@ public class PvPStatusRenderer
                 break;
             }
 
-            String directionText = JsonMessageUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
-            String directionValue = JsonMessageUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
+            String directionText = json.text("Direction: ").setStyle(json.colorFromConfig(ConfigManager.customColorDirection)).getFormattedText();
+            String directionValue = json.text(direction).setStyle(json.colorFromConfig(ConfigManager.customColorDirectionValue)).getFormattedText();
 
             if (ConfigManager.useCustomTextDirection)
             {

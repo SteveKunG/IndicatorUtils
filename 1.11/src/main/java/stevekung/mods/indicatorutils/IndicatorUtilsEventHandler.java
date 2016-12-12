@@ -95,17 +95,19 @@ public class IndicatorUtilsEventHandler
     private GuiNewChat chat;
 
     private Minecraft mc;
+    private JsonMessageUtils json;
     private static boolean setNewGUI = false;
 
     public IndicatorUtilsEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
+        this.json = new JsonMessageUtils();
     }
 
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent event)
     {
-        if (event.getModID().equals(IndicatorUtils.MOD_ID))
+        if (event.getModID().equalsIgnoreCase(IndicatorUtils.MOD_ID))
         {
             ConfigManager.syncConfig(false);
         }
@@ -216,8 +218,8 @@ public class IndicatorUtilsEventHandler
                 {
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                        String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                        String cps = this.json.text("CPS: ").setStyle(this.json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                        String cpsValue = this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(this.json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
 
                         if (ConfigManager.useCustomTextCPS)
                         {
@@ -288,12 +290,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.TOGGLE_SPRINT)
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = false;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Toggle Sprint Disabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Toggle Sprint Disabled").getFormattedText(), false, true);
                 }
                 else
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = true;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Toggle Sprint Enabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Toggle Sprint Enabled").getFormattedText(), false, true);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -305,12 +307,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.TOGGLE_SNEAK)
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = false;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Toggle Sneak Disabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Toggle Sneak Disabled").getFormattedText(), false, true);
                 }
                 else
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = true;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Toggle Sneak Enabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Toggle Sneak Enabled").getFormattedText(), false, true);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -322,12 +324,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.AUTO_SWIM)
                 {
                     ExtendedModSettings.AUTO_SWIM = false;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Auto Swim Disabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Auto Swim Disabled").getFormattedText(), false, true);
                 }
                 else
                 {
                     ExtendedModSettings.AUTO_SWIM = true;
-                    GameInfoHelper.INSTANCE.setActionBarMessage(JsonMessageUtils.textToJson("Auto Swim Enabled").getFormattedText(), false, true);
+                    GameInfoHelper.INSTANCE.setActionBarMessage(this.json.text("Auto Swim Enabled").getFormattedText(), false, true);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -376,11 +378,11 @@ public class IndicatorUtilsEventHandler
             color = "dark_red";
         }
 
-        if (status.equals("DISABLE"))
+        if (status.equalsIgnoreCase("DISABLE"))
         {
             flag = false;
         }
-        else if (status.equals("POINTED"))
+        else if (status.equalsIgnoreCase("POINTED"))
         {
             flag = entity == this.mc.pointedEntity;
         }
@@ -389,7 +391,7 @@ public class IndicatorUtilsEventHandler
         {
             if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag)
             {
-                String heart = JsonMessageUtils.textToJson("\u2764 ", color).getFormattedText();
+                String heart = this.json.text("\u2764 ").setStyle(this.json.colorFromConfig(color)).getFormattedText();
                 StatusRendererHelper.renderHealthStatus(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ(), entity.getDistanceSqToEntity(this.mc.getRenderViewEntity()));
             }
         }
@@ -472,7 +474,7 @@ public class IndicatorUtilsEventHandler
     {
         if (ConfigManager.enablePlayerDetector)
         {
-            if (ConfigManager.playerDetectorMode.equals("GLOWING"))
+            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("GLOWING"))
             {
                 if (this.mc.theWorld != null)
                 {
@@ -536,7 +538,7 @@ public class IndicatorUtilsEventHandler
                         {
                             IndicatorUtilsEventHandler.autoFishEnabled = false;
                             IndicatorUtilsEventHandler.autoFishTick = 0;
-                            this.mc.thePlayer.addChatMessage(JsonMessageUtils.textToJson("Stop using /autofish command, you must hold the fishing rod!"));
+                            this.mc.thePlayer.addChatMessage(this.json.text("Stop using /autofish command, you must hold the fishing rod!"));
                             return;
                         }
                     }
@@ -583,7 +585,7 @@ public class IndicatorUtilsEventHandler
                 }
             }
 
-            if (IndicatorUtilsEventHandler.afkMode.equals("idle"))
+            if (IndicatorUtilsEventHandler.afkMode.equalsIgnoreCase("idle"))
             {
                 if (this.mc.thePlayer != null)
                 {

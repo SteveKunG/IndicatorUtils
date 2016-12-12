@@ -17,15 +17,15 @@ public class ObjectModeHelper
         {
         case LEFT:
         default:
-            return ConfigManager.armorStatusPosition.equals("LEFT");
+            return ConfigManager.armorStatusPosition.equalsIgnoreCase("LEFT");
         case RIGHT:
-            return ConfigManager.armorStatusPosition.equals("RIGHT");
+            return ConfigManager.armorStatusPosition.equalsIgnoreCase("RIGHT");
         case HOTBAR:
-            return ConfigManager.armorStatusPosition.equals("HOTBAR");
+            return ConfigManager.armorStatusPosition.equalsIgnoreCase("HOTBAR");
         case HOTBAR_LEFT:
-            return ConfigManager.armorStatusPosition.equals("HOTBAR_LEFT");
+            return ConfigManager.armorStatusPosition.equalsIgnoreCase("HOTBAR_LEFT");
         case HOTBAR_RIGHT:
-            return ConfigManager.armorStatusPosition.equals("HOTBAR_RIGHT");
+            return ConfigManager.armorStatusPosition.equalsIgnoreCase("HOTBAR_RIGHT");
         }
     }
 
@@ -35,13 +35,13 @@ public class ObjectModeHelper
         {
         case LEFT:
         default:
-            return ConfigManager.potionStatusPosition.equals("LEFT");
+            return ConfigManager.potionStatusPosition.equalsIgnoreCase("LEFT");
         case RIGHT:
-            return ConfigManager.potionStatusPosition.equals("RIGHT");
+            return ConfigManager.potionStatusPosition.equalsIgnoreCase("RIGHT");
         case HOTBAR_LEFT:
-            return ConfigManager.potionStatusPosition.equals("HOTBAR_LEFT");
+            return ConfigManager.potionStatusPosition.equalsIgnoreCase("HOTBAR_LEFT");
         case HOTBAR_RIGHT:
-            return ConfigManager.potionStatusPosition.equals("HOTBAR_RIGHT");
+            return ConfigManager.potionStatusPosition.equalsIgnoreCase("HOTBAR_RIGHT");
         }
     }
 

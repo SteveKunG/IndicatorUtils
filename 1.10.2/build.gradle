@@ -11,7 +11,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "2.0.0"
-group= "stevekung.mods.indicatorutils"
+group = "stevekung.mods.indicatorutils"
 archivesBaseName = "Indicator-Utils-1.10.2"
 
 sourceCompatibility = targetCompatibility = "1.6"
@@ -31,8 +31,4 @@ dependencies {
 
 processResources
 {
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
 }

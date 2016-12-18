@@ -626,12 +626,12 @@ public class BlockhitAnimation
             this.entityRenderer = this.mc.entityRenderer;
             KeyBinding[] k = this.gameSettings.keyBindings;
 
-            for (int i = 0; i < k.length; i++)
+            for (KeyBinding key : k)
             {
-                if (k[i].getKeyDescription().contains("zoom"))
+                if (key.getKeyDescription().contains("zoom"))
                 {
                     this.isOF = true;
-                    this.zoom = k[i];
+                    this.zoom = key;
                 }
             }
             this.init = true;

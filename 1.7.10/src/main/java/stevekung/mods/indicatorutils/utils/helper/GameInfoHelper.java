@@ -49,10 +49,8 @@ public class GameInfoHelper
 
     public int getPing()
     {
-        for (Iterator<Entry<String, Integer>> it = GuiIngameForgeIU.playerPingMap.entrySet().iterator(); it.hasNext();)
+        for (Entry<String, Integer> entry : GuiIngameForgeIU.playerPingMap.entrySet())
         {
-            Entry<String, Integer> entry = it.next();
-
             if (entry.getKey().contains(Minecraft.getMinecraft().getSession().func_148256_e().getName()))
             {
                 return entry.getValue();

@@ -6,18 +6,20 @@
 
 package stevekung.mods.indicatorutils.renderer;
 
+import java.util.Iterator;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlayerMOD extends RenderPlayer
 {
-    private boolean remove = false;
-
     public RenderPlayerMOD()
     {
         this(false);
@@ -28,23 +30,24 @@ public class RenderPlayerMOD extends RenderPlayer
         super(Minecraft.getMinecraft().getRenderManager(), useSmallArms);
         this.mainModel = new ModelPlayer(0.0F, useSmallArms);
         this.addLayer(new LayerCapeMOD(this));
-        this.addLayer(new LayerCustomHeadMOD(this.getMainModel().bipedHead));
-    }
 
-    @Override
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
-        if (!this.remove)
+        boolean removedVanilla = false;
+        Iterator<LayerRenderer<AbstractClientPlayer>> iterator = this.layerRenderers.iterator();
+
+        while (iterator.hasNext())
         {
-            for (int i = 0; i < this.layerRenderers.size(); i++)
+            LayerRenderer<AbstractClientPlayer> renderer = iterator.next();
+
+            if (renderer.getClass().equals(LayerCustomHead.class))
             {
-                if (i == 5)
-                {
-                    this.layerRenderers.remove(i);
-                }
+                iterator.remove();
+                removedVanilla = true;
             }
-            this.remove = true;
         }
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
+
+        if (removedVanilla)
+        {
+            this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
+        }
     }
 }

@@ -6,18 +6,20 @@
 
 package stevekung.mods.indicatorutils.renderer;
 
+import java.util.Iterator;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
+import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
+import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class RenderPlayerMOD extends RenderPlayer
 {
-    private boolean remove = false;
-
     public RenderPlayerMOD()
     {
         this(false);
@@ -28,7 +30,25 @@ public class RenderPlayerMOD extends RenderPlayer
         super(Minecraft.getMinecraft().getRenderManager(), useSmallArms);
         this.mainModel = new ModelPlayerMOD(0.0F, useSmallArms);
         this.addLayer(new LayerCapeMOD(this));
-        this.addLayer(new LayerCustomHeadMOD(this.getMainModel().bipedHead));
+
+        boolean removedVanilla = false;
+        Iterator<LayerRenderer<AbstractClientPlayer>> iterator = this.layerRenderers.iterator();
+
+        while (iterator.hasNext())
+        {
+            LayerRenderer<AbstractClientPlayer> renderer = iterator.next();
+
+            if (renderer.getClass().equals(LayerCustomHead.class))
+            {
+                iterator.remove();
+                removedVanilla = true;
+            }
+        }
+
+        if (removedVanilla)
+        {
+            this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
+        }
     }
 
     @Override
@@ -47,22 +67,5 @@ public class RenderPlayerMOD extends RenderPlayer
         GlStateManager.blendFunc(770, 771);
         super.renderLeftArm(clientPlayer);
         GlStateManager.disableBlend();
-    }
-
-    @Override
-    public void doRender(AbstractClientPlayer entity, double x, double y, double z, float entityYaw, float partialTicks)
-    {
-        if (!this.remove)
-        {
-            for (int i = 0; i < this.layerRenderers.size(); i++)
-            {
-                if (i == 5)
-                {
-                    this.layerRenderers.remove(i);
-                }
-            }
-            this.remove = true;
-        }
-        super.doRender(entity, x, y, z, entityYaw, partialTicks);
     }
 }

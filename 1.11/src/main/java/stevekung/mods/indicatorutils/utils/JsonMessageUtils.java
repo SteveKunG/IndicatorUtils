@@ -29,9 +29,9 @@ public class JsonMessageUtils
         }
         catch (JsonParseException jsonparseexception)
         {
-            if (Minecraft.getMinecraft().thePlayer.ticksExisted % 300 == 0)
+            if (Minecraft.getMinecraft().player.ticksExisted % 300 == 0)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(new JsonMessageUtils().text(jsonparseexception.getMessage()).setStyle(new JsonMessageUtils().style().setColor(TextFormatting.RED)));
+                Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text(jsonparseexception.getMessage()).setStyle(new JsonMessageUtils().red()));
             }
         }
         return text;

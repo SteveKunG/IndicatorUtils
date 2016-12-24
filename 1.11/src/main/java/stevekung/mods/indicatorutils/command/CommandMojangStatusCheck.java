@@ -21,13 +21,13 @@ public class CommandMojangStatusCheck extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "mojangstatus";
     }

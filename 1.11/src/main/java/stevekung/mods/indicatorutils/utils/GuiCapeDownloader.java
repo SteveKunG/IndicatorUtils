@@ -76,7 +76,7 @@ public class GuiCapeDownloader extends GuiScreen
             {
                 ExtendedModSettings.CAPE_URL = "";
                 CapeUtils.CAPE_TEXTURE.remove(IndicatorUtils.USERNAME);
-                this.mc.thePlayer.addChatMessage(new JsonMessageUtils().text("Reset cape texture"));
+                this.mc.player.sendMessage(new JsonMessageUtils().text("Reset cape texture"));
                 ExtendedModSettings.saveExtendedSettings();
                 this.mc.displayGuiScreen((GuiScreen)null);
             }

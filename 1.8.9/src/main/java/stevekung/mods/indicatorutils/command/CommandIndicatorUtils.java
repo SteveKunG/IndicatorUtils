@@ -10,14 +10,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.BlockPos;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.KeyBindingHandler;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandIndicatorUtils extends CommandBase
@@ -51,17 +49,7 @@ public class CommandIndicatorUtils extends CommandBase
     {
         if (args.length > 0)
         {
-            if (args[0].equals("help"))
-            {
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_DISPLAY_MODE_NEXT.getKeyCode()) + "/" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS.getKeyCode()) + " = Switch Display Mode\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_TOGGLE_SPRINT.getKeyCode()) + " = Toggle Sprint\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_TOGGLE_SNEAK.getKeyCode()) + " = Toggle Sneak\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_AUTO_SWIM.getKeyCode()) + " = Auto Swim\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_REC_COMMAND.getKeyCode()) + " = Record Overlay\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"[Debug]: \",\"color\":\"gold\",\"bold\":\"true\",\"extra\":[{\"text\":\"" + GameSettings.getKeyDisplayString(KeyBindingHandler.KEY_END_GAME_MESSAGE.getKeyCode()) + " = End Game Message\",\"color\":\"white\",\"bold\":\"false\"}]"));
-                return;
-            }
-            else if (args[0].equals("togglesprint"))
+            if (args[0].equals("togglesprint"))
             {
                 if (args.length != 2 && args.length != 3)
                 {
@@ -549,7 +537,7 @@ public class CommandIndicatorUtils extends CommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "help", "displaymode", "togglesprint", "togglesneak", "cps", "keystroke", "autoclearchat", "armorstatus", "potionstatus", "autoswim");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "displaymode", "togglesprint", "togglesneak", "cps", "keystroke", "autoclearchat", "armorstatus", "potionstatus", "autoswim");
         }
         if (args.length == 2)
         {

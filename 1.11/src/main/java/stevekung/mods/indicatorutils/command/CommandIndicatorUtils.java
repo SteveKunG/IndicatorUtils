@@ -7,7 +7,6 @@
 package stevekung.mods.indicatorutils.command;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -22,7 +21,7 @@ import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 public class CommandIndicatorUtils extends CommandBase
 {
     @Override
-    public List<String> getCommandAliases()
+    public List<String> getAliases()
     {
         return Arrays.<String>asList("iu");
     }
@@ -34,13 +33,13 @@ public class CommandIndicatorUtils extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "indicatorutils";
     }
@@ -66,13 +65,13 @@ public class CommandIndicatorUtils extends CommandBase
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = true;
-                    sender.addChatMessage(json.text("Set toggle sprint to Enabled"));
+                    sender.sendMessage(json.text("Set toggle sprint to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = false;
-                    sender.addChatMessage(json.text("Set toggle sprint to Disabled"));
+                    sender.sendMessage(json.text("Set toggle sprint to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -85,13 +84,13 @@ public class CommandIndicatorUtils extends CommandBase
                     if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = "keybinding";
-                        sender.addChatMessage(json.text("Set toggle sprint to use Key Binding"));
+                        sender.sendMessage(json.text("Set toggle sprint to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = "command";
-                        sender.addChatMessage(json.text("Set toggle sprint to use Command"));
+                        sender.sendMessage(json.text("Set toggle sprint to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else
@@ -114,13 +113,13 @@ public class CommandIndicatorUtils extends CommandBase
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = true;
-                    sender.addChatMessage(json.text("Set toggle sneak to Enabled"));
+                    sender.sendMessage(json.text("Set toggle sneak to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = false;
-                    sender.addChatMessage(json.text("Set toggle sneak to Disabled"));
+                    sender.sendMessage(json.text("Set toggle sneak to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -132,13 +131,13 @@ public class CommandIndicatorUtils extends CommandBase
                     if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = "keybinding";
-                        sender.addChatMessage(json.text("Set toggle sneak to use Key Binding"));
+                        sender.sendMessage(json.text("Set toggle sneak to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = "command";
-                        sender.addChatMessage(json.text("Set toggle sneak to use Command"));
+                        sender.sendMessage(json.text("Set toggle sneak to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else
@@ -161,19 +160,19 @@ public class CommandIndicatorUtils extends CommandBase
                 if ("left".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "left";
-                    sender.addChatMessage(json.text("Set CPS position to Left"));
+                    sender.sendMessage(json.text("Set CPS position to Left"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("right".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "right";
-                    sender.addChatMessage(json.text("Set CPS position to Right"));
+                    sender.sendMessage(json.text("Set CPS position to Right"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("record".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "record";
-                    sender.addChatMessage(json.text("Set CPS position to Record"));
+                    sender.sendMessage(json.text("Set CPS position to Record"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else
@@ -196,7 +195,7 @@ public class CommandIndicatorUtils extends CommandBase
                     }
                     ExtendedModSettings.KETSTROKE_Y_OFFSET = 0;
                     ExtendedModSettings.KETSTROKE_X_OFFSET = 0;
-                    sender.addChatMessage(json.text("Reset Keystroke Offset"));
+                    sender.sendMessage(json.text("Reset Keystroke Offset"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("x".equalsIgnoreCase(args[1]))
@@ -206,7 +205,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                     }
                     ExtendedModSettings.KETSTROKE_X_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(json.text("Set Keystroke X Offset to " + args[2]));
+                    sender.sendMessage(json.text("Set Keystroke X Offset to " + args[2]));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("y".equalsIgnoreCase(args[1]))
@@ -216,7 +215,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                     }
                     ExtendedModSettings.KETSTROKE_Y_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(json.text("Set Keystroke Y Offset to " + args[2]));
+                    sender.sendMessage(json.text("Set Keystroke Y Offset to " + args[2]));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else
@@ -238,7 +237,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "default";
-                    sender.addChatMessage(json.text("Set display mode to Default"));
+                    sender.sendMessage(json.text("Set display mode to Default"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("uhc".equalsIgnoreCase(args[1]))
@@ -248,7 +247,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "uhc";
-                    sender.addChatMessage(json.text("Set display mode to UHC"));
+                    sender.sendMessage(json.text("Set display mode to UHC"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("pvp".equalsIgnoreCase(args[1]))
@@ -258,17 +257,17 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "pvp";
-                    sender.addChatMessage(json.text("Set display mode to PvP"));
+                    sender.sendMessage(json.text("Set display mode to PvP"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("command".equalsIgnoreCase(args[1]))
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage", new Object[] { this.getCommandUsage(sender) });
+                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
                     }
                     ExtendedModSettings.DISPLAY_MODE = "command";
-                    sender.addChatMessage(json.text("Set display mode to Command Block"));
+                    sender.sendMessage(json.text("Set display mode to Command Block"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -281,13 +280,13 @@ public class CommandIndicatorUtils extends CommandBase
                     if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.DISPLAY_MODE_USE_MODE = "keybinding";
-                        sender.addChatMessage(json.text("Set display mode to use Key Binding"));
+                        sender.sendMessage(json.text("Set display mode to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.DISPLAY_MODE_USE_MODE = "command";
-                        sender.addChatMessage(json.text("Set display mode to use Command"));
+                        sender.sendMessage(json.text("Set display mode to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else
@@ -314,7 +313,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                     }
                     ExtendedModSettings.AUTO_SWIM = true;
-                    sender.addChatMessage(json.text("Set auto swim to Enabled"));
+                    sender.sendMessage(json.text("Set auto swim to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
@@ -324,7 +323,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
                     }
                     ExtendedModSettings.AUTO_SWIM = false;
-                    sender.addChatMessage(json.text("Set auto swim to Disabled"));
+                    sender.sendMessage(json.text("Set auto swim to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -337,13 +336,13 @@ public class CommandIndicatorUtils extends CommandBase
                     if ("keybinding".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_SWIM_USE_MODE = "keybinding";
-                        sender.addChatMessage(json.text("Set auto swim to use Key Binding"));
+                        sender.sendMessage(json.text("Set auto swim to use Key Binding"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else if ("command".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_SWIM_USE_MODE = "command";
-                        sender.addChatMessage(json.text("Set auto swim to use Command"));
+                        sender.sendMessage(json.text("Set auto swim to use Command"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     else
@@ -370,7 +369,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = true;
-                    sender.addChatMessage(json.text("Set auto clear chat to Enabled"));
+                    sender.sendMessage(json.text("Set auto clear chat to Enabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("disable".equalsIgnoreCase(args[1]))
@@ -380,7 +379,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = false;
-                    sender.addChatMessage(json.text("Set auto clear chat to Disabled"));
+                    sender.sendMessage(json.text("Set auto clear chat to Disabled"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if ("mode".equalsIgnoreCase(args[1]))
@@ -393,19 +392,19 @@ public class CommandIndicatorUtils extends CommandBase
                     if ("all".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "all";
-                        sender.addChatMessage(json.text("Set auto clear chat mode to clear all"));
+                        sender.sendMessage(json.text("Set auto clear chat mode to clear all"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     if ("onlychat".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "onlychat";
-                        sender.addChatMessage(json.text("Set auto clear chat mode to chat only"));
+                        sender.sendMessage(json.text("Set auto clear chat mode to chat only"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                     if ("onlysentmessage".equalsIgnoreCase(args[2]))
                     {
                         ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = "onlysentmessage";
-                        sender.addChatMessage(json.text("Set auto clear chat mode to sent message only"));
+                        sender.sendMessage(json.text("Set auto clear chat mode to sent message only"));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                 }
@@ -423,7 +422,7 @@ public class CommandIndicatorUtils extends CommandBase
                     {
                         s = s + "s";
                     }
-                    sender.addChatMessage(json.text(s));
+                    sender.sendMessage(json.text(s));
                     ExtendedModSettings.saveExtendedSettings();
                 }
             }
@@ -441,7 +440,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                     }
                     ExtendedModSettings.ARMOR_STATUS_OFFSET = 0;
-                    sender.addChatMessage(json.text("Reset Armor Status Offset"));
+                    sender.sendMessage(json.text("Reset Armor Status Offset"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else if (args[1].equalsIgnoreCase("y"))
@@ -451,7 +450,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
                     }
                     ExtendedModSettings.ARMOR_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(json.text("Set Armor Status Y Offset to " + CommandBase.parseInt(args[2])));
+                    sender.sendMessage(json.text("Set Armor Status Y Offset to " + CommandBase.parseInt(args[2])));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 else
@@ -473,7 +472,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
                     }
                     ExtendedModSettings.POTION_STATUS_OFFSET = 0;
-                    sender.addChatMessage(json.text("Reset Potion Status Offset"));
+                    sender.sendMessage(json.text("Reset Potion Status Offset"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
                 if ("y".equalsIgnoreCase(args[1]))
@@ -483,7 +482,7 @@ public class CommandIndicatorUtils extends CommandBase
                         throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
                     }
                     ExtendedModSettings.POTION_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.addChatMessage(json.text("Set Potion Status Y Offset to " + CommandBase.parseInt(args[2])));
+                    sender.sendMessage(json.text("Set Potion Status Y Offset to " + CommandBase.parseInt(args[2])));
                     ExtendedModSettings.saveExtendedSettings();
                 }
             }
@@ -495,7 +494,7 @@ public class CommandIndicatorUtils extends CommandBase
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -543,6 +542,6 @@ public class CommandIndicatorUtils extends CommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "all", "onlychat", "onlysentmessage");
             }
         }
-        return Collections.<String>emptyList();
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

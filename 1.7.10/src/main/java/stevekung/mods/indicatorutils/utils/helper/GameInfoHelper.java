@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.annotation.Nullable;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -57,6 +58,19 @@ public class GameInfoHelper
             }
         }
         return 0;
+    }
+
+    public int parseInt(String input, String type)
+    {
+        try
+        {
+            return Integer.parseInt(input);
+        }
+        catch (NumberFormatException e)
+        {
+            Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson(I18n.format("commands.generic.num.invalid", input) + " in " + type + " setting", "red"));
+            return 0;
+        }
     }
 
     public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)

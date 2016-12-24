@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -34,13 +33,13 @@ public class CommandAFK extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
         return "commands.afk.usage";
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "afk";
     }
@@ -69,12 +68,12 @@ public class CommandAFK extends CommandBase
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("I'm back! AFK Time is : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(IndicatorUtilsEventHandler.afkTick) + " minutes");
+                        Minecraft.getMinecraft().player.sendChatMessage("I'm back! AFK Time is : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(IndicatorUtilsEventHandler.afkTick) + " minutes");
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
             else if ("start".equalsIgnoreCase(args[0]))
@@ -100,12 +99,12 @@ public class CommandAFK extends CommandBase
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage(message + reason);
+                        Minecraft.getMinecraft().player.sendChatMessage(message + reason);
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have already start /afk command").setStyle(json.red()));
+                    sender.sendMessage(json.text("You have already start /afk command").setStyle(json.red()));
                 }
             }
             else if ("changereason".equalsIgnoreCase(args[0]))
@@ -122,11 +121,11 @@ public class CommandAFK extends CommandBase
                     TextComponentTranslation textcomponent = new TextComponentTranslation("commands.afk.reason", new Object[] { component.createCopy() });
                     String reason = textcomponent.getUnformattedText();
                     IndicatorUtilsEventHandler.afkReason = reason;
-                    sender.addChatMessage(json.text("Change AFK Reason from " + afkTemp + " to " + reason));
+                    sender.sendMessage(json.text("Change AFK Reason from " + afkTemp + " to " + reason));
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
+                    sender.sendMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
             else if ("mode".equalsIgnoreCase(args[0]))
@@ -140,12 +139,12 @@ public class CommandAFK extends CommandBase
                 {
                     IndicatorUtilsEventHandler.afkMode = "idle";
                     IndicatorUtilsEventHandler.afkMoveTick = 0;
-                    sender.addChatMessage(json.text("Set AFK mode to idle"));
+                    sender.sendMessage(json.text("Set AFK mode to idle"));
                 }
                 else if ("move".equalsIgnoreCase(args[1]))
                 {
                     IndicatorUtilsEventHandler.afkMode = "move";
-                    sender.addChatMessage(json.text("Set AFK mode to move"));
+                    sender.sendMessage(json.text("Set AFK mode to move"));
                 }
                 else
                 {
@@ -160,7 +159,7 @@ public class CommandAFK extends CommandBase
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
@@ -173,7 +172,7 @@ public class CommandAFK extends CommandBase
                 return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move");
             }
         }
-        return Collections.<String>emptyList();
+        return super.getTabCompletions(server, sender, args, pos);
     }
 
     public ITextComponent getChatComponentFromNthArg(String[] args, int index)

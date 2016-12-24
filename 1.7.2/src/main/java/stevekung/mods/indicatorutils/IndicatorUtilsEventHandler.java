@@ -449,12 +449,19 @@ public class IndicatorUtilsEventHandler
         }
         if (ExtendedModSettings.DISPLAY_MODE_USE_MODE.equalsIgnoreCase("keybinding"))
         {
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_NEXT.getIsKeyPressed())
+            String[] keyNext = ConfigManager.keyDisplayModeNext.split(",");
+            String[] keyPrevious = ConfigManager.keyDisplayModePrevious.split(",");
+            int keyNextCtrl = GameInfoHelper.INSTANCE.parseInt(keyNext[0], "Display Mode");
+            int keyNextOther = GameInfoHelper.INSTANCE.parseInt(keyNext[1], "Display Mode");
+            int keyPreviousCtrl = GameInfoHelper.INSTANCE.parseInt(keyPrevious[0], "Display Mode");
+            int keyPreviousOther = GameInfoHelper.INSTANCE.parseInt(keyPrevious[1], "Display Mode");
+
+            if (Keyboard.isKeyDown(keyNextCtrl) && Keyboard.isKeyDown(keyNextOther))
             {
                 StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode + 1) % 4;
                 StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
             }
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS.getIsKeyPressed())
+            if (Keyboard.isKeyDown(keyPreviousCtrl) && Keyboard.isKeyDown(keyPreviousOther))
             {
                 StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode - 1) % 4;
 
@@ -467,7 +474,11 @@ public class IndicatorUtilsEventHandler
         }
         if (ExtendedModSettings.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("keybinding"))
         {
-            if (KeyBindingHandler.KEY_TOGGLE_SPRINT.getIsKeyPressed())
+            String[] keyTS = ConfigManager.keyToggleSprint.split(",");
+            int keyTGCtrl = GameInfoHelper.INSTANCE.parseInt(keyTS[0], "Toggle Sprint");
+            int keyTGOther = GameInfoHelper.INSTANCE.parseInt(keyTS[1], "Toggle Sprint");
+
+            if (Keyboard.isKeyDown(keyTGCtrl) && Keyboard.isKeyDown(keyTGOther))
             {
                 if (ExtendedModSettings.TOGGLE_SPRINT)
                 {
@@ -484,7 +495,11 @@ public class IndicatorUtilsEventHandler
         }
         if (ExtendedModSettings.TOGGLE_SNEAK_USE_MODE.equalsIgnoreCase("keybinding"))
         {
-            if (KeyBindingHandler.KEY_TOGGLE_SNEAK.getIsKeyPressed())
+            String[] keyTS = ConfigManager.keyToggleSneak.split(",");
+            int keyTGCtrl = GameInfoHelper.INSTANCE.parseInt(keyTS[0], "Toggle Sneak");
+            int keyTGOther = GameInfoHelper.INSTANCE.parseInt(keyTS[1], "Toggle Sneak");
+
+            if (Keyboard.isKeyDown(keyTGCtrl) && Keyboard.isKeyDown(keyTGOther))
             {
                 if (ExtendedModSettings.TOGGLE_SNEAK)
                 {
@@ -501,7 +516,11 @@ public class IndicatorUtilsEventHandler
         }
         if (ExtendedModSettings.AUTO_SWIM_USE_MODE.equalsIgnoreCase("keybinding"))
         {
-            if (KeyBindingHandler.KEY_AUTO_SWIM.getIsKeyPressed())
+            String[] keyAW = ConfigManager.keyAutoSwim.split(",");
+            int keyAWCtrl = GameInfoHelper.INSTANCE.parseInt(keyAW[0], "Auto Swim");
+            int keyAWOther = GameInfoHelper.INSTANCE.parseInt(keyAW[1], "Auto Swim");
+
+            if (Keyboard.isKeyDown(keyAWCtrl) && Keyboard.isKeyDown(keyAWOther))
             {
                 if (ExtendedModSettings.AUTO_SWIM)
                 {

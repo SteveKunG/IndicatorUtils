@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -27,13 +26,13 @@ public class CommandRecTemp extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "rectemp";
     }
@@ -60,7 +59,7 @@ public class CommandRecTemp extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(new JsonMessageUtils().text("You have not start using /rectemp command").setStyle(new JsonMessageUtils().red()));
+                    sender.sendMessage(new JsonMessageUtils().text("You have not start using /rectemp command").setStyle(new JsonMessageUtils().red()));
                 }
             }
             else if ("start".equalsIgnoreCase(args[0]))
@@ -71,7 +70,7 @@ public class CommandRecTemp extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(new JsonMessageUtils().text("You have already start /rectemp command").setStyle(new JsonMessageUtils().red()));
+                    sender.sendMessage(new JsonMessageUtils().text("You have already start /rectemp command").setStyle(new JsonMessageUtils().red()));
                 }
             }
             else
@@ -82,12 +81,12 @@ public class CommandRecTemp extends CommandBase
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "start", "stop");
         }
-        return Collections.<String>emptyList();
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

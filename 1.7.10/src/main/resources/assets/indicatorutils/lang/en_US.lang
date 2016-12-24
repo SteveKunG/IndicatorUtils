@@ -1,6 +1,7 @@
 indicatorutilmaingui=Main Settings
 indicatorutilrenderinfogui=Render Info Settings
 indicatorutilingamerendergui=In-game Render Settings
+indicatorutilkeybindinggui=Key Binding Settings
 indicatorutiloffsetgui=Offset Settings
 indicatorutiltimeinfogui=Time Info Settings
 indicatorutilcustomcolorgui=Custom Text Color Settings
@@ -13,11 +14,12 @@ gui.config.indicatorutils.advanced=For advanced user only!
 gui.config.indicatorutils.movementhandler=This is an option for enable/disable movement handler (Toggle Sprint/Sneak, AFK System)
 gui.config.indicatorutils.ingamegui=This is an option for replacing In-game GUI. It will fix armor status and held item rendering behind Chat GUI.
 gui.config.indicatorutils.customcape=This is an option for enable/disable custom cape feature in the game, you can upload your custom cape texture to any website.
+keycodeexample.tooltip=Copy this URL and set your custom key code
 
 commands.getplayerpos.success=%s position is: X:%s Y:%s Z:%s Dim:%s
 commands.getplayerpos.playernull=Player %s doesn't exist
 commands.getplayerpos.fail=/getplayerpos <player>
-commands.indicatorutils.usage=/indicatorutil <help|displaymode|togglesprint|togglesneak|cps|keystroke|autoclearchat|armorstatus|potionstatus|autoswim>
+commands.indicatorutils.usage=/indicatorutil <displaymode|togglesprint|togglesneak|cps|keystroke|autoclearchat|armorstatus|potionstatus|autoswim>
 commands.indicatorutils.displaymode.usage=/indicatorutil displaymode <default|uhc|pvp|command|mode>
 commands.indicatorutils.displaymode.mode.usage=/indicatorutil displaymode mode <keybinding|command>
 commands.indicatorutils.togglesprint.usage=/indicatorutil togglesprint <enable|disable|mode>
@@ -43,11 +45,6 @@ gui.capedownloader.desc=Put your Cape URL (Must be .png or image format)
 gui.resetcape=Reset Cape
 
 key.indicatorutils.category=Indicator Utils
-key.togglesprint.desc=Toggle Sprint
-key.togglesneak.desc=Toggle Sneak
-key.autoswim.desc=Auto Swim
-key.displaymode.next.desc=Display Mode Next
-key.displaymode.previous.desc=Display Mode Previous
 key.reccommand.desc=/rec Command
 key.endgamemessage.desc=End Game Message
 key.capedownloadgui.desc=Cape Downloader GUI

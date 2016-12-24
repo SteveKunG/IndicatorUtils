@@ -100,13 +100,13 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 this.rightKeyDown = false;
             }
 
-            boolean swim = ExtendedModSettings.AUTO_SWIM && (this.mc.thePlayer.isInWater() || this.mc.thePlayer.isInLava()) && !this.mc.thePlayer.isSpectator();
+            boolean swim = ExtendedModSettings.AUTO_SWIM && (this.mc.player.isInWater() || this.mc.player.isInLava()) && !this.mc.player.isSpectator();
             this.jump = this.gameSettings.keyBindJump.isKeyDown() || swim;
             this.sneak = this.gameSettings.keyBindSneak.isKeyDown() || ExtendedModSettings.TOGGLE_SNEAK;
 
-            if (ExtendedModSettings.TOGGLE_SPRINT && !this.mc.thePlayer.isPotionActive(MobEffects.BLINDNESS) && !ExtendedModSettings.TOGGLE_SNEAK)
+            if (ExtendedModSettings.TOGGLE_SPRINT && !this.mc.player.isPotionActive(MobEffects.BLINDNESS) && !ExtendedModSettings.TOGGLE_SNEAK)
             {
-                this.mc.thePlayer.setSprinting(true);
+                this.mc.player.setSprinting(true);
             }
 
             if (this.sneak)

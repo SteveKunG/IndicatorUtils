@@ -34,7 +34,6 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
@@ -68,7 +67,7 @@ public class GlobalStatusRenderer
 
                 if (swapToRight && !GameInfoHelper.INSTANCE.isBelowMinecraft19())
                 {
-                    Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+                    Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
                     if (!collection.isEmpty() && ConfigManager.renderIngamePotionEffect)
                     {
@@ -103,7 +102,7 @@ public class GlobalStatusRenderer
                 ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
-            if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
+            if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
             {
                 String pingcolor = ConfigManager.customColorPingValue1;
 
@@ -192,18 +191,12 @@ public class GlobalStatusRenderer
                 String xyz = json.text("XYZ: ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZ)).getFormattedText();
                 String nether = json.text("Nether ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZNether)).getFormattedText();
                 String overworld = json.text("Overworld ").setStyle(json.colorFromConfig(ConfigManager.customColorXYZOverworld)).getFormattedText();
-                boolean unknownX = pos.getX() >= -8000 && pos.getX() <= -1000;
-                boolean unknownZ = pos.getZ() >= -14000 && pos.getZ() <= -7000;
-                boolean unknownX1 = pos.getX() >= -1000 && pos.getX() <= -125;
-                boolean unknownZ1 = pos.getZ() >= -1750 && pos.getZ() <= -875;
-                boolean isRealms = mc.isConnectedToRealms() && Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && mc.theWorld.getSeed() == -9727369;//XXX
-                String unknown = TextFormatting.RED + "n/a";
-                String xPosition = json.text(String.valueOf(mc.thePlayer.dimension == 0 && isRealms && unknownX ? unknown : isRealms && mc.thePlayer.dimension == -1 && unknownX1 ? unknown : pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String xPosition = json.text(String.valueOf(pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
                 String yPosition = json.text(String.valueOf(pos.getY())).setStyle(json.colorFromConfig(ConfigManager.customColorYValue)).getFormattedText();
-                String zPosition = json.text(String.valueOf(mc.thePlayer.dimension == 0 && isRealms && unknownZ ? unknown : isRealms && mc.thePlayer.dimension == -1 && unknownZ1 ? unknown : pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
-                String xPosition1 = json.text(String.valueOf(isRealms && unknownX1 ? unknown : pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
-                String zPosition1 = json.text(String.valueOf(isRealms && unknownZ1 ? unknown : pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
-                String inNether = mc.thePlayer.dimension == -1 ? nether : "";
+                String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+                String xPosition1 = json.text(String.valueOf(pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
+                String zPosition1 = json.text(String.valueOf(pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+                String inNether = mc.player.dimension == -1 ? nether : "";
                 list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
                 if (ConfigManager.useCustomTextXYZ)
@@ -213,7 +206,7 @@ public class GlobalStatusRenderer
                     overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
-                if (ConfigManager.enableOverworldCoordinate && mc.thePlayer.dimension == -1)
+                if (ConfigManager.enableOverworldCoordinate && mc.player.dimension == -1)
                 {
                     list.add(overworld + xyz + xPosition1 + " " + yPosition + " " + zPosition1);
                 }
@@ -299,17 +292,17 @@ public class GlobalStatusRenderer
         }
         if (ConfigManager.enableBiome)
         {
-            if (mc.theWorld != null)
+            if (mc.world != null)
             {
                 BlockPos blockpos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                Chunk chunk = mc.theWorld.getChunkFromBlockCoords(blockpos);
+                Chunk chunk = mc.world.getChunkFromBlockCoords(blockpos);
 
-                if (mc.theWorld.isBlockLoaded(blockpos) && blockpos.getY() >= 0 && blockpos.getY() < 256)
+                if (mc.world.isBlockLoaded(blockpos) && blockpos.getY() >= 0 && blockpos.getY() < 256)
                 {
                     if (!chunk.isEmpty())
                     {
                         String biome = json.text("Biome: ").setStyle(json.colorFromConfig(ConfigManager.customColorBiome)).getFormattedText();
-                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
+                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.world, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
 
                         if (ConfigManager.useCustomTextBiome)
                         {
@@ -324,8 +317,8 @@ public class GlobalStatusRenderer
         {
             if (!ConfigManager.entityDetectorMode.equalsIgnoreCase("glowing"))
             {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - ConfigManager.entityDetectRange, mc.thePlayer.posY - ConfigManager.entityDetectRange, mc.thePlayer.posZ - ConfigManager.entityDetectRange, mc.thePlayer.posX + ConfigManager.entityDetectRange, mc.thePlayer.posY + ConfigManager.entityDetectRange, mc.thePlayer.posZ + ConfigManager.entityDetectRange);
-                AxisAlignedBB ghastRange = new AxisAlignedBB(mc.thePlayer.posX - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posY - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posZ - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posX + (ConfigManager.entityDetectRange + 64), mc.thePlayer.posY + (ConfigManager.entityDetectRange + 64), mc.thePlayer.posZ + (ConfigManager.entityDetectRange + 64));
+                AxisAlignedBB range = new AxisAlignedBB(mc.player.posX - ConfigManager.entityDetectRange, mc.player.posY - ConfigManager.entityDetectRange, mc.player.posZ - ConfigManager.entityDetectRange, mc.player.posX + ConfigManager.entityDetectRange, mc.player.posY + ConfigManager.entityDetectRange, mc.player.posZ + ConfigManager.entityDetectRange);
+                AxisAlignedBB ghastRange = new AxisAlignedBB(mc.player.posX - (ConfigManager.entityDetectRange + 64), mc.player.posY - (ConfigManager.entityDetectRange + 64), mc.player.posZ - (ConfigManager.entityDetectRange + 64), mc.player.posX + (ConfigManager.entityDetectRange + 64), mc.player.posY + (ConfigManager.entityDetectRange + 64), mc.player.posZ + (ConfigManager.entityDetectRange + 64));
                 List<EntityZombie> zombie = GameInfoHelper.INSTANCE.detectEntities(EntityZombie.class, range);
                 List<EntitySkeleton> skeleton = GameInfoHelper.INSTANCE.detectEntities(EntitySkeleton.class, range);
                 List<EntityCreeper> creeper = GameInfoHelper.INSTANCE.detectEntities(EntityCreeper.class, range);
@@ -338,13 +331,13 @@ public class GlobalStatusRenderer
                 List<EntityGuardian> guardian = GameInfoHelper.INSTANCE.detectEntities(EntityGuardian.class, range);
                 List<EntityShulker> shulker = GameInfoHelper.INSTANCE.detectEntities(EntityShulker.class, range);
 
-                String zombieCount = !zombie.isEmpty() ? mc.thePlayer.dimension == -1 ? "PZ: " + zombie.size() + ", " : "Z: " + zombie.size() + ", " : "";
+                String zombieCount = !zombie.isEmpty() ? mc.player.dimension == -1 ? "PZ: " + zombie.size() + ", " : "Z: " + zombie.size() + ", " : "";
                 String skeletonCount = !skeleton.isEmpty() ? "S: " + skeleton.size() + ", " : "";
                 String creeperCount = !creeper.isEmpty() ? "C: " + creeper.size() + ", " : "";
                 String spiderCount = !spider.isEmpty() ? "SD: " + spider.size() + ", " : "";
                 String endermanCount = !enderman.isEmpty() ? "E: " + enderman.size() + ", " : "";
                 String witchCount = !witch.isEmpty() ? "W: " + witch.size() + ", " : "";
-                String slimeCount = !slime.isEmpty() ? mc.thePlayer.dimension == -1 ? "M: " + slime.size() + ", " : "SL: " + slime.size() + ", " : "";
+                String slimeCount = !slime.isEmpty() ? mc.player.dimension == -1 ? "M: " + slime.size() + ", " : "SL: " + slime.size() + ", " : "";
                 String blazeCount = !blaze.isEmpty() ? "B: " + blaze.size() + ", " : "";
                 String ghastCount = !ghast.isEmpty() ? "G: " + ghast.size() + ", " : "";
                 String guardianCount = !guardian.isEmpty() ? "GD: " + guardian.size() + ", " : "";
@@ -368,13 +361,13 @@ public class GlobalStatusRenderer
         {
             if (ConfigManager.playerDetectorMode.equalsIgnoreCase("NORMAL"))
             {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - 32, mc.thePlayer.posY - 32, mc.thePlayer.posZ - 32, mc.thePlayer.posX + 32, mc.thePlayer.posY + 32, mc.thePlayer.posZ + 32);
-                List<EntityPlayer> player = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
+                AxisAlignedBB range = new AxisAlignedBB(mc.player.posX - 32, mc.player.posY - 32, mc.player.posZ - 32, mc.player.posX + 32, mc.player.posY + 32, mc.player.posZ + 32);
+                List<EntityPlayer> player = Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
                 int size = player.size() - 1;
 
-                if (mc.theWorld != null)
+                if (mc.world != null)
                 {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
+                    for (Entity playerList : mc.world.loadedEntityList)
                     {
                         if (playerList instanceof EntityOtherPlayerMP)
                         {
@@ -391,22 +384,22 @@ public class GlobalStatusRenderer
             {
                 String name;
 
-                if (mc.theWorld != null)
+                if (mc.world != null)
                 {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
+                    for (Entity playerList : mc.world.loadedEntityList)
                     {
                         if (playerList instanceof EntityOtherPlayerMP)
                         {
                             ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
                         }
                     }
-                    for (Entity player : mc.theWorld.loadedEntityList)
+                    for (Entity player : mc.world.loadedEntityList)
                     {
                         if (player instanceof EntityOtherPlayerMP)
                         {
-                            int xPosP = (int)mc.thePlayer.posX;
-                            int yPosP = (int)mc.thePlayer.posY;
-                            int zPosP = (int)mc.thePlayer.posZ;
+                            int xPosP = (int)mc.player.posX;
+                            int yPosP = (int)mc.player.posY;
+                            int zPosP = (int)mc.player.posZ;
                             int xPos = (int)player.posX;
                             int yPos = (int)player.posY;
                             int zPos = (int)player.posZ;

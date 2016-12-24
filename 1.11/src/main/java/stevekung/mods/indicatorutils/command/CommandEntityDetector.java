@@ -33,13 +33,13 @@ public class CommandEntityDetector extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "entitydetect";
     }
@@ -259,7 +259,7 @@ public class CommandEntityDetector extends CommandBase
             {
                 if (Minecraft.getMinecraft().getSession().getProfile().getName().equalsIgnoreCase(args[0]))
                 {
-                    sender.addChatMessage(new JsonMessageUtils().text("Cannot set entity detector type to yourself!").setStyle(new JsonMessageUtils().red()));
+                    sender.sendMessage(new JsonMessageUtils().text("Cannot set entity detector type to yourself!").setStyle(new JsonMessageUtils().red()));
                     return;
                 }
                 else
@@ -271,7 +271,7 @@ public class CommandEntityDetector extends CommandBase
             {
                 throw new WrongUsageException("commands.entitydetect.usage");
             }
-            sender.addChatMessage(new JsonMessageUtils().text("Set entity detector type to " + args[0]));
+            sender.sendMessage(new JsonMessageUtils().text("Set entity detector type to " + args[0]));
             ExtendedModSettings.saveExtendedSettings();
             return;
         }
@@ -279,9 +279,9 @@ public class CommandEntityDetector extends CommandBase
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
-        NetHandlerPlayClient connection = Minecraft.getMinecraft().thePlayer.connection;
+        NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
         List<NetworkPlayerInfo> playerInfo = new ArrayList(connection.getPlayerInfoMap());
         List<String> playerList = Lists.newArrayList(new String[] { "all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "llama", "villager", "evoker", "vex", "vindicator", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal" });
 
@@ -296,6 +296,6 @@ public class CommandEntityDetector extends CommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, playerList);
         }
-        return super.getTabCompletionOptions(server, sender, args, pos);
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

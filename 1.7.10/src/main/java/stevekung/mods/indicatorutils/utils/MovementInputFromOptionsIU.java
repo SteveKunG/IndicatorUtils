@@ -61,7 +61,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
             {
                 ++this.moveForward;
             }
-            if (this.gameSettings.keyBindBack.getIsKeyPressed())
+            if (this.gameSettings.keyBindBack.getIsKeyPressed() && !(Keyboard.isKeyDown(Keyboard.KEY_LCONTROL) && Keyboard.isKeyDown(Keyboard.KEY_S)))
             {
                 --this.moveForward;
             }

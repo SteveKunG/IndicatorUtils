@@ -55,7 +55,7 @@ public class UHCStatusRenderer
 
                 if (swapToRight && !GameInfoHelper.INSTANCE.isBelowMinecraft19())
                 {
-                    Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+                    Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
                     if (!collection.isEmpty() && ConfigManager.renderIngamePotionEffect)
                     {
@@ -90,7 +90,7 @@ public class UHCStatusRenderer
                 ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
-            if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
+            if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
             {
                 String pingcolor = ConfigManager.customColorPingValue1;
 
@@ -184,7 +184,7 @@ public class UHCStatusRenderer
                 String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
                 String xPosition1 = json.text(String.valueOf(pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
                 String zPosition1 = json.text(String.valueOf(pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
-                String inNether = mc.thePlayer.dimension == -1 ? nether : "";
+                String inNether = mc.player.dimension == -1 ? nether : "";
                 list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
                 if (ConfigManager.useCustomTextXYZ)
@@ -194,7 +194,7 @@ public class UHCStatusRenderer
                     overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
-                if (ConfigManager.enableOverworldCoordinate && mc.thePlayer.dimension == -1)
+                if (ConfigManager.enableOverworldCoordinate && mc.player.dimension == -1)
                 {
                     list.add(overworld + xyz + xPosition1 + " " + yPosition + " " + zPosition1);
                 }
@@ -263,17 +263,17 @@ public class UHCStatusRenderer
         }
         if (ConfigManager.enableBiome)
         {
-            if (mc.theWorld != null)
+            if (mc.world != null)
             {
                 BlockPos blockpos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                Chunk chunk = mc.theWorld.getChunkFromBlockCoords(blockpos);
+                Chunk chunk = mc.world.getChunkFromBlockCoords(blockpos);
 
-                if (mc.theWorld.isBlockLoaded(blockpos) && blockpos.getY() >= 0 && blockpos.getY() < 256)
+                if (mc.world.isBlockLoaded(blockpos) && blockpos.getY() >= 0 && blockpos.getY() < 256)
                 {
                     if (!chunk.isEmpty())
                     {
                         String biome = json.text("Biome: ").setStyle(json.colorFromConfig(ConfigManager.customColorBiome)).getFormattedText();
-                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
+                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.world, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
 
                         if (ConfigManager.useCustomTextBiome)
                         {
@@ -302,13 +302,13 @@ public class UHCStatusRenderer
         {
             if (ConfigManager.playerDetectorMode.equalsIgnoreCase("NORMAL"))
             {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - 32, mc.thePlayer.posY - 32, mc.thePlayer.posZ - 32, mc.thePlayer.posX + 32, mc.thePlayer.posY + 32, mc.thePlayer.posZ + 32);
-                List<EntityPlayer> player = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
+                AxisAlignedBB range = new AxisAlignedBB(mc.player.posX - 32, mc.player.posY - 32, mc.player.posZ - 32, mc.player.posX + 32, mc.player.posY + 32, mc.player.posZ + 32);
+                List<EntityPlayer> player = Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
                 int size = player.size() - 1;
 
-                if (mc.theWorld != null)
+                if (mc.world != null)
                 {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
+                    for (Entity playerList : mc.world.loadedEntityList)
                     {
                         if (playerList instanceof EntityOtherPlayerMP)
                         {
@@ -325,22 +325,22 @@ public class UHCStatusRenderer
             {
                 String name;
 
-                if (mc.theWorld != null)
+                if (mc.world != null)
                 {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
+                    for (Entity playerList : mc.world.loadedEntityList)
                     {
                         if (playerList instanceof EntityOtherPlayerMP)
                         {
                             ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
                         }
                     }
-                    for (Entity player : mc.theWorld.loadedEntityList)
+                    for (Entity player : mc.world.loadedEntityList)
                     {
                         if (player instanceof EntityOtherPlayerMP)
                         {
-                            int xPosP = (int)mc.thePlayer.posX;
-                            int yPosP = (int)mc.thePlayer.posY;
-                            int zPosP = (int)mc.thePlayer.posZ;
+                            int xPosP = (int)mc.player.posX;
+                            int yPosP = (int)mc.player.posY;
+                            int zPosP = (int)mc.player.posZ;
                             int xPos = (int)player.posX;
                             int yPos = (int)player.posY;
                             int zPos = (int)player.posZ;

@@ -15,6 +15,8 @@ import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import net.minecraftforge.fml.client.config.ConfigGuiType;
+import net.minecraftforge.fml.client.config.DummyConfigElement;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 import stevekung.mods.indicatorutils.utils.IULog;
@@ -26,6 +28,7 @@ public class ConfigManager
     public static String MAIN_SETTINGS = "indicatorutilmaingui";
     public static String RENDER_INFO_SETTINGS = "indicatorutilrenderinfogui";
     public static String INGAME_RENDER_SETTINGS = "indicatorutilingamerendergui";
+    public static String KEY_BINDING_SETTINGS = "indicatorutilkeybindinggui";
     public static String OFFSET_SETTINGS = "indicatorutiloffsetgui";
     public static String TIME_INFO_SETTINGS = "indicatorutiltimeinfogui";
     public static String CUSTOM_COLOR_SETTINGS = "indicatorutilcustomcolorgui";
@@ -86,6 +89,13 @@ public class ConfigManager
     public static boolean renderScoreboard;
     public static boolean renderBossHealthBar;
     public static boolean hideBossHealthBar;
+
+    // Key Binding Settings
+    public static String keyDisplayModeNext;
+    public static String keyDisplayModePrevious;
+    public static String keyToggleSprint;
+    public static String keyToggleSneak;
+    public static String keyAutoSwim;
 
     // Offset Settings
     public static String armorStatusPosition;
@@ -206,6 +216,7 @@ public class ConfigManager
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.MAIN_SETTINGS, ConfigManager.addMainSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.RENDER_INFO_SETTINGS, ConfigManager.addRenderInfoSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.INGAME_RENDER_SETTINGS, ConfigManager.addIngameRenderSetting(prop));
+            ConfigManager.config.setCategoryPropertyOrder(ConfigManager.KEY_BINDING_SETTINGS, ConfigManager.addKeyBindingSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.OFFSET_SETTINGS, ConfigManager.addOffsetSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.TIME_INFO_SETTINGS, ConfigManager.addTimeInfoSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.CUSTOM_COLOR_SETTINGS, ConfigManager.addCustomColorSetting(prop));
@@ -456,6 +467,31 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", true);
         ConfigManager.hideBossHealthBar = prop.getBoolean();
+        propOrder.add(prop.getName());
+        return propOrder;
+    }
+
+    private static List<String> addKeyBindingSetting(Property prop)
+    {
+        List<String> propOrder = new ArrayList<String>();
+        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Display Mode Next (Ctrl) + (Key)", "29,27");
+        ConfigManager.keyDisplayModeNext = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Display Mode Previous (Ctrl) + (Key)", "29,26");
+        ConfigManager.keyDisplayModePrevious = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sprint (Ctrl) + (Key)", "29,31");
+        ConfigManager.keyToggleSprint = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sneak (Ctrl) + (Key)", "29,42");
+        ConfigManager.keyToggleSneak = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Auto Swim (Ctrl) + (Key)", "29,19");
+        ConfigManager.keyAutoSwim = prop.getString();
         propOrder.add(prop.getName());
         return propOrder;
     }
@@ -849,6 +885,8 @@ public class ConfigManager
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_INFO_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.INGAME_RENDER_SETTINGS)));
+        list.add(new DummyConfigElement("Key Code Example", "http://minecraft.gamepedia.com/Key_codes", ConfigGuiType.STRING, "keycodeexample"));
+        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.KEY_BINDING_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.OFFSET_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.TIME_INFO_SETTINGS)));
 

@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -29,13 +28,13 @@ public class CommandShowCape extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "capeiu";
     }
@@ -61,7 +60,7 @@ public class CommandShowCape extends CommandBase
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(new JsonMessageUtils().text("Disabled Custom Cape"));
+                sender.sendMessage(new JsonMessageUtils().text("Disabled Custom Cape"));
             }
             else if ("enable".equalsIgnoreCase(args[0]))
             {
@@ -70,18 +69,18 @@ public class CommandShowCape extends CommandBase
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(new JsonMessageUtils().text("Enabled Custom Cape"));
+                sender.sendMessage(new JsonMessageUtils().text("Enabled Custom Cape"));
             }
         }
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable");
         }
-        return Collections.<String>emptyList();
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

@@ -14,10 +14,10 @@ version = "2.0.0"
 group = "stevekung.mods.indicatorutils"
 archivesBaseName = "Indicator-Utils-1.10.2"
 
-sourceCompatibility = targetCompatibility = "1.6"
+sourceCompatibility = targetCompatibility = "1.8"
 
 compileJava {
-    sourceCompatibility = targetCompatibility = "1.6"
+    sourceCompatibility = targetCompatibility = "1.8"
 }
 
 minecraft {
@@ -29,6 +29,5 @@ minecraft {
 dependencies {
 }
 
-processResources
-{
+processResources {
 }

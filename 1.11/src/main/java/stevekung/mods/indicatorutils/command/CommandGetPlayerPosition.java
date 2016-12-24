@@ -31,13 +31,13 @@ public class CommandGetPlayerPosition extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "getplayerpos";
     }
@@ -60,18 +60,18 @@ public class CommandGetPlayerPosition extends CommandBase
 
             if (player == null)
             {
-                sender.addChatMessage(new JsonMessageUtils().text(I18n.format("commands.getplayerpos.playernull", args[0])).setStyle(new JsonMessageUtils().red()));
+                sender.sendMessage(new JsonMessageUtils().text(I18n.format("commands.getplayerpos.playernull", args[0])).setStyle(new JsonMessageUtils().red()));
             }
             else
             {
                 BlockPos pos = player.getPosition();
-                sender.addChatMessage(new TextComponentTranslation("commands.getplayerpos.success", new Object[] { player.getName(), pos.getX(), pos.getY(), pos.getZ(), player.worldObj.provider.getDimensionType().getName() }));
+                sender.sendMessage(new TextComponentTranslation("commands.getplayerpos.success", new Object[] { player.getName(), pos.getX(), pos.getY(), pos.getZ(), player.world.provider.getDimensionType().getName() }));
             }
         }
     }
 
     @Override
-    public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, @Nullable BlockPos pos)
     {
         return CommandBase.getListOfStringsMatchingLastWord(args, GameInfoHelper.INSTANCE.getPlayerInfoListClient());
     }

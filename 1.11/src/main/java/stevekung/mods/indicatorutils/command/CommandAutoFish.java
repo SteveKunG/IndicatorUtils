@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -30,13 +29,13 @@ public class CommandAutoFish extends CommandBase
     }
 
     @Override
-    public String getCommandUsage(ICommandSender sender)
+    public String getUsage(ICommandSender sender)
     {
-        return "/" + this.getCommandName();
+        return "/" + this.getName();
     }
 
     @Override
-    public String getCommandName()
+    public String getName()
     {
         return "autofish";
     }
@@ -61,11 +60,11 @@ public class CommandAutoFish extends CommandBase
                 if (IndicatorUtilsEventHandler.autoFishEnabled)
                 {
                     IndicatorUtilsEventHandler.autoFishEnabled = false;
-                    sender.addChatMessage(json.text("Disabled auto fish"));
+                    sender.sendMessage(json.text("Disabled auto fish"));
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have not start using /autofish command").setStyle(json.red()));
+                    sender.sendMessage(json.text("You have not start using /autofish command").setStyle(json.red()));
                 }
             }
             else if ("enable".equalsIgnoreCase(args[0]))
@@ -74,22 +73,22 @@ public class CommandAutoFish extends CommandBase
                 {
                     for (EnumHand hand : EnumHand.values())
                     {
-                        if (Minecraft.getMinecraft().thePlayer.getHeldItem(hand).getItem() != Items.FISHING_ROD)
+                        if (Minecraft.getMinecraft().player.getHeldItem(hand).getItem() != Items.FISHING_ROD)
                         {
-                            sender.addChatMessage(json.text("You are not held the fishing rod").setStyle(json.red()));
+                            sender.sendMessage(json.text("You are not held the fishing rod").setStyle(json.red()));
                             return;
                         }
                         else
                         {
                             IndicatorUtilsEventHandler.autoFishEnabled = true;
-                            sender.addChatMessage(json.text("Enabled auto fish"));
+                            sender.sendMessage(json.text("Enabled auto fish"));
                             return;
                         }
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(json.text("You have already start /autofish command").setStyle(json.red()));
+                    sender.sendMessage(json.text("You have already start /autofish command").setStyle(json.red()));
                 }
             }
             else
@@ -100,12 +99,12 @@ public class CommandAutoFish extends CommandBase
     }
 
     @Override
-    public List getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable");
         }
-        return Collections.<String>emptyList();
+        return super.getTabCompletions(server, sender, args, pos);
     }
 }

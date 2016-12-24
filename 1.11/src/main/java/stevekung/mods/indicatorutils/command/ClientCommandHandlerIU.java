@@ -61,19 +61,19 @@ public class ClientCommandHandlerIU extends ClientCommandHandler
                 icommand.execute(this.getServer(), sender, args);
                 return 1;
             }
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.permission", new Object[0]));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.permission", new Object[0]));
         }
         catch (WrongUsageException wue)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.usage", new Object[] { this.format(TextFormatting.RED, wue.getMessage(), wue.getErrorObjects()) }));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.usage", new Object[] { this.format(TextFormatting.RED, wue.getMessage(), wue.getErrorObjects()) }));
         }
         catch (CommandException ce)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
+            sender.sendMessage(this.format(TextFormatting.RED, ce.getMessage(), ce.getErrorObjects()));
         }
         catch (Throwable t)
         {
-            sender.addChatMessage(this.format(TextFormatting.RED, "commands.generic.exception", new Object[0]));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.exception", new Object[0]));
             t.printStackTrace();
         }
         return -1;
@@ -98,7 +98,7 @@ public class ClientCommandHandlerIU extends ClientCommandHandler
 
             if (mc.currentScreen instanceof GuiChat)
             {
-                List<String> commands = this.getTabCompletionOptions(mc.thePlayer, leftOfCursor, mc.thePlayer.getPosition());
+                List<String> commands = this.getTabCompletions(mc.player, leftOfCursor, mc.player.getPosition());
 
                 if (commands != null && !commands.isEmpty())
                 {

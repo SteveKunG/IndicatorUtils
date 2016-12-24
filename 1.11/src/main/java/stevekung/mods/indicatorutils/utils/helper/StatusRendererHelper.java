@@ -178,16 +178,16 @@ public class StatusRendererHelper
             int armorPosition = flag ? 2 : scaledRes.getScaledWidth() - 18;
             float armorTextPosition = 20.5F;
             float width = 0;
-            ItemStack mainItem = mc.thePlayer.getHeldItemMainhand();
-            ItemStack offItem = mc.thePlayer.getHeldItemOffhand();
+            ItemStack mainItem = mc.player.getHeldItemMainhand();
+            ItemStack offItem = mc.player.getHeldItemOffhand();
             int itemCount = 0;
-            int arrowCount = StatusRendererHelper.INSTANCE.countArrowInInventory(mc.thePlayer);
+            int arrowCount = StatusRendererHelper.INSTANCE.countArrowInInventory(mc.player);
             SmallFontRenderer font = new SmallFontRenderer();
             JsonMessageUtils json = new JsonMessageUtils();
 
             if (ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.HOTBAR_LEFT))
             {
-                if (!mc.thePlayer.isSpectator())
+                if (!mc.player.isSpectator())
                 {
                     if (ConfigManager.enableArmorStatus)
                     {
@@ -218,13 +218,13 @@ public class StatusRendererHelper
                     }
                     if (ConfigManager.enableHeldItemInHand)
                     {
-                        if (!mainItem.func_190926_b())
+                        if (!mainItem.isEmpty())
                         {
                             boolean isTools = mainItem.isItemStackDamageable();
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -249,13 +249,13 @@ public class StatusRendererHelper
                                 GlStateManager.enableDepth();
                             }
                         }
-                        if (!offItem.func_190926_b())
+                        if (!offItem.isEmpty())
                         {
                             boolean isTools = offItem.isItemStackDamageable();
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -285,7 +285,7 @@ public class StatusRendererHelper
             }
             else if (ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.HOTBAR_RIGHT))
             {
-                if (!mc.thePlayer.isSpectator())
+                if (!mc.player.isSpectator())
                 {
                     if (ConfigManager.enableArmorStatus)
                     {
@@ -310,15 +310,15 @@ public class StatusRendererHelper
                             StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
                         }
                     }
-                    if (ConfigManager.enableHeldItemInHand && !mc.thePlayer.isSpectator())
+                    if (ConfigManager.enableHeldItemInHand && !mc.player.isSpectator())
                     {
-                        if (!mainItem.func_190926_b())
+                        if (!mainItem.isEmpty())
                         {
                             boolean isTools = mainItem.isItemStackDamageable();
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -345,13 +345,13 @@ public class StatusRendererHelper
                                 GlStateManager.enableDepth();
                             }
                         }
-                        if (!offItem.func_190926_b())
+                        if (!offItem.isEmpty())
                         {
                             boolean isTools = offItem.isItemStackDamageable();
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -383,7 +383,7 @@ public class StatusRendererHelper
             }
             else if (ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.HOTBAR))
             {
-                if (!mc.thePlayer.isSpectator())
+                if (!mc.player.isSpectator())
                 {
                     if (ConfigManager.enableArmorStatus)
                     {
@@ -412,13 +412,13 @@ public class StatusRendererHelper
                     }
                     if (ConfigManager.enableHeldItemInHand)
                     {
-                        if (!mainItem.func_190926_b())
+                        if (!mainItem.isEmpty())
                         {
                             boolean isTools = mainItem.isItemStackDamageable();
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -445,13 +445,13 @@ public class StatusRendererHelper
                                 GlStateManager.enableDepth();
                             }
                         }
-                        if (!offItem.func_190926_b())
+                        if (!offItem.isEmpty())
                         {
                             boolean isTools = offItem.isItemStackDamageable();
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -513,13 +513,13 @@ public class StatusRendererHelper
                 }
                 if (ConfigManager.enableHeldItemInHand)
                 {
-                    if (!mainItem.func_190926_b())
+                    if (!mainItem.isEmpty())
                     {
                         boolean isTools = mainItem.isItemStackDamageable();
 
                         if (mainItem.getMaxStackSize() > 1)
                         {
-                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getMetadata());
+                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
                         }
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -546,13 +546,13 @@ public class StatusRendererHelper
                             GlStateManager.enableDepth();
                         }
                     }
-                    if (!offItem.func_190926_b())
+                    if (!offItem.isEmpty())
                     {
                         boolean isTools = offItem.isItemStackDamageable();
 
                         if (offItem.getMaxStackSize() > 1)
                         {
-                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem.getItem(), offItem.getMetadata());
+                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
                         }
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -594,7 +594,7 @@ public class StatusRendererHelper
             int size = ConfigManager.potionSize;
             int length = ConfigManager.potionLength;
             int lengthVal = ConfigManager.potionLengthVal;
-            Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+            Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
             if (ObjectModeHelper.getPotionStatusMode(PotionStatusPosition.HOTBAR_LEFT))
             {
@@ -797,16 +797,16 @@ public class StatusRendererHelper
                     rainingText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
                     thunderText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextThunder).getFormattedText();
                 }
-                String prefix = mc.theWorld.isRaining() | mc.theWorld.isThundering() ? prefixText : "";
-                String weather = mc.theWorld.isRaining() && !mc.theWorld.isThundering() ? rainingText : mc.theWorld.isRaining() && mc.theWorld.isThundering() ? thunderText : "";
+                String prefix = mc.world.isRaining() | mc.world.isThundering() ? prefixText : "";
+                String weather = mc.world.isRaining() && !mc.world.isThundering() ? rainingText : mc.world.isRaining() && mc.world.isThundering() ? thunderText : "";
 
                 if (ConfigManager.enableWeatherStatus)
                 {
-                    list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.theWorld.getWorldTime() % 24000) + prefix + weather);
+                    list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.world.getWorldTime() % 24000) + prefix + weather);
                 }
                 else
                 {
-                    list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.theWorld.getWorldTime() % 24000));
+                    list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.world.getWorldTime() % 24000));
                 }
             }
             if (ConfigManager.enableTimeZone)
@@ -845,7 +845,7 @@ public class StatusRendererHelper
 
                     if (!swapToRight && !IndicatorUtils.MC_VERSION.equalsIgnoreCase("1.8.9"))
                     {
-                        Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+                        Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
                         if (!collection.isEmpty() && ConfigManager.renderIngamePotionEffect)
                         {
@@ -944,7 +944,7 @@ public class StatusRendererHelper
     {
         Minecraft mc = Minecraft.getMinecraft();
         ScaledResolution scaledresolution = new ScaledResolution(mc);
-        boolean isCreative = mc.thePlayer.capabilities.isCreativeMode;
+        boolean isCreative = mc.player.capabilities.isCreativeMode;
         int height = isCreative ? 60 : 80;
         int i = scaledresolution.getScaledWidth();
         int j = scaledresolution.getScaledHeight();
@@ -975,22 +975,22 @@ public class StatusRendererHelper
 
     public boolean getHelmet()
     {
-        return !this.getArmorType(ArmorType.HELMET).func_190926_b() && this.getArmorType(ArmorType.HELMET).getItem() instanceof ItemArmor;
+        return !this.getArmorType(ArmorType.HELMET).isEmpty() && this.getArmorType(ArmorType.HELMET).getItem() instanceof ItemArmor;
     }
 
     public boolean getChestplate()
     {
-        return !this.getArmorType(ArmorType.CHESTPLATE).func_190926_b() && (this.getArmorType(ArmorType.CHESTPLATE).getItem() instanceof ItemArmor || this.getArmorType(ArmorType.CHESTPLATE).getItem() instanceof ItemElytra);
+        return !this.getArmorType(ArmorType.CHESTPLATE).isEmpty() && (this.getArmorType(ArmorType.CHESTPLATE).getItem() instanceof ItemArmor || this.getArmorType(ArmorType.CHESTPLATE).getItem() instanceof ItemElytra);
     }
 
     public boolean getLeggings()
     {
-        return !this.getArmorType(ArmorType.LEGGINGS).func_190926_b() && this.getArmorType(ArmorType.LEGGINGS).getItem() instanceof ItemArmor;
+        return !this.getArmorType(ArmorType.LEGGINGS).isEmpty() && this.getArmorType(ArmorType.LEGGINGS).getItem() instanceof ItemArmor;
     }
 
     public boolean getBoots()
     {
-        return !this.getArmorType(ArmorType.BOOTS).func_190926_b() && this.getArmorType(ArmorType.BOOTS).getItem() instanceof ItemArmor;
+        return !this.getArmorType(ArmorType.BOOTS).isEmpty() && this.getArmorType(ArmorType.BOOTS).getItem() instanceof ItemArmor;
     }
 
     public int calculateArmorDurabilityPercent(ArmorType type)
@@ -1033,19 +1033,19 @@ public class StatusRendererHelper
     {
         if (type == ArmorType.HELMET)
         {
-            return Minecraft.getMinecraft().thePlayer.inventory.armorInventory.get(3);
+            return Minecraft.getMinecraft().player.inventory.armorInventory.get(3);
         }
         else if (type == ArmorType.CHESTPLATE)
         {
-            return Minecraft.getMinecraft().thePlayer.inventory.armorInventory.get(2);
+            return Minecraft.getMinecraft().player.inventory.armorInventory.get(2);
         }
         else if (type == ArmorType.LEGGINGS)
         {
-            return Minecraft.getMinecraft().thePlayer.inventory.armorInventory.get(1);
+            return Minecraft.getMinecraft().player.inventory.armorInventory.get(1);
         }
         else
         {
-            return Minecraft.getMinecraft().thePlayer.inventory.armorInventory.get(0);
+            return Minecraft.getMinecraft().player.inventory.armorInventory.get(0);
         }
     }
 
@@ -1306,9 +1306,9 @@ public class StatusRendererHelper
 
         if (ConfigManager.enableEntityDetector && ConfigManager.entityDetectorMode.equalsIgnoreCase("glowing"))
         {
-            if (mc.theWorld != null)
+            if (mc.world != null)
             {
-                for (Entity list : mc.theWorld.loadedEntityList)
+                for (Entity list : mc.world.loadedEntityList)
                 {
                     if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("all"))
                     {
@@ -1890,9 +1890,9 @@ public class StatusRendererHelper
         }
         else
         {
-            if (mc.theWorld != null)
+            if (mc.world != null)
             {
-                for (Entity list : mc.theWorld.loadedEntityList)
+                for (Entity list : mc.world.loadedEntityList)
                 {
                     if (list instanceof EntityLivingBase)
                     {
@@ -1960,9 +1960,9 @@ public class StatusRendererHelper
 
         for (int i = 0; i < player.inventory.getSizeInventory(); i++)
         {
-            if (!player.inventory.getStackInSlot(i).func_190926_b() && item.equals(player.inventory.getStackInSlot(i).getItem()) && (meta == -1 || player.inventory.getStackInSlot(i).getMetadata() == meta))
+            if (!player.inventory.getStackInSlot(i).isEmpty() && item.equals(player.inventory.getStackInSlot(i).getItem()) && (meta == -1 || player.inventory.getStackInSlot(i).getMetadata() == meta))
             {
-                count += player.inventory.getStackInSlot(i).func_190916_E(); //getStackSize
+                count += player.inventory.getStackInSlot(i).getCount();
             }
         }
         return count;
@@ -1976,9 +1976,9 @@ public class StatusRendererHelper
         {
             ItemStack itemstack = player.inventory.getStackInSlot(i);
 
-            if (!itemstack.func_190926_b() && itemstack.getItem() instanceof ItemArrow)
+            if (!itemstack.isEmpty() && itemstack.getItem() instanceof ItemArrow)
             {
-                arrowCount += itemstack.func_190916_E(); //getStackSize
+                arrowCount += itemstack.getCount();
             }
         }
         return arrowCount;

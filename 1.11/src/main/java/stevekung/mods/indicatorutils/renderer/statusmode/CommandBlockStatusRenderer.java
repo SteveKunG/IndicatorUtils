@@ -50,7 +50,7 @@ public class CommandBlockStatusRenderer
 
                 if (swapToRight && !GameInfoHelper.INSTANCE.isBelowMinecraft19())
                 {
-                    Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+                    Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
                     if (!collection.isEmpty() && ConfigManager.renderIngamePotionEffect)
                     {
@@ -85,7 +85,7 @@ public class CommandBlockStatusRenderer
                 ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
-            if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
+            if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
             {
                 String pingcolor = ConfigManager.customColorPingValue1;
 
@@ -187,10 +187,10 @@ public class CommandBlockStatusRenderer
                     overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
-                String inNether = mc.thePlayer.dimension == -1 ? nether : "";
+                String inNether = mc.player.dimension == -1 ? nether : "";
                 list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
-                if (ConfigManager.enableOverworldCoordinate && mc.thePlayer.dimension == -1)
+                if (ConfigManager.enableOverworldCoordinate && mc.player.dimension == -1)
                 {
                     list.add(overworld + xyz + xPosition1 + " " + yPosition + " " + zPosition1);
                 }

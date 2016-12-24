@@ -151,9 +151,9 @@ public class IndicatorUtilsEventHandler
             }
         }
 
-        if (this.mc.thePlayer != null && !(this.mc.thePlayer.movementInput instanceof MovementInputFromOptionsIU))
+        if (this.mc.player != null && !(this.mc.player.movementInput instanceof MovementInputFromOptionsIU))
         {
-            this.mc.thePlayer.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
+            this.mc.player.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
         }
         GuiIngameForgeIU.renderObjective = ConfigManager.renderScoreboard;
         GuiIngameForgeIU.renderBossHealth = ConfigManager.renderBossHealthBar;
@@ -351,7 +351,7 @@ public class IndicatorUtilsEventHandler
             {
                 this.pressTime = 0;
                 this.pressTimeDelay = 200;
-                this.mc.thePlayer.sendChatMessage(ConfigManager.endGameChatMessage);
+                this.mc.player.sendChatMessage(ConfigManager.endGameChatMessage);
             }
         }
     }
@@ -476,9 +476,9 @@ public class IndicatorUtilsEventHandler
         {
             if (ConfigManager.playerDetectorMode.equalsIgnoreCase("GLOWING"))
             {
-                if (this.mc.theWorld != null)
+                if (this.mc.world != null)
                 {
-                    for (EntityPlayer playerList : this.mc.theWorld.playerEntities)
+                    for (EntityPlayer playerList : this.mc.world.playerEntities)
                     {
                         if (playerList instanceof EntityOtherPlayerMP)
                         {
@@ -497,13 +497,13 @@ public class IndicatorUtilsEventHandler
             ++IndicatorUtilsEventHandler.autoFishTick;
             IndicatorUtilsEventHandler.autoFishTick %= 4;
 
-            if (this.mc.thePlayer != null && this.mc.objectMouseOver != null && this.mc.theWorld != null && this.mc.playerController != null && this.mc.entityRenderer != null)
+            if (this.mc.player != null && this.mc.objectMouseOver != null && this.mc.world != null && this.mc.playerController != null && this.mc.entityRenderer != null)
             {
                 if (IndicatorUtilsEventHandler.autoFishTick % 4 == 0)
                 {
                     for (EnumHand enumhand : EnumHand.values())
                     {
-                        ItemStack itemstack = this.mc.thePlayer.getHeldItem(enumhand);
+                        ItemStack itemstack = this.mc.player.getHeldItem(enumhand);
 
                         if (itemstack.getItem() == Items.FISHING_ROD)
                         {
@@ -511,16 +511,16 @@ public class IndicatorUtilsEventHandler
                             {
                                 BlockPos blockpos = this.mc.objectMouseOver.getBlockPos();
 
-                                if (this.mc.theWorld.getBlockState(blockpos).getMaterial() != Material.AIR)
+                                if (this.mc.world.getBlockState(blockpos).getMaterial() != Material.AIR)
                                 {
-                                    int i = itemstack.func_190916_E();
-                                    EnumActionResult enumactionresult = this.mc.playerController.processRightClickBlock(this.mc.thePlayer, this.mc.theWorld, blockpos, this.mc.objectMouseOver.sideHit, this.mc.objectMouseOver.hitVec, enumhand);
+                                    int i = itemstack.getCount();
+                                    EnumActionResult enumactionresult = this.mc.playerController.processRightClickBlock(this.mc.player, this.mc.world, blockpos, this.mc.objectMouseOver.sideHit, this.mc.objectMouseOver.hitVec, enumhand);
 
                                     if (enumactionresult == EnumActionResult.SUCCESS)
                                     {
-                                        this.mc.thePlayer.swingArm(enumhand);
+                                        this.mc.player.swingArm(enumhand);
 
-                                        if (!itemstack.func_190926_b() && (itemstack.func_190916_E() != i || this.mc.playerController.isInCreativeMode()))
+                                        if (!itemstack.isEmpty() && (itemstack.getCount() != i || this.mc.playerController.isInCreativeMode()))
                                         {
                                             this.mc.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
                                         }
@@ -528,7 +528,7 @@ public class IndicatorUtilsEventHandler
                                     }
                                 }
                             }
-                            if (!itemstack.func_190926_b() && this.mc.playerController.processRightClick(this.mc.thePlayer, this.mc.theWorld, enumhand) == EnumActionResult.SUCCESS)
+                            if (!itemstack.isEmpty() && this.mc.playerController.processRightClick(this.mc.player, this.mc.world, enumhand) == EnumActionResult.SUCCESS)
                             {
                                 this.mc.entityRenderer.itemRenderer.resetEquippedProgress(enumhand);
                                 return;
@@ -538,7 +538,7 @@ public class IndicatorUtilsEventHandler
                         {
                             IndicatorUtilsEventHandler.autoFishEnabled = false;
                             IndicatorUtilsEventHandler.autoFishTick = 0;
-                            this.mc.thePlayer.addChatMessage(this.json.text("Stop using /autofish command, you must hold the fishing rod!"));
+                            this.mc.player.sendMessage(this.json.text("Stop using /autofish command, you must hold the fishing rod!"));
                             return;
                         }
                     }
@@ -568,7 +568,7 @@ public class IndicatorUtilsEventHandler
             {
                 if (tick % messageMin == 0)
                 {
-                    if (this.mc.thePlayer != null)
+                    if (this.mc.player != null)
                     {
                         String reason = IndicatorUtilsEventHandler.afkReason;
 
@@ -580,14 +580,14 @@ public class IndicatorUtilsEventHandler
                         {
                             reason = ", Reason : " + reason;
                         }
-                        this.mc.thePlayer.sendChatMessage("AFK : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(tick) + " minute" + s + reason);
+                        this.mc.player.sendChatMessage("AFK : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(tick) + " minute" + s + reason);
                     }
                 }
             }
 
             if (IndicatorUtilsEventHandler.afkMode.equalsIgnoreCase("idle"))
             {
-                if (this.mc.thePlayer != null)
+                if (this.mc.player != null)
                 {
                     float angle = 0;
 
@@ -599,12 +599,12 @@ public class IndicatorUtilsEventHandler
                     {
                         angle = -0.0001F;
                     }
-                    this.mc.thePlayer.setAngles(angle, angle);
+                    this.mc.player.turn(angle, angle);
                 }
             }
             else
             {
-                if (this.mc.thePlayer != null)
+                if (this.mc.player != null)
                 {
                     float angle = 0;
 
@@ -616,7 +616,7 @@ public class IndicatorUtilsEventHandler
                     {
                         angle = -0.0001F;
                     }
-                    this.mc.thePlayer.setAngles(angle, angle);
+                    this.mc.player.turn(angle, angle);
                 }
                 ++IndicatorUtilsEventHandler.afkMoveTick;
                 IndicatorUtilsEventHandler.afkMoveTick %= 8;

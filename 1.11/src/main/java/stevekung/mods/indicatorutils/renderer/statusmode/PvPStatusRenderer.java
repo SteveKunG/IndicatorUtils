@@ -49,7 +49,7 @@ public class PvPStatusRenderer
 
                 if (swapToRight && !GameInfoHelper.INSTANCE.isBelowMinecraft19())
                 {
-                    Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+                    Collection<PotionEffect> collection = mc.player.getActivePotionEffects();
 
                     if (!collection.isEmpty() && ConfigManager.renderIngamePotionEffect)
                     {
@@ -84,7 +84,7 @@ public class PvPStatusRenderer
                 ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
-            if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
+            if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
             {
                 String pingcolor = ConfigManager.customColorPingValue1;
 

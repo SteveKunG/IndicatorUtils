@@ -54,7 +54,7 @@ public class GameInfoHelper
 
     public int getPing()
     {
-        return Minecraft.getMinecraft().getConnection().getPlayerInfo(Minecraft.getMinecraft().thePlayer.getUniqueID()).getResponseTime();
+        return Minecraft.getMinecraft().getConnection().getPlayerInfo(Minecraft.getMinecraft().player.getUniqueID()).getResponseTime();
     }
 
     public boolean isHypixel()
@@ -64,12 +64,12 @@ public class GameInfoHelper
 
     public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)
     {
-        return Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(entity, range);
+        return Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(entity, range);
     }
 
     public List<String> getPlayerInfoListClient()
     {
-        NetHandlerPlayClient connection = Minecraft.getMinecraft().thePlayer.connection;
+        NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
         List<NetworkPlayerInfo> playerInfo = new ArrayList(connection.getPlayerInfoMap());
         List<String> playerList = Lists.<String>newArrayList();
 
@@ -87,11 +87,11 @@ public class GameInfoHelper
     {
         if (Minecraft.getMinecraft().ingameGUI instanceof GuiIngameForgeIU)
         {
-            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setRecordPlaying(message, isPlaying, shadow);
+            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setOverlayMessage(message, isPlaying, shadow);
         }
         else
         {
-            Minecraft.getMinecraft().ingameGUI.setRecordPlaying(message, isPlaying);
+            Minecraft.getMinecraft().ingameGUI.setOverlayMessage(message, isPlaying);
         }
     }
 
@@ -99,11 +99,11 @@ public class GameInfoHelper
     {
         if (Minecraft.getMinecraft().ingameGUI instanceof GuiIngameForgeIU)
         {
-            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setRecordPlaying(component, isPlaying, shadow);
+            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setOverlayMessage(component, isPlaying, shadow);
         }
         else
         {
-            Minecraft.getMinecraft().ingameGUI.setRecordPlaying(component, isPlaying);
+            Minecraft.getMinecraft().ingameGUI.setOverlayMessage(component, isPlaying);
         }
     }
 

@@ -55,7 +55,7 @@ import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
-@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.19.1.2189,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
+@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.19.1.2199,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
 {
     public static final String NAME = "Indicator Utils";
@@ -200,21 +200,21 @@ public class IndicatorUtils
         String changeLog = "http://pastebin.com/rJ7He59c";
         JsonMessageUtils json = new JsonMessageUtils();
 
-        if (event.player.worldObj.isRemote)
+        if (event.player.world.isRemote)
         {
             if (ConfigManager.enableVersionChecker)
             {
                 if (!IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.noConnection())
                 {
-                    event.player.addChatMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.style().setColor(TextFormatting.RED)));
-                    event.player.addChatMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.style().setColor(TextFormatting.RED)));
+                    event.player.sendMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.red()));
+                    event.player.sendMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.red()));
                     IndicatorUtils.STATUS_CHECK[2] = true;
                     return;
                 }
                 if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
                 {
-                    event.player.addChatMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "")).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
-                    event.player.addChatMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, URL)))));
+                    event.player.sendMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "")).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
+                    event.player.sendMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, URL)))));
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }
                 if (!IndicatorUtils.STATUS_CHECK[1] && !IndicatorUtils.STATUS_CHECK[2])
@@ -223,7 +223,7 @@ public class IndicatorUtils
                     {
                         if (ConfigManager.showChangeLogInGame)
                         {
-                            event.player.addChatMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
+                            event.player.sendMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
                         }
                     }
                     IndicatorUtils.STATUS_CHECK[1] = true;
@@ -231,7 +231,7 @@ public class IndicatorUtils
             }
             if (IndicatorUtils.STATUS_CHECK[3])
             {
-                event.player.addChatMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.style().setColor(TextFormatting.RED).setBold(true)));
+                event.player.sendMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.red().setBold(true)));
                 IndicatorUtils.STATUS_CHECK[3] = false;
             }
         }

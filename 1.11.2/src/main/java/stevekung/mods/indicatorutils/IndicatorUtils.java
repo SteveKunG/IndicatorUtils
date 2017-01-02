@@ -55,7 +55,7 @@ import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
-@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.19.1.2199,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
+@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.20.0.2201,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
 {
     public static final String NAME = "Indicator Utils";

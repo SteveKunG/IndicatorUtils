@@ -78,7 +78,8 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 this.mc.thePlayer.setSprinting(true);
             }
 
-            this.jump = this.gameSettings.keyBindJump.isKeyDown();
+            boolean swim = ExtendedModSettings.AUTO_SWIM && (this.mc.thePlayer.isInWater() || this.mc.thePlayer.isInLava()) && !this.mc.thePlayer.isSpectator();
+            this.jump = this.gameSettings.keyBindJump.isKeyDown() || swim;
             this.sneak = this.gameSettings.keyBindSneak.isKeyDown() || ExtendedModSettings.TOGGLE_SNEAK;
 
             if (this.sneak)

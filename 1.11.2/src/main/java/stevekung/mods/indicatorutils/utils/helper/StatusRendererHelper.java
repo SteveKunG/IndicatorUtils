@@ -86,7 +86,6 @@ import net.minecraft.entity.passive.EntityZombieHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemArrow;
 import net.minecraft.item.ItemElytra;
@@ -224,7 +223,7 @@ public class StatusRendererHelper
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -255,7 +254,7 @@ public class StatusRendererHelper
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -318,7 +317,7 @@ public class StatusRendererHelper
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -351,7 +350,7 @@ public class StatusRendererHelper
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -418,7 +417,7 @@ public class StatusRendererHelper
 
                             if (mainItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -451,7 +450,7 @@ public class StatusRendererHelper
 
                             if (offItem.getMaxStackSize() > 1)
                             {
-                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
+                                itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem);
                             }
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -519,7 +518,7 @@ public class StatusRendererHelper
 
                         if (mainItem.getMaxStackSize() > 1)
                         {
-                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem.getItem(), mainItem.getMetadata());
+                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, mainItem);
                         }
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -552,7 +551,7 @@ public class StatusRendererHelper
 
                         if (offItem.getMaxStackSize() > 1)
                         {
-                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem.getItem(), offItem.getMetadata());
+                            itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.player, offItem);
                         }
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
@@ -1954,15 +1953,20 @@ public class StatusRendererHelper
         }
     }
 
-    public int countItemInInventory(EntityPlayer player, Item item, int meta)
+    public int countItemInInventory(EntityPlayer player, ItemStack other)
     {
         int count = 0;
 
         for (int i = 0; i < player.inventory.getSizeInventory(); i++)
         {
-            if (!player.inventory.getStackInSlot(i).isEmpty() && item.equals(player.inventory.getStackInSlot(i).getItem()) && (meta == -1 || player.inventory.getStackInSlot(i).getMetadata() == meta))
+            ItemStack playerItems = player.inventory.getStackInSlot(i);
+
+            if (!playerItems.isEmpty())
             {
-                count += player.inventory.getStackInSlot(i).getCount();
+                if (playerItems.getItem() == other.getItem() && playerItems.getItemDamage() == other.getItemDamage() && playerItems.getTagCompound() == other.getTagCompound())
+                {
+                    count += playerItems.getCount();
+                }
             }
         }
         return count;

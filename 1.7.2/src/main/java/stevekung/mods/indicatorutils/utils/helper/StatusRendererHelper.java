@@ -160,7 +160,7 @@ public class StatusRendererHelper
 
                     if (mainItem.getMaxStackSize() > 1)
                     {
-                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getItemDamage());
+                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                     }
 
                     String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
@@ -220,7 +220,7 @@ public class StatusRendererHelper
 
                     if (mainItem.getMaxStackSize() > 1)
                     {
-                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getItemDamage());
+                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                     }
 
                     String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
@@ -284,7 +284,7 @@ public class StatusRendererHelper
 
                     if (mainItem.getMaxStackSize() > 1)
                     {
-                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getItemDamage());
+                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                     }
 
                     String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
@@ -353,7 +353,7 @@ public class StatusRendererHelper
 
                     if (mainItem.getMaxStackSize() > 1)
                     {
-                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem.getItem(), mainItem.getItemDamage());
+                        itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                     }
 
                     String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
@@ -1133,15 +1133,17 @@ public class StatusRendererHelper
         }
     }
 
-    public int countItemInInventory(EntityPlayer player, Item item, int meta)
+    public int countItemInInventory(EntityPlayer player, ItemStack other)
     {
         int count = 0;
 
         for (int i = 0; i < player.inventory.getSizeInventory(); i++)
         {
-            if (player.inventory.getStackInSlot(i) != null && item.equals(player.inventory.getStackInSlot(i).getItem()) && (meta == -1 || player.inventory.getStackInSlot(i).getItemDamage() == meta))
+            ItemStack playerItems = player.inventory.getStackInSlot(i);
+
+            if (playerItems != null && playerItems.getItem() == other.getItem() && playerItems.getItemDamage() == other.getItemDamage() && playerItems.getTagCompound() == other.getTagCompound())
             {
-                count += player.inventory.getStackInSlot(i).stackSize;
+                count += playerItems.stackSize;
             }
         }
         return count;

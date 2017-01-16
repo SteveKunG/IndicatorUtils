@@ -46,7 +46,6 @@ public class ConfigManager
     public static boolean displayArmorHeldWhileChatOpen;
     public static boolean highlightPotionColor;
     public static boolean enableModifiedMovementHandler;
-    public static boolean replaceIngameGUI;
     public static boolean enableCustomCapeFeature;
     public static boolean showChangeLogInGame;
     public static boolean enableVersionChecker;
@@ -281,12 +280,6 @@ public class ConfigManager
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Modified Movement Handler", true);
         ConfigManager.enableModifiedMovementHandler = prop.getBoolean();
         prop.comment = I18n.format("gui.config.indicatorutils.movementhandler");
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Replace In-game GUI", true);
-        ConfigManager.replaceIngameGUI = prop.getBoolean();
-        prop.comment = I18n.format("gui.config.indicatorutils.ingamegui");
-        prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Custom Cape Feature", false);

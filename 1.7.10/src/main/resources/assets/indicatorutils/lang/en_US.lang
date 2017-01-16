@@ -12,7 +12,6 @@ gui.indicatorutils.config.name1=Configuration
 gui.indicatorutil.config.name=Indicator Utils Configuration GUI
 gui.config.indicatorutils.advanced=For advanced user only!
 gui.config.indicatorutils.movementhandler=This is an option for enable/disable movement handler (Toggle Sprint/Sneak, AFK System)
-gui.config.indicatorutils.ingamegui=This is an option for replacing In-game GUI. It will fix armor status and held item rendering behind Chat GUI.
 gui.config.indicatorutils.customcape=This is an option for enable/disable custom cape feature in the game, you can upload your custom cape texture to any website.
 keycodeexample.tooltip=Copy this URL and set your custom key code
 

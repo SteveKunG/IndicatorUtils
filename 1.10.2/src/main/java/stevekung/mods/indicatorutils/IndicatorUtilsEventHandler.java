@@ -322,7 +322,6 @@ public class IndicatorUtilsEventHandler
         {
             mc.thePlayer.movementInput = new MovementInputFromOptionsIU(mc.gameSettings);
         }
-
         GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
         GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
     }

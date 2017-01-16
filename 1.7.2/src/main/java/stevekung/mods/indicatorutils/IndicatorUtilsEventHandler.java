@@ -7,9 +7,16 @@
 package stevekung.mods.indicatorutils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.lwjgl.input.Keyboard;
+import org.lwjgl.opengl.GL11;
+
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import cpw.mods.fml.common.gameevent.InputEvent.KeyInputEvent;
@@ -21,12 +28,22 @@ import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
+import net.minecraft.client.gui.FontRenderer;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiPlayerInfo;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.Score;
+import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -37,7 +54,6 @@ import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
-import stevekung.mods.indicatorutils.utils.GuiIngameForgeIU;
 import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
@@ -65,8 +81,8 @@ public class IndicatorUtilsEventHandler
     private List<ChatLine> chatLines;
     private List<ChatLine> drawnChatLines;
     private GuiNewChat chat;
-    private Minecraft mc;
-    private static boolean setNewGUI = false;
+    public static List<String> playerList = Lists.<String>newArrayList();
+    public static Map<String, Integer> playerPingMap = Maps.<String, Integer>newHashMap();
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
@@ -74,13 +90,24 @@ public class IndicatorUtilsEventHandler
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
 
-        if (ConfigManager.replaceIngameGUI)
+        if (mc.thePlayer != null)
         {
-            if (!IndicatorUtilsEventHandler.setNewGUI && mc.ingameGUI != null && !(mc.ingameGUI instanceof GuiIngameForgeIU))
+            NetHandlerPlayClient handler = mc.thePlayer.sendQueue;
+            List<GuiPlayerInfo> players = handler.playerInfoList;
+            int maxPlayers = handler.currentServerMaxPlayers;
+
+            for (int i = 0; i < maxPlayers; i++)
             {
-                ReflectionUtils.set(IndicatorUtils.isObfuscatedEnvironment() ? "ingameGUI" : "field_71456_v", new GuiIngameForgeIU(mc), Minecraft.class, this.mc);
-                IULog.info(mc.ingameGUI.toString());
-                IndicatorUtilsEventHandler.setNewGUI = true;
+                if (i < players.size())
+                {
+                    GuiPlayerInfo player = players.get(i);
+                    playerList.add(player.name);
+                    Set<String> hs = new HashSet<String>();
+                    hs.addAll(playerList);
+                    playerList.clear();
+                    playerList.addAll(hs);
+                    playerPingMap.put(player.name, player.responseTime);
+                }
             }
         }
 
@@ -129,7 +156,7 @@ public class IndicatorUtilsEventHandler
                             if (flag)
                             {
                                 ItemStack itemstack1 = mc.thePlayer.inventory.getCurrentItem();
-                                ;
+
                                 if (itemstack1 != null && mc.playerController.sendUseItem(mc.thePlayer, mc.theWorld, itemstack1))
                                 {
                                     mc.entityRenderer.itemRenderer.resetEquippedProgress2();
@@ -290,9 +317,8 @@ public class IndicatorUtilsEventHandler
         {
             mc.thePlayer.movementInput = new MovementInputFromOptionsIU(mc.gameSettings);
         }
-
-        GuiIngameForgeIU.renderObjective = ConfigManager.renderScoreboard;
-        GuiIngameForgeIU.renderBossHealth = ConfigManager.renderBossHealthBar;
+        GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
+        GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
     }
 
     @SubscribeEvent
@@ -352,7 +378,7 @@ public class IndicatorUtilsEventHandler
             IndicatorUtilsEventHandler.autoFishTick = 0;
             IULog.info("Stopping AutoFish Command");
         }
-        GuiIngameForgeIU.playerList.clear();
+        IndicatorUtilsEventHandler.playerList.clear();
     }
 
     @SubscribeEvent
@@ -365,6 +391,173 @@ public class IndicatorUtilsEventHandler
         if (event.buttonstate)
         {
             IndicatorUtilsEventHandler.clicks.add(Long.valueOf(System.currentTimeMillis()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRender(RenderGameOverlayEvent.Pre event)
+    {
+        Minecraft mc = Minecraft.getMinecraft();
+
+        if (event.type == ElementType.PLAYER_LIST)
+        {
+            event.setCanceled(true);
+            ScoreObjective scoreobjective = mc.theWorld.getScoreboard().func_96539_a(0);
+            NetHandlerPlayClient handler = mc.thePlayer.sendQueue;
+            List<GuiPlayerInfo> players = handler.playerInfoList;
+            int maxPlayers = handler.currentServerMaxPlayers;
+            int width = event.resolution.getScaledWidth();
+
+            if (mc.gameSettings.keyBindPlayerList.getIsKeyPressed() && (!mc.isIntegratedServerRunning() || handler.playerInfoList.size() > 1 || scoreobjective != null))
+            {
+                int rows = maxPlayers;
+                int columns = 1;
+
+                for (columns = 1; rows > 20; rows = (maxPlayers + columns - 1) / columns)
+                {
+                    columns++;
+                }
+
+                int columnWidth = 300 / columns;
+
+                if (columnWidth > 150)
+                {
+                    columnWidth = 150;
+                }
+
+                int left = (width - columns * columnWidth) / 2;
+                byte border = 10;
+                Gui.drawRect(left - 1, border - 1, left + columnWidth * columns, border + 9 * rows, Integer.MIN_VALUE);
+
+                for (int i = 0; i < maxPlayers; i++)
+                {
+                    int xPos = left + i % columns * columnWidth;
+                    int yPos = border + i / columns * 9;
+                    Gui.drawRect(xPos, yPos, xPos + columnWidth - 1, yPos + 8, 553648127);
+                    GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                    GL11.glEnable(GL11.GL_ALPHA_TEST);
+
+                    if (i < players.size())
+                    {
+                        GuiPlayerInfo player = players.get(i);
+                        ScorePlayerTeam team = mc.theWorld.getScoreboard().getPlayersTeam(player.name);
+                        String displayName = ScorePlayerTeam.formatPlayerName(team, player.name);
+                        mc.fontRenderer.drawStringWithShadow(displayName, xPos, yPos, 16777215);
+
+                        if (scoreobjective != null)
+                        {
+                            int endX = xPos + mc.fontRenderer.getStringWidth(displayName) + 5;
+                            int maxX = xPos + columnWidth - 12 - 5;
+
+                            if (maxX - endX > 5)
+                            {
+                                Score score = scoreobjective.getScoreboard().func_96529_a(player.name, scoreobjective);
+                                String scoreDisplay = EnumChatFormatting.YELLOW + "" + score.getScorePoints();
+                                mc.fontRenderer.drawStringWithShadow(scoreDisplay, maxX - mc.fontRenderer.getStringWidth(scoreDisplay), yPos, 16777215);
+                            }
+                        }
+
+                        GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                        int ping = player.responseTime;
+
+                        if (ConfigManager.playerPingMode.equalsIgnoreCase("default"))
+                        {
+                            mc.getTextureManager().bindTexture(Gui.icons);
+                            int pingIndex = 4;
+
+                            if (ping < 0)
+                            {
+                                pingIndex = 5;
+                            }
+                            else if (ping < 150)
+                            {
+                                pingIndex = 0;
+                            }
+                            else if (ping < 300)
+                            {
+                                pingIndex = 1;
+                            }
+                            else if (ping < 600)
+                            {
+                                pingIndex = 2;
+                            }
+                            else if (ping < 1000)
+                            {
+                                pingIndex = 3;
+                            }
+                            ReflectionUtils.set("zLevel", "field_73735_i", 100.0F, Gui.class, Minecraft.getMinecraft().ingameGUI);
+                            mc.ingameGUI.drawTexturedModalRect(xPos + columnWidth - 12, yPos, 0, 176 + pingIndex * 8, 10, 8);
+                            ReflectionUtils.set("zLevel", "field_73735_i", -100.0F, Gui.class, Minecraft.getMinecraft().ingameGUI);
+                        }
+                        else
+                        {
+                            EnumTextColor color = EnumTextColor.GREEN;
+
+                            if (ping >= 200 && ping <= 300)
+                            {
+                                color = EnumTextColor.YELLOW;
+                            }
+                            else if (ping >= 301 && ping <= 499)
+                            {
+                                color = EnumTextColor.RED;
+                            }
+                            else if (ping >= 500)
+                            {
+                                color = EnumTextColor.DARK_RED;
+                            }
+                            StatusRendererHelper.INSTANCE.drawString(String.valueOf(ping), xPos + columnWidth - 1 - mc.fontRenderer.getStringWidth(String.valueOf(ping)), yPos + 0.5F, color, true);
+                        }
+                    }
+                }
+            }
+        }
+        if (event.type == ElementType.BOSSHEALTH)
+        {
+            event.setCanceled(true);
+            GL11.glEnable(GL11.GL_BLEND);
+
+            if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
+            {
+                --BossStatus.statusBarTime;
+                FontRenderer fontrenderer = mc.fontRenderer;
+                ScaledResolution scaledresolution = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+                int i = scaledresolution.getScaledWidth();
+                short short1 = 182;
+                int j = i / 2 - short1 / 2;
+                int k = (int)(BossStatus.healthScale * (short1 + 1));
+                byte b0 = 12;
+
+                if (ConfigManager.hideBossHealthBar)
+                {
+                    mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
+                    mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
+
+                    if (k > 0)
+                    {
+                        mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 79, k, 5);
+                    }
+                }
+                String s = BossStatus.bossName;
+                fontrenderer.drawStringWithShadow(s, i / 2 - fontrenderer.getStringWidth(s) / 2, b0 - 10, 16777215);
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                mc.getTextureManager().bindTexture(Gui.icons);
+            }
+            GL11.glDisable(GL11.GL_BLEND);
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderChat(RenderGameOverlayEvent.Chat event)
+    {
+        if (event.type == ElementType.CHAT)
+        {
+            event.setCanceled(true);
+            GL11.glPushMatrix();
+            GL11.glTranslatef(0, event.resolution.getScaledHeight() - 48, 0.0F);
+            GL11.glDisable(GL11.GL_DEPTH_TEST);
+            Minecraft.getMinecraft().ingameGUI.getChatGUI().drawChat(Minecraft.getMinecraft().ingameGUI.getUpdateCounter());
+            GL11.glEnable(GL11.GL_DEPTH_TEST);
+            GL11.glPopMatrix();
         }
     }
 
@@ -429,7 +622,8 @@ public class IndicatorUtilsEventHandler
         {
             if (KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI != null && KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI.getIsKeyPressed())
             {
-                this.mc.displayGuiScreen(new GuiCapeDownloader());
+                Minecraft mc = Minecraft.getMinecraft();
+                mc.displayGuiScreen(new GuiCapeDownloader());
             }
         }
         if (Keyboard.isKeyDown(Keyboard.KEY_F3) && Keyboard.isKeyDown(Keyboard.KEY_D))
@@ -550,9 +744,10 @@ public class IndicatorUtilsEventHandler
             }
             if (this.pressTime >= 2)
             {
+                Minecraft mc = Minecraft.getMinecraft();
                 this.pressTime = 0;
                 this.pressTimeDelay = 200;
-                this.mc.thePlayer.sendChatMessage(ConfigManager.endGameChatMessage);
+                mc.thePlayer.sendChatMessage(ConfigManager.endGameChatMessage);
             }
         }
     }
@@ -579,7 +774,6 @@ public class IndicatorUtilsEventHandler
 
     private void initReflection()
     {
-        this.mc = Minecraft.getMinecraft();
         this.chat = Minecraft.getMinecraft().ingameGUI.getChatGUI();
         this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.chat);
         this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.chat);

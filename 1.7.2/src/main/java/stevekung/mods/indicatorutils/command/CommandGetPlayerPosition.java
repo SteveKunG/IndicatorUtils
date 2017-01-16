@@ -22,7 +22,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
-import stevekung.mods.indicatorutils.utils.GuiIngameForgeIU;
+import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandGetPlayerPosition extends CommandBase
@@ -70,7 +70,7 @@ public class CommandGetPlayerPosition extends CommandBase
     @Override
     public List<String> addTabCompletionOptions(ICommandSender sender, String[] args)
     {
-        return this.getListOfStringsMatchingLastWord2(args, GuiIngameForgeIU.playerList);
+        return this.getListOfStringsMatchingLastWord2(args, IndicatorUtilsEventHandler.playerList);
     }
 
     @Override

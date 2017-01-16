@@ -26,7 +26,6 @@ import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.GuiIngameForgeIU;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class GameInfoHelper
@@ -83,28 +82,14 @@ public class GameInfoHelper
         return playerList;
     }
 
-    public void setActionBarMessage(String message, boolean isPlaying, boolean shadow)
+    public void setActionBarMessage(String message, boolean isPlaying)
     {
-        if (Minecraft.getMinecraft().ingameGUI instanceof GuiIngameForgeIU)
-        {
-            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setOverlayMessage(message, isPlaying, shadow);
-        }
-        else
-        {
-            Minecraft.getMinecraft().ingameGUI.setOverlayMessage(message, isPlaying);
-        }
+        Minecraft.getMinecraft().ingameGUI.setOverlayMessage(message, isPlaying);
     }
 
-    public void setActionBarMessage(ITextComponent component, boolean isPlaying, boolean shadow)
+    public void setActionBarMessage(ITextComponent component, boolean isPlaying)
     {
-        if (Minecraft.getMinecraft().ingameGUI instanceof GuiIngameForgeIU)
-        {
-            ((GuiIngameForgeIU)Minecraft.getMinecraft().ingameGUI).setOverlayMessage(component, isPlaying, shadow);
-        }
-        else
-        {
-            Minecraft.getMinecraft().ingameGUI.setOverlayMessage(component, isPlaying);
-        }
+        Minecraft.getMinecraft().ingameGUI.setOverlayMessage(component, isPlaying);
     }
 
     // Credit to lib24time (Bukkit)

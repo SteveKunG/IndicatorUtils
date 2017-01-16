@@ -22,7 +22,6 @@ import net.minecraft.util.AxisAlignedBB;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.GuiIngameForgeIU;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class GameInfoHelper
@@ -50,7 +49,7 @@ public class GameInfoHelper
 
     public int getPing()
     {
-        for (Entry<String, Integer> entry : GuiIngameForgeIU.playerPingMap.entrySet())
+        for (Entry<String, Integer> entry : IndicatorUtilsEventHandler.playerPingMap.entrySet())
         {
             if (entry.getKey().contains(Minecraft.getMinecraft().getSession().func_148256_e().getName()))
             {

@@ -1115,7 +1115,7 @@ public class StatusRendererHelper
             ExtendedModSettings.DISPLAY_MODE = "command";
         }
         ExtendedModSettings.saveExtendedSettings();
-        GameInfoHelper.INSTANCE.setActionBarMessage(new JsonMessageUtils().text("Change display mode to " + "[" + mode + "]"), false, true);
+        GameInfoHelper.INSTANCE.setActionBarMessage(new JsonMessageUtils().text("Change display mode to " + "[" + mode + "]"), false);
     }
 
     public void drawRect(double top, double bottom, double left, double right, int color)

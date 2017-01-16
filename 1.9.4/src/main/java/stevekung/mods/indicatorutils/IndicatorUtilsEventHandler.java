@@ -8,23 +8,32 @@ package stevekung.mods.indicatorutils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ChatLine;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
+import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.world.BossInfoLerping;
+import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -45,11 +54,12 @@ import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
-import stevekung.mods.indicatorutils.utils.GuiIngameForgeIU;
 import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
+import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
+import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
 import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
@@ -75,23 +85,15 @@ public class IndicatorUtilsEventHandler
     private List<ChatLine> drawnChatLines;
     private GuiNewChat chat;
     private Minecraft mc;
-    private static boolean setNewGUI = false;
+    private GuiPlayerTabOverlayIU overlayPlayerList;
+    private GuiBossOverlayIU overlayBoss;
+    public static Map<UUID, BossInfoLerping> mapBossInfos;
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
-
-        if (ConfigManager.replaceIngameGUI)
-        {
-            if (!IndicatorUtilsEventHandler.setNewGUI && mc.ingameGUI != null && !(mc.ingameGUI instanceof GuiIngameForgeIU))
-            {
-                ReflectionUtils.set(IndicatorUtils.isObfuscatedEnvironment() ? "ingameGUI" : "field_71456_v", new GuiIngameForgeIU(mc), Minecraft.class, this.mc);
-                IULog.info(mc.ingameGUI.toString());
-                IndicatorUtilsEventHandler.setNewGUI = true;
-            }
-        }
 
         if (ConfigManager.enablePlayerDetector)
         {
@@ -320,9 +322,8 @@ public class IndicatorUtilsEventHandler
         {
             mc.thePlayer.movementInput = new MovementInputFromOptionsIU(mc.gameSettings);
         }
-
-        GuiIngameForgeIU.renderObjective = ConfigManager.renderScoreboard;
-        GuiIngameForgeIU.renderBossHealth = ConfigManager.renderBossHealthBar;
+        GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
+        GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
     }
 
     @SubscribeEvent
@@ -394,6 +395,53 @@ public class IndicatorUtilsEventHandler
         if (event.isButtonstate())
         {
             IndicatorUtilsEventHandler.clicks.add(Long.valueOf(System.currentTimeMillis()));
+        }
+    }
+
+    @SubscribeEvent
+    public void onPreRender(RenderGameOverlayEvent.Pre event)
+    {
+        if (event.getType() == ElementType.PLAYER_LIST)
+        {
+            event.setCanceled(true);
+            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+            NetHandlerPlayClient handler = this.mc.thePlayer.connection;
+
+            if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
+            {
+                this.overlayPlayerList.updatePlayerList(true);
+                this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
+            }
+            else
+            {
+                this.overlayPlayerList.updatePlayerList(false);
+            }
+        }
+        if (event.getType() == ElementType.CHAT)
+        {
+            event.setCanceled(true);
+            GlStateManager.pushMatrix();
+            GlStateManager.translate(0, event.getResolution().getScaledHeight() - 48, 0.0F);
+            GlStateManager.disableDepth();
+            this.mc.ingameGUI.getChatGUI().drawChat(this.mc.ingameGUI.getUpdateCounter());
+            GlStateManager.enableDepth();
+            GlStateManager.popMatrix();
+        }
+        if (event.getType() == ElementType.POTION_ICONS)
+        {
+            if (!ConfigManager.renderIngamePotionEffect)
+            {
+                event.setCanceled(true);
+            }
+        }
+        if (event.getType() == ElementType.BOSSHEALTH)
+        {
+            event.setCanceled(true);
+            this.mc.getTextureManager().bindTexture(Gui.ICONS);
+            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+            GlStateManager.enableBlend();
+            this.overlayBoss.renderBossHealth();
+            GlStateManager.disableBlend();
         }
     }
 
@@ -633,5 +681,8 @@ public class IndicatorUtilsEventHandler
         this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.chat);
         this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.chat);
         this.drawnChatLines = ReflectionUtils.get("drawnChatLines", "field_146253_i", GuiNewChat.class, this.chat);
+        IndicatorUtilsEventHandler.mapBossInfos = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
+        this.overlayBoss = new GuiBossOverlayIU(this.mc);
+        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 }

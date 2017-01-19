@@ -17,6 +17,12 @@ version = "2.0.0"
 group = "stevekung.mods.indicatorutils"
 archivesBaseName = "Indicator-Utils-1.9.4"
 
+sourceCompatibility = targetCompatibility = "1.8"
+
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
 minecraft {
     version = "1.9.4-12.17.0.2051"
     runDir = "run"
@@ -28,4 +34,15 @@ dependencies {
 
 processResources
 {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
 }

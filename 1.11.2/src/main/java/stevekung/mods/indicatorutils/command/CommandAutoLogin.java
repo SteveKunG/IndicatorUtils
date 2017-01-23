@@ -57,6 +57,11 @@ public class CommandAutoLogin extends CommandBase
                 sender.sendMessage(json.text("Cannot use this command in singleplayer!").setStyle(json.red()));
                 return;
             }
+            else if (mc.isConnectedToRealms())
+            {
+                sender.sendMessage(json.text("Cannot use this command in realms server!").setStyle(json.red()));
+                return;
+            }
             else
             {
                 throw new WrongUsageException("commands.autologin.usage");
@@ -68,43 +73,61 @@ public class CommandAutoLogin extends CommandBase
             {
                 ServerData data = mc.getCurrentServerData();
 
-                if (data != null && !mc.isSingleplayer())
+                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
                 {
-                    if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                    if (data != null)
                     {
-                        sender.sendMessage(json.text("An auto login data already set for Server: " + data.serverIP + "!").setStyle(json.red()));
-                        return;
+                        if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                        {
+                            sender.sendMessage(json.text("An auto login data already set for Server: " + data.serverIP + "!").setStyle(json.red()));
+                            return;
+                        }
+                        ITextComponent component = this.getChatComponentFromNthArg(args, 2);
+                        String value = component.createCopy().getUnformattedText();
+                        ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()));
+                        sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
+                        ExtendedModSettings.saveExtendedSettings();
                     }
-                    ITextComponent component = this.getChatComponentFromNthArg(args, 2);
-                    String value = component.createCopy().getUnformattedText();
-                    ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()));
-                    sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
-                    ExtendedModSettings.saveExtendedSettings();
                 }
-                else
+                else if (mc.isSingleplayer())
                 {
                     sender.sendMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
+                    return;
+                }
+                else if (mc.isConnectedToRealms())
+                {
+                    sender.sendMessage(json.text("Cannot add auto login data in realms server!").setStyle(json.red()));
+                    return;
                 }
             }
             else if ("remove".equalsIgnoreCase(args[0]))
             {
                 ServerData data = mc.getCurrentServerData();
 
-                if (data != null && !mc.isSingleplayer())
+                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
                 {
-                    if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                    if (data != null)
                     {
-                        ExtendedModSettings.loginData.removeAutoLogin(data.serverIP);
-                        sender.sendMessage(json.text("Remove auto login data from Server: " + data.serverIP));
-                    }
-                    else
-                    {
-                        sender.sendMessage(json.text("No auto login data was set for Server: " + data.serverIP + "!").setStyle(json.red()));
+                        if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                        {
+                            ExtendedModSettings.loginData.removeAutoLogin(data.serverIP);
+                            sender.sendMessage(json.text("Remove auto login data from Server: " + data.serverIP));
+                        }
+                        else
+                        {
+                            sender.sendMessage(json.text("No auto login data was set for Server: " + data.serverIP + "!").setStyle(json.red()));
+                        }
                     }
                 }
-                else
+                else if (mc.isSingleplayer())
                 {
                     sender.sendMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
+                    return;
+                }
+                else if (mc.isConnectedToRealms())
+                {
+                    sender.sendMessage(json.text("Cannot remove auto login data in realms server!").setStyle(json.red()));
+                    return;
                 }
             }
             else

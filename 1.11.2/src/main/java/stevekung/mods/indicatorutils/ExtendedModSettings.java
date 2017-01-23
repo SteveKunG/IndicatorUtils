@@ -12,14 +12,14 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import stevekung.mods.indicatorutils.utils.AutoLoginData;
-import stevekung.mods.indicatorutils.utils.AutoLoginData.AutoLogin;
+import stevekung.mods.indicatorutils.utils.AutoLogin;
+import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 import stevekung.mods.indicatorutils.utils.IULog;
 
 public class ExtendedModSettings
 {
-    public static AutoLoginData loginData = new AutoLoginData();
+    public static AutoLogin loginData = new AutoLogin();
 
     public static boolean TOGGLE_SPRINT = false;
     public static boolean TOGGLE_SNEAK = false;
@@ -140,7 +140,7 @@ public class ExtendedModSettings
     {
         NBTTagList nbttaglist = new NBTTagList();
 
-        for (AutoLogin login : ExtendedModSettings.loginData.getAutoLogin())
+        for (AutoLoginData login : ExtendedModSettings.loginData.getAutoLoginList())
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
             nbttagcompound.setString("ServerIP", login.getServerIP());

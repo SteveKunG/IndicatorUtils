@@ -14,7 +14,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
-import stevekung.mods.indicatorutils.utils.AutoLoginData.AutoLogin;
+import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
 
@@ -66,7 +66,7 @@ public class NewChatEventHandler
         {
             if (Minecraft.getMinecraft().getCurrentServerData() != null)
             {
-                for (AutoLogin login : ExtendedModSettings.loginData.getAutoLogin())
+                for (AutoLoginData login : ExtendedModSettings.loginData.getAutoLoginList())
                 {
                     if (Minecraft.getMinecraft().getCurrentServerData().serverIP.equalsIgnoreCase(login.getServerIP()))
                     {

@@ -13,19 +13,19 @@ import javax.annotation.Nullable;
 
 import com.google.common.collect.Maps;
 
-public class AutoLoginData
+public class AutoLogin
 {
-    private Map<String, AutoLogin> autoLogin = Maps.<String, AutoLogin>newHashMap();
+    private Map<String, AutoLoginData> autoLogin = Maps.<String, AutoLoginData>newHashMap();
 
     @Nullable
-    public AutoLogin getAutoLogin(String serverIP)
+    public AutoLoginData getAutoLogin(String serverIP)
     {
         return this.autoLogin.get(serverIP);
     }
 
-    public AutoLogin addAutoLogin(String serverIP, String command, String value)
+    public AutoLoginData addAutoLogin(String serverIP, String command, String value)
     {
-        AutoLogin login = this.getAutoLogin(serverIP);
+        AutoLoginData login = this.getAutoLogin(serverIP);
 
         if (login != null)
         {
@@ -33,7 +33,7 @@ public class AutoLoginData
         }
         else
         {
-            login = new AutoLogin(serverIP, command, value);
+            login = new AutoLoginData(serverIP, command, value);
             this.autoLogin.put(serverIP, login);
             return login;
         }
@@ -44,18 +44,18 @@ public class AutoLoginData
         this.autoLogin.remove(serverIP);
     }
 
-    public Collection<AutoLogin> getAutoLogin()
+    public Collection<AutoLoginData> getAutoLoginList()
     {
         return this.autoLogin.values();
     }
 
-    public static class AutoLogin
+    public static class AutoLoginData
     {
         private String serverIP;
         private String command;
         private String value;
 
-        public AutoLogin(String serverIP, String command, String value)
+        public AutoLoginData(String serverIP, String command, String value)
         {
             this.serverIP = serverIP;
             this.command = command;

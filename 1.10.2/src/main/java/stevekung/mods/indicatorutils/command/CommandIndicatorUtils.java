@@ -183,7 +183,7 @@ public class CommandIndicatorUtils extends CommandBase
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
                 }
-                if (!(args[1].equals("left") || args[1].equals("right") || args[1].equals("record")))
+                if (!(args[1].equals("left") || args[1].equals("right") || args[1].equals("record") || args[1].equals("custom")))
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
                 }

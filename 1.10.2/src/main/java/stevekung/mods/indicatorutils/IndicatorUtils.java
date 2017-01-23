@@ -101,11 +101,7 @@ public class IndicatorUtils
         KeyBindingHandler.initKeyBinding();
         IndicatorUtils.initModInfo(event.getModMetadata());
         ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
-
-        if (ConfigManager.enableCustomCapeFeature)
-        {
-            IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().getProfile().getName();
-        }
+        IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().getProfile().getName();
     }
 
     @EventHandler

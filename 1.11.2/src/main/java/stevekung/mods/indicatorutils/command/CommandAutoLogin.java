@@ -6,6 +6,7 @@
 
 package stevekung.mods.indicatorutils.command;
 
+import java.util.Collection;
 import java.util.List;
 
 import javax.xml.bind.DatatypeConverter;
@@ -20,9 +21,12 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.util.text.TextComponentTranslation;
+import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeHooks;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandAutoLogin extends CommandBase
@@ -53,20 +57,7 @@ public class CommandAutoLogin extends CommandBase
 
         if (args.length < 1)
         {
-            if (mc.isSingleplayer())
-            {
-                sender.sendMessage(json.text("Cannot use this command in singleplayer!").setStyle(json.red()));
-                return;
-            }
-            else if (mc.isConnectedToRealms())
-            {
-                sender.sendMessage(json.text("Cannot use this command in realms server!").setStyle(json.red()));
-                return;
-            }
-            else
-            {
-                throw new WrongUsageException("commands.autologin.usage");
-            }
+            throw new WrongUsageException("commands.autologin.usage");
         }
         else
         {
@@ -131,6 +122,26 @@ public class CommandAutoLogin extends CommandBase
                     return;
                 }
             }
+            else if ("list".equalsIgnoreCase(args[0]))
+            {
+                Collection<AutoLoginData> collection = ExtendedModSettings.loginData.getAutoLoginList();
+
+                if (collection.isEmpty())
+                {
+                    throw new CommandException("commands.autologin.list.empty");
+                }
+                else
+                {
+                    TextComponentTranslation textcomponenttranslation = new TextComponentTranslation("commands.autologin.list.count", new Object[] {Integer.valueOf(collection.size())});
+                    textcomponenttranslation.getStyle().setColor(TextFormatting.DARK_GREEN);
+                    sender.sendMessage(textcomponenttranslation);
+
+                    for (AutoLoginData data : collection)
+                    {
+                        sender.sendMessage(new TextComponentTranslation("commands.autologin.list.entry", new Object[] {data.getServerIP(), data.getUsername()}));
+                    }
+                }
+            }
             else
             {
                 throw new WrongUsageException("commands.autologin.usage");
@@ -143,7 +154,7 @@ public class CommandAutoLogin extends CommandBase
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
         }
         return super.getTabCompletions(server, sender, args, pos);
     }

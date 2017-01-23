@@ -175,7 +175,7 @@ public class CommandAFK extends CommandBase
         return super.getTabCompletions(server, sender, args, pos);
     }
 
-    public ITextComponent getChatComponentFromNthArg(String[] args, int index)
+    private ITextComponent getChatComponentFromNthArg(String[] args, int index)
     {
         ITextComponent itextcomponent = new TextComponentString("");
 

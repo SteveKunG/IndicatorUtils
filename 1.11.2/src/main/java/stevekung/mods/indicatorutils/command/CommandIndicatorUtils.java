@@ -175,6 +175,12 @@ public class CommandIndicatorUtils extends CommandBase
                     sender.sendMessage(json.text("Set CPS position to Record"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
+                else if ("custom".equalsIgnoreCase(args[1]))
+                {
+                    ExtendedModSettings.CPS_POSITION = "custom";
+                    sender.sendMessage(json.text("Set CPS position to Customize"));
+                    ExtendedModSettings.saveExtendedSettings();
+                }
                 else
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage");
@@ -516,7 +522,7 @@ public class CommandIndicatorUtils extends CommandBase
             }
             if (args[0].equalsIgnoreCase("cps"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "custom");
             }
             if (args[0].equalsIgnoreCase("keystroke"))
             {

@@ -1142,6 +1142,39 @@ public class StatusRendererHelper
         GlStateManager.enableTexture2D();
     }
 
+    public void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
+    {
+        if (left < right)
+        {
+            int i = left;
+            left = right;
+            right = i;
+        }
+        if (top < bottom)
+        {
+            int j = top;
+            top = bottom;
+            bottom = j;
+        }
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        VertexBuffer vertexbuffer = tessellator.getBuffer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
+        GlStateManager.color(f, f1, f2, alpha);
+        vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
+        vertexbuffer.pos(left, bottom, 0.0D).endVertex();
+        vertexbuffer.pos(right, bottom, 0.0D).endVertex();
+        vertexbuffer.pos(right, top, 0.0D).endVertex();
+        vertexbuffer.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
+    }
+
     public static String convertToRainbowColor(String[] value)
     {
         int[] colors = { 3, 5, 13, 1, 2, 4, 12 };

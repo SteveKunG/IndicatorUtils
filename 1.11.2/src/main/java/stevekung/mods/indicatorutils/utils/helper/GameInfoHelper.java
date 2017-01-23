@@ -61,6 +61,11 @@ public class GameInfoHelper
         return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel");
     }
 
+    public boolean isMineplex()
+    {
+        return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("mineplex");
+    }
+
     public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)
     {
         return Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(entity, range);

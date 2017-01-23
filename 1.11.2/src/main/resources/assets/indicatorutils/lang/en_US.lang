@@ -44,6 +44,7 @@ commands.rectemp.usage=/rectemp <start|stop>
 commands.entitydetect.usage=/entitydetect <all|only_mob|only_creature|only_non_mob|only_player|reset|list...>
 commands.autofish.usage=/autofish <enable|disable>
 commands.capeiu.usage=/capeiu <enable|disable>
+commands.autologin.usage=/autologin <add|remove> <command> <value>
 
 # KEY BINDING
 key.indicatorutils.category=Indicator Utils

@@ -161,6 +161,10 @@ public class GlobalStatusRenderer
                     }
                     list.add(ip + serverIP + version);
                 }
+                else
+                {
+                    list.clear();
+                }
             }
         }
         if (ConfigManager.enableFPS)

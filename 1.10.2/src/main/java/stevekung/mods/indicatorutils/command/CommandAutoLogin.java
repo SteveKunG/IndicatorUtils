@@ -22,6 +22,7 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.common.ForgeHooks;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandAutoLogin extends CommandBase
@@ -76,14 +77,14 @@ public class CommandAutoLogin extends CommandBase
                 {
                     if (data != null)
                     {
-                        if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME) != null)
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("An auto login data already set for Server: " + data.serverIP + "!", "red"));
+                            sender.addChatMessage(JsonMessageUtils.textToJson("An auto login data already set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
                             return;
                         }
                         ITextComponent component = this.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()));
+                        ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()), IndicatorUtils.USERNAME);
                         sender.addChatMessage(JsonMessageUtils.textToJson("Set auto login data for Server: " + data.serverIP));
                         ExtendedModSettings.saveExtendedSettings();
                     }
@@ -107,14 +108,14 @@ public class CommandAutoLogin extends CommandBase
                 {
                     if (data != null)
                     {
-                        if (ExtendedModSettings.loginData.getAutoLogin(data.serverIP) != null)
+                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME) != null)
                         {
-                            ExtendedModSettings.loginData.removeAutoLogin(data.serverIP);
-                            sender.addChatMessage(JsonMessageUtils.textToJson("Remove auto login data from Server: " + data.serverIP));
+                            ExtendedModSettings.loginData.removeAutoLogin(IndicatorUtils.USERNAME);
+                            sender.addChatMessage(JsonMessageUtils.textToJson("Remove auto login data from Username: " + IndicatorUtils.USERNAME));
                         }
                         else
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("No auto login data was set for Server: " + data.serverIP + "!", "red"));
+                            sender.addChatMessage(JsonMessageUtils.textToJson("No auto login data was set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
                         }
                     }
                 }

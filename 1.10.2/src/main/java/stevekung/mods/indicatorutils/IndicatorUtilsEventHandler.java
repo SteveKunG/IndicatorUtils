@@ -78,6 +78,7 @@ public class IndicatorUtilsEventHandler
     public static int afkMoveTick;
     public static int autoFishTick;
     public static List<Long> clicks = new ArrayList();
+    public static List<Long> Rclicks = new ArrayList();
     private int pressTime;
     private int pressOneTimeTick;
     private int pressTimeDelay;
@@ -411,13 +412,13 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.getButton() != 0)
-        {
-            return;
-        }
-        if (event.isButtonstate())
+        if (event.getButton() == 0 && event.isButtonstate())
         {
             IndicatorUtilsEventHandler.clicks.add(Long.valueOf(System.currentTimeMillis()));
+        }
+        if (event.getButton() == 1 && event.isButtonstate())
+        {
+            IndicatorUtilsEventHandler.Rclicks.add(Long.valueOf(System.currentTimeMillis()));
         }
     }
 
@@ -493,28 +494,27 @@ public class IndicatorUtilsEventHandler
                 }
                 if (ConfigManager.enableCPS)
                 {
+                    String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText();
+                    String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText();
+
+                    if (ConfigManager.useCustomTextCPS)
+                    {
+                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                    }
+                    if (ConfigManager.useCustomTextRPS)
+                    {
+                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                        String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-
-                        if (ConfigManager.useCustomTextCPS)
-                        {
-                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
-                        }
-                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue, event.getPartialTicks());
+                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.getPartialTicks());
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
                     {
-                        String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                        String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-
-                        if (ConfigManager.useCustomTextCPS)
-                        {
-                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
-                        }
-                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
-                        this.mc.fontRendererObj.drawString(cps + cpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
+                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        this.mc.fontRendererObj.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
 

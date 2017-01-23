@@ -427,13 +427,19 @@ public class GlobalStatusRenderer
             if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
                 String cps = json.text("CPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                String rps = ConfigManager.enableRPS ? json.text(" RPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
                 String cpsValue = json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
+                String rpsValue = ConfigManager.enableRPS ? json.text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(json.colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
 
                 if (ConfigManager.useCustomTextCPS)
                 {
                     cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                 }
-                list.add(cps + cpsValue);
+                if (ConfigManager.useCustomTextRPS)
+                {
+                    rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                }
+                list.add(cps + cpsValue + rps + rpsValue);
             }
         }
         return list;

@@ -39,6 +39,7 @@ commands.indicatorutils.autoclearchat.mode.usage=/indicatorutil autoclearchat mo
 commands.afk.reason=%s
 commands.entitydetect.usage=/entitydetect <all|only_mob|only_creature|only_non_mob|only_player|reset|list...>
 commands.autofish.usage=/autofish <enable|disable>
+commands.autologin.usage=/autologin <add|remove> <command> <value>
 
 gui.capedownloader=Custom Cape Downloader
 gui.capedownloader.desc=Put your Cape URL (Must be .png or image format)

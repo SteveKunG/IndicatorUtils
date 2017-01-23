@@ -142,6 +142,10 @@ public class PvPStatusRenderer
                     }
                     list.add(ip + serverIP + version);
                 }
+                else
+                {
+                    list.clear();
+                }
             }
         }
         if (ConfigManager.enableFPS)

@@ -52,6 +52,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import stevekung.mods.indicatorutils.command.ClientCommandHandlerIU;
 import stevekung.mods.indicatorutils.command.CommandAFK;
 import stevekung.mods.indicatorutils.command.CommandAutoFish;
+import stevekung.mods.indicatorutils.command.CommandAutoLogin;
 import stevekung.mods.indicatorutils.command.CommandEntityDetector;
 import stevekung.mods.indicatorutils.command.CommandGetPlayerPosition;
 import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
@@ -118,6 +119,7 @@ public class IndicatorUtils
 
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
+        MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
         MinecraftForge.EVENT_BUS.register(this);
 
         if (event.getSide() == Side.CLIENT)
@@ -129,6 +131,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandRecTemp());
             ClientCommandHandler.instance.registerCommand(new CommandEntityDetector());
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
+            ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
 
             if (ConfigManager.enableCustomCapeFeature)
             {

@@ -208,6 +208,13 @@ public class CommandIndicatorUtils extends CommandBase
                     ExtendedModSettings.saveExtendedSettings();
                     return;
                 }
+                if (args[1].equals("custom"))
+                {
+                    ExtendedModSettings.CPS_POSITION = "custom";
+                    sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Customize"));
+                    ExtendedModSettings.saveExtendedSettings();
+                    return;
+                }
             }
             else if (args[0].equals("keystroke"))
             {
@@ -567,7 +574,7 @@ public class CommandIndicatorUtils extends CommandBase
             }
             if (args[0].equals("cps"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "custom");
             }
             if (args[0].equals("keystroke"))
             {

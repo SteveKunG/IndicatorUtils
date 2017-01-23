@@ -129,11 +129,11 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onClientTick(ServerChatEvent event)
+    public void onServerChat(ServerChatEvent event)
     {
         if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
         {
-            ITextComponent itextcomponent = new TextComponentTranslation("chat.type.text", event.getPlayer().getDisplayName(), ForgeHooks.newChatWithLinks("@" + event.getMessage()).setStyle(new JsonMessageUtils().red()));
+            ITextComponent itextcomponent = new TextComponentTranslation("chat.type.text", event.getPlayer().getDisplayName(), ForgeHooks.newChatWithLinks("@" + event.getMessage()));
             event.setComponent(itextcomponent);
         }
     }

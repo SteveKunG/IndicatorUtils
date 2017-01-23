@@ -32,12 +32,16 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLivingEvent;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -59,6 +63,7 @@ import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
+import stevekung.mods.indicatorutils.utils.gui.GuiNewChatSettings;
 import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
 import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
@@ -94,6 +99,14 @@ public class IndicatorUtilsEventHandler
     {
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
+
+        if (this.mc.currentScreen != null)
+        {
+            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings))
+            {
+                this.mc.displayGuiScreen(new GuiNewChatSettings());
+            }
+        }
 
         if (ConfigManager.enablePlayerDetector)
         {
@@ -327,6 +340,16 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
+    public void onServerChat(ServerChatEvent event)
+    {
+        if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
+        {
+            ITextComponent itextcomponent = new TextComponentTranslation("chat.type.text", event.getPlayer().getDisplayName(), ForgeHooks.newChatWithLinks("@" + event.getMessage()));
+            event.setComponent(itextcomponent);
+        }
+    }
+
+    @SubscribeEvent
     public void onPlayerLoggedOut(PlayerLoggedOutEvent event)
     {
         if (IndicatorUtilsEventHandler.afkEnabled == true)
@@ -481,6 +504,18 @@ public class IndicatorUtilsEventHandler
                         }
                         StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue, event.getPartialTicks());
                     }
+                    if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
+                    {
+                        String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                        String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+
+                        if (ConfigManager.useCustomTextCPS)
+                        {
+                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                        }
+                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        this.mc.fontRendererObj.drawString(cps + cpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
+                    }
                 }
 
                 if (IndicatorUtilsEventHandler.recEnabled)
@@ -501,6 +536,10 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onPressKey(KeyInputEvent event)
     {
+        if (this.mc.currentScreen == null && this.mc.gameSettings.keyBindCommand.isPressed())
+        {
+            this.mc.displayGuiScreen(new GuiNewChatSettings("/"));
+        }
         if (ConfigManager.enableCustomCapeFeature)
         {
             if (KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI != null && KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI.isKeyDown())

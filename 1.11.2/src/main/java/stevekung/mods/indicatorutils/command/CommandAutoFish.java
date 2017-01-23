@@ -57,9 +57,9 @@ public class CommandAutoFish extends CommandBase
             }
             if ("disable".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.autoFishEnabled)
+                if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
                 {
-                    IndicatorUtilsEventHandler.autoFishEnabled = false;
+                    IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
                     sender.sendMessage(json.text("Disabled auto fish"));
                 }
                 else
@@ -69,7 +69,7 @@ public class CommandAutoFish extends CommandBase
             }
             else if ("enable".equalsIgnoreCase(args[0]))
             {
-                if (!IndicatorUtilsEventHandler.autoFishEnabled)
+                if (!IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
                 {
                     for (EnumHand hand : EnumHand.values())
                     {
@@ -80,7 +80,7 @@ public class CommandAutoFish extends CommandBase
                         }
                         else
                         {
-                            IndicatorUtilsEventHandler.autoFishEnabled = true;
+                            IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = true;
                             sender.sendMessage(json.text("Enabled auto fish"));
                             return;
                         }

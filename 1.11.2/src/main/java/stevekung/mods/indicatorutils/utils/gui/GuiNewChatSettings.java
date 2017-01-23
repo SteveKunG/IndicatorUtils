@@ -84,16 +84,22 @@ public class GuiNewChatSettings extends GuiChat
         if (ConfigManager.enableCPS && ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
         {
             String cps = new JsonMessageUtils().text("CPS: ").setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+            String rps = ConfigManager.enableRPS ? new JsonMessageUtils().text(" RPS: ").setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
             String cpsValue = new JsonMessageUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
+            String rpsValue = ConfigManager.enableRPS ? new JsonMessageUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
 
             if (ConfigManager.useCustomTextCPS)
             {
                 cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
             }
+            if (ConfigManager.useCustomTextRPS)
+            {
+                rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+            }
 
             int minX = ExtendedModSettings.CPS_X_OFFSET;
             int minY = ExtendedModSettings.CPS_Y_OFFSET;
-            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(cps + cpsValue) + 4;
+            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4;
             int maxY = ExtendedModSettings.CPS_Y_OFFSET + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)
@@ -162,13 +168,13 @@ public class GuiNewChatSettings extends GuiChat
             Minecraft.getMinecraft().player.sendChatMessage("/chat g");
             Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Set chat mode to Hypixel Guild Chat"));
             break;
-        case 4:
+        case 5:
             ExtendedModSettings.CHAT_MODE = "";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendChatMessage("/z");
             Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Reset Mineplex Chat"));
             break;
-        case 5:
+        case 6:
             ExtendedModSettings.CHAT_MODE = "mineplex_party_chat";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Set chat mode to Mineplex Party Chat"));

@@ -110,10 +110,10 @@ public class PvPStatusRenderer
             {
                 String pingna = json.text("n/a").setStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
 
-                if (!IndicatorUtilsEventHandler.checkUUID && GameInfoHelper.INSTANCE.isHypixel())
+                if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
-                    IndicatorUtilsEventHandler.checkUUID = true;
-                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
+                    IndicatorUtilsEventHandler.CHECK_UUID = true;
+                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.CHECK_UUID;
                 }
                 list.add(ping + pingna);
             }

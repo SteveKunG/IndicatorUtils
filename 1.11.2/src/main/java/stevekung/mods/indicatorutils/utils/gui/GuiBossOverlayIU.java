@@ -32,13 +32,13 @@ public class GuiBossOverlayIU extends GuiBossOverlay
     @Override
     public void renderBossHealth()
     {
-        if (!IndicatorUtilsEventHandler.mapBossInfos.isEmpty())
+        if (!IndicatorUtilsEventHandler.MAP_BOSS_INFOS.isEmpty())
         {
             ScaledResolution scaledresolution = new ScaledResolution(this.mc);
             int i = scaledresolution.getScaledWidth();
             int j = 12;
 
-            for (BossInfoLerping bossinfolerping : IndicatorUtilsEventHandler.mapBossInfos.values())
+            for (BossInfoLerping bossinfolerping : IndicatorUtilsEventHandler.MAP_BOSS_INFOS.values())
             {
                 int k = i / 2 - 91;
                 RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.mc.fontRendererObj.FONT_HEIGHT);

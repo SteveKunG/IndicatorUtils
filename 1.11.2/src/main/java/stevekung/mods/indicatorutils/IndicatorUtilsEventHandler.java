@@ -82,20 +82,21 @@ import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
 public class IndicatorUtilsEventHandler
 {
-    public static boolean checkUUID = false;
-    public static boolean afkEnabled;
-    public static String afkMode = "idle";
-    public static String afkReason;
-    public static int afkMoveTick;
-    public static int afkTick;
+    public static boolean CHECK_UUID = false;
+    public static boolean AFK_ENABLED;
+    public static String AFK_MODE = "idle";
+    public static String AFK_REASON;
+    public static int AFK_MOVE_TICK;
+    public static int AFK_TICK;
 
-    public static boolean recEnabled;
+    public static boolean REC_ENABLED;
     private int recTick;
 
-    public static boolean autoFishEnabled;
-    public static int autoFishTick;
+    public static boolean AUTO_FISH_ENABLED;
+    public static int AUTO_FISH_TICK;
 
-    public static List<Long> clicks = new ArrayList();
+    public static List<Long> L_CLICK = new ArrayList();
+    public static List<Long> R_CLICK = new ArrayList();
 
     private int pressTime;
     private int pressOneTimeTick;
@@ -111,7 +112,7 @@ public class IndicatorUtilsEventHandler
 
     private GuiPlayerTabOverlayIU overlayPlayerList;
     private GuiBossOverlayIU overlayBoss;
-    public static Map<UUID, BossInfoLerping> mapBossInfos;
+    public static Map<UUID, BossInfoLerping> MAP_BOSS_INFOS;
 
     public IndicatorUtilsEventHandler()
     {
@@ -173,7 +174,7 @@ public class IndicatorUtilsEventHandler
                 this.pressTime = 0;
             }
 
-            if (IndicatorUtilsEventHandler.recEnabled)
+            if (IndicatorUtilsEventHandler.REC_ENABLED)
             {
                 ++this.recTick;
             }
@@ -182,7 +183,6 @@ public class IndicatorUtilsEventHandler
                 this.recTick = 0;
             }
         }
-
         if (this.mc.player != null && !(this.mc.player.movementInput instanceof MovementInputFromOptionsIU))
         {
             this.mc.player.movementInput = new MovementInputFromOptionsIU(this.mc.gameSettings);
@@ -212,13 +212,13 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.getButton() != 0)
+        if (event.getButton() == 0 && event.isButtonstate())
         {
-            return;
+            IndicatorUtilsEventHandler.L_CLICK.add(Long.valueOf(System.currentTimeMillis()));
         }
-        if (event.isButtonstate())
+        if (event.getButton() == 1 && event.isButtonstate())
         {
-            IndicatorUtilsEventHandler.clicks.add(Long.valueOf(System.currentTimeMillis()));
+            IndicatorUtilsEventHandler.R_CLICK.add(Long.valueOf(System.currentTimeMillis()));
         }
     }
 
@@ -270,7 +270,7 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderIndicator(RenderGameOverlayEvent.Text event)
+    public void onRenderIndicator(RenderGameOverlayEvent event)
     {
         if (event.getType() == ElementType.TEXT)
         {
@@ -295,41 +295,40 @@ public class IndicatorUtilsEventHandler
 
                 if (ConfigManager.enableCPS)
                 {
+                    String cps = this.json.text("CPS: ").setStyle(this.json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                    String rps = ConfigManager.enableRPS ? this.json.text(" RPS: ").setStyle(this.json.colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+                    String cpsValue = this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(this.json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
+                    String rpsValue = ConfigManager.enableRPS ? this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(this.json.colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+
+                    if (ConfigManager.useCustomTextCPS)
+                    {
+                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                    }
+                    if (ConfigManager.useCustomTextRPS)
+                    {
+                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        String cps = this.json.text("CPS: ").setStyle(this.json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-                        String cpsValue = this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(this.json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-
-                        if (ConfigManager.useCustomTextCPS)
-                        {
-                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
-                        }
-                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue, event.getPartialTicks());
+                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.getPartialTicks());
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
                     {
-                        String cps = this.json.text("CPS: ").setStyle(this.json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-                        String cpsValue = this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(this.json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-
-                        if (ConfigManager.useCustomTextCPS)
-                        {
-                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
-                        }
-                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
-                        this.mc.fontRendererObj.drawString(cps + cpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
+                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        this.mc.fontRendererObj.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
 
-                if (IndicatorUtilsEventHandler.recEnabled)
+                if (IndicatorUtilsEventHandler.REC_ENABLED)
                 {
-                    ScaledResolution sc = new ScaledResolution(this.mc);
+                    ScaledResolution res = new ScaledResolution(this.mc);
                     EnumTextColor color = EnumTextColor.WHITE;
 
                     if (this.recTick % 24 >= 0 && this.recTick % 24 <= 12)
                     {
                         color = EnumTextColor.RED;
                     }
-                    StatusRendererHelper.INSTANCE.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), sc.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, sc.getScaledHeight() - 10, color, true);
+                    StatusRendererHelper.INSTANCE.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
                 }
             }
         }
@@ -351,13 +350,13 @@ public class IndicatorUtilsEventHandler
         }
         if (KeyBindingHandler.KEY_REC_COMMAND.isKeyDown())
         {
-            if (IndicatorUtilsEventHandler.recEnabled)
+            if (IndicatorUtilsEventHandler.REC_ENABLED)
             {
-                IndicatorUtilsEventHandler.recEnabled = false;
+                IndicatorUtilsEventHandler.REC_ENABLED = false;
             }
             else
             {
-                IndicatorUtilsEventHandler.recEnabled = true;
+                IndicatorUtilsEventHandler.REC_ENABLED = true;
             }
         }
         if (ExtendedModSettings.DISPLAY_MODE_USE_MODE.equalsIgnoreCase("keybinding"))
@@ -549,7 +548,7 @@ public class IndicatorUtilsEventHandler
         this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
         this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
         this.drawnChatLines = ReflectionUtils.get("drawnChatLines", "field_146253_i", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        IndicatorUtilsEventHandler.mapBossInfos = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
+        IndicatorUtilsEventHandler.MAP_BOSS_INFOS = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
         this.overlayBoss = new GuiBossOverlayIU(this.mc);
         this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
@@ -576,14 +575,14 @@ public class IndicatorUtilsEventHandler
 
     private void autoFish()
     {
-        if (IndicatorUtilsEventHandler.autoFishEnabled)
+        if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
         {
-            ++IndicatorUtilsEventHandler.autoFishTick;
-            IndicatorUtilsEventHandler.autoFishTick %= 4;
+            ++IndicatorUtilsEventHandler.AUTO_FISH_TICK;
+            IndicatorUtilsEventHandler.AUTO_FISH_TICK %= 4;
 
             if (this.mc.player != null && this.mc.objectMouseOver != null && this.mc.world != null && this.mc.playerController != null && this.mc.entityRenderer != null)
             {
-                if (IndicatorUtilsEventHandler.autoFishTick % 4 == 0)
+                if (IndicatorUtilsEventHandler.AUTO_FISH_TICK % 4 == 0)
                 {
                     for (EnumHand enumhand : EnumHand.values())
                     {
@@ -620,8 +619,8 @@ public class IndicatorUtilsEventHandler
                         }
                         else
                         {
-                            IndicatorUtilsEventHandler.autoFishEnabled = false;
-                            IndicatorUtilsEventHandler.autoFishTick = 0;
+                            IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
+                            IndicatorUtilsEventHandler.AUTO_FISH_TICK = 0;
                             this.mc.player.sendMessage(this.json.text("Stop using /autofish command, you must hold the fishing rod!"));
                             return;
                         }
@@ -631,16 +630,16 @@ public class IndicatorUtilsEventHandler
         }
         else
         {
-            IndicatorUtilsEventHandler.autoFishTick = 0;
+            IndicatorUtilsEventHandler.AUTO_FISH_TICK = 0;
         }
     }
 
     private void afkForPlayers()
     {
-        if (IndicatorUtilsEventHandler.afkEnabled)
+        if (IndicatorUtilsEventHandler.AFK_ENABLED)
         {
-            ++IndicatorUtilsEventHandler.afkTick;
-            int tick = IndicatorUtilsEventHandler.afkTick;
+            ++IndicatorUtilsEventHandler.AFK_TICK;
+            int tick = IndicatorUtilsEventHandler.AFK_TICK;
             int messageMin = 1200 * ConfigManager.afkMessageTime;
             String s = "s";
 
@@ -654,7 +653,7 @@ public class IndicatorUtilsEventHandler
                 {
                     if (this.mc.player != null)
                     {
-                        String reason = IndicatorUtilsEventHandler.afkReason;
+                        String reason = IndicatorUtilsEventHandler.AFK_REASON;
 
                         if (reason.isEmpty())
                         {
@@ -669,7 +668,7 @@ public class IndicatorUtilsEventHandler
                 }
             }
 
-            if (IndicatorUtilsEventHandler.afkMode.equalsIgnoreCase("idle"))
+            if (IndicatorUtilsEventHandler.AFK_MODE.equalsIgnoreCase("idle"))
             {
                 if (this.mc.player != null)
                 {
@@ -702,13 +701,13 @@ public class IndicatorUtilsEventHandler
                     }
                     this.mc.player.turn(angle, angle);
                 }
-                ++IndicatorUtilsEventHandler.afkMoveTick;
-                IndicatorUtilsEventHandler.afkMoveTick %= 8;
+                ++IndicatorUtilsEventHandler.AFK_MOVE_TICK;
+                IndicatorUtilsEventHandler.AFK_MOVE_TICK %= 8;
             }
         }
         else
         {
-            IndicatorUtilsEventHandler.afkTick = 0;
+            IndicatorUtilsEventHandler.AFK_TICK = 0;
         }
     }
 
@@ -755,19 +754,19 @@ public class IndicatorUtilsEventHandler
 
     private void stopCommandTick()
     {
-        if (IndicatorUtilsEventHandler.afkEnabled)
+        if (IndicatorUtilsEventHandler.AFK_ENABLED)
         {
-            IndicatorUtilsEventHandler.afkEnabled = false;
-            IndicatorUtilsEventHandler.afkReason = "";
-            IndicatorUtilsEventHandler.afkTick = 0;
-            IndicatorUtilsEventHandler.afkMoveTick = 0;
-            IndicatorUtilsEventHandler.afkMode = "idle";
+            IndicatorUtilsEventHandler.AFK_ENABLED = false;
+            IndicatorUtilsEventHandler.AFK_REASON = "";
+            IndicatorUtilsEventHandler.AFK_TICK = 0;
+            IndicatorUtilsEventHandler.AFK_MOVE_TICK = 0;
+            IndicatorUtilsEventHandler.AFK_MODE = "idle";
             IULog.info("Stopping AFK Command");
         }
-        if (IndicatorUtilsEventHandler.autoFishEnabled)
+        if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
         {
-            IndicatorUtilsEventHandler.autoFishEnabled = false;
-            IndicatorUtilsEventHandler.autoFishTick = 0;
+            IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
+            IndicatorUtilsEventHandler.AUTO_FISH_TICK = 0;
             IULog.info("Stopping AutoFish Command");
         }
     }

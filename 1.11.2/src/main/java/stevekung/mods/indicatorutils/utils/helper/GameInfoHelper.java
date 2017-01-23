@@ -144,7 +144,7 @@ public class GameInfoHelper
 
     public int getCPS()
     {
-        Iterator<Long> iterator = IndicatorUtilsEventHandler.clicks.iterator();
+        Iterator<Long> iterator = IndicatorUtilsEventHandler.L_CLICK.iterator();
 
         while (iterator.hasNext())
         {
@@ -153,7 +153,21 @@ public class GameInfoHelper
                 iterator.remove();
             }
         }
-        return IndicatorUtilsEventHandler.clicks.size();
+        return IndicatorUtilsEventHandler.L_CLICK.size();
+    }
+
+    public int getRPS()
+    {
+        Iterator<Long> iterator = IndicatorUtilsEventHandler.R_CLICK.iterator();
+
+        while (iterator.hasNext())
+        {
+            if (iterator.next().longValue() < System.currentTimeMillis() - 1000L)
+            {
+                iterator.remove();
+            }
+        }
+        return IndicatorUtilsEventHandler.R_CLICK.size();
     }
 
     public boolean isBelowMinecraft19()

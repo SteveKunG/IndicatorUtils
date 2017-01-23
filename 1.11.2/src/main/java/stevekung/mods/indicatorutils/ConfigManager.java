@@ -78,6 +78,7 @@ public class ConfigManager
     public static boolean enableKeystrokeSprintSneak;
     public static boolean enableKeystrokeBlocking;
     public static boolean enableCPS;
+    public static boolean enableRPS;
     public static boolean enableHeldItemInHand;
     public static boolean showPotionIcon;
 
@@ -130,6 +131,8 @@ public class ConfigManager
     public static String customColorBiomeValue;
     public static String customColorCPS;
     public static String customColorCPSValue;
+    public static String customColorRPS;
+    public static String customColorRPSValue;
     public static String customColorArmorPercent;
     public static String customColorArmorMaxDurability;
     public static String customColorArmorDamageDurability;
@@ -169,6 +172,8 @@ public class ConfigManager
     public static String customTextBiome;
     public static boolean useCustomTextCPS;
     public static String customTextCPS;
+    public static boolean useCustomTextRPS;
+    public static String customTextRPS;
     public static boolean useCustomTextTime;
     public static String customTextTime;
     public static boolean useCustomTextGameTime;
@@ -428,6 +433,10 @@ public class ConfigManager
         ConfigManager.enableCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable RPS", false);
+        ConfigManager.enableRPS = prop.getBoolean();
+        propOrder.add(prop.getName());
+
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Held Item", false);
         ConfigManager.enableHeldItemInHand = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -636,6 +645,14 @@ public class ConfigManager
         ConfigManager.customColorCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS", "white");
+        ConfigManager.customColorRPS = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS Value", "white");
+        ConfigManager.customColorRPSValue = prop.getString();
+        propOrder.add(prop.getName());
+
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Percent", "white");
         ConfigManager.customColorArmorPercent = prop.getString();
         propOrder.add(prop.getName());
@@ -787,6 +804,14 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "CPS Text", "\"text\":\"CPS: \"");
         ConfigManager.customTextCPS = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom RPS Text", false);
+        ConfigManager.useCustomTextRPS = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "RPS Text", "\"text\":\" RPS: \"");
+        ConfigManager.customTextRPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Time Text", false);

@@ -138,17 +138,18 @@ public class ExtendedModSettings
 
     private static NBTTagList writeAutoLoginData()
     {
-        NBTTagList nbttaglist = new NBTTagList();
+        NBTTagList list = new NBTTagList();
 
         for (AutoLoginData login : ExtendedModSettings.loginData.getAutoLoginList())
         {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            nbttagcompound.setString("ServerIP", login.getServerIP());
-            nbttagcompound.setString("CommandName", login.getCommand());
-            nbttagcompound.setString("Value", login.getValue());
-            nbttaglist.appendTag(nbttagcompound);
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setString("ServerIP", login.getServerIP());
+            nbt.setString("CommandName", login.getCommand());
+            nbt.setString("Value", login.getValue());
+            nbt.setString("Username", login.getUsername());
+            list.appendTag(nbt);
         }
-        return nbttaglist;
+        return list;
     }
 
     private static void readAutoLoginData(NBTTagList list)
@@ -156,7 +157,7 @@ public class ExtendedModSettings
         for (int i = 0; i < list.tagCount(); ++i)
         {
             NBTTagCompound nbt = list.getCompoundTagAt(i);
-            ExtendedModSettings.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"));
+            ExtendedModSettings.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), nbt.getString("Username"));
         }
     }
 }

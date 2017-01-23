@@ -37,7 +37,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
         {
             this.moveStrafe = 0.0F;
             this.moveForward = 0.0F;
-            int afkMoveTick = IndicatorUtilsEventHandler.afkMoveTick;
+            int afkMoveTick = IndicatorUtilsEventHandler.AFK_MOVE_TICK;
 
             if (afkMoveTick > 0 && afkMoveTick < 2)
             {

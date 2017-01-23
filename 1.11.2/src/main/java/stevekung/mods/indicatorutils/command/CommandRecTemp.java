@@ -53,9 +53,9 @@ public class CommandRecTemp extends CommandBase
 
             if ("stop".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.recEnabled)
+                if (IndicatorUtilsEventHandler.REC_ENABLED)
                 {
-                    IndicatorUtilsEventHandler.recEnabled = false;
+                    IndicatorUtilsEventHandler.REC_ENABLED = false;
                 }
                 else
                 {
@@ -64,9 +64,9 @@ public class CommandRecTemp extends CommandBase
             }
             else if ("start".equalsIgnoreCase(args[0]))
             {
-                if (!IndicatorUtilsEventHandler.recEnabled)
+                if (!IndicatorUtilsEventHandler.REC_ENABLED)
                 {
-                    IndicatorUtilsEventHandler.recEnabled = true;
+                    IndicatorUtilsEventHandler.REC_ENABLED = true;
                 }
                 else
                 {

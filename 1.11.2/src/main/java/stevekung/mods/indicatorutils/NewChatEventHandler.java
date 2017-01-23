@@ -26,7 +26,7 @@ public class NewChatEventHandler
         Minecraft.getMinecraft().addScheduledTask(() -> { MinecraftForge.EVENT_BUS.register(new EntityJoinWorldEventHandler()); });
     }
 
-    private class EntityJoinWorldEventHandler
+    private static class EntityJoinWorldEventHandler
     {
         @SubscribeEvent
         public void onEntityJoinWorld(EntityJoinWorldEvent event)
@@ -68,7 +68,7 @@ public class NewChatEventHandler
             {
                 for (AutoLoginData login : ExtendedModSettings.loginData.getAutoLoginList())
                 {
-                    if (Minecraft.getMinecraft().getCurrentServerData().serverIP.equalsIgnoreCase(login.getServerIP()))
+                    if (Minecraft.getMinecraft().getCurrentServerData().serverIP.equalsIgnoreCase(login.getServerIP()) && IndicatorUtils.USERNAME.equals(login.getUsername()))
                     {
                         player.sendChatMessage(login.getCommand() + new String(DatatypeConverter.parseBase64Binary(login.getValue())));
                     }

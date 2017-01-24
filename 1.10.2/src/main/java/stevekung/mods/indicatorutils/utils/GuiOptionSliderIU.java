@@ -73,7 +73,6 @@ public class GuiOptionSliderIU extends GuiButton
                     this.sliderValue = 0.9F;
                 }
                 ExtendedModSettings.CPS_OPACITY = this.sliderValue;
-                ExtendedModSettings.saveExtendedSettings();
                 this.displayString = this.options.getEnumString() + " " + this.sliderValue;
             }
             mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
@@ -91,7 +90,6 @@ public class GuiOptionSliderIU extends GuiButton
             this.sliderValue = (float)(mouseX - (this.xPosition + 4)) / (float)(this.width - 8);
             this.sliderValue = MathHelper.clamp_float(this.sliderValue, 0.0F, 1.0F);
             ExtendedModSettings.CPS_OPACITY = this.sliderValue;
-            ExtendedModSettings.saveExtendedSettings();
             this.displayString = this.options.getEnumString();
             this.dragging = true;
             return true;
@@ -106,6 +104,7 @@ public class GuiOptionSliderIU extends GuiButton
     public void mouseReleased(int mouseX, int mouseY)
     {
         this.dragging = false;
+        ExtendedModSettings.saveExtendedSettings();
     }
 
     public static enum Options

@@ -64,6 +64,10 @@ public class CommandAutoLogin extends CommandBase
             {
                 ServerData data = mc.getCurrentServerData();
 
+                if (args.length <= 2)
+                {
+                    throw new WrongUsageException("commands.autologin.usage");
+                }
                 if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
                 {
                     if (data != null)

@@ -130,6 +130,20 @@ public class GameInfoHelper
         return IndicatorUtilsEventHandler.clicks.size();
     }
 
+    public int getRPS()
+    {
+        Iterator<Long> iterator = IndicatorUtilsEventHandler.Rclicks.iterator();
+
+        while (iterator.hasNext())
+        {
+            if (iterator.next().longValue() < System.currentTimeMillis() - 1000L)
+            {
+                iterator.remove();
+            }
+        }
+        return IndicatorUtilsEventHandler.Rclicks.size();
+    }
+
     public boolean isBelowMinecraft19()
     {
         return IndicatorUtils.MC_VERSION.equals("1.7.2") || IndicatorUtils.MC_VERSION.equals("1.7.10") || IndicatorUtils.MC_VERSION.equals("1.8.9");

@@ -105,6 +105,10 @@ public class CommandBlockStatusRenderer
                 }
                 list.add(ip + serverIP + version);
             }
+            else
+            {
+                list.clear();
+            }
         }
         if (ConfigManager.enableFPS)
         {

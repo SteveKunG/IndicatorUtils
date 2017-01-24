@@ -41,12 +41,15 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
+import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
+import net.minecraftforge.common.ForgeHooks;
+import net.minecraftforge.event.ServerChatEvent;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.CommandBlockStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.GlobalStatusRenderer;
@@ -54,6 +57,7 @@ import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
+import stevekung.mods.indicatorutils.utils.GuiNewChatSettings;
 import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
@@ -70,6 +74,7 @@ public class IndicatorUtilsEventHandler
     public static int afkMoveTick;
     public static int autoFishTick;
     public static List<Long> clicks = new ArrayList();
+    public static List<Long> Rclicks = new ArrayList();
     private int pressTime;
     private int pressOneTimeTick;
     private int pressTimeDelay;
@@ -89,6 +94,14 @@ public class IndicatorUtilsEventHandler
     {
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.currentScreen != null)
+        {
+            if (mc.currentScreen instanceof GuiChat && !(mc.currentScreen instanceof GuiNewChatSettings))
+            {
+                mc.displayGuiScreen(new GuiNewChatSettings());
+            }
+        }
 
         if (mc.thePlayer != null)
         {
@@ -312,13 +325,22 @@ public class IndicatorUtilsEventHandler
                 this.clearChatTick = 0;
             }
         }
-
         if (mc.thePlayer != null && !(mc.thePlayer.movementInput instanceof MovementInputFromOptionsIU))
         {
             mc.thePlayer.movementInput = new MovementInputFromOptionsIU(mc.gameSettings);
         }
         GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
         GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
+    }
+
+    @SubscribeEvent
+    public void onServerChat(ServerChatEvent event)
+    {
+        if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
+        {
+            ChatComponentTranslation itextcomponent = new ChatComponentTranslation("chat.type.text", event.player.getDisplayName(), ForgeHooks.newChatWithLinks("@" + event.message));
+            event.component = itextcomponent;
+        }
     }
 
     @SubscribeEvent
@@ -384,13 +406,13 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onMouseClick(MouseEvent event)
     {
-        if (event.button != 0)
-        {
-            return;
-        }
-        if (event.buttonstate)
+        if (event.button == 0 && event.buttonstate)
         {
             IndicatorUtilsEventHandler.clicks.add(Long.valueOf(System.currentTimeMillis()));
+        }
+        if (event.button == 1 && event.buttonstate)
+        {
+            IndicatorUtilsEventHandler.Rclicks.add(Long.valueOf(System.currentTimeMillis()));
         }
     }
 
@@ -588,16 +610,27 @@ public class IndicatorUtilsEventHandler
                 }
                 if (ConfigManager.enableCPS)
                 {
+                    String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText();
+                    String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText();
+
+                    if (ConfigManager.useCustomTextCPS)
+                    {
+                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                    }
+                    if (ConfigManager.useCustomTextRPS)
+                    {
+                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                        String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-
-                        if (ConfigManager.useCustomTextCPS)
-                        {
-                            cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
-                        }
-                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue, event.partialTicks);
+                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.partialTicks);
+                    }
+                    if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
+                    {
+                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + mc.fontRenderer.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        mc.fontRenderer.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
                 if (IndicatorUtilsEventHandler.recEnabled)
@@ -618,6 +651,10 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onPressKey(KeyInputEvent event)
     {
+        if (Minecraft.getMinecraft().currentScreen == null && Minecraft.getMinecraft().gameSettings.keyBindCommand.isPressed())
+        {
+            Minecraft.getMinecraft().displayGuiScreen(new GuiNewChatSettings("/"));
+        }
         if (ConfigManager.enableCustomCapeFeature)
         {
             if (KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI != null && KeyBindingHandler.KEY_OPEN_CAPE_DOWNLOADER_GUI.getIsKeyPressed())

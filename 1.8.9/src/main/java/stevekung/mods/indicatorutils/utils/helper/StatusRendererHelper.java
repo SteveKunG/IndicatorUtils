@@ -650,13 +650,19 @@ public class StatusRendererHelper
                 if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("right"))
                 {
                     String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText();
                     String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText();
 
                     if (ConfigManager.useCustomTextCPS)
                     {
                         cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
-                    list.add(cps + cpsValue);
+                    if (ConfigManager.useCustomTextRPS)
+                    {
+                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    }
+                    list.add(cps + cpsValue + rps + rpsValue);
                 }
             }
 
@@ -923,6 +929,39 @@ public class StatusRendererHelper
         }
         ExtendedModSettings.saveExtendedSettings();
         Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Change display mode to " + "[" + mode + "]"), false);
+    }
+
+    public void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
+    {
+        if (left < right)
+        {
+            int i = left;
+            left = right;
+            right = i;
+        }
+        if (top < bottom)
+        {
+            int j = top;
+            top = bottom;
+            bottom = j;
+        }
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.getInstance();
+        WorldRenderer worldrenderer = tessellator.getWorldRenderer();
+        GlStateManager.enableBlend();
+        GlStateManager.disableTexture2D();
+        GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
+        GlStateManager.color(f, f1, f2, alpha);
+        worldrenderer.begin(7, DefaultVertexFormats.POSITION);
+        worldrenderer.pos(left, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, bottom, 0.0D).endVertex();
+        worldrenderer.pos(right, top, 0.0D).endVertex();
+        worldrenderer.pos(left, top, 0.0D).endVertex();
+        tessellator.draw();
+        GlStateManager.enableTexture2D();
+        GlStateManager.disableBlend();
     }
 
     public void drawRect(double top, double bottom, double left, double right, int color)

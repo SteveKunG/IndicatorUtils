@@ -118,12 +118,15 @@ public class CommandBlockStatusRenderer
                     {
                         ip = JsonMessageUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
                     }
-
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
                         version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
+                }
+                else
+                {
+                    list.clear();
                 }
             }
         }

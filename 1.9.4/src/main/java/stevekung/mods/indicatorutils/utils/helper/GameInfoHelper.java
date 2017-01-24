@@ -60,6 +60,11 @@ public class GameInfoHelper
         return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel");
     }
 
+    public boolean isMineplex()
+    {
+        return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("mineplex");
+    }
+
     public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)
     {
         return Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(entity, range);
@@ -136,6 +141,20 @@ public class GameInfoHelper
             }
         }
         return IndicatorUtilsEventHandler.clicks.size();
+    }
+
+    public int getRPS()
+    {
+        Iterator<Long> iterator = IndicatorUtilsEventHandler.Rclicks.iterator();
+
+        while (iterator.hasNext())
+        {
+            if (iterator.next().longValue() < System.currentTimeMillis() - 1000L)
+            {
+                iterator.remove();
+            }
+        }
+        return IndicatorUtilsEventHandler.Rclicks.size();
     }
 
     public boolean isBelowMinecraft19()

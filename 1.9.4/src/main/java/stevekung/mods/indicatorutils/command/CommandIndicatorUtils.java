@@ -183,7 +183,7 @@ public class CommandIndicatorUtils extends CommandBase
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
                 }
-                if (!(args[1].equals("left") || args[1].equals("right") || args[1].equals("record")))
+                if (!(args[1].equals("left") || args[1].equals("right") || args[1].equals("record") || args[1].equals("custom")))
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage", new Object[] { this.getCommandUsage(sender) });
                 }
@@ -205,6 +205,13 @@ public class CommandIndicatorUtils extends CommandBase
                 {
                     ExtendedModSettings.CPS_POSITION = "record";
                     sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Record"));
+                    ExtendedModSettings.saveExtendedSettings();
+                    return;
+                }
+                if (args[1].equals("custom"))
+                {
+                    ExtendedModSettings.CPS_POSITION = "custom";
+                    sender.addChatMessage(JsonMessageUtils.textToJson("Set CPS position to Customize"));
                     ExtendedModSettings.saveExtendedSettings();
                     return;
                 }
@@ -567,7 +574,7 @@ public class CommandIndicatorUtils extends CommandBase
             }
             if (args[0].equals("cps"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "custom");
             }
             if (args[0].equals("keystroke"))
             {

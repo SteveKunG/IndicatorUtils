@@ -148,6 +148,10 @@ public class UHCStatusRenderer
                     }
                     list.add(ip + serverIP + version);
                 }
+                else
+                {
+                    list.clear();
+                }
             }
         }
         if (ConfigManager.enableFPS)
@@ -288,13 +292,19 @@ public class UHCStatusRenderer
             if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
                 String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                String rps = JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText();
                 String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                String rpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText();
 
                 if (ConfigManager.useCustomTextCPS)
                 {
                     cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                 }
-                list.add(cps + cpsValue);
+                if (ConfigManager.useCustomTextRPS)
+                {
+                    rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                }
+                list.add(cps + cpsValue + rps + rpsValue);
             }
         }
         if (ConfigManager.enablePlayerDetector)

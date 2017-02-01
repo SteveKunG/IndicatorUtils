@@ -38,6 +38,10 @@ commands.indicatorutils.autoswim.mode.usage=/indicatorutil autoswim mode <keybin
 commands.indicatorutils.autoclearchat.mode.usage=/indicatorutil autoclearchat mode <all|onlychat|onlysendmessage>
 commands.afk.reason=%s
 commands.autofish.usage=/autofish <enable|disable>
+commands.autologin.usage=/autologin <add|remove|list> <command> <value>
+commands.autologin.list.count=Showing %s auto login data entry
+commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'
+commands.autologin.list.empty=There are no auto login data entries was saved
 
 gui.capedownloader=Custom Cape Downloader
 gui.capedownloader.desc=Put your Cape URL (Must be .png or image format)

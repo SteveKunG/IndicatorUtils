@@ -640,13 +640,19 @@ public class StatusRendererHelper
                 if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("right"))
                 {
                     String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
                     String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
 
                     if (ConfigManager.useCustomTextCPS)
                     {
                         cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
-                    list.add(cps + cpsValue);
+                    if (ConfigManager.useCustomTextRPS)
+                    {
+                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    }
+                    list.add(cps + cpsValue + rps + rpsValue);
                 }
             }
 
@@ -939,6 +945,40 @@ public class StatusRendererHelper
         GL11.glDisable(GL11.GL_BLEND);
         GL11.glEnable(GL11.GL_ALPHA_TEST);
         GL11.glEnable(GL11.GL_TEXTURE_2D);
+    }
+
+    public void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
+    {
+        int j1;
+
+        if (left < right)
+        {
+            j1 = left;
+            left = right;
+            right = j1;
+        }
+        if (top < bottom)
+        {
+            j1 = top;
+            top = bottom;
+            bottom = j1;
+        }
+        float f = (color >> 16 & 255) / 255.0F;
+        float f1 = (color >> 8 & 255) / 255.0F;
+        float f2 = (color & 255) / 255.0F;
+        Tessellator tessellator = Tessellator.instance;
+        GL11.glEnable(GL11.GL_BLEND);
+        GL11.glDisable(GL11.GL_TEXTURE_2D);
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(f, f1, f2, alpha);
+        tessellator.startDrawingQuads();
+        tessellator.addVertex(left, bottom, 0.0D);
+        tessellator.addVertex(right, bottom, 0.0D);
+        tessellator.addVertex(right, top, 0.0D);
+        tessellator.addVertex(left, top, 0.0D);
+        tessellator.draw();
+        GL11.glEnable(GL11.GL_TEXTURE_2D);
+        GL11.glDisable(GL11.GL_BLEND);
     }
 
     public static String convertToRainbowColor(String[] value)

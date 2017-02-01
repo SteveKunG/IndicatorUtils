@@ -47,6 +47,7 @@ import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import stevekung.mods.indicatorutils.command.CommandAFK;
 import stevekung.mods.indicatorutils.command.CommandAutoFish;
+import stevekung.mods.indicatorutils.command.CommandAutoLogin;
 import stevekung.mods.indicatorutils.command.CommandGetPlayerPosition;
 import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
 import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
@@ -96,10 +97,7 @@ public class IndicatorUtils
         {
             ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
         }
-        if (ConfigManager.enableCustomCapeFeature)
-        {
-            IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().func_148256_e().getName();
-        }
+        IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().func_148256_e().getName();
         IndicatorUtils.initModInfo(event.getModMetadata());
         KeyBindingHandler.initKeyBinding();
         ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
@@ -116,6 +114,8 @@ public class IndicatorUtils
 
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         FMLCommonHandler.instance().bus().register(new IndicatorUtilsEventHandler());
+        MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
+        FMLCommonHandler.instance().bus().register(new NewChatEventHandler());
         MinecraftForge.EVENT_BUS.register(this);
         FMLCommonHandler.instance().bus().register(this);
 
@@ -131,6 +131,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAFK());
             ClientCommandHandler.instance.registerCommand(new CommandRecTemp());
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
+            ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
 
             if (ConfigManager.enableCustomCapeFeature)
             {
@@ -154,7 +155,7 @@ public class IndicatorUtils
             if (!ExtendedModSettings.CAPE_URL.isEmpty() && IndicatorUtils.loadCapeOnStartup)
             {
                 CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(ExtendedModSettings.CAPE_URL, true);
+                CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
                 IndicatorUtils.loadCapeOnStartup = false;
             }

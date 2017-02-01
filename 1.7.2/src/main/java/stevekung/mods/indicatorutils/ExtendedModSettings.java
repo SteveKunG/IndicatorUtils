@@ -11,11 +11,15 @@ import java.io.File;
 import net.minecraft.client.Minecraft;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import stevekung.mods.indicatorutils.utils.CapeUtils;
+import net.minecraft.nbt.NBTTagList;
+import stevekung.mods.indicatorutils.utils.AutoLogin;
+import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatorutils.utils.IULog;
 
 public class ExtendedModSettings
 {
+    public static AutoLogin loginData = new AutoLogin();
+
     public static boolean TOGGLE_SPRINT = false;
     public static boolean TOGGLE_SNEAK = false;
     public static boolean AUTO_CLEAR_CHAT = false;
@@ -27,12 +31,16 @@ public class ExtendedModSettings
     public static int ARMOR_STATUS_OFFSET = 0;
     public static int POTION_STATUS_OFFSET = 0;
     public static int AUTO_CLEAR_CHAT_TIME = 60;
+    public static int CPS_X_OFFSET = 3;
+    public static int CPS_Y_OFFSET = 2;
+    public static float CPS_OPACITY = 0.5F;
 
     public static String CPS_POSITION = "left";
     public static String DISPLAY_MODE = "default";
     public static String AUTO_CLEAR_CHAT_MODE = "all";
     public static String ENTITY_DETECT_TYPE = "null";
     public static String CAPE_URL = "";
+    public static String CHAT_MODE = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -63,17 +71,23 @@ public class ExtendedModSettings
             ExtendedModSettings.ARMOR_STATUS_OFFSET = nbttagcompound.getInteger("ArmorStatusOffset");
             ExtendedModSettings.POTION_STATUS_OFFSET = nbttagcompound.getInteger("PotionStatusOffset");
             ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = nbttagcompound.getInteger("AutoClearChatTime");
+            ExtendedModSettings.CPS_X_OFFSET = nbttagcompound.getInteger("CpsX");
+            ExtendedModSettings.CPS_Y_OFFSET = nbttagcompound.getInteger("CpsY");
+            ExtendedModSettings.CPS_OPACITY = nbttagcompound.getFloat("CpsOpacity");
 
             ExtendedModSettings.CPS_POSITION = nbttagcompound.getString("CpsPosition");
             ExtendedModSettings.DISPLAY_MODE = nbttagcompound.getString("DisplayMode");
             ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = nbttagcompound.getString("AutoClearChatMode");
             ExtendedModSettings.ENTITY_DETECT_TYPE = nbttagcompound.getString("EntityDetectType");
-            ExtendedModSettings.CAPE_URL = CapeUtils.decodeCapeURL(nbttagcompound.getString("CapeURL"));
+            ExtendedModSettings.CAPE_URL = nbttagcompound.getString("CapeURL");
+            ExtendedModSettings.CHAT_MODE = nbttagcompound.getString("ChatMode");
 
             ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = nbttagcompound.getString("ToggleSprintUseMode");
             ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = nbttagcompound.getString("ToggleSneakUseMode");
             ExtendedModSettings.DISPLAY_MODE_USE_MODE = nbttagcompound.getString("DisplayModeUseMode");
             ExtendedModSettings.AUTO_SWIM_USE_MODE = nbttagcompound.getString("AutoSwimUseMode");
+
+            ExtendedModSettings.readAutoLoginData(nbttagcompound.getTagList("AutoLoginData", 10));
 
             IULog.info("Loading extended settings : %s", file.getPath());
         }
@@ -98,21 +112,52 @@ public class ExtendedModSettings
             nbttagcompound.setInteger("ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
             nbttagcompound.setInteger("PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
             nbttagcompound.setInteger("AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);
+            nbttagcompound.setInteger("CpsX", ExtendedModSettings.CPS_X_OFFSET);
+            nbttagcompound.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
+            nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
 
             nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
             nbttagcompound.setString("DisplayMode", ExtendedModSettings.DISPLAY_MODE);
             nbttagcompound.setString("AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
             nbttagcompound.setString("EntityDetectType", ExtendedModSettings.ENTITY_DETECT_TYPE);
             nbttagcompound.setString("CapeURL", ExtendedModSettings.CAPE_URL);
+            nbttagcompound.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
 
             nbttagcompound.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             nbttagcompound.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
             nbttagcompound.setString("DisplayModeUseMode", ExtendedModSettings.DISPLAY_MODE_USE_MODE);
             nbttagcompound.setString("AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
+            nbttagcompound.setTag("AutoLoginData", ExtendedModSettings.writeAutoLoginData());
+
             CompressedStreamTools.safeWrite(nbttagcompound, file);
             IULog.info("Saving extended settings : %s", file.getPath());
         }
         catch (Exception e) {}
+    }
+
+    private static NBTTagList writeAutoLoginData()
+    {
+        NBTTagList list = new NBTTagList();
+
+        for (AutoLoginData login : ExtendedModSettings.loginData.getAutoLoginList())
+        {
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setString("ServerIP", login.getServerIP());
+            nbt.setString("CommandName", login.getCommand());
+            nbt.setString("Value", login.getValue());
+            nbt.setString("Username", login.getUsername());
+            list.appendTag(nbt);
+        }
+        return list;
+    }
+
+    private static void readAutoLoginData(NBTTagList list)
+    {
+        for (int i = 0; i < list.tagCount(); ++i)
+        {
+            NBTTagCompound nbt = list.getCompoundTagAt(i);
+            ExtendedModSettings.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), nbt.getString("Username"));
+        }
     }
 }

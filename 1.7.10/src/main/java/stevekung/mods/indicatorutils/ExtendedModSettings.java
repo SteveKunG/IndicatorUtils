@@ -14,7 +14,6 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import stevekung.mods.indicatorutils.utils.AutoLogin;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatorutils.utils.CapeUtils;
 import stevekung.mods.indicatorutils.utils.IULog;
 
 public class ExtendedModSettings
@@ -80,7 +79,7 @@ public class ExtendedModSettings
             ExtendedModSettings.DISPLAY_MODE = nbttagcompound.getString("DisplayMode");
             ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = nbttagcompound.getString("AutoClearChatMode");
             ExtendedModSettings.ENTITY_DETECT_TYPE = nbttagcompound.getString("EntityDetectType");
-            ExtendedModSettings.CAPE_URL = CapeUtils.decodeCapeURL(nbttagcompound.getString("CapeURL"));
+            ExtendedModSettings.CAPE_URL = nbttagcompound.getString("CapeURL");
             ExtendedModSettings.CHAT_MODE = nbttagcompound.getString("ChatMode");
 
             ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = nbttagcompound.getString("ToggleSprintUseMode");

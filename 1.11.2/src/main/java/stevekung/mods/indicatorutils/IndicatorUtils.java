@@ -179,7 +179,7 @@ public class IndicatorUtils
             if (!ExtendedModSettings.CAPE_URL.isEmpty() && IndicatorUtils.loadCapeOnStartup)
             {
                 CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(ExtendedModSettings.CAPE_URL, true);
+                CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
                 IndicatorUtils.loadCapeOnStartup = false;
             }

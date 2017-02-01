@@ -70,7 +70,7 @@ public class CommandAutoLogin extends CommandBase
                 {
                     if (data != null)
                     {
-                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME) != null)
+                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME + data.serverIP) != null)
                         {
                             sender.addChatMessage(JsonMessageUtils.textToJson("An auto login data already set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
                             return;
@@ -96,9 +96,9 @@ public class CommandAutoLogin extends CommandBase
                 {
                     if (data != null)
                     {
-                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME) != null)
+                        if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME + data.serverIP) != null)
                         {
-                            ExtendedModSettings.loginData.removeAutoLogin(IndicatorUtils.USERNAME);
+                            ExtendedModSettings.loginData.removeAutoLogin(IndicatorUtils.USERNAME + data.serverIP);
                             sender.addChatMessage(JsonMessageUtils.textToJson("Remove auto login data from Username: " + IndicatorUtils.USERNAME));
                         }
                         else

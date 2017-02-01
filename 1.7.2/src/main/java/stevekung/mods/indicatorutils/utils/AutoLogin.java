@@ -15,14 +15,14 @@ public class AutoLogin
 {
     private Map<String, AutoLoginData> autoLogin = Maps.<String, AutoLoginData>newHashMap();
 
-    public AutoLoginData getAutoLogin(String username)
+    public AutoLoginData getAutoLogin(String data)
     {
-        return this.autoLogin.get(username);
+        return this.autoLogin.get(data);
     }
 
     public AutoLoginData addAutoLogin(String serverIP, String command, String value, String username)
     {
-        AutoLoginData login = this.getAutoLogin(username);
+        AutoLoginData login = this.getAutoLogin(username + serverIP);
 
         if (login != null)
         {
@@ -31,14 +31,14 @@ public class AutoLogin
         else
         {
             login = new AutoLoginData(serverIP, command, value, username);
-            this.autoLogin.put(username, login);
+            this.autoLogin.put(username + serverIP, login);
             return login;
         }
     }
 
-    public void removeAutoLogin(String username)
+    public void removeAutoLogin(String data)
     {
-        this.autoLogin.remove(username);
+        this.autoLogin.remove(data);
     }
 
     public Collection<AutoLoginData> getAutoLoginList()

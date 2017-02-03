@@ -113,7 +113,12 @@ public class StatusRendererHelper
             GlStateManager.scale(-0.025F, -0.025F, 0.025F);
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
-            GlStateManager.disableDepth();
+
+            if (!entityLivingBase.isSneaking())
+            {
+                GlStateManager.disableDepth();
+            }
+
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
@@ -128,10 +133,15 @@ public class StatusRendererHelper
             vertexbuffer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
-            GlStateManager.enableDepth();
+
+            if (!entityLivingBase.isSneaking())
+            {
+                StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, 553648127, false);
+                GlStateManager.enableDepth();
+            }
+
             GlStateManager.depthMask(true);
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
+            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, entityLivingBase.isSneaking() ? 553648127 : -1, false);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -1334,447 +1344,430 @@ public class StatusRendererHelper
     {
         Minecraft mc = Minecraft.getMinecraft();
 
-        if (ConfigManager.enableEntityDetector && ConfigManager.entityDetectorMode.equalsIgnoreCase("glowing"))
+        if (mc.theWorld != null)
         {
-            if (mc.theWorld != null)
+            for (Entity list : mc.theWorld.loadedEntityList)
             {
-                for (Entity list : mc.theWorld.loadedEntityList)
+                if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("all"))
                 {
-                    if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("all"))
+                    if (!(list instanceof EntityPlayerSP))
                     {
-                        if (!(list instanceof EntityPlayerSP))
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlymob"))
-                    {
-                        if (list instanceof EntityMob || list instanceof IMob)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlycreature"))
-                    {
-                        if (list instanceof EntityAnimal)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlynonmob"))
-                    {
-                        if (list instanceof EntityItem || list instanceof EntityXPOrb || list instanceof EntityArmorStand || list instanceof EntityBoat || list instanceof EntityMinecart)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlyplayer"))
-                    {
-                        if (list instanceof EntityOtherPlayerMP)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("zombie"))
-                    {
-                        if (list instanceof EntityZombie)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("creeper"))
-                    {
-                        if (list instanceof EntityCreeper)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("skeleton"))
-                    {
-                        if (list instanceof EntitySkeleton)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("spider"))
-                    {
-                        if (list instanceof EntitySpider)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("slime"))
-                    {
-                        if (list instanceof EntitySlime)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ghast"))
-                    {
-                        if (list instanceof EntityGhast)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("enderman"))
-                    {
-                        if (list instanceof EntityEnderman)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("silverfish"))
-                    {
-                        if (list instanceof EntitySilverfish || list instanceof EntityEndermite)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("blaze"))
-                    {
-                        if (list instanceof EntityBlaze)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("witch"))
-                    {
-                        if (list instanceof EntityWitch)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("guardian"))
-                    {
-                        if (list instanceof EntityGuardian)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("shulker"))
-                    {
-                        if (list instanceof EntityShulker)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("pig"))
-                    {
-                        if (list instanceof EntityPig)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("sheep"))
-                    {
-                        if (list instanceof EntitySheep)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("cow"))
-                    {
-                        if (list instanceof EntityCow || list instanceof EntityMooshroom)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("chicken"))
-                    {
-                        if (list instanceof EntityChicken)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("squid"))
-                    {
-                        if (list instanceof EntitySquid)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("wolf"))
-                    {
-                        if (list instanceof EntityWolf)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("snowman"))
-                    {
-                        if (list instanceof EntitySnowman)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ocelot"))
-                    {
-                        if (list instanceof EntityOcelot)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("irongolem"))
-                    {
-                        if (list instanceof EntityIronGolem)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("horse"))
-                    {
-                        if (list instanceof EntityHorse)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("rabbit"))
-                    {
-                        if (list instanceof EntityRabbit)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("polarbear"))
-                    {
-                        if (list instanceof EntityPolarBear)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("villager"))
-                    {
-                        if (list instanceof EntityVillager)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("item"))
-                    {
-                        if (list instanceof EntityItem)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("xp"))
-                    {
-                        if (list instanceof EntityXPOrb)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("armorstand"))
-                    {
-                        if (list instanceof EntityArmorStand)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("boat"))
-                    {
-                        if (list instanceof EntityBoat)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("minecart"))
-                    {
-                        if (list instanceof EntityMinecart)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("endercrystal"))
-                    {
-                        if (list instanceof EntityEnderCrystal)
-                        {
-                            list.setGlowing(true);
-                        }
-                        else
-                        {
-                            list.setGlowing(false);
-                        }
-                    }
-                    else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("reset"))
-                    {
-                        if (list instanceof EntityLivingBase)
-                        {
-                            list.setGlowing(((EntityLivingBase)list).isPotionActive(MobEffects.GLOWING));
-                        }
-                        list.setGlowing(false);
+                        list.setGlowing(true);
                     }
                     else
                     {
-                        for (String name : GameInfoHelper.INSTANCE.getPlayerInfoListClient())
-                        {
-                            if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase(name))
-                            {
-                                if (list instanceof EntityOtherPlayerMP && ((EntityOtherPlayerMP)list).getName().equalsIgnoreCase(ExtendedModSettings.ENTITY_DETECT_TYPE))
-                                {
-                                    list.setGlowing(true);
-                                }
-                                else
-                                {
-                                    list.setGlowing(false);
-                                }
-                            }
-                        }
+                        list.setGlowing(false);
                     }
                 }
-            }
-        }
-        else
-        {
-            if (mc.theWorld != null)
-            {
-                for (Entity list : mc.theWorld.loadedEntityList)
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlymob"))
+                {
+                    if (list instanceof EntityMob || list instanceof IMob)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlycreature"))
+                {
+                    if (list instanceof EntityAnimal)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlynonmob"))
+                {
+                    if (list instanceof EntityItem || list instanceof EntityXPOrb || list instanceof EntityArmorStand || list instanceof EntityBoat || list instanceof EntityMinecart)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("onlyplayer"))
+                {
+                    if (list instanceof EntityOtherPlayerMP)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("zombie"))
+                {
+                    if (list instanceof EntityZombie)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("creeper"))
+                {
+                    if (list instanceof EntityCreeper)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("skeleton"))
+                {
+                    if (list instanceof EntitySkeleton)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("spider"))
+                {
+                    if (list instanceof EntitySpider)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("slime"))
+                {
+                    if (list instanceof EntitySlime)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ghast"))
+                {
+                    if (list instanceof EntityGhast)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("enderman"))
+                {
+                    if (list instanceof EntityEnderman)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("silverfish"))
+                {
+                    if (list instanceof EntitySilverfish || list instanceof EntityEndermite)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("blaze"))
+                {
+                    if (list instanceof EntityBlaze)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("witch"))
+                {
+                    if (list instanceof EntityWitch)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("guardian"))
+                {
+                    if (list instanceof EntityGuardian)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("shulker"))
+                {
+                    if (list instanceof EntityShulker)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("pig"))
+                {
+                    if (list instanceof EntityPig)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("sheep"))
+                {
+                    if (list instanceof EntitySheep)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("cow"))
+                {
+                    if (list instanceof EntityCow || list instanceof EntityMooshroom)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("chicken"))
+                {
+                    if (list instanceof EntityChicken)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("squid"))
+                {
+                    if (list instanceof EntitySquid)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("wolf"))
+                {
+                    if (list instanceof EntityWolf)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("snowman"))
+                {
+                    if (list instanceof EntitySnowman)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ocelot"))
+                {
+                    if (list instanceof EntityOcelot)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("irongolem"))
+                {
+                    if (list instanceof EntityIronGolem)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("horse"))
+                {
+                    if (list instanceof EntityHorse)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("rabbit"))
+                {
+                    if (list instanceof EntityRabbit)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("polarbear"))
+                {
+                    if (list instanceof EntityPolarBear)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("villager"))
+                {
+                    if (list instanceof EntityVillager)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("item"))
+                {
+                    if (list instanceof EntityItem)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("xp"))
+                {
+                    if (list instanceof EntityXPOrb)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("armorstand"))
+                {
+                    if (list instanceof EntityArmorStand)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("boat"))
+                {
+                    if (list instanceof EntityBoat)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("minecart"))
+                {
+                    if (list instanceof EntityMinecart)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("endercrystal"))
+                {
+                    if (list instanceof EntityEnderCrystal)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("reset"))
                 {
                     if (list instanceof EntityLivingBase)
                     {
                         list.setGlowing(((EntityLivingBase)list).isPotionActive(MobEffects.GLOWING));
                     }
                     list.setGlowing(false);
+                }
+                else
+                {
+                    for (String name : GameInfoHelper.INSTANCE.getPlayerInfoListClient())
+                    {
+                        if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase(name))
+                        {
+                            if (list instanceof EntityOtherPlayerMP && ((EntityOtherPlayerMP)list).getName().equalsIgnoreCase(ExtendedModSettings.ENTITY_DETECT_TYPE))
+                            {
+                                list.setGlowing(true);
+                            }
+                            else
+                            {
+                                list.setGlowing(false);
+                            }
+                        }
+                    }
                 }
             }
         }

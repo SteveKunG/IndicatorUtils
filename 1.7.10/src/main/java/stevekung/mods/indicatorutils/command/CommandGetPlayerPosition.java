@@ -13,6 +13,7 @@ import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -22,6 +23,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
@@ -48,6 +50,10 @@ public class CommandGetPlayerPosition extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
+        if (!IndicatorUtils.isSteveKunG())
+        {
+            FMLCommonHandler.instance().exitJava(-1, true);
+        }
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.getplayerpos.fail", new Object[] { this.getCommandUsage(sender) });

@@ -13,7 +13,6 @@ import java.util.UUID;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiBossOverlay;
@@ -23,7 +22,6 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -106,23 +104,6 @@ public class IndicatorUtilsEventHandler
             if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings))
             {
                 this.mc.displayGuiScreen(new GuiNewChatSettings());
-            }
-        }
-
-        if (ConfigManager.enablePlayerDetector)
-        {
-            if (ConfigManager.playerDetectorMode.equals("GLOWING"))
-            {
-                if (mc.theWorld != null)
-                {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(true);
-                        }
-                    }
-                }
             }
         }
 

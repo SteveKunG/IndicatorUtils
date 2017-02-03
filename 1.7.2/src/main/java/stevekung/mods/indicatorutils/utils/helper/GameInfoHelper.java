@@ -7,7 +7,6 @@
 package stevekung.mods.indicatorutils.utils.helper;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map.Entry;
 
 import net.minecraft.client.Minecraft;
@@ -16,7 +15,6 @@ import net.minecraft.command.IEntitySelector;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.AxisAlignedBB;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
@@ -68,11 +66,6 @@ public class GameInfoHelper
             Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson(I18n.format("commands.generic.num.invalid", input) + " in " + type + " setting", "red"));
             return 0;
         }
-    }
-
-    public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)
-    {
-        return Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(entity, range);
     }
 
     // Credit to lib12time (Bukkit)

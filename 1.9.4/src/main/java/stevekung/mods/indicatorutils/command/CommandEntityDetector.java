@@ -22,7 +22,9 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandEntityDetector extends CommandBase
@@ -48,6 +50,10 @@ public class CommandEntityDetector extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
+        if (!IndicatorUtils.isSteveKunG())
+        {
+            FMLCommonHandler.instance().exitJava(-1, true);
+        }
         if (args.length == 1)
         {
             EntityPlayer player = sender.getEntityWorld().getPlayerEntityByName(args[0]);

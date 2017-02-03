@@ -61,38 +61,83 @@ public class StatusRendererHelper
 
         if (distance <= d * d)
         {
-            GL11.glPushMatrix();
-            float f = 0.0F;
-            GL11.glTranslatef((float)x, (float) (y + entityLivingBase.height + 1F - f), (float)z);
-            GL11.glNormal3f(0.0F, 1.0F, 0.0F);
-            GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
-            GL11.glRotatef((RenderManager.instance.options.thirdPersonView == 2 ? -1 : 1) * RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
-            GL11.glScalef(-0.025F, -0.025F, 0.025F);
-            GL11.glDisable(GL11.GL_LIGHTING);
-            GL11.glDepthMask(false);
-            GL11.glDepthMask(false);
-            GL11.glEnable(GL11.GL_BLEND);
-            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-            Tessellator tessellator = Tessellator.instance;
-            GL11.glDisable(GL11.GL_TEXTURE_2D);
-            tessellator.startDrawingQuads();
-            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
-            int i = fontrenderer.getStringWidth(text) / 2;
-            tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
-            tessellator.addVertex(-i - 1, -1.0D, 0.0D);
-            tessellator.addVertex(-i - 1, 8.0D, 0.0D);
-            tessellator.addVertex(i + 1, 8.0D, 0.0D);
-            tessellator.addVertex(i + 1, -1.0D, 0.0D);
-            tessellator.draw();
-            GL11.glEnable(GL11.GL_TEXTURE_2D);
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
-            GL11.glEnable(GL11.GL_DEPTH_TEST);
-            GL11.glDepthMask(true);
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
-            GL11.glEnable(GL11.GL_LIGHTING);
-            GL11.glDisable(GL11.GL_BLEND);
-            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-            GL11.glPopMatrix();
+            if (entityLivingBase.isSneaking())
+            {
+                float f = 1.6F;
+                float f1 = 0.016666668F * f;
+                FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+                GL11.glPushMatrix();
+                GL11.glTranslatef((float)x + 0.0F, (float)y + entityLivingBase.height + 1.0F, (float)z);
+                GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef((RenderManager.instance.options.thirdPersonView == 2 ? -1 : 1) * RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+                GL11.glScalef(-f1, -f1, f1);
+                GL11.glDisable(GL11.GL_LIGHTING);
+                GL11.glTranslatef(0.0F, 0.25F / f1, 0.0F);
+                GL11.glDepthMask(false);
+                GL11.glEnable(GL11.GL_BLEND);
+                OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                Tessellator tessellator = Tessellator.instance;
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                tessellator.startDrawingQuads();
+                int i = fontrenderer.getStringWidth(text) / 2;
+                tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+                tessellator.addVertex(-i - 1, -1.0D, 0.0D);
+                tessellator.addVertex(-i - 1, 8.0D, 0.0D);
+                tessellator.addVertex(i + 1, 8.0D, 0.0D);
+                tessellator.addVertex(i + 1, -1.0D, 0.0D);
+                tessellator.draw();
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glDepthMask(true);
+                fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, 553648127);
+                GL11.glEnable(GL11.GL_LIGHTING);
+                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GL11.glPopMatrix();
+            }
+            else
+            {
+                FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
+                float f = 1.6F;
+                float f1 = 0.016666668F * f;
+                GL11.glPushMatrix();
+                GL11.glTranslatef((float)x, (float) (y + entityLivingBase.height + 1.0F), (float)z);
+                GL11.glNormal3f(0.0F, 1.0F, 0.0F);
+                GL11.glRotatef(-RenderManager.instance.playerViewY, 0.0F, 1.0F, 0.0F);
+                GL11.glRotatef((RenderManager.instance.options.thirdPersonView == 2 ? -1 : 1) * RenderManager.instance.playerViewX, 1.0F, 0.0F, 0.0F);
+                GL11.glScalef(-f1, -f1, f1);
+                GL11.glDisable(GL11.GL_LIGHTING);
+                GL11.glDepthMask(false);
+                GL11.glDisable(GL11.GL_DEPTH_TEST);
+                GL11.glEnable(GL11.GL_BLEND);
+                OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+                Tessellator tessellator = Tessellator.instance;
+                byte b0 = 0;
+
+                if (text.equals("deadmau5"))
+                {
+                    b0 = -10;
+                }
+
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                tessellator.startDrawingQuads();
+                int j = fontrenderer.getStringWidth(text) / 2;
+                tessellator.setColorRGBA_F(0.0F, 0.0F, 0.0F, 0.25F);
+                tessellator.addVertex(-j - 1, -1 + b0, 0.0D);
+                tessellator.addVertex(-j - 1, 8 + b0, 0.0D);
+                tessellator.addVertex(j + 1, 8 + b0, 0.0D);
+                tessellator.addVertex(j + 1, -1 + b0, 0.0D);
+                tessellator.draw();
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, 553648127);
+                GL11.glEnable(GL11.GL_DEPTH_TEST);
+                GL11.glDepthMask(true);
+                fontrenderer.drawString(text, -fontrenderer.getStringWidth(text) / 2, b0, -1);
+                GL11.glEnable(GL11.GL_LIGHTING);
+                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+                GL11.glPopMatrix();
+            }
         }
     }
 

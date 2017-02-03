@@ -36,7 +36,6 @@ public class ConfigManager
 
     // Main Settings
     public static boolean enableAllRenderInfo;
-    public static int entityDetectRange;
     public static int afkMessageTime;
     public static String endGameChatMessage;
     public static boolean enableArmorStatusRenderBug;
@@ -55,7 +54,6 @@ public class ConfigManager
     public static boolean swapMainRenderInfoToRight;
     public static String armorStatusMode;
     public static String healthStatusMode;
-    public static String playerDetectorMode;
     public static String keystrokeMode;
     public static String potionStatusStyle;
     public static String keystrokeSize;
@@ -69,8 +67,6 @@ public class ConfigManager
     public static boolean enableLookingAtBlock;
     public static boolean enableDirection;
     public static boolean enableBiome;
-    public static boolean enableEntityDetector;
-    public static boolean enablePlayerDetector;
     public static boolean enableArmorStatus;
     public static boolean enablePotionStatus;
     public static boolean enableKeystroke;
@@ -241,11 +237,6 @@ public class ConfigManager
         ConfigManager.enableAllRenderInfo = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Entity Detect Range", 16);
-        prop.setMinValue(8).setMaxValue(64).setConfigEntryClass(NumberSliderEntry.class);
-        ConfigManager.entityDetectRange = prop.getInt();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "AFK Message Time (minute)", 5);
         prop.setMinValue(1).setMaxValue(60).setConfigEntryClass(NumberSliderEntry.class);
         ConfigManager.afkMessageTime = prop.getInt();
@@ -326,11 +317,6 @@ public class ConfigManager
         ConfigManager.healthStatusMode = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Player Detector Mode", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "LIST" });
-        ConfigManager.playerDetectorMode = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke Mode", "NORMAL");
         prop.setValidValues(new String[] { "NORMAL", "ADVANCED" });
         ConfigManager.keystrokeMode = prop.getString();
@@ -385,14 +371,6 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Biome", true);
         ConfigManager.enableBiome = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Entity Detector", false);
-        ConfigManager.enableEntityDetector = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Player Detector", false);
-        ConfigManager.enablePlayerDetector = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Armor Status", true);

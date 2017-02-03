@@ -14,24 +14,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.monster.EntityShulker;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.chunk.Chunk;
@@ -312,111 +297,6 @@ public class GlobalStatusRenderer
                             biome = JsonMessageUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
                         }
                         list.add(biome + value);
-                    }
-                }
-            }
-        }
-        if (ConfigManager.enableEntityDetector)
-        {
-            if (!ConfigManager.entityDetectorMode.equalsIgnoreCase("glowing"))
-            {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - ConfigManager.entityDetectRange, mc.thePlayer.posY - ConfigManager.entityDetectRange, mc.thePlayer.posZ - ConfigManager.entityDetectRange, mc.thePlayer.posX + ConfigManager.entityDetectRange, mc.thePlayer.posY + ConfigManager.entityDetectRange, mc.thePlayer.posZ + ConfigManager.entityDetectRange);
-                AxisAlignedBB ghastRange = new AxisAlignedBB(mc.thePlayer.posX - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posY - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posZ - (ConfigManager.entityDetectRange + 64), mc.thePlayer.posX + (ConfigManager.entityDetectRange + 64), mc.thePlayer.posY + (ConfigManager.entityDetectRange + 64), mc.thePlayer.posZ + (ConfigManager.entityDetectRange + 64));
-                List<EntityZombie> zombie = GameInfoHelper.INSTANCE.detectEntities(EntityZombie.class, range);
-                List<EntitySkeleton> skeleton = GameInfoHelper.INSTANCE.detectEntities(EntitySkeleton.class, range);
-                List<EntityCreeper> creeper = GameInfoHelper.INSTANCE.detectEntities(EntityCreeper.class, range);
-                List<EntitySpider> spider = GameInfoHelper.INSTANCE.detectEntities(EntitySpider.class, range);
-                List<EntityEnderman> enderman = GameInfoHelper.INSTANCE.detectEntities(EntityEnderman.class, range);
-                List<EntityWitch> witch = GameInfoHelper.INSTANCE.detectEntities(EntityWitch.class, range);
-                List<EntitySlime> slime = GameInfoHelper.INSTANCE.detectEntities(EntitySlime.class, range);
-                List<EntityBlaze> blaze = GameInfoHelper.INSTANCE.detectEntities(EntityBlaze.class, range);
-                List<EntityGhast> ghast = GameInfoHelper.INSTANCE.detectEntities(EntityGhast.class, ghastRange);
-                List<EntityGuardian> guardian = GameInfoHelper.INSTANCE.detectEntities(EntityGuardian.class, range);
-                List<EntityShulker> shulker = GameInfoHelper.INSTANCE.detectEntities(EntityShulker.class, range);
-
-                String zombieCount = !zombie.isEmpty() ? mc.thePlayer.dimension == -1 ? "PZ: " + zombie.size() + ", " : "Z: " + zombie.size() + ", " : "";
-                String skeletonCount = !skeleton.isEmpty() ? "S: " + skeleton.size() + ", " : "";
-                String creeperCount = !creeper.isEmpty() ? "C: " + creeper.size() + ", " : "";
-                String spiderCount = !spider.isEmpty() ? "SD: " + spider.size() + ", " : "";
-                String endermanCount = !enderman.isEmpty() ? "E: " + enderman.size() + ", " : "";
-                String witchCount = !witch.isEmpty() ? "W: " + witch.size() + ", " : "";
-                String slimeCount = !slime.isEmpty() ? mc.thePlayer.dimension == -1 ? "M: " + slime.size() + ", " : "SL: " + slime.size() + ", " : "";
-                String blazeCount = !blaze.isEmpty() ? "B: " + blaze.size() + ", " : "";
-                String ghastCount = !ghast.isEmpty() ? "G: " + ghast.size() + ", " : "";
-                String guardianCount = !guardian.isEmpty() ? "GD: " + guardian.size() + ", " : "";
-                String shulkerCount = !shulker.isEmpty() ? "SK: " + shulker.size() + ", " : "";
-
-                if (!zombieCount.isEmpty() || !skeletonCount.isEmpty() || !creeperCount.isEmpty() || !spiderCount.isEmpty())
-                {
-                    list.add(zombieCount + skeletonCount + creeperCount + spiderCount);
-                }
-                if (!endermanCount.isEmpty() || !witchCount.isEmpty() || !slimeCount.isEmpty() || !guardianCount.isEmpty())
-                {
-                    list.add(endermanCount + witchCount + slimeCount + guardianCount);
-                }
-                if (!blazeCount.isEmpty() || !ghastCount.isEmpty() || !shulkerCount.isEmpty())
-                {
-                    list.add(blazeCount + ghastCount + shulkerCount);
-                }
-            }
-        }
-        if (ConfigManager.enablePlayerDetector)
-        {
-            if (ConfigManager.playerDetectorMode.equals("NORMAL"))
-            {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - 32, mc.thePlayer.posY - 32, mc.thePlayer.posZ - 32, mc.thePlayer.posX + 32, mc.thePlayer.posY + 32, mc.thePlayer.posZ + 32);
-                List<EntityPlayer> player = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_NOT_DEATH_OR_SPECTATOR);
-                int size = player.size() - 1;
-
-                if (mc.theWorld != null)
-                {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
-                        }
-                    }
-                    if (size > 0)
-                    {
-                        list.add("P: " + size);
-                    }
-                }
-            }
-            if (ConfigManager.playerDetectorMode.equals("LIST"))
-            {
-                String name;
-
-                if (mc.theWorld != null)
-                {
-                    for (Entity playerList : mc.theWorld.loadedEntityList)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
-                        }
-                    }
-                    for (Entity player : mc.theWorld.loadedEntityList)
-                    {
-                        if (player instanceof EntityOtherPlayerMP)
-                        {
-                            int xPosP = (int)mc.thePlayer.posX;
-                            int yPosP = (int)mc.thePlayer.posY;
-                            int zPosP = (int)mc.thePlayer.posZ;
-                            int xPos = (int)player.posX;
-                            int yPos = (int)player.posY;
-                            int zPos = (int)player.posZ;
-                            double deltaX = xPos - xPosP;
-                            double deltaY = yPos - yPosP;
-                            double deltaZ = zPos - zPosP;
-                            int distance = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-                            if (distance < 512)
-                            {
-                                name = player.getName() + ": " + distance + "m";
-                                list.add(name);
-                            }
-                        }
                     }
                 }
             }

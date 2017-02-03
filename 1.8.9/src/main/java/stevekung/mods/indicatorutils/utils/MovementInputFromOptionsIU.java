@@ -16,6 +16,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
 
 @SideOnly(Side.CLIENT)
@@ -78,7 +79,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 this.mc.thePlayer.setSprinting(true);
             }
 
-            boolean swim = ExtendedModSettings.AUTO_SWIM && (this.mc.thePlayer.isInWater() || this.mc.thePlayer.isInLava()) && !this.mc.thePlayer.isSpectator();
+            boolean swim = IndicatorUtils.isSteveKunG() && ExtendedModSettings.AUTO_SWIM && (this.mc.thePlayer.isInWater() || this.mc.thePlayer.isInLava()) && !this.mc.thePlayer.isSpectator();
             this.jump = this.gameSettings.keyBindJump.isKeyDown() || swim;
             this.sneak = this.gameSettings.keyBindSneak.isKeyDown() || ExtendedModSettings.TOGGLE_SNEAK;
 

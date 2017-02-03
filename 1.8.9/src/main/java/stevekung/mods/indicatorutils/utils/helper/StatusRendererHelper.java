@@ -71,7 +71,12 @@ public class StatusRendererHelper
             GlStateManager.scale(-0.025F, -0.025F, 0.025F);
             GlStateManager.disableLighting();
             GlStateManager.depthMask(false);
-            GlStateManager.disableDepth();
+
+            if (!entityLivingBase.isSneaking())
+            {
+                GlStateManager.disableDepth();
+            }
+
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
             FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
@@ -86,10 +91,15 @@ public class StatusRendererHelper
             vertexbuffer.pos(j + 1, -1, 0.0D).color(0.0F, 0.0F, 0.0F, 0.25F).endVertex();
             tessellator.draw();
             GlStateManager.enableTexture2D();
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
-            GlStateManager.enableDepth();
+
+            if (!entityLivingBase.isSneaking())
+            {
+                StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, 553648127, false);
+                GlStateManager.enableDepth();
+            }
+
             GlStateManager.depthMask(true);
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, EnumTextColor.WHITE, false);
+            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, entityLivingBase.isSneaking() ? 553648127 : -1, false);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

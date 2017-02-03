@@ -9,10 +9,13 @@ package stevekung.mods.indicatorutils.command;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.logging.log4j.Level;
+
 import com.google.common.base.Functions;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 
+import cpw.mods.fml.common.FMLLog;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -22,6 +25,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
@@ -48,6 +52,10 @@ public class CommandGetPlayerPosition extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
+        if (!IndicatorUtils.isSteveKunG())
+        {
+            this.exitJava(-1, true);
+        }
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.getplayerpos.fail", new Object[] { this.getCommandUsage(sender) });
@@ -106,5 +114,31 @@ public class CommandGetPlayerPosition extends CommandBase
             }
         }
         return list;
+    }
+
+    private void exitJava(int exitCode, boolean hardExit)
+    {
+        FMLLog.log(Level.INFO, "Java has been asked to exit (code %d) by %s.", exitCode, Thread.currentThread().getStackTrace()[1]);
+
+        if (hardExit)
+        {
+            FMLLog.log(Level.INFO, "This is an abortive exit and could cause world corruption or other things");
+        }
+        if (Boolean.parseBoolean(System.getProperty("fml.debugExit", "false")))
+        {
+            FMLLog.log(Level.INFO, new Throwable(), "Exit trace");
+        }
+        else
+        {
+            FMLLog.log(Level.INFO, "If this was an unexpected exit, use -Dfml.debugExit=true as a JVM argument to find out where it was called");
+        }
+        if (hardExit)
+        {
+            Runtime.getRuntime().halt(exitCode);
+        }
+        else
+        {
+            Runtime.getRuntime().exit(exitCode);
+        }
     }
 }

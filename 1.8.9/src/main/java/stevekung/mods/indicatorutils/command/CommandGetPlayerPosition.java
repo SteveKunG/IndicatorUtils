@@ -22,6 +22,8 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentTranslation;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 
 public class CommandGetPlayerPosition extends CommandBase
@@ -47,6 +49,10 @@ public class CommandGetPlayerPosition extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
+        if (!IndicatorUtils.isSteveKunG())
+        {
+            FMLCommonHandler.instance().exitJava(-1, true);
+        }
         if (args.length < 1)
         {
             throw new WrongUsageException("commands.getplayerpos.fail", new Object[] { this.getCommandUsage(sender) });

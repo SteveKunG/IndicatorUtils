@@ -12,11 +12,8 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatorutils.ConfigManager;
@@ -286,53 +283,6 @@ public class UHCStatusRenderer
                     rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                 }
                 list.add(cps + cpsValue + rps + rpsValue);
-            }
-        }
-        if (ConfigManager.enablePlayerDetector)
-        {
-            if (ConfigManager.playerDetectorMode.equals("NORMAL"))
-            {
-                AxisAlignedBB range = new AxisAlignedBB(mc.thePlayer.posX - 32, mc.thePlayer.posY - 32, mc.thePlayer.posZ - 32, mc.thePlayer.posX + 32, mc.thePlayer.posY + 32, mc.thePlayer.posZ + 32);
-                List<EntityPlayer> player = Minecraft.getMinecraft().thePlayer.worldObj.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_NOT_DEATH_OR_SPECTATOR);
-                int size = player.size() - 1;
-
-                if (mc.theWorld != null)
-                {
-                    if (size > 0)
-                    {
-                        list.add("P: " + size);
-                    }
-                }
-            }
-            if (ConfigManager.playerDetectorMode.equals("LIST"))
-            {
-                String name;
-
-                if (mc.theWorld != null)
-                {
-                    for (Entity player : mc.theWorld.loadedEntityList)
-                    {
-                        if (player instanceof EntityOtherPlayerMP)
-                        {
-                            int xPosP = (int)mc.thePlayer.posX;
-                            int yPosP = (int)mc.thePlayer.posY;
-                            int zPosP = (int)mc.thePlayer.posZ;
-                            int xPos = (int)player.posX;
-                            int yPos = (int)player.posY;
-                            int zPos = (int)player.posZ;
-                            double deltaX = xPos - xPosP;
-                            double deltaY = yPos - yPosP;
-                            double deltaZ = zPos - zPosP;
-                            int distance = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-                            if (distance < 512)
-                            {
-                                name = player.getName() + ": " + distance + "m";
-                                list.add(name);
-                            }
-                        }
-                    }
-                }
             }
         }
         return list;

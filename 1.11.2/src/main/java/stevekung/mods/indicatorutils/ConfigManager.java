@@ -33,7 +33,6 @@ public class ConfigManager
 
     // Main Settings
     public static boolean enableAllRenderInfo;
-    public static int entityDetectRange;
     public static int afkMessageTime;
     public static String endGameChatMessage;
     public static boolean enableArmorStatusRenderBug;
@@ -229,11 +228,6 @@ public class ConfigManager
         List<String> propOrder = new ArrayList<String>();
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable All Render Info", true);
         ConfigManager.enableAllRenderInfo = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Entity Detect Range", 16);
-        prop.setMinValue(8).setMaxValue(64).setConfigEntryClass(NumberSliderEntry.class);
-        ConfigManager.entityDetectRange = prop.getInt();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "AFK Message Time (minute)", 5);

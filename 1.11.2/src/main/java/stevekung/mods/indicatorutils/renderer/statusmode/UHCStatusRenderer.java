@@ -14,13 +14,9 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatorutils.ConfigManager;
@@ -306,67 +302,6 @@ public class UHCStatusRenderer
                     rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                 }
                 list.add(cps + cpsValue + rps + rpsValue);
-            }
-        }
-        if (ConfigManager.enablePlayerDetector)
-        {
-            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("NORMAL"))
-            {
-                AxisAlignedBB range = new AxisAlignedBB(mc.player.posX - 32, mc.player.posY - 32, mc.player.posZ - 32, mc.player.posX + 32, mc.player.posY + 32, mc.player.posZ + 32);
-                List<EntityPlayer> player = Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(EntityPlayer.class, range, GameInfoHelper.IS_DEATH_OR_SPECTATOR);
-                int size = player.size() - 1;
-
-                if (mc.world != null)
-                {
-                    for (Entity playerList : mc.world.loadedEntityList)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
-                        }
-                    }
-                    if (size > 0)
-                    {
-                        list.add("P: " + size);
-                    }
-                }
-            }
-            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("LIST"))
-            {
-                String name;
-
-                if (mc.world != null)
-                {
-                    for (Entity playerList : mc.world.loadedEntityList)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(((EntityOtherPlayerMP) playerList).isPotionActive(MobEffects.GLOWING));
-                        }
-                    }
-                    for (Entity player : mc.world.loadedEntityList)
-                    {
-                        if (player instanceof EntityOtherPlayerMP)
-                        {
-                            int xPosP = (int)mc.player.posX;
-                            int yPosP = (int)mc.player.posY;
-                            int zPosP = (int)mc.player.posZ;
-                            int xPos = (int)player.posX;
-                            int yPos = (int)player.posY;
-                            int zPos = (int)player.posZ;
-                            double deltaX = xPos - xPosP;
-                            double deltaY = yPos - yPosP;
-                            double deltaZ = zPos - zPosP;
-                            int distance = (int) Math.sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
-
-                            if (distance < 512)
-                            {
-                                name = player.getName() + ": " + distance + "m";
-                                list.add(name);
-                            }
-                        }
-                    }
-                }
             }
         }
         return list;

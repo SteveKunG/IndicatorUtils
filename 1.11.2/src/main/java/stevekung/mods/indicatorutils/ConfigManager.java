@@ -54,8 +54,6 @@ public class ConfigManager
     public static boolean swapMainRenderInfoToRight;
     public static String armorStatusMode;
     public static String healthStatusMode;
-    public static String entityDetectorMode;
-    public static String playerDetectorMode;
     public static String keystrokeMode;
     public static String potionStatusStyle;
     public static String keystrokeSize;
@@ -69,8 +67,6 @@ public class ConfigManager
     public static boolean enableLookingAtBlock;
     public static boolean enableDirection;
     public static boolean enableBiome;
-    public static boolean enableEntityDetector;
-    public static boolean enablePlayerDetector;
     public static boolean enableArmorStatus;
     public static boolean enablePotionStatus;
     public static boolean enableKeystroke;
@@ -331,16 +327,6 @@ public class ConfigManager
         ConfigManager.healthStatusMode = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Entity Detector Mode", "LIST");
-        prop.setValidValues(new String[] { "LIST", "GLOWING" });
-        ConfigManager.entityDetectorMode = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Player Detector Mode", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "LIST", "GLOWING" });
-        ConfigManager.playerDetectorMode = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke Mode", "NORMAL");
         prop.setValidValues(new String[] { "NORMAL", "ADVANCED" });
         ConfigManager.keystrokeMode = prop.getString();
@@ -395,14 +381,6 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Biome", true);
         ConfigManager.enableBiome = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Entity Detector", false);
-        ConfigManager.enableEntityDetector = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Player Detector", false);
-        ConfigManager.enablePlayerDetector = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Armor Status", true);

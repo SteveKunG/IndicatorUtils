@@ -21,7 +21,6 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
@@ -64,11 +63,6 @@ public class GameInfoHelper
     public boolean isMineplex()
     {
         return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("mineplex");
-    }
-
-    public <T extends Entity> List<T> detectEntities(Class<? extends T> entity, AxisAlignedBB range)
-    {
-        return Minecraft.getMinecraft().player.world.getEntitiesWithinAABB(entity, range);
     }
 
     public List<String> getPlayerInfoListClient()

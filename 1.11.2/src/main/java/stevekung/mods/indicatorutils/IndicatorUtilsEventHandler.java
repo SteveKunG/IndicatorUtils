@@ -17,7 +17,6 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiBossOverlay;
@@ -30,7 +29,6 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
@@ -143,7 +141,6 @@ public class IndicatorUtilsEventHandler
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
-        this.playerDetectorGlowingMode();
 
         StatusRendererHelper.initEntityDetectorWithGlowing();
 
@@ -551,26 +548,6 @@ public class IndicatorUtilsEventHandler
         IndicatorUtilsEventHandler.MAP_BOSS_INFOS = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
         this.overlayBoss = new GuiBossOverlayIU(this.mc);
         this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
-    }
-
-    private void playerDetectorGlowingMode()
-    {
-        if (ConfigManager.enablePlayerDetector)
-        {
-            if (ConfigManager.playerDetectorMode.equalsIgnoreCase("GLOWING"))
-            {
-                if (this.mc.world != null)
-                {
-                    for (EntityPlayer playerList : this.mc.world.playerEntities)
-                    {
-                        if (playerList instanceof EntityOtherPlayerMP)
-                        {
-                            ((EntityOtherPlayerMP)playerList).setGlowing(true);
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private void autoFish()

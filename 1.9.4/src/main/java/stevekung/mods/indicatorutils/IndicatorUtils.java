@@ -79,7 +79,7 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 1;
+    public static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.ConfigGuiFactory";
@@ -117,6 +117,7 @@ public class IndicatorUtils
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
+        MinecraftForge.EVENT_BUS.register(new OldVersionWarningEventHandler());
         MinecraftForge.EVENT_BUS.register(this);
 
         if (event.getSide() == Side.CLIENT)

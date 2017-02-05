@@ -18,6 +18,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
@@ -62,6 +64,7 @@ import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
 import stevekung.mods.indicatorutils.utils.gui.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.utils.gui.GuiNewSleepMP;
 import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
 import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
@@ -101,9 +104,17 @@ public class IndicatorUtilsEventHandler
 
         if (this.mc.currentScreen != null)
         {
-            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings))
+            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings || this.mc.currentScreen instanceof GuiSleepMP))
             {
                 this.mc.displayGuiScreen(new GuiNewChatSettings());
+            }
+            if (this.mc.currentScreen instanceof GuiSleepMP && !(this.mc.currentScreen instanceof GuiNewSleepMP))
+            {
+                this.mc.displayGuiScreen(new GuiNewSleepMP());
+            }
+            if (this.mc.currentScreen instanceof GuiNewSleepMP && !this.mc.thePlayer.isPlayerSleeping())
+            {
+                this.mc.displayGuiScreen((GuiScreen)null);
             }
         }
 
@@ -408,18 +419,21 @@ public class IndicatorUtilsEventHandler
     {
         if (event.getType() == ElementType.PLAYER_LIST)
         {
-            event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
-            NetHandlerPlayClient handler = this.mc.thePlayer.connection;
+            if (ConfigManager.playerPingMode.equalsIgnoreCase("number"))
+            {
+                event.setCanceled(true);
+                ScoreObjective scoreobjective = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(0);
+                NetHandlerPlayClient handler = this.mc.thePlayer.connection;
 
-            if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
-            {
-                this.overlayPlayerList.updatePlayerList(true);
-                this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
-            }
-            else
-            {
-                this.overlayPlayerList.updatePlayerList(false);
+                if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
+                {
+                    this.overlayPlayerList.updatePlayerList(true);
+                    this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.theWorld.getScoreboard(), scoreobjective);
+                }
+                else
+                {
+                    this.overlayPlayerList.updatePlayerList(false);
+                }
             }
         }
         if (event.getType() == ElementType.CHAT)

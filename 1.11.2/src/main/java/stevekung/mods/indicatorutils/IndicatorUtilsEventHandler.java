@@ -234,18 +234,21 @@ public class IndicatorUtilsEventHandler
     {
         if (event.getType() == ElementType.PLAYER_LIST)
         {
-            event.setCanceled(true);
-            ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
-            NetHandlerPlayClient handler = this.mc.player.connection;
+            if (ConfigManager.playerPingMode.equalsIgnoreCase("number"))
+            {
+                event.setCanceled(true);
+                ScoreObjective scoreobjective = this.mc.world.getScoreboard().getObjectiveInDisplaySlot(0);
+                NetHandlerPlayClient handler = this.mc.player.connection;
 
-            if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
-            {
-                this.overlayPlayerList.updatePlayerList(true);
-                this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
-            }
-            else
-            {
-                this.overlayPlayerList.updatePlayerList(false);
+                if (this.mc.gameSettings.keyBindPlayerList.isKeyDown() && (!this.mc.isIntegratedServerRunning() || handler.getPlayerInfoMap().size() > 1 || scoreobjective != null))
+                {
+                    this.overlayPlayerList.updatePlayerList(true);
+                    this.overlayPlayerList.renderPlayerlist(event.getResolution().getScaledWidth(), this.mc.world.getScoreboard(), scoreobjective);
+                }
+                else
+                {
+                    this.overlayPlayerList.updatePlayerList(false);
+                }
             }
         }
         if (event.getType() == ElementType.CHAT)

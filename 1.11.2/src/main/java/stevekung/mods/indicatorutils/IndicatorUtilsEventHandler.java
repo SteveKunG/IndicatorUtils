@@ -23,6 +23,8 @@ import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.GlStateManager;
@@ -71,6 +73,7 @@ import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
 import stevekung.mods.indicatorutils.utils.gui.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.utils.gui.GuiNewSleepMP;
 import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
 import stevekung.mods.indicatorutils.utils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
@@ -141,14 +144,21 @@ public class IndicatorUtilsEventHandler
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
-
         StatusRendererHelper.initEntityDetectorWithGlowing();
 
         if (this.mc.currentScreen != null)
         {
-            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings))
+            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings || this.mc.currentScreen instanceof GuiSleepMP))
             {
                 this.mc.displayGuiScreen(new GuiNewChatSettings());
+            }
+            if (this.mc.currentScreen instanceof GuiSleepMP && !(this.mc.currentScreen instanceof GuiNewSleepMP))
+            {
+                this.mc.displayGuiScreen(new GuiNewSleepMP());
+            }
+            if (this.mc.currentScreen instanceof GuiNewSleepMP && !this.mc.player.isPlayerSleeping())
+            {
+                this.mc.displayGuiScreen((GuiScreen)null);
             }
         }
 

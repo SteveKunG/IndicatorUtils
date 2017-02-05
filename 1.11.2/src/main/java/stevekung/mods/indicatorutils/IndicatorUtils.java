@@ -64,7 +64,7 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 1;
+    public static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.ConfigGuiFactory";
@@ -102,6 +102,7 @@ public class IndicatorUtils
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
+        MinecraftForge.EVENT_BUS.register(new OldVersionWarningEventHandler());
         MinecraftForge.EVENT_BUS.register(this);
 
         if (event.getSide() == Side.CLIENT)
@@ -213,7 +214,7 @@ public class IndicatorUtils
                 }
                 if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
                 {
-                    event.player.sendMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "")).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
+                    event.player.sendMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersionReplaceMC()).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
                     event.player.sendMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, URL)))));
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }

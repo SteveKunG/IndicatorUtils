@@ -1,3 +1,9 @@
+/*******************************************************************************
+ *
+ * Copyright 2016 Wasinthorn Suksri/SteveKunG - Indicator Utils
+ *
+ ******************************************************************************/
+
 package stevekung.mods.indicatorutils.utils.gui;
 
 import java.net.URI;
@@ -25,14 +31,14 @@ public class GuiOldVersionWarning extends GuiScreen
         int offset = this.height / 2 - 50;
         this.drawCenteredString(this.fontRendererObj, "You are using an old version of Indicator Utils!", this.width / 2, offset, 43690);
         offset += 25;
-        this.drawCenteredString(this.fontRendererObj, "We recommended because we fix some bugs that occur in the mod", this.width / 2, offset, 16733525);
+        this.drawCenteredString(this.fontRendererObj, "We recommended latest because we fix some bugs that occur", this.width / 2, offset, 16733525);
         offset += 20;
         this.drawCenteredString(this.fontRendererObj, "Close Minecraft and install the latest " + TextFormatting.GREEN + "[Indicator Utils " + VersionChecker.INSTANCE.getLatestVersionReplaceMC() + "]", this.width / 2, offset, 16733525);
         offset += 20;
         String s = TextFormatting.UNDERLINE + "Click Here to Download [Recommended]";
-        this.urlX = this.width / 2 - this.fontRendererObj.getStringWidth(s) / 2 - 10;
+        this.urlX = this.width / 2 - this.fontRendererObj.getStringWidth(s) / 2 - 2;
         this.urlY = offset - 2;
-        this.urlWidth = this.fontRendererObj.getStringWidth(s) + 20;
+        this.urlWidth = this.fontRendererObj.getStringWidth(s) + 4;
         this.urlHeight = 14;
         Gui.drawRect(this.urlX, this.urlY, this.urlX + this.urlWidth, this.urlY + this.urlHeight, 1684300900);
         this.drawCenteredString(this.fontRendererObj, s, this.width / 2, offset, 43520);
@@ -49,7 +55,7 @@ public class GuiOldVersionWarning extends GuiScreen
             try
             {
                 Class<?> oclass = Class.forName("java.awt.Desktop");
-                Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object) null, new Object[0]);
+                Object object = oclass.getMethod("getDesktop").invoke((Object) null);
                 oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { new URI("http://adf.ly/1cDWrG") });
                 FMLCommonHandler.instance().exitJava(0, false);
             }

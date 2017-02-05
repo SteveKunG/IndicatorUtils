@@ -125,6 +125,11 @@ public class VersionChecker implements Runnable
         return VersionChecker.latestVersion;
     }
 
+    public String getLatestVersionReplaceMC()
+    {
+        return VersionChecker.latestVersion.replace("[" + IndicatorUtils.MC_VERSION + "]=", "");
+    }
+
     public String getExceptionMessage()
     {
         return VersionChecker.exceptionMessage;

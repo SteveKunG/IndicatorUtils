@@ -36,6 +36,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiPlayerInfo;
+import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.boss.BossStatus;
@@ -63,6 +65,7 @@ import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
 import stevekung.mods.indicatorutils.utils.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.utils.GuiNewSleepMP;
 import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
@@ -102,9 +105,17 @@ public class IndicatorUtilsEventHandler
 
         if (mc.currentScreen != null)
         {
-            if (mc.currentScreen instanceof GuiChat && !(mc.currentScreen instanceof GuiNewChatSettings))
+            if (mc.currentScreen instanceof GuiChat && !(mc.currentScreen instanceof GuiNewChatSettings || mc.currentScreen instanceof GuiSleepMP))
             {
                 mc.displayGuiScreen(new GuiNewChatSettings());
+            }
+            if (mc.currentScreen instanceof GuiSleepMP && !(mc.currentScreen instanceof GuiNewSleepMP))
+            {
+                mc.displayGuiScreen(new GuiNewSleepMP());
+            }
+            if (mc.currentScreen instanceof GuiNewSleepMP && !mc.thePlayer.isPlayerSleeping())
+            {
+                mc.displayGuiScreen((GuiScreen)null);
             }
         }
 

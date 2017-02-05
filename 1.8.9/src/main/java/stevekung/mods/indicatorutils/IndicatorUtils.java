@@ -118,6 +118,7 @@ public class IndicatorUtils
         MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
+        MinecraftForge.EVENT_BUS.register(new OldVersionWarningEventHandler());
         MinecraftForge.EVENT_BUS.register(this);
 
         if (event.getSide() == Side.CLIENT)

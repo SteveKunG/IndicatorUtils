@@ -272,7 +272,7 @@ public class IndicatorUtils
                 }
                 if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
                 {
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "") + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
+                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersionReplaceMC() + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
                     event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Download Link \",\"color\":\"yellow\",\"extra\":[{\"text\":\"[CLICK HERE]\",\"color\":\"blue\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + TextFormatting.DARK_GREEN + "Click Here!\"},\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + URL + "\"}}]"));
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }

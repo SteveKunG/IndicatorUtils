@@ -80,7 +80,7 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 1;
+    public static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.ConfigGuiFactory";
@@ -269,7 +269,7 @@ public class IndicatorUtils
                 }
                 if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
                 {
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersion().replace("[" + IndicatorUtils.MC_VERSION + "]=", "") + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
+                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersionReplaceMC() + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
                     event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Download Link \",\"color\":\"yellow\",\"extra\":[{\"text\":\"[CLICK HERE]\",\"color\":\"blue\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + EnumChatFormatting.DARK_GREEN + "Click Here!\"},\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + URL + "\"}}]"));
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }

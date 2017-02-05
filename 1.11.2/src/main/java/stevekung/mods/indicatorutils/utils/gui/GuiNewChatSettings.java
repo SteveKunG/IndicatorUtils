@@ -71,6 +71,10 @@ public class GuiNewChatSettings extends GuiChat
 
             if (!s.isEmpty())
             {
+                if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
+                {
+                    s = "@" + s;
+                }
                 this.sendChatMessage(s);
             }
             this.mc.displayGuiScreen((GuiScreen)null);

@@ -71,10 +71,10 @@ import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.CommandBlockStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.GlobalStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
+import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
+import stevekung.mods.indicatorutils.renderer.mode.Global;
+import stevekung.mods.indicatorutils.renderer.mode.PvP;
+import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
@@ -278,19 +278,19 @@ public class IndicatorUtilsEventHandler
             {
                 if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
                 {
-                    UHCStatusRenderer.init(this.mc);
+                    UHC.init(this.mc);
                 }
                 else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.PVP))
                 {
-                    PvPStatusRenderer.init(this.mc);
+                    PvP.init(this.mc);
                 }
                 else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.COMMAND_BLOCK))
                 {
-                    CommandBlockStatusRenderer.init(this.mc);
+                    CommandBlock.init(this.mc);
                 }
                 else
                 {
-                    GlobalStatusRenderer.init(this.mc);
+                    Global.init(this.mc);
                 }
 
                 if (ConfigManager.enableCPS)

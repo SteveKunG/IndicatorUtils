@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.statusmode;
+package stevekung.mods.indicatorutils.renderer.mode;
 
 import java.util.Collection;
 import java.util.List;
@@ -26,11 +26,11 @@ import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class PvPStatusRenderer
+public class PvP
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = PvPStatusRenderer.renderIndicator(mc);
+        List<String> list = PvP.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -113,7 +113,7 @@ public class PvPStatusRenderer
                 if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.CHECK_UUID = true;
-                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.CHECK_UUID;
+                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.CHECK_UUID;
                 }
                 list.add(ping + pingna);
             }

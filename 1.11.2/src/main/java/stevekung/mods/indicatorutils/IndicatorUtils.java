@@ -22,7 +22,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.util.text.event.HoverEvent;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -72,10 +71,9 @@ public class IndicatorUtils
     public static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
-    public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.ConfigGuiFactory";
-    public static final boolean[] STATUS_CHECK = { false, false, false, false };
+    public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
+    public static final boolean[] STATUS_CHECK = { false, false, false };
     public static String USERNAME;
-    public static boolean loadCapeOnStartup = true;
 
     static
     {
@@ -183,12 +181,11 @@ public class IndicatorUtils
 
         if (ConfigManager.enableCustomCapeFeature)
         {
-            if (!ExtendedModSettings.CAPE_URL.isEmpty() && IndicatorUtils.loadCapeOnStartup)
+            if (!ExtendedModSettings.CAPE_URL.isEmpty())
             {
                 CapeUtils.textureUploaded = true;
                 CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
-                IndicatorUtils.loadCapeOnStartup = false;
             }
             else
             {
@@ -202,7 +199,6 @@ public class IndicatorUtils
     @SubscribeEvent
     public void onCheckVersion(PlayerTickEvent event)
     {
-        String URL = "https://www.mediafire.com/folder/11vdjbssscho2/Indicator_Utils";
         String changeLog = "http://pastebin.com/rJ7He59c";
         JsonUtils json = new JsonUtils();
 
@@ -210,20 +206,14 @@ public class IndicatorUtils
         {
             if (ConfigManager.enableVersionChecker)
             {
-                if (!IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.noConnection())
+                if (!IndicatorUtils.STATUS_CHECK[1] && VersionChecker.INSTANCE.noConnection())
                 {
                     event.player.sendMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.red()));
                     event.player.sendMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.red()));
-                    IndicatorUtils.STATUS_CHECK[2] = true;
+                    IndicatorUtils.STATUS_CHECK[1] = true;
                     return;
                 }
-                if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
-                {
-                    event.player.sendMessage(json.text("New version of ").appendSibling(json.text("Indicator Utils").setStyle(json.style().setColor(TextFormatting.AQUA)).appendSibling(json.text(" is available ").setStyle(json.white()).appendSibling(json.text("v" + VersionChecker.INSTANCE.getLatestVersionReplaceMC()).setStyle(json.style().setColor(TextFormatting.GREEN)).appendSibling(json.text(" for ").setStyle(json.white()).appendSibling(json.text("MC-" + IndicatorUtils.MC_VERSION).setStyle(json.style().setColor(TextFormatting.GOLD))))))));
-                    event.player.sendMessage(json.text("Download Link ").setStyle(json.style().setColor(TextFormatting.YELLOW)).appendSibling(json.text("[CLICK HERE]").setStyle(json.style().setColor(TextFormatting.BLUE).setHoverEvent(json.hover(HoverEvent.Action.SHOW_TEXT, json.text("Click Here!").setStyle(json.style().setColor(TextFormatting.DARK_GREEN)))).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, URL)))));
-                    IndicatorUtils.STATUS_CHECK[0] = true;
-                }
-                if (!IndicatorUtils.STATUS_CHECK[1] && !IndicatorUtils.STATUS_CHECK[2])
+                if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[1])
                 {
                     for (String log : VersionChecker.INSTANCE.getChangeLog())
                     {
@@ -232,13 +222,13 @@ public class IndicatorUtils
                             event.player.sendMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
                         }
                     }
-                    IndicatorUtils.STATUS_CHECK[1] = true;
+                    IndicatorUtils.STATUS_CHECK[0] = true;
                 }
             }
-            if (IndicatorUtils.STATUS_CHECK[3])
+            if (IndicatorUtils.STATUS_CHECK[2])
             {
                 event.player.sendMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.red().setBold(true)));
-                IndicatorUtils.STATUS_CHECK[3] = false;
+                IndicatorUtils.STATUS_CHECK[2] = false;
             }
         }
     }
@@ -249,8 +239,8 @@ public class IndicatorUtils
         info.modId = IndicatorUtils.MOD_ID;
         info.name = IndicatorUtils.NAME;
         info.version = IndicatorUtils.VERSION;
-        info.description = "Displaying all player status, Entity info, Health, and more features!";
-        info.url = "https://www.mediafire.com/folder/11vdjbssscho2/Indicator_Utils";
+        info.description = "Displaying all player status and more comfortable features!";
+        info.url = "https://www.youtube.com/watch?v=9YJZFqiGXuA";
         info.authorList = Arrays.asList("SteveKunG");
     }
 
@@ -267,6 +257,6 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4"));
+        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
     }
 }

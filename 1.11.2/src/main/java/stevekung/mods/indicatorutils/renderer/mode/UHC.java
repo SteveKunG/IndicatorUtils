@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.statusmode;
+package stevekung.mods.indicatorutils.renderer.mode;
 
 import java.util.Collection;
 import java.util.List;
@@ -18,20 +18,21 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandBlockStatusRenderer
+public class UHC
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = CommandBlockStatusRenderer.renderIndicator(mc);
+        List<String> list = UHC.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -71,7 +72,7 @@ public class CommandBlockStatusRenderer
         }
     }
 
-    public static List<String> renderIndicator(Minecraft mc)
+    private static List<String> renderIndicator(Minecraft mc)
     {
         List<String> list = Lists.newArrayList();
         JsonUtils json = new JsonUtils();
@@ -114,7 +115,7 @@ public class CommandBlockStatusRenderer
                 if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.CHECK_UUID = true;
-                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.CHECK_UUID;
+                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.CHECK_UUID;
                 }
                 list.add(ping + pingna);
             }
@@ -183,6 +184,8 @@ public class CommandBlockStatusRenderer
                 String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
                 String xPosition1 = json.text(String.valueOf(pos.getX() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
                 String zPosition1 = json.text(String.valueOf(pos.getZ() * 8)).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
+                String inNether = mc.player.dimension == -1 ? nether : "";
+                list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
                 if (ConfigManager.useCustomTextXYZ)
                 {
@@ -191,28 +194,11 @@ public class CommandBlockStatusRenderer
                     overworld = JsonUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
-                String inNether = mc.player.dimension == -1 ? nether : "";
-                list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
-
                 if (ConfigManager.enableOverworldCoordinate && mc.player.dimension == -1)
                 {
                     list.add(overworld + xyz + xPosition1 + " " + yPosition + " " + zPosition1);
                 }
             }
-        }
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == Type.BLOCK && mc.objectMouseOver.getBlockPos() != null)
-        {
-            BlockPos pos = mc.objectMouseOver.getBlockPos();
-            String xPosition = json.text(String.valueOf(pos.getX())).setStyle(json.colorFromConfig(ConfigManager.customColorXValue)).getFormattedText();
-            String yPosition = json.text(String.valueOf(pos.getY())).setStyle(json.colorFromConfig(ConfigManager.customColorYValue)).getFormattedText();
-            String zPosition = json.text(String.valueOf(pos.getZ())).setStyle(json.colorFromConfig(ConfigManager.customColorZValue)).getFormattedText();
-            String lookingAt = json.text("Looking at: ").setStyle(json.colorFromConfig(ConfigManager.customColorLookingAt)).getFormattedText();
-
-            if (ConfigManager.useCustomTextLookingAt)
-            {
-                lookingAt = JsonUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
-            }
-            list.add(lookingAt + xPosition + " " + yPosition + " " + zPosition);
         }
         if (ConfigManager.enableDirection)
         {
@@ -274,6 +260,49 @@ public class CommandBlockStatusRenderer
                 directionText = JsonUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
             }
             list.add(directionText + directionValue);
+        }
+        if (ConfigManager.enableBiome)
+        {
+            if (mc.world != null)
+            {
+                BlockPos blockpos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
+                Chunk chunk = mc.world.getChunkFromBlockCoords(blockpos);
+
+                if (mc.world.isBlockLoaded(blockpos) && blockpos.getY() >= 0 && blockpos.getY() < 256)
+                {
+                    if (!chunk.isEmpty())
+                    {
+                        String biome = json.text("Biome: ").setStyle(json.colorFromConfig(ConfigManager.customColorBiome)).getFormattedText();
+                        String value = json.text(StatusRendererHelper.getBetterBiomeName(chunk, mc.world, blockpos)).setStyle(json.colorFromConfig(ConfigManager.customColorBiomeValue)).getFormattedText();
+
+                        if (ConfigManager.useCustomTextBiome)
+                        {
+                            biome = JsonUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
+                        }
+                        list.add(biome + value);
+                    }
+                }
+            }
+        }
+        if (ConfigManager.enableCPS)
+        {
+            if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
+            {
+                String cps = json.text("CPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+                String rps = ConfigManager.enableRPS ? json.text(" RPS: ").setStyle(json.colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+                String cpsValue = json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
+                String rpsValue = ConfigManager.enableRPS ? json.text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(json.colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+
+                if (ConfigManager.useCustomTextCPS)
+                {
+                    cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                }
+                if (ConfigManager.useCustomTextRPS)
+                {
+                    rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                }
+                list.add(cps + cpsValue + rps + rpsValue);
+            }
         }
         return list;
     }

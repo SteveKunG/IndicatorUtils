@@ -19,13 +19,13 @@ import net.minecraft.entity.Entity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
-import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandBlockStatusRenderer
 {
@@ -74,7 +74,7 @@ public class CommandBlockStatusRenderer
     public static List<String> renderIndicator(Minecraft mc)
     {
         List<String> list = Lists.newArrayList();
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
 
         if (ConfigManager.enablePing)
         {
@@ -82,7 +82,7 @@ public class CommandBlockStatusRenderer
 
             if (ConfigManager.useCustomTextPing)
             {
-                ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
+                ping = JsonUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
             if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
@@ -123,7 +123,7 @@ public class CommandBlockStatusRenderer
         {
             if (mc.isConnectedToRealms())
             {
-                list.add(JsonMessageUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
+                list.add(JsonUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
             }
             else
             {
@@ -135,7 +135,7 @@ public class CommandBlockStatusRenderer
 
                     if (ConfigManager.useCustomTextIP)
                     {
-                        ip = JsonMessageUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
+                        ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
                     }
 
                     if (ConfigManager.enableServerIPWithMCVersion)
@@ -157,7 +157,7 @@ public class CommandBlockStatusRenderer
 
             if (ConfigManager.useCustomTextFPS)
             {
-                fps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
+                fps = JsonUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
             }
 
             if (Minecraft.getDebugFPS() >= 26 && Minecraft.getDebugFPS() <= 40)
@@ -186,9 +186,9 @@ public class CommandBlockStatusRenderer
 
                 if (ConfigManager.useCustomTextXYZ)
                 {
-                    xyz = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
-                    nether = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
-                    overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
+                    xyz = JsonUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
+                    nether = JsonUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
+                    overworld = JsonUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
                 String inNether = mc.player.dimension == -1 ? nether : "";
@@ -210,7 +210,7 @@ public class CommandBlockStatusRenderer
 
             if (ConfigManager.useCustomTextLookingAt)
             {
-                lookingAt = JsonMessageUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
+                lookingAt = JsonUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
             }
             list.add(lookingAt + xPosition + " " + yPosition + " " + zPosition);
         }
@@ -271,7 +271,7 @@ public class CommandBlockStatusRenderer
 
             if (ConfigManager.useCustomTextDirection)
             {
-                directionText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
+                directionText = JsonUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
             }
             list.add(directionText + directionValue);
         }

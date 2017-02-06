@@ -20,14 +20,14 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult.Type;
 import net.minecraft.world.chunk.Chunk;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GlobalStatusRenderer
 {
@@ -76,7 +76,7 @@ public class GlobalStatusRenderer
     public static List<String> renderIndicator(Minecraft mc)
     {
         List<String> list = Lists.newArrayList();
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
 
         if (ConfigManager.enablePing)
         {
@@ -84,7 +84,7 @@ public class GlobalStatusRenderer
 
             if (ConfigManager.useCustomTextPing)
             {
-                ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
+                ping = JsonUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
             if (mc.getConnection().getPlayerInfo(mc.player.getUniqueID()) != null)
@@ -125,7 +125,7 @@ public class GlobalStatusRenderer
         {
             if (mc.isConnectedToRealms())
             {
-                list.add(JsonMessageUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
+                list.add(JsonUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
             }
             else
             {
@@ -137,7 +137,7 @@ public class GlobalStatusRenderer
 
                     if (ConfigManager.useCustomTextIP)
                     {
-                        ip = JsonMessageUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
+                        ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
                     }
 
                     if (ConfigManager.enableServerIPWithMCVersion)
@@ -159,7 +159,7 @@ public class GlobalStatusRenderer
 
             if (ConfigManager.useCustomTextFPS)
             {
-                fps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
+                fps = JsonUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
             }
 
             if (Minecraft.getDebugFPS() >= 26 && Minecraft.getDebugFPS() <= 40)
@@ -190,9 +190,9 @@ public class GlobalStatusRenderer
 
                 if (ConfigManager.useCustomTextXYZ)
                 {
-                    xyz = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
-                    nether = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
-                    overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
+                    xyz = JsonUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
+                    nether = JsonUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
+                    overworld = JsonUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
                 if (ConfigManager.enableOverworldCoordinate && mc.player.dimension == -1)
@@ -213,7 +213,7 @@ public class GlobalStatusRenderer
 
                 if (ConfigManager.useCustomTextLookingAt)
                 {
-                    lookingAt = JsonMessageUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
+                    lookingAt = JsonUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
                 }
                 list.add(lookingAt + xPosition + " " + yPosition + " " + zPosition);
             }
@@ -275,7 +275,7 @@ public class GlobalStatusRenderer
 
             if (ConfigManager.useCustomTextDirection)
             {
-                directionText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
+                directionText = JsonUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
             }
             list.add(directionText + directionValue);
         }
@@ -295,7 +295,7 @@ public class GlobalStatusRenderer
 
                         if (ConfigManager.useCustomTextBiome)
                         {
-                            biome = JsonMessageUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
+                            biome = JsonUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
                         }
                         list.add(biome + value);
                     }
@@ -313,11 +313,11 @@ public class GlobalStatusRenderer
 
                 if (ConfigManager.useCustomTextCPS)
                 {
-                    cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                    cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                 }
                 if (ConfigManager.useCustomTextRPS)
                 {
-                    rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                 }
                 list.add(cps + cpsValue + rps + rpsValue);
             }

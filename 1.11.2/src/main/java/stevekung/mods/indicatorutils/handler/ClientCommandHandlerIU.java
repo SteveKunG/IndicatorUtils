@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.command;
+package stevekung.mods.indicatorutils.handler;
 
 import java.util.List;
 

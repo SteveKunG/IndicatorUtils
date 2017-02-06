@@ -15,8 +15,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandIndicatorUtils extends CommandBase
 {
@@ -47,7 +47,7 @@ public class CommandIndicatorUtils extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
 
         if (args.length < 1)
         {

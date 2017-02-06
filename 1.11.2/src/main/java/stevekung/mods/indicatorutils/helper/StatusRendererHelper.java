@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.helper;
+package stevekung.mods.indicatorutils.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -95,16 +95,16 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.ObjectModeHelper.ArmorStatusPosition;
+import stevekung.mods.indicatorutils.helper.ObjectModeHelper.PotionStatusPosition;
+import stevekung.mods.indicatorutils.helper.OffsetHelper.EnumSide;
 import stevekung.mods.indicatorutils.renderer.SmallFontRenderer;
 import stevekung.mods.indicatorutils.utils.ArmorType;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.ObjectModeHelper.ArmorStatusPosition;
-import stevekung.mods.indicatorutils.utils.helper.ObjectModeHelper.PotionStatusPosition;
-import stevekung.mods.indicatorutils.utils.helper.OffsetHelper.EnumSide;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class StatusRendererHelper
 {
@@ -192,7 +192,7 @@ public class StatusRendererHelper
             int itemCount = 0;
             int arrowCount = StatusRendererHelper.INSTANCE.countArrowInInventory(mc.player);
             SmallFontRenderer font = new SmallFontRenderer();
-            JsonMessageUtils json = new JsonMessageUtils();
+            JsonUtils json = new JsonUtils();
 
             if (ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.HOTBAR_LEFT))
             {
@@ -768,7 +768,7 @@ public class StatusRendererHelper
             ScaledResolution scaledRes = new ScaledResolution(mc);
             boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;
             boolean shortDateBool = ConfigManager.useShortDate;
-            JsonMessageUtils json = new JsonMessageUtils();
+            JsonUtils json = new JsonUtils();
             String day = json.text(new SimpleDateFormat("d", StatusRendererHelper.getDateFormat()).format(new Date())).setStyle(json.colorFromConfig(ConfigManager.customColorCurrentTimeDay)).getFormattedText();
             String month = json.text(new SimpleDateFormat(shortDateBool ? "M" : "MMM", StatusRendererHelper.getDateFormat()).format(new Date())).setStyle(json.colorFromConfig(ConfigManager.customColorCurrentTimeMonth)).getFormattedText();
             String year = json.text(new SimpleDateFormat("yyyy", StatusRendererHelper.getDateFormat()).format(new Date())).setStyle(json.colorFromConfig(ConfigManager.customColorCurrentTimeYear)).getFormattedText();
@@ -783,11 +783,11 @@ public class StatusRendererHelper
 
             if (ConfigManager.useCustomTextTime)
             {
-                timeText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextTime).getFormattedText();
+                timeText = JsonUtils.rawTextToJson(ConfigManager.customTextTime).getFormattedText();
             }
             if (ConfigManager.useCustomTextTimeZone)
             {
-                timeZoneText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextTimeZone).getFormattedText();
+                timeZoneText = JsonUtils.rawTextToJson(ConfigManager.customTextTimeZone).getFormattedText();
             }
 
             if (ConfigManager.enableCurrentTime)
@@ -802,9 +802,9 @@ public class StatusRendererHelper
 
                 if (ConfigManager.useCustomWeather)
                 {
-                    prefixText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
-                    rainingText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
-                    thunderText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextThunder).getFormattedText();
+                    prefixText = JsonUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
+                    rainingText = JsonUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
+                    thunderText = JsonUtils.rawTextToJson(ConfigManager.customTextThunder).getFormattedText();
                 }
                 String prefix = mc.world.isRaining() | mc.world.isThundering() ? prefixText : "";
                 String weather = mc.world.isRaining() && !mc.world.isThundering() ? rainingText : mc.world.isRaining() && mc.world.isThundering() ? thunderText : "";
@@ -840,11 +840,11 @@ public class StatusRendererHelper
 
                     if (ConfigManager.useCustomTextCPS)
                     {
-                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                        cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
                     if (ConfigManager.useCustomTextRPS)
                     {
-                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                        rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                     }
                     list.add(cps + cpsValue + rps + rpsValue);
                 }
@@ -1034,13 +1034,13 @@ public class StatusRendererHelper
 
     public String getArmorDurability1(ArmorType type)
     {
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
         return json.text(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage())).setStyle(json.colorFromConfig(ConfigManager.customColorArmorDamageDurability)).getFormattedText() + "/" + json.text(String.valueOf(this.getArmorType(type).getMaxDamage())).setStyle(json.colorFromConfig(ConfigManager.customColorArmorMaxDurability)).getFormattedText();
     }
 
     public String getArmorDurability2(ArmorType type)
     {
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
         return json.text(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage())).setStyle(json.colorFromConfig(ConfigManager.customColorArmorDamageDurability)).getFormattedText();
     }
 
@@ -1076,7 +1076,7 @@ public class StatusRendererHelper
         }
         else if (ConfigManager.armorStatusMode.equalsIgnoreCase("PERCENT"))
         {
-            return new JsonMessageUtils().text(String.valueOf(StatusRendererHelper.INSTANCE.calculateArmorDurabilityPercent(armorType) + "%")).setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorArmorPercent)).getFormattedText();
+            return new JsonUtils().text(String.valueOf(StatusRendererHelper.INSTANCE.calculateArmorDurabilityPercent(armorType) + "%")).setStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorArmorPercent)).getFormattedText();
         }
         else
         {
@@ -1086,7 +1086,7 @@ public class StatusRendererHelper
 
     public static String getHeldItemStatus(ItemStack itemStack)
     {
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
 
         if (ConfigManager.heldItemStatusMode.equalsIgnoreCase("PERCENT"))
         {
@@ -1131,7 +1131,7 @@ public class StatusRendererHelper
             ExtendedModSettings.DISPLAY_MODE = "command";
         }
         ExtendedModSettings.saveExtendedSettings();
-        GameInfoHelper.INSTANCE.setActionBarMessage(new JsonMessageUtils().text("Change display mode to " + "[" + mode + "]"), false);
+        GameInfoHelper.INSTANCE.setActionBarMessage(new JsonUtils().text("Change display mode to " + "[" + mode + "]"), false);
     }
 
     public void drawRect(double top, double bottom, double left, double right, int color)

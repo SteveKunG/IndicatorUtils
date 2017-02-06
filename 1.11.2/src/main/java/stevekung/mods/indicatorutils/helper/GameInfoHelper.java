@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.helper;
+package stevekung.mods.indicatorutils.helper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -22,10 +22,10 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
 import net.minecraft.util.text.ITextComponent;
-import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GameInfoHelper
 {
@@ -94,7 +94,7 @@ public class GameInfoHelper
     // Credit to lib24time (Bukkit)
     public String getInGameTime(long worldTick)
     {
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
         int hours = (int)((worldTick / 1000 + 6) % 24);
         int minutes = (int)(60 * (worldTick % 1000) / 1000);
         String sminutes = "" + minutes;
@@ -115,7 +115,7 @@ public class GameInfoHelper
 
         if (ConfigManager.useCustomTextGameTime)
         {
-            game = JsonMessageUtils.rawTextToJson(ConfigManager.customTextGameTime).getFormattedText();
+            game = JsonUtils.rawTextToJson(ConfigManager.customTextGameTime).getFormattedText();
         }
         return game + value + " " + AMPM;
     }

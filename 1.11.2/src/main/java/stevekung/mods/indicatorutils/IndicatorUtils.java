@@ -35,7 +35,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.Side;
-import stevekung.mods.indicatorutils.command.ClientCommandHandlerIU;
 import stevekung.mods.indicatorutils.command.CommandAFK;
 import stevekung.mods.indicatorutils.command.CommandAutoFish;
 import stevekung.mods.indicatorutils.command.CommandAutoLogin;
@@ -45,13 +44,19 @@ import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
 import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
 import stevekung.mods.indicatorutils.command.CommandRecTemp;
 import stevekung.mods.indicatorutils.command.CommandShowCape;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.BlockhitAnimationHandler;
+import stevekung.mods.indicatorutils.handler.ClientCommandHandlerIU;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
+import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
-import stevekung.mods.indicatorutils.utils.BlockhitAnimation;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 import stevekung.mods.indicatorutils.utils.ModSecurityManager;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
@@ -99,7 +104,7 @@ public class IndicatorUtils
             new ThreadMojangStatusCheck(true).start();
         }
 
-        MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
+        MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
         MinecraftForge.EVENT_BUS.register(new OldVersionWarningEventHandler());
@@ -199,7 +204,7 @@ public class IndicatorUtils
     {
         String URL = "https://www.mediafire.com/folder/11vdjbssscho2/Indicator_Utils";
         String changeLog = "http://pastebin.com/rJ7He59c";
-        JsonMessageUtils json = new JsonMessageUtils();
+        JsonUtils json = new JsonUtils();
 
         if (event.player.world.isRemote)
         {

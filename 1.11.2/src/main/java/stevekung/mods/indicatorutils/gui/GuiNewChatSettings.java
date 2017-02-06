@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.gui;
+package stevekung.mods.indicatorutils.gui;
 
 import java.io.IOException;
 
@@ -12,11 +12,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiScreen;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.utils.GuiOptionSliderIU;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GuiNewChatSettings extends GuiChat
 {
@@ -87,18 +86,18 @@ public class GuiNewChatSettings extends GuiChat
     {
         if (ConfigManager.enableCPS && ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
         {
-            String cps = new JsonMessageUtils().text("CPS: ").setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-            String rps = ConfigManager.enableRPS ? new JsonMessageUtils().text(" RPS: ").setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
-            String cpsValue = new JsonMessageUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-            String rpsValue = ConfigManager.enableRPS ? new JsonMessageUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(new JsonMessageUtils().colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+            String cps = new JsonUtils().text("CPS: ").setStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
+            String rps = ConfigManager.enableRPS ? new JsonUtils().text(" RPS: ").setStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+            String cpsValue = new JsonUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
+            String rpsValue = ConfigManager.enableRPS ? new JsonUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
 
             if (ConfigManager.useCustomTextCPS)
             {
-                cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
             }
             if (ConfigManager.useCustomTextRPS)
             {
-                rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
             }
 
             int minX = ExtendedModSettings.CPS_X_OFFSET;
@@ -158,30 +157,30 @@ public class GuiNewChatSettings extends GuiChat
             ExtendedModSettings.CHAT_MODE = "";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendChatMessage("/chat a");
-            Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Reset Hypixel Chat"));
+            Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text("Reset Hypixel Chat"));
             break;
         case 2:
             ExtendedModSettings.CHAT_MODE = "hypixel_party_chat";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendChatMessage("/chat p");
-            Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Set chat mode to Hypixel Party Chat"));
+            Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text("Set chat mode to Hypixel Party Chat"));
             break;
         case 3:
             ExtendedModSettings.CHAT_MODE = "hypixel_guild_chat";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendChatMessage("/chat g");
-            Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Set chat mode to Hypixel Guild Chat"));
+            Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text("Set chat mode to Hypixel Guild Chat"));
             break;
         case 5:
             ExtendedModSettings.CHAT_MODE = "";
             ExtendedModSettings.saveExtendedSettings();
             Minecraft.getMinecraft().player.sendChatMessage("/z");
-            Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Reset Mineplex Chat"));
+            Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text("Reset Mineplex Chat"));
             break;
         case 6:
             ExtendedModSettings.CHAT_MODE = "mineplex_party_chat";
             ExtendedModSettings.saveExtendedSettings();
-            Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text("Set chat mode to Mineplex Party Chat"));
+            Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text("Set chat mode to Mineplex Party Chat"));
             break;
         }
     }

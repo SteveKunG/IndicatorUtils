@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils;
+package stevekung.mods.indicatorutils.gui;
 
 import java.io.IOException;
 
@@ -14,8 +14,10 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.CapeUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GuiCapeDownloader extends GuiScreen
 {
@@ -76,7 +78,7 @@ public class GuiCapeDownloader extends GuiScreen
             {
                 ExtendedModSettings.CAPE_URL = "";
                 CapeUtils.CAPE_TEXTURE.remove(IndicatorUtils.USERNAME);
-                this.mc.player.sendMessage(new JsonMessageUtils().text("Reset cape texture"));
+                this.mc.player.sendMessage(new JsonUtils().text("Reset cape texture"));
                 ExtendedModSettings.saveExtendedSettings();
                 this.mc.displayGuiScreen((GuiScreen)null);
             }

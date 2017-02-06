@@ -17,11 +17,11 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.util.text.event.HoverEvent;
 
-public class JsonMessageUtils
+public class JsonUtils
 {
     public static ITextComponent rawTextToJson(String json)
     {
-        ITextComponent text = new JsonMessageUtils().text("null ").setStyle(new JsonMessageUtils().style().setColor(TextFormatting.RED));
+        ITextComponent text = new JsonUtils().text("null ").setStyle(new JsonUtils().style().setColor(TextFormatting.RED));
 
         try
         {
@@ -31,7 +31,7 @@ public class JsonMessageUtils
         {
             if (Minecraft.getMinecraft().player.ticksExisted % 300 == 0)
             {
-                Minecraft.getMinecraft().player.sendMessage(new JsonMessageUtils().text(jsonparseexception.getMessage()).setStyle(new JsonMessageUtils().red()));
+                Minecraft.getMinecraft().player.sendMessage(new JsonUtils().text(jsonparseexception.getMessage()).setStyle(new JsonUtils().red()));
             }
         }
         return text;

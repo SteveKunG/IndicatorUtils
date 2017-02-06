@@ -4,14 +4,14 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.gui;
+package stevekung.mods.indicatorutils.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
 public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
 {

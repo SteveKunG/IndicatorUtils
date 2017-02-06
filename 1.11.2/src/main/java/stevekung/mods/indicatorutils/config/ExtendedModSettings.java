@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils;
+package stevekung.mods.indicatorutils.config;
 
 import java.io.File;
 

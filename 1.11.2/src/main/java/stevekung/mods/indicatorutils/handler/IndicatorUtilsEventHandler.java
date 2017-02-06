@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils;
+package stevekung.mods.indicatorutils.handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,6 +55,20 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ConfigGuiFactory;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.gui.GuiBossOverlayIU;
+import stevekung.mods.indicatorutils.gui.GuiCapeDownloader;
+import stevekung.mods.indicatorutils.gui.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.gui.GuiNewSleepMP;
+import stevekung.mods.indicatorutils.gui.GuiPlayerTabOverlayIU;
+import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
+import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.CommandBlockStatusRenderer;
@@ -62,20 +76,10 @@ import stevekung.mods.indicatorutils.renderer.statusmode.GlobalStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
 import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
-import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
-import stevekung.mods.indicatorutils.utils.gui.GuiNewChatSettings;
-import stevekung.mods.indicatorutils.utils.gui.GuiNewSleepMP;
-import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
-import stevekung.mods.indicatorutils.utils.helper.ClientRendererHelper;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.ObjectModeHelper;
-import stevekung.mods.indicatorutils.utils.helper.ObjectModeHelper.EnumDisplayMode;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
 public class IndicatorUtilsEventHandler
 {
@@ -105,7 +109,7 @@ public class IndicatorUtilsEventHandler
     private List<ChatLine> drawnChatLines;
 
     private Minecraft mc;
-    private JsonMessageUtils json;
+    private JsonUtils json;
 
     private GuiPlayerTabOverlayIU overlayPlayerList;
     private GuiBossOverlayIU overlayBoss;
@@ -114,7 +118,7 @@ public class IndicatorUtilsEventHandler
     public IndicatorUtilsEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
-        this.json = new JsonMessageUtils();
+        this.json = new JsonUtils();
     }
 
     @SubscribeEvent
@@ -298,11 +302,11 @@ public class IndicatorUtilsEventHandler
 
                     if (ConfigManager.useCustomTextCPS)
                     {
-                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                        cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
                     if (ConfigManager.useCustomTextRPS)
                     {
-                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                        rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {

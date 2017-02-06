@@ -12,10 +12,10 @@ import net.minecraft.init.MobEffects;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 
 @SideOnly(Side.CLIENT)

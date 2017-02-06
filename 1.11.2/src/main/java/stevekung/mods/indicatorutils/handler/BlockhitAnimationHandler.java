@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils;
+package stevekung.mods.indicatorutils.handler;
 
 import javax.annotation.Nullable;
 
@@ -46,9 +46,10 @@ import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import stevekung.mods.indicatorutils.ConfigManager;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 
-public class BlockhitAnimation
+public class BlockhitAnimationHandler
 {
     private EntityRenderer entityRenderer;
     private float farPlaneDistance;

@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.statusmode;
+package stevekung.mods.indicatorutils.renderer.mode;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,21 +17,20 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult.Type;
-import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandBlockStatusRenderer
+public class PvP
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = CommandBlockStatusRenderer.renderIndicator(mc);
+        List<String> list = PvP.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -71,17 +70,17 @@ public class CommandBlockStatusRenderer
         }
     }
 
-    public static List<String> renderIndicator(Minecraft mc)
+    private static List<String> renderIndicator(Minecraft mc)
     {
-        List<String> list = Lists.newArrayList(new String[] {});
+        List<String> list = Lists.newArrayList(new String[] {} );
 
         if (ConfigManager.enablePing)
         {
-            String ping = JsonMessageUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
+            String ping = JsonUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
 
             if (ConfigManager.useCustomTextPing)
             {
-                ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
+                ping = JsonUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
             if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
@@ -103,17 +102,17 @@ public class CommandBlockStatusRenderer
 
                 if (!GameInfoHelper.INSTANCE.isSinglePlayer())
                 {
-                    list.add(ping + JsonMessageUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
+                    list.add(ping + JsonUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
                 }
             }
             else
             {
-                String pingna = JsonMessageUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
+                String pingna = JsonUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
 
                 if (IndicatorUtilsEventHandler.checkUUID == false && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.checkUUID = true;
-                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
+                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.checkUUID;
                 }
                 list.add(ping + pingna);
             }
@@ -122,24 +121,24 @@ public class CommandBlockStatusRenderer
         {
             if (mc.isConnectedToRealms())
             {
-                list.add(JsonMessageUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
+                list.add(JsonUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
             }
             else
             {
                 if (mc.getCurrentServerData() != null)
                 {
-                    String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
-                    String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
+                    String ip = JsonUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
+                    String serverIP = JsonUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
                     String version = "";
 
                     if (ConfigManager.useCustomTextIP)
                     {
-                        ip = JsonMessageUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
+                        ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
                     }
 
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
-                        version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
+                        version = "/" + JsonUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
                 }
@@ -151,12 +150,12 @@ public class CommandBlockStatusRenderer
         }
         if (ConfigManager.enableFPS)
         {
-            String fps = JsonMessageUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
+            String fps = JsonUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
             String color = ConfigManager.customColorFPSValue1;
 
             if (ConfigManager.useCustomTextFPS)
             {
-                fps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
+                fps = JsonUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
             }
 
             if (Minecraft.getDebugFPS() >= 26 && Minecraft.getDebugFPS() <= 40)
@@ -167,51 +166,27 @@ public class CommandBlockStatusRenderer
             {
                 color = ConfigManager.customColorFPSValue3;
             }
-            list.add(fps + JsonMessageUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
+            list.add(fps + JsonUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
         }
-        if (ConfigManager.enableXYZ)
+        if (ConfigManager.enableCPS)
         {
-            if (mc.getRenderViewEntity() != null)
+            if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
-                BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                String xyz = JsonMessageUtils.textToJson("XYZ: ", ConfigManager.customColorXYZ).getFormattedText();
-                String nether = JsonMessageUtils.textToJson("Nether ", ConfigManager.customColorXYZNether).getFormattedText();
-                String overworld = JsonMessageUtils.textToJson("Overworld ", ConfigManager.customColorXYZOverworld).getFormattedText();
-                String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-                String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-                String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-                String xPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getX() * 8), ConfigManager.customColorXValue).getFormattedText();
-                String zPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getZ() * 8), ConfigManager.customColorZValue).getFormattedText();
+                String cps = JsonUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                String rps = ConfigManager.enableRPS ? JsonUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
+                String cpsValue = JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                String rpsValue = ConfigManager.enableRPS ? JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
 
-                if (ConfigManager.useCustomTextXYZ)
+                if (ConfigManager.useCustomTextCPS)
                 {
-                    xyz = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
-                    nether = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
-                    overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
+                    cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                 }
-
-                String inNether = mc.thePlayer.dimension == -1 ? nether : "";
-                list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
-
-                if (ConfigManager.enableOverworldCoordinate && mc.thePlayer.dimension == -1)
+                if (ConfigManager.useCustomTextRPS)
                 {
-                    list.add(overworld + xyz + xPosition1 + " " + yPosition + " " + zPosition1);
+                    rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                 }
+                list.add(cps + cpsValue + rps + rpsValue);
             }
-        }
-        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == Type.BLOCK && mc.objectMouseOver.getBlockPos() != null)
-        {
-            BlockPos pos = mc.objectMouseOver.getBlockPos();
-            String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-            String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-            String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-            String lookingAt = JsonMessageUtils.textToJson("Looking at: ", ConfigManager.customColorLookingAt).getFormattedText();
-
-            if (ConfigManager.useCustomTextLookingAt)
-            {
-                lookingAt = JsonMessageUtils.rawTextToJson(ConfigManager.customTextLookingAt).getFormattedText();
-            }
-            list.add(lookingAt + xPosition + " " + yPosition + " " + zPosition);
         }
         if (ConfigManager.enableDirection)
         {
@@ -265,12 +240,12 @@ public class CommandBlockStatusRenderer
                 break;
             }
 
-            String directionText = JsonMessageUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
-            String directionValue = JsonMessageUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
+            String directionText = JsonUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
+            String directionValue = JsonUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
 
             if (ConfigManager.useCustomTextDirection)
             {
-                directionText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
+                directionText = JsonUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
             }
             list.add(directionText + directionValue);
         }

@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.gui;
+package stevekung.mods.indicatorutils.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiBossOverlay;
@@ -15,8 +15,8 @@ import net.minecraft.world.BossInfo;
 import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 
 public class GuiBossOverlayIU extends GuiBossOverlay
 {

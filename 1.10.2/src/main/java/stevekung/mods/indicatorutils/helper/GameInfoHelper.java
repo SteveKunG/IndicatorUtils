@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.helper;
+package stevekung.mods.indicatorutils.helper;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,10 +21,10 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.MobEffects;
-import stevekung.mods.indicatorutils.ConfigManager;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GameInfoHelper
 {
@@ -96,13 +96,13 @@ public class GameInfoHelper
         {
             sminutes = 0 + "" + minutes;
         }
-        String AMPM = JsonMessageUtils.textToJson(hours >= 12 ? "PM" : "AM", ConfigManager.customColorTimeAMPM).getFormattedText();
-        String game = JsonMessageUtils.textToJson("Game: ", ConfigManager.customColorGameTime).getFormattedText();
-        String value = JsonMessageUtils.textToJson(shours + ":" + sminutes, ConfigManager.customColorGameTimeValue).getFormattedText();
+        String AMPM = JsonUtils.textToJson(hours >= 12 ? "PM" : "AM", ConfigManager.customColorTimeAMPM).getFormattedText();
+        String game = JsonUtils.textToJson("Game: ", ConfigManager.customColorGameTime).getFormattedText();
+        String value = JsonUtils.textToJson(shours + ":" + sminutes, ConfigManager.customColorGameTimeValue).getFormattedText();
 
         if (ConfigManager.useCustomTextGameTime)
         {
-            game = JsonMessageUtils.rawTextToJson(ConfigManager.customTextGameTime).getFormattedText();
+            game = JsonUtils.rawTextToJson(ConfigManager.customTextGameTime).getFormattedText();
         }
         return game + value + " " + AMPM;
     }

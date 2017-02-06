@@ -18,8 +18,8 @@ import net.minecraft.init.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandAutoFish extends CommandBase
 {
@@ -51,12 +51,12 @@ public class CommandAutoFish extends CommandBase
                 if (IndicatorUtilsEventHandler.autoFishEnabled == true)
                 {
                     IndicatorUtilsEventHandler.autoFishEnabled = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Disabled auto fish", "white"));
+                    sender.addChatMessage(JsonUtils.textToJson("Disabled auto fish", "white"));
                     return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /autofish command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have not start using /autofish command", "red"));
                     return;
                 }
             }
@@ -68,20 +68,20 @@ public class CommandAutoFish extends CommandBase
                     {
                         if (Minecraft.getMinecraft().thePlayer.getHeldItem(hand) == null || Minecraft.getMinecraft().thePlayer.getHeldItem(hand).getItem() != Items.FISHING_ROD)
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("You are not held the fishing rod", "red"));
+                            sender.addChatMessage(JsonUtils.textToJson("You are not held the fishing rod", "red"));
                             return;
                         }
                         else
                         {
                             IndicatorUtilsEventHandler.autoFishEnabled = true;
-                            sender.addChatMessage(JsonMessageUtils.textToJson("Enabled auto fish", "white"));
+                            sender.addChatMessage(JsonUtils.textToJson("Enabled auto fish", "white"));
                             return;
                         }
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /autofish command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have already start /autofish command", "red"));
                     return;
                 }
             }

@@ -4,10 +4,10 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.helper;
+package stevekung.mods.indicatorutils.helper;
 
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 public class ObjectModeHelper
 {

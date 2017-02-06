@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils;
+package stevekung.mods.indicatorutils.config;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -17,8 +17,8 @@ import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.NumberSliderEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
 
 public class ConfigManager
 {

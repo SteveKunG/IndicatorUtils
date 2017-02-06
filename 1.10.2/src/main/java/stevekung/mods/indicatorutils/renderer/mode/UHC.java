@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.statusmode;
+package stevekung.mods.indicatorutils.renderer.mode;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,20 +19,20 @@ import net.minecraft.entity.Entity;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class UHCStatusRenderer
+public class UHC
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = UHCStatusRenderer.renderIndicator(mc);
+        List<String> list = UHC.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -78,11 +78,11 @@ public class UHCStatusRenderer
 
         if (ConfigManager.enablePing)
         {
-            String ping = JsonMessageUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
+            String ping = JsonUtils.textToJson("Ping: ", ConfigManager.customColorPing).getFormattedText();
 
             if (ConfigManager.useCustomTextPing)
             {
-                ping = JsonMessageUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
+                ping = JsonUtils.rawTextToJson(ConfigManager.customTextPing).getFormattedText();
             }
 
             if (mc.getConnection().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
@@ -104,17 +104,17 @@ public class UHCStatusRenderer
 
                 if (!GameInfoHelper.INSTANCE.isSinglePlayer())
                 {
-                    list.add(ping + JsonMessageUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
+                    list.add(ping + JsonUtils.textToJson(GameInfoHelper.INSTANCE.getPing() + "ms", pingcolor).getFormattedText());
                 }
             }
             else
             {
-                String pingna = JsonMessageUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
+                String pingna = JsonUtils.textToJson("n/a", ConfigManager.customColorPingNA).getFormattedText();
 
                 if (IndicatorUtilsEventHandler.checkUUID == false && GameInfoHelper.INSTANCE.isHypixel())
                 {
                     IndicatorUtilsEventHandler.checkUUID = true;
-                    IndicatorUtils.STATUS_CHECK[3] = IndicatorUtilsEventHandler.checkUUID;
+                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.checkUUID;
                 }
                 list.add(ping + pingna);
             }
@@ -123,24 +123,24 @@ public class UHCStatusRenderer
         {
             if (mc.isConnectedToRealms())
             {
-                list.add(JsonMessageUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
+                list.add(JsonUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
             }
             else
             {
                 if (mc.getCurrentServerData() != null)
                 {
-                    String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
-                    String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
+                    String ip = JsonUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
+                    String serverIP = JsonUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();
                     String version = "";
 
                     if (ConfigManager.useCustomTextIP)
                     {
-                        ip = JsonMessageUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
+                        ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
                     }
 
                     if (ConfigManager.enableServerIPWithMCVersion)
                     {
-                        version = "/" + JsonMessageUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
+                        version = "/" + JsonUtils.textToJson(IndicatorUtils.MC_VERSION, ConfigManager.customColorIPMCValue).getFormattedText();
                     }
                     list.add(ip + serverIP + version);
                 }
@@ -152,12 +152,12 @@ public class UHCStatusRenderer
         }
         if (ConfigManager.enableFPS)
         {
-            String fps = JsonMessageUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
+            String fps = JsonUtils.textToJson("FPS: ", ConfigManager.customColorFPS).getFormattedText();
             String color = ConfigManager.customColorFPSValue1;
 
             if (ConfigManager.useCustomTextFPS)
             {
-                fps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
+                fps = JsonUtils.rawTextToJson(ConfigManager.customTextFPS).getFormattedText();
             }
 
             if (Minecraft.getDebugFPS() >= 26 && Minecraft.getDebugFPS() <= 40)
@@ -168,29 +168,29 @@ public class UHCStatusRenderer
             {
                 color = ConfigManager.customColorFPSValue3;
             }
-            list.add(fps + JsonMessageUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
+            list.add(fps + JsonUtils.textToJson(String.valueOf(Minecraft.getDebugFPS()), color).getFormattedText());
         }
         if (ConfigManager.enableXYZ)
         {
             if (mc.getRenderViewEntity() != null)
             {
                 BlockPos pos = new BlockPos(mc.getRenderViewEntity().posX, mc.getRenderViewEntity().getEntityBoundingBox().minY, mc.getRenderViewEntity().posZ);
-                String xyz = JsonMessageUtils.textToJson("XYZ: ", ConfigManager.customColorXYZ).getFormattedText();
-                String nether = JsonMessageUtils.textToJson("Nether ", ConfigManager.customColorXYZNether).getFormattedText();
-                String overworld = JsonMessageUtils.textToJson("Overworld ", ConfigManager.customColorXYZOverworld).getFormattedText();
-                String xPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
-                String yPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
-                String zPosition = JsonMessageUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
-                String xPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getX() * 8), ConfigManager.customColorXValue).getFormattedText();
-                String zPosition1 = JsonMessageUtils.textToJson(String.valueOf(pos.getZ() * 8), ConfigManager.customColorZValue).getFormattedText();
+                String xyz = JsonUtils.textToJson("XYZ: ", ConfigManager.customColorXYZ).getFormattedText();
+                String nether = JsonUtils.textToJson("Nether ", ConfigManager.customColorXYZNether).getFormattedText();
+                String overworld = JsonUtils.textToJson("Overworld ", ConfigManager.customColorXYZOverworld).getFormattedText();
+                String xPosition = JsonUtils.textToJson(String.valueOf(pos.getX()), ConfigManager.customColorXValue).getFormattedText();
+                String yPosition = JsonUtils.textToJson(String.valueOf(pos.getY()), ConfigManager.customColorYValue).getFormattedText();
+                String zPosition = JsonUtils.textToJson(String.valueOf(pos.getZ()), ConfigManager.customColorZValue).getFormattedText();
+                String xPosition1 = JsonUtils.textToJson(String.valueOf(pos.getX() * 8), ConfigManager.customColorXValue).getFormattedText();
+                String zPosition1 = JsonUtils.textToJson(String.valueOf(pos.getZ() * 8), ConfigManager.customColorZValue).getFormattedText();
                 String inNether = mc.thePlayer.dimension == -1 ? nether : "";
                 list.add(inNether + xyz + xPosition + " " + yPosition + " " + zPosition);
 
                 if (ConfigManager.useCustomTextXYZ)
                 {
-                    xyz = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
-                    nether = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
-                    overworld = JsonMessageUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
+                    xyz = JsonUtils.rawTextToJson(ConfigManager.customTextXYZ).getFormattedText();
+                    nether = JsonUtils.rawTextToJson(ConfigManager.customTextXYZNether).getFormattedText();
+                    overworld = JsonUtils.rawTextToJson(ConfigManager.customTextXYZOverworld).getFormattedText();
                 }
 
                 if (ConfigManager.enableOverworldCoordinate && mc.thePlayer.dimension == -1)
@@ -251,12 +251,12 @@ public class UHCStatusRenderer
                 break;
             }
 
-            String directionText = JsonMessageUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
-            String directionValue = JsonMessageUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
+            String directionText = JsonUtils.textToJson("Direction: ", ConfigManager.customColorDirection).getFormattedText();
+            String directionValue = JsonUtils.textToJson(direction, ConfigManager.customColorDirectionValue).getFormattedText();
 
             if (ConfigManager.useCustomTextDirection)
             {
-                directionText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
+                directionText = JsonUtils.rawTextToJson(ConfigManager.customTextDirection).getFormattedText();
             }
             list.add(directionText + directionValue);
         }
@@ -271,12 +271,12 @@ public class UHCStatusRenderer
                 {
                     if (!chunk.isEmpty())
                     {
-                        String biome = JsonMessageUtils.textToJson("Biome: ", ConfigManager.customColorBiome).getFormattedText();
-                        String value = JsonMessageUtils.textToJson(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos), ConfigManager.customColorBiomeValue).getFormattedText();
+                        String biome = JsonUtils.textToJson("Biome: ", ConfigManager.customColorBiome).getFormattedText();
+                        String value = JsonUtils.textToJson(StatusRendererHelper.getBetterBiomeName(chunk, mc.theWorld, blockpos), ConfigManager.customColorBiomeValue).getFormattedText();
 
                         if (ConfigManager.useCustomTextBiome)
                         {
-                            biome = JsonMessageUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
+                            biome = JsonUtils.rawTextToJson(ConfigManager.customTextBiome).getFormattedText();
                         }
                         list.add(biome + value);
                     }
@@ -287,18 +287,18 @@ public class UHCStatusRenderer
         {
             if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
             {
-                String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                String rps = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
-                String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-                String rpsValue = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
+                String cps = JsonUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                String rps = ConfigManager.enableRPS ? JsonUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
+                String cpsValue = JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                String rpsValue = ConfigManager.enableRPS ? JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
 
                 if (ConfigManager.useCustomTextCPS)
                 {
-                    cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                    cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                 }
                 if (ConfigManager.useCustomTextRPS)
                 {
-                    rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                    rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                 }
                 list.add(cps + cpsValue + rps + rpsValue);
             }

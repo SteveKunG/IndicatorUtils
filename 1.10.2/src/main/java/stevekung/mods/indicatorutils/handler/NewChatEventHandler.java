@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils;
+package stevekung.mods.indicatorutils.handler;
 
 import javax.xml.bind.DatatypeConverter;
 
@@ -14,9 +14,11 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
+import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class NewChatEventHandler
 {
@@ -47,17 +49,17 @@ public class NewChatEventHandler
                 if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("hypixel_party_chat"))
                 {
                     player.sendChatMessage("/chat p");
-                    player.addChatMessage(JsonMessageUtils.textToJson("Set chat mode to Hypixel Party Chat"));
+                    player.addChatMessage(JsonUtils.textToJson("Set chat mode to Hypixel Party Chat"));
                 }
                 if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("hypixel_guild_chat"))
                 {
                     player.sendChatMessage("/chat g");
-                    player.addChatMessage(JsonMessageUtils.textToJson("Set chat mode to Hypixel Guild Chat"));
+                    player.addChatMessage(JsonUtils.textToJson("Set chat mode to Hypixel Guild Chat"));
                 }
                 if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase(""))
                 {
                     player.sendChatMessage("/chat a");
-                    player.addChatMessage(JsonMessageUtils.textToJson("Reset Chat Mode"));
+                    player.addChatMessage(JsonUtils.textToJson("Reset Chat Mode"));
                 }
             }
         }

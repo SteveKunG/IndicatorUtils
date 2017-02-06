@@ -19,8 +19,8 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 public class CapeUtils
 {
@@ -45,13 +45,13 @@ public class CapeUtils
             }
             catch (MalformedURLException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Missing protocol or wrong URL format", "red"));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonUtils.textToJson("Missing protocol or wrong URL format", "red"));
                 e.printStackTrace();
                 return;
             }
             catch (IOException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Cannot read image from URL", "red"));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonUtils.textToJson("Cannot read image from URL", "red"));
                 e.printStackTrace();
                 return;
             }
@@ -59,7 +59,7 @@ public class CapeUtils
 
         if (!startup)
         {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Downloaded new cape texture from URL"));
+            Minecraft.getMinecraft().thePlayer.addChatMessage(JsonUtils.textToJson("Downloaded new cape texture from URL"));
         }
     }
 

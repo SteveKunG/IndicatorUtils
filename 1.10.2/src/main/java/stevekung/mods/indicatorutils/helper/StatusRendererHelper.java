@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.helper;
+package stevekung.mods.indicatorutils.helper;
 
 import java.text.SimpleDateFormat;
 import java.util.Collection;
@@ -81,15 +81,15 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.ObjectModeHelper.ArmorStatusPosition;
+import stevekung.mods.indicatorutils.helper.OffsetHelper.EnumSide;
 import stevekung.mods.indicatorutils.renderer.SmallFontRenderer;
 import stevekung.mods.indicatorutils.utils.ArmorType;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.ObjectModeHelper.ArmorStatusPosition;
-import stevekung.mods.indicatorutils.utils.helper.OffsetHelper.EnumSide;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class StatusRendererHelper
 {
@@ -220,8 +220,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -251,8 +251,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -314,8 +314,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -347,8 +347,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -414,8 +414,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -447,8 +447,8 @@ public class StatusRendererHelper
                                 itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem);
                             }
 
-                            String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                            String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                            String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                            String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                             if (itemCount == 0 || itemCount == 1)
                             {
@@ -515,8 +515,8 @@ public class StatusRendererHelper
                             itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, mainItem);
                         }
 
-                        String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                        String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                        String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                        String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                         if (itemCount == 0 || itemCount == 1)
                         {
@@ -548,8 +548,8 @@ public class StatusRendererHelper
                             itemCount = StatusRendererHelper.INSTANCE.countItemInInventory(mc.thePlayer, offItem);
                         }
 
-                        String countString = JsonMessageUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
-                        String arrowCountString = JsonMessageUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
+                        String countString = JsonUtils.textToJson(String.valueOf(itemCount), ConfigManager.customColorHeldItem).getFormattedText();
+                        String arrowCountString = JsonUtils.textToJson(String.valueOf(arrowCount), ConfigManager.customColorHeldItemArrowCount).getFormattedText();
 
                         if (itemCount == 0 || itemCount == 1)
                         {
@@ -765,25 +765,25 @@ public class StatusRendererHelper
             ScaledResolution scaledRes = new ScaledResolution(mc);
             boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;
             boolean shortDateBool = ConfigManager.useShortDate;
-            String day = JsonMessageUtils.textToJson(new SimpleDateFormat("d", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeDay).getFormattedText();
-            String month = JsonMessageUtils.textToJson(new SimpleDateFormat(shortDateBool ? "M" : "MMM", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeMonth).getFormattedText();
-            String year = JsonMessageUtils.textToJson(new SimpleDateFormat("yyyy", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeYear).getFormattedText();
-            String timeValue = JsonMessageUtils.textToJson(new SimpleDateFormat("HH:mm:ss", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeValue).getFormattedText();
-            String AMPM = JsonMessageUtils.textToJson(new SimpleDateFormat("a", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorTimeAMPM).getFormattedText();
+            String day = JsonUtils.textToJson(new SimpleDateFormat("d", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeDay).getFormattedText();
+            String month = JsonUtils.textToJson(new SimpleDateFormat(shortDateBool ? "M" : "MMM", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeMonth).getFormattedText();
+            String year = JsonUtils.textToJson(new SimpleDateFormat("yyyy", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeYear).getFormattedText();
+            String timeValue = JsonUtils.textToJson(new SimpleDateFormat("HH:mm:ss", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorCurrentTimeValue).getFormattedText();
+            String AMPM = JsonUtils.textToJson(new SimpleDateFormat("a", StatusRendererHelper.getDateFormat()).format(new Date()), ConfigManager.customColorTimeAMPM).getFormattedText();
             // หลัง = \u0e2b\u0e25\u0e31\u0e07, ก่อน = \u0e01\u0e48\u0e2d\u0e19, เที่ยง = \u0e40\u0e17\u0e35\u0e48\u0e22\u0e07
             AMPM = AMPM.replace("\u0e2b\u0e25\u0e31\u0e07\u0e40\u0e17\u0e35\u0e48\u0e22\u0e07", "PM").replace("\u0e01\u0e48\u0e2d\u0e19\u0e40\u0e17\u0e35\u0e48\u0e22\u0e07", "AM");
             String date = day + "/" + month + "/" + year + " " + timeValue + " " + AMPM;
-            String timeText = JsonMessageUtils.textToJson("Time: ", ConfigManager.customColorCurrentTime).getFormattedText();
-            String timeZoneText = JsonMessageUtils.textToJson("Time Zone: ", ConfigManager.customColorTimeZone).getFormattedText();
-            String timeZoneValue = JsonMessageUtils.textToJson(TimeZone.getDefault().getDisplayName(), ConfigManager.customColorTimeZoneValue).getFormattedText();
+            String timeText = JsonUtils.textToJson("Time: ", ConfigManager.customColorCurrentTime).getFormattedText();
+            String timeZoneText = JsonUtils.textToJson("Time Zone: ", ConfigManager.customColorTimeZone).getFormattedText();
+            String timeZoneValue = JsonUtils.textToJson(TimeZone.getDefault().getDisplayName(), ConfigManager.customColorTimeZoneValue).getFormattedText();
 
             if (ConfigManager.useCustomTextTime)
             {
-                timeText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextTime).getFormattedText();
+                timeText = JsonUtils.rawTextToJson(ConfigManager.customTextTime).getFormattedText();
             }
             if (ConfigManager.useCustomTextTimeZone)
             {
-                timeZoneText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextTimeZone).getFormattedText();
+                timeZoneText = JsonUtils.rawTextToJson(ConfigManager.customTextTimeZone).getFormattedText();
             }
 
             if (ConfigManager.enableCurrentTime)
@@ -792,15 +792,15 @@ public class StatusRendererHelper
             }
             if (ConfigManager.enableGameTime)
             {
-                String prefixText = JsonMessageUtils.textToJson(" | ", ConfigManager.customColorWeatherPrefix).getFormattedText();
-                String rainingText = JsonMessageUtils.textToJson("Raining", ConfigManager.customColorRaining).getFormattedText();
-                String thunderText = JsonMessageUtils.textToJson("Thunder", ConfigManager.customColorThunder).getFormattedText();
+                String prefixText = JsonUtils.textToJson(" | ", ConfigManager.customColorWeatherPrefix).getFormattedText();
+                String rainingText = JsonUtils.textToJson("Raining", ConfigManager.customColorRaining).getFormattedText();
+                String thunderText = JsonUtils.textToJson("Thunder", ConfigManager.customColorThunder).getFormattedText();
 
                 if (ConfigManager.useCustomWeather)
                 {
-                    prefixText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
-                    rainingText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
-                    thunderText = JsonMessageUtils.rawTextToJson(ConfigManager.customTextThunder).getFormattedText();
+                    prefixText = JsonUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
+                    rainingText = JsonUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
+                    thunderText = JsonUtils.rawTextToJson(ConfigManager.customTextThunder).getFormattedText();
                 }
                 String prefix = mc.theWorld.isRaining() | mc.theWorld.isThundering() ? prefixText : "";
                 String weather = mc.theWorld.isRaining() && !mc.theWorld.isThundering() ? rainingText : mc.theWorld.isRaining() && mc.theWorld.isThundering() ? thunderText : "";
@@ -822,25 +822,25 @@ public class StatusRendererHelper
             {
                 SimpleDateFormat gmt = new SimpleDateFormat("d MMM yyyy HH:mm:ss z", Locale.US);
                 gmt.setTimeZone(TimeZone.getTimeZone(ConfigManager.timeZoneName));
-                String timeZone = JsonMessageUtils.textToJson(gmt.format(new Date()), ConfigManager.customColorWorldTime).getFormattedText();
+                String timeZone = JsonUtils.textToJson(gmt.format(new Date()), ConfigManager.customColorWorldTime).getFormattedText();
                 list.add(timeZone);
             }
             if (ConfigManager.enableCPS)
             {
                 if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("right"))
                 {
-                    String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                    String rps = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
-                    String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-                    String rpsValue = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
+                    String cps = JsonUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = ConfigManager.enableRPS ? JsonUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
+                    String cpsValue = JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = ConfigManager.enableRPS ? JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
 
                     if (ConfigManager.useCustomTextCPS)
                     {
-                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                        cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
                     if (ConfigManager.useCustomTextRPS)
                     {
-                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                        rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                     }
                     list.add(cps + cpsValue + rps + rpsValue);
                 }
@@ -1030,12 +1030,12 @@ public class StatusRendererHelper
 
     public String getArmorDurability1(ArmorType type)
     {
-        return JsonMessageUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage()), ConfigManager.customColorArmorDamageDurability).getFormattedText() + "/" + JsonMessageUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage()), ConfigManager.customColorArmorMaxDurability).getFormattedText();
+        return JsonUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage()), ConfigManager.customColorArmorDamageDurability).getFormattedText() + "/" + JsonUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage()), ConfigManager.customColorArmorMaxDurability).getFormattedText();
     }
 
     public String getArmorDurability2(ArmorType type)
     {
-        return JsonMessageUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage()), ConfigManager.customColorArmorDamageDurability).getFormattedText();
+        return JsonUtils.textToJson(String.valueOf(this.getArmorType(type).getMaxDamage() - this.getArmorType(type).getItemDamage()), ConfigManager.customColorArmorDamageDurability).getFormattedText();
     }
 
     public ItemStack getArmorType(ArmorType type)
@@ -1070,7 +1070,7 @@ public class StatusRendererHelper
         }
         else if (ConfigManager.armorStatusMode.equals("PERCENT"))
         {
-            return JsonMessageUtils.textToJson(String.valueOf(StatusRendererHelper.INSTANCE.calculateArmorDurabilityPercent(armorType) + "%"), ConfigManager.customColorArmorPercent).getFormattedText();
+            return JsonUtils.textToJson(String.valueOf(StatusRendererHelper.INSTANCE.calculateArmorDurabilityPercent(armorType) + "%"), ConfigManager.customColorArmorPercent).getFormattedText();
         }
         else
         {
@@ -1082,15 +1082,15 @@ public class StatusRendererHelper
     {
         if (ConfigManager.heldItemStatusMode.equals("PERCENT"))
         {
-            return JsonMessageUtils.textToJson(String.valueOf(StatusRendererHelper.INSTANCE.calculateItemDurabilityPercent(itemStack) + "%"), ConfigManager.customColorHeldItem).getFormattedText();
+            return JsonUtils.textToJson(String.valueOf(StatusRendererHelper.INSTANCE.calculateItemDurabilityPercent(itemStack) + "%"), ConfigManager.customColorHeldItem).getFormattedText();
         }
         else if (ConfigManager.heldItemStatusMode.equals("NORMAL_2"))
         {
-            return JsonMessageUtils.textToJson(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage()), ConfigManager.customColorHeldItem).getFormattedText() + "/" + JsonMessageUtils.textToJson(String.valueOf(itemStack.getMaxDamage()), ConfigManager.customColorHeldItem).getFormattedText();
+            return JsonUtils.textToJson(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage()), ConfigManager.customColorHeldItem).getFormattedText() + "/" + JsonUtils.textToJson(String.valueOf(itemStack.getMaxDamage()), ConfigManager.customColorHeldItem).getFormattedText();
         }
         else if (ConfigManager.heldItemStatusMode.equals("NORMAL"))
         {
-            return JsonMessageUtils.textToJson(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage()), ConfigManager.customColorHeldItem).getFormattedText();
+            return JsonUtils.textToJson(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage()), ConfigManager.customColorHeldItem).getFormattedText();
         }
         else
         {
@@ -1123,7 +1123,7 @@ public class StatusRendererHelper
             ExtendedModSettings.DISPLAY_MODE = "command";
         }
         ExtendedModSettings.saveExtendedSettings();
-        Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Change display mode to " + "[" + mode + "]"), false);
+        Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Change display mode to " + "[" + mode + "]"), false);
     }
 
     public void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)

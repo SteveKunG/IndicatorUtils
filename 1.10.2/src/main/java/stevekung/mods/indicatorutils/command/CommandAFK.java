@@ -20,10 +20,10 @@ import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.common.ForgeHooks;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandAFK extends CommandBase
 {
@@ -65,7 +65,7 @@ public class CommandAFK extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /afk command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have not start using /afk command", "red"));
                     return;
                 }
             }
@@ -101,7 +101,7 @@ public class CommandAFK extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /afk command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have already start /afk command", "red"));
                     return;
                 }
             }
@@ -117,12 +117,12 @@ public class CommandAFK extends CommandBase
                     TextComponentTranslation textcomponent = new TextComponentTranslation("commands.afk.reason", new Object[] { component.createCopy() });
                     String reason = textcomponent.getUnformattedText();
                     IndicatorUtilsEventHandler.afkReason = reason;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Change AFK Reason from " + afkTemp + " to " + reason));
+                    sender.addChatMessage(JsonUtils.textToJson("Change AFK Reason from " + afkTemp + " to " + reason));
                     return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /afk command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have not start using /afk command", "red"));
                     return;
                 }
             }
@@ -135,13 +135,13 @@ public class CommandAFK extends CommandBase
                 {
                     IndicatorUtilsEventHandler.afkMode = "idle";
                     IndicatorUtilsEventHandler.afkMoveTick = 0;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set AFK mode to idle"));
+                    sender.addChatMessage(JsonUtils.textToJson("Set AFK mode to idle"));
                     return;
                 }
                 if (args[1].equals("move"))
                 {
                     IndicatorUtilsEventHandler.afkMode = "move";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set AFK mode to move"));
+                    sender.addChatMessage(JsonUtils.textToJson("Set AFK mode to move"));
                     return;
                 }
             }

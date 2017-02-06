@@ -15,8 +15,8 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandRecTemp extends CommandBase
 {
@@ -52,7 +52,7 @@ public class CommandRecTemp extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /rectemp command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have not start using /rectemp command", "red"));
                     return;
                 }
             }
@@ -65,7 +65,7 @@ public class CommandRecTemp extends CommandBase
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /rectemp command", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("You have already start /rectemp command", "red"));
                     return;
                 }
             }

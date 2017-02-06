@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.gui;
+package stevekung.mods.indicatorutils.gui;
 
 import java.io.IOException;
 
@@ -14,7 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewSleepMP extends GuiNewChatSettings

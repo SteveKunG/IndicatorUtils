@@ -27,7 +27,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandGetPlayerPosition extends CommandBase
 {
@@ -66,7 +66,7 @@ public class CommandGetPlayerPosition extends CommandBase
 
             if (player == null)
             {
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"" + I18n.format("commands.getplayerpos.playernull", args[0]) + "\",\"color\":\"red\""));
+                sender.addChatMessage(JsonUtils.json("\"text\":\"" + I18n.format("commands.getplayerpos.playernull", args[0]) + "\",\"color\":\"red\""));
             }
             else
             {

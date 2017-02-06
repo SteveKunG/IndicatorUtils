@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils;
+package stevekung.mods.indicatorutils.handler;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,24 +46,26 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.gui.GuiBossOverlayIU;
+import stevekung.mods.indicatorutils.gui.GuiCapeDownloader;
+import stevekung.mods.indicatorutils.gui.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.gui.GuiNewSleepMP;
+import stevekung.mods.indicatorutils.gui.GuiPlayerTabOverlayIU;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.CommandBlockStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.GlobalStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.PvPStatusRenderer;
-import stevekung.mods.indicatorutils.renderer.statusmode.UHCStatusRenderer;
+import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
+import stevekung.mods.indicatorutils.renderer.mode.Global;
+import stevekung.mods.indicatorutils.renderer.mode.PvP;
+import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.GuiCapeDownloader;
 import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
-import stevekung.mods.indicatorutils.utils.gui.GuiBossOverlayIU;
-import stevekung.mods.indicatorutils.utils.gui.GuiNewChatSettings;
-import stevekung.mods.indicatorutils.utils.gui.GuiNewSleepMP;
-import stevekung.mods.indicatorutils.utils.gui.GuiPlayerTabOverlayIU;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
 public class IndicatorUtilsEventHandler
 {
@@ -173,7 +175,7 @@ public class IndicatorUtilsEventHandler
                             {
                                 IndicatorUtilsEventHandler.autoFishEnabled = false;
                                 IndicatorUtilsEventHandler.autoFishTick = 0;
-                                mc.thePlayer.addChatMessage(JsonMessageUtils.textToJson("Stop using /autofish command, you must hold the fishing rod!"));
+                                mc.thePlayer.addChatMessage(JsonUtils.textToJson("Stop using /autofish command, you must hold the fishing rod!"));
                                 return;
                             }
                         }
@@ -459,34 +461,34 @@ public class IndicatorUtilsEventHandler
             {
                 if (ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("uhc"))
                 {
-                    UHCStatusRenderer.init(this.mc);
+                    UHC.init(this.mc);
                 }
                 else if (ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("pvp"))
                 {
-                    PvPStatusRenderer.init(this.mc);
+                    PvP.init(this.mc);
                 }
                 else if (ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("command"))
                 {
-                    CommandBlockStatusRenderer.init(this.mc);
+                    CommandBlock.init(this.mc);
                 }
                 else
                 {
-                    GlobalStatusRenderer.init(this.mc);
+                    Global.init(this.mc);
                 }
                 if (ConfigManager.enableCPS)
                 {
-                    String cps = JsonMessageUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
-                    String rps = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
-                    String cpsValue = JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
-                    String rpsValue = ConfigManager.enableRPS ? JsonMessageUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
+                    String cps = JsonUtils.textToJson("CPS: ", ConfigManager.customColorCPS).getFormattedText();
+                    String rps = ConfigManager.enableRPS ? JsonUtils.textToJson(" RPS: ", ConfigManager.customColorRPS).getFormattedText() : "";
+                    String cpsValue = JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getCPS()), ConfigManager.customColorCPSValue).getFormattedText();
+                    String rpsValue = ConfigManager.enableRPS ? JsonUtils.textToJson(String.valueOf(GameInfoHelper.INSTANCE.getRPS()), ConfigManager.customColorRPSValue).getFormattedText() : "";
 
                     if (ConfigManager.useCustomTextCPS)
                     {
-                        cps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
+                        cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
                     if (ConfigManager.useCustomTextRPS)
                     {
-                        rps = JsonMessageUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                        rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
@@ -564,12 +566,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.TOGGLE_SPRINT)
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = false;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Toggle Sprint Disabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Toggle Sprint Disabled").getFormattedText(), false);
                 }
                 else
                 {
                     ExtendedModSettings.TOGGLE_SPRINT = true;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Toggle Sprint Enabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Toggle Sprint Enabled").getFormattedText(), false);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -581,12 +583,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.TOGGLE_SNEAK)
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = false;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Toggle Sneak Disabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Toggle Sneak Disabled").getFormattedText(), false);
                 }
                 else
                 {
                     ExtendedModSettings.TOGGLE_SNEAK = true;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Toggle Sneak Enabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Toggle Sneak Enabled").getFormattedText(), false);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -598,12 +600,12 @@ public class IndicatorUtilsEventHandler
                 if (ExtendedModSettings.AUTO_SWIM)
                 {
                     ExtendedModSettings.AUTO_SWIM = false;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Auto Swim Disabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Auto Swim Disabled").getFormattedText(), false);
                 }
                 else
                 {
                     ExtendedModSettings.AUTO_SWIM = true;
-                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonMessageUtils.textToJson("Auto Swim Enabled").getFormattedText(), false);
+                    Minecraft.getMinecraft().ingameGUI.setRecordPlaying(JsonUtils.textToJson("Auto Swim Enabled").getFormattedText(), false);
                 }
                 ExtendedModSettings.saveExtendedSettings();
             }
@@ -686,7 +688,7 @@ public class IndicatorUtilsEventHandler
         {
             if (!mc.gameSettings.hideGUI && !entity.isInvisible() && flag)
             {
-                String heart = JsonMessageUtils.textToJson("\u2764 ", color).getFormattedText();
+                String heart = JsonUtils.textToJson("\u2764 ", color).getFormattedText();
                 StatusRendererHelper.renderHealthStatus(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ(), entity.getDistanceSqToEntity(mc.getRenderViewEntity()));
             }
         }

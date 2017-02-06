@@ -13,10 +13,10 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.helper.StatusRendererHelper;
 
 public class KeystrokeRenderer
 {

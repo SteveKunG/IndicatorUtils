@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils.gui;
+package stevekung.mods.indicatorutils.gui;
 
 import java.net.URI;
 

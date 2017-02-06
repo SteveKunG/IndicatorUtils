@@ -195,7 +195,7 @@ public class IndicatorUtils
     }
 
     // Credit to Jarbelar
-    // 0 = OutOfDate, 1 = ShowDesc, 2 = NoConnection, 3 = MissingUUID
+    // 0 = ShowDesc, 1 = NoConnection,  = MissingUUID
     @SubscribeEvent
     public void onCheckVersion(PlayerTickEvent event)
     {

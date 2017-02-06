@@ -17,8 +17,8 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandShowCape extends CommandBase
 {
@@ -52,7 +52,7 @@ public class CommandShowCape extends CommandBase
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Disabled Custom Cape"));
+                sender.addChatMessage(JsonUtils.textToJson("Disabled Custom Cape"));
                 return;
             }
             if ("enable".equals(args[0]))
@@ -62,7 +62,7 @@ public class CommandShowCape extends CommandBase
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Enabled Custom Cape"));
+                sender.addChatMessage(JsonUtils.textToJson("Enabled Custom Cape"));
                 return;
             }
         }

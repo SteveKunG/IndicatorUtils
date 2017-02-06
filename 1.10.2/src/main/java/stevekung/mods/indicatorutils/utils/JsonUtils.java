@@ -12,7 +12,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.ITextComponent.Serializer;
 
-public class JsonMessageUtils
+public class JsonUtils
 {
     public static ITextComponent json(String json)
     {
@@ -40,13 +40,13 @@ public class JsonMessageUtils
 
         try
         {
-            text = JsonMessageUtils.json(json);
+            text = JsonUtils.json(json);
         }
         catch (JsonParseException jsonparseexception)
         {
             if (Minecraft.getMinecraft().thePlayer.ticksExisted % 300 == 0)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson(jsonparseexception.getMessage(), "red"));
+                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonUtils.textToJson(jsonparseexception.getMessage(), "red"));
             }
         }
         return text;

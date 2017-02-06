@@ -24,10 +24,10 @@ import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.common.ForgeHooks;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandAutoLogin extends CommandBase
 {
@@ -74,24 +74,24 @@ public class CommandAutoLogin extends CommandBase
                     {
                         if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME + data.serverIP) != null)
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("An auto login data already set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
+                            sender.addChatMessage(JsonUtils.textToJson("An auto login data already set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
                             return;
                         }
                         ITextComponent component = this.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
                         ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()), IndicatorUtils.USERNAME);
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Set auto login data for Server: " + data.serverIP));
+                        sender.addChatMessage(JsonUtils.textToJson("Set auto login data for Server: " + data.serverIP));
                         ExtendedModSettings.saveExtendedSettings();
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Cannot add auto login data in singleplayer!", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("Cannot add auto login data in singleplayer!", "red"));
                     return;
                 }
                 else if (mc.isConnectedToRealms())
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Cannot add auto login data in realms server!", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("Cannot add auto login data in realms server!", "red"));
                     return;
                 }
             }
@@ -106,22 +106,22 @@ public class CommandAutoLogin extends CommandBase
                         if (ExtendedModSettings.loginData.getAutoLogin(IndicatorUtils.USERNAME + data.serverIP) != null)
                         {
                             ExtendedModSettings.loginData.removeAutoLogin(IndicatorUtils.USERNAME + data.serverIP);
-                            sender.addChatMessage(JsonMessageUtils.textToJson("Remove auto login data from Username: " + IndicatorUtils.USERNAME));
+                            sender.addChatMessage(JsonUtils.textToJson("Remove auto login data from Username: " + IndicatorUtils.USERNAME));
                         }
                         else
                         {
-                            sender.addChatMessage(JsonMessageUtils.textToJson("No auto login data was set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
+                            sender.addChatMessage(JsonUtils.textToJson("No auto login data was set for Username: " + IndicatorUtils.USERNAME + "!", "red"));
                         }
                     }
                 }
                 else if (mc.isSingleplayer())
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Cannot remove auto login data in singleplayer!", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("Cannot remove auto login data in singleplayer!", "red"));
                     return;
                 }
                 else if (mc.isConnectedToRealms())
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Cannot remove auto login data in realms server!", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("Cannot remove auto login data in realms server!", "red"));
                     return;
                 }
             }

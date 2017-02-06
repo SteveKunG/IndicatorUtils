@@ -23,9 +23,9 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandEntityDetector extends CommandBase
 {
@@ -210,7 +210,7 @@ public class CommandEntityDetector extends CommandBase
             {
                 if (Minecraft.getMinecraft().getSession().getProfile().getName().equalsIgnoreCase(args[0]))
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Cannot set entity detector type to yourself!", "red"));
+                    sender.addChatMessage(JsonUtils.textToJson("Cannot set entity detector type to yourself!", "red"));
                     return;
                 }
                 else
@@ -222,7 +222,7 @@ public class CommandEntityDetector extends CommandBase
             {
                 throw new WrongUsageException("commands.entitydetect.usage", new Object[] { this.getCommandUsage(sender) });
             }
-            sender.addChatMessage(JsonMessageUtils.textToJson("Set entity detector type to " + args[0], "white"));
+            sender.addChatMessage(JsonUtils.textToJson("Set entity detector type to " + args[0], "white"));
             ExtendedModSettings.saveExtendedSettings();
             return;
         }

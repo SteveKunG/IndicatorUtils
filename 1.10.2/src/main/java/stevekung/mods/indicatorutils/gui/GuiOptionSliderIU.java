@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.utils;
+package stevekung.mods.indicatorutils.gui;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
@@ -12,7 +12,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 @SideOnly(Side.CLIENT)
 public class GuiOptionSliderIU extends GuiButton

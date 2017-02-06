@@ -31,9 +31,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
-import net.minecraft.init.Blocks;
 import net.minecraft.init.SoundEvents;
-import net.minecraft.util.text.TextFormatting;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
@@ -50,7 +48,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.Side;
-import stevekung.mods.indicatorutils.command.ClientCommandHandlerIU;
 import stevekung.mods.indicatorutils.command.CommandAFK;
 import stevekung.mods.indicatorutils.command.CommandAutoFish;
 import stevekung.mods.indicatorutils.command.CommandAutoLogin;
@@ -60,13 +57,20 @@ import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
 import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
 import stevekung.mods.indicatorutils.command.CommandRecTemp;
 import stevekung.mods.indicatorutils.command.CommandShowCape;
+import stevekung.mods.indicatorutils.config.ConfigGuiFactory;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.BlockhitAnimationHandler;
+import stevekung.mods.indicatorutils.handler.ClientCommandHandlerIU;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
+import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
-import stevekung.mods.indicatorutils.utils.BlockhitAnimation;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 import stevekung.mods.indicatorutils.utils.ModSecurityManager;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
@@ -82,10 +86,9 @@ public class IndicatorUtils
     public static final int BUILD_VERSION = 2;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
-    public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.ConfigGuiFactory";
-    public static final boolean[] STATUS_CHECK = { false, false, false, false };
+    public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
+    public static final boolean[] STATUS_CHECK = { false, false, false };
     public static String USERNAME;
-    public static boolean loadCapeOnStartup = true;
 
     static
     {
@@ -114,7 +117,7 @@ public class IndicatorUtils
             new ThreadMojangStatusCheck(true).start();
         }
 
-        MinecraftForge.EVENT_BUS.register(new BlockhitAnimation());
+        MinecraftForge.EVENT_BUS.register(new BlockhitAnimationHandler());
         MinecraftForge.EVENT_BUS.register(new IndicatorUtilsEventHandler());
         MinecraftForge.EVENT_BUS.register(new NewChatEventHandler());
         MinecraftForge.EVENT_BUS.register(new OldVersionWarningEventHandler());
@@ -193,12 +196,11 @@ public class IndicatorUtils
 
         if (ConfigManager.enableCustomCapeFeature)
         {
-            if (!ExtendedModSettings.CAPE_URL.isEmpty() && IndicatorUtils.loadCapeOnStartup)
+            if (!ExtendedModSettings.CAPE_URL.isEmpty())
             {
                 CapeUtils.textureUploaded = true;
                 CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
-                IndicatorUtils.loadCapeOnStartup = false;
             }
             else
             {
@@ -252,46 +254,39 @@ public class IndicatorUtils
     }
 
     // Credit to Jarbelar
-    // 0 = OutOfDate, 1 = ShowDesc, 2 = NoConnection, 3 = MissingUUID
+    // 0 = ShowDesc, 1 = NoConnection, 2 = MissingUUID
     @SubscribeEvent
     public void onCheckVersion(PlayerTickEvent event)
     {
-        String URL = "http://adf.ly/1cDWrG";
         String changeLog = "http://pastebin.com/rJ7He59c";
 
         if (event.player.worldObj.isRemote)
         {
             if (ConfigManager.enableVersionChecker)
             {
-                if (!IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.noConnection())
+                if (!IndicatorUtils.STATUS_CHECK[1] && VersionChecker.INSTANCE.noConnection())
                 {
-                    event.player.addChatMessage(JsonMessageUtils.textToJson("Unable to check latest version, Please check your internet connection", "red"));
-                    event.player.addChatMessage(JsonMessageUtils.textToJson(VersionChecker.INSTANCE.getExceptionMessage(), "red"));
-                    IndicatorUtils.STATUS_CHECK[2] = true;
+                    event.player.addChatMessage(JsonUtils.textToJson("Unable to check latest version, Please check your internet connection", "red"));
+                    event.player.addChatMessage(JsonUtils.textToJson(VersionChecker.INSTANCE.getExceptionMessage(), "red"));
+                    IndicatorUtils.STATUS_CHECK[1] = true;
                     return;
                 }
-                if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[2] && VersionChecker.INSTANCE.isLatestVersion())
-                {
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"New version of \",\"extra\":[{\"text\":\"Indicator Utils\",\"color\":\"aqua\",\"extra\":[{\"text\":\" is available \",\"color\":\"white\",\"extra\":[{\"text\":\"v" + VersionChecker.INSTANCE.getLatestVersionReplaceMC() + " \",\"color\":\"green\",\"extra\":[{\"text\":\"for \",\"color\":\"white\",\"extra\":[{\"text\":\"MC-" + IndicatorUtils.MC_VERSION + "\",\"color\":\"gold\"}]}]}]}]}]"));
-                    event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Download Link \",\"color\":\"yellow\",\"extra\":[{\"text\":\"[CLICK HERE]\",\"color\":\"blue\",\"hoverEvent\":{\"action\":\"show_text\",\"value\":\"" + TextFormatting.DARK_GREEN + "Click Here!\"},\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + URL + "\"}}]"));
-                    IndicatorUtils.STATUS_CHECK[0] = true;
-                }
-                if (!IndicatorUtils.STATUS_CHECK[1] && !IndicatorUtils.STATUS_CHECK[2])
+                if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[1])
                 {
                     for (String log : VersionChecker.INSTANCE.getChangeLog())
                     {
                         if (ConfigManager.showChangeLogInGame)
                         {
-                            event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"" + log + "\",\"color\":\"gray\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + changeLog + "\"}"));
+                            event.player.addChatMessage(JsonUtils.json("\"text\":\"" + log + "\",\"color\":\"gray\",\"clickEvent\":{\"action\":\"open_url\",\"value\":\"" + changeLog + "\"}"));
                         }
                     }
-                    IndicatorUtils.STATUS_CHECK[1] = true;
+                    IndicatorUtils.STATUS_CHECK[0] = true;
                 }
             }
-            if (IndicatorUtils.STATUS_CHECK[3])
+            if (IndicatorUtils.STATUS_CHECK[2])
             {
-                event.player.addChatMessage(JsonMessageUtils.json("\"text\":\"Ping will display as n/a causes by /nick command in Hypixel\",\"color\":\"red\",\"bold\":\"true\""));
-                IndicatorUtils.STATUS_CHECK[3] = false;
+                event.player.addChatMessage(JsonUtils.json("\"text\":\"Ping will display as n/a causes by /nick command in Hypixel\",\"color\":\"red\",\"bold\":\"true\""));
+                IndicatorUtils.STATUS_CHECK[2] = false;
             }
         }
     }
@@ -311,8 +306,8 @@ public class IndicatorUtils
         info.modId = IndicatorUtils.MOD_ID;
         info.name = IndicatorUtils.NAME;
         info.version = IndicatorUtils.VERSION;
-        info.description = "Displaying all player status, Entity info, Health, etc!";
-        info.url = "https://www.mediafire.com/folder/11vdjbssscho2/Indicator_Utils";
+        info.description = "Displaying all player status and more comfortable features!";
+        info.url = "https://www.youtube.com/watch?v=9YJZFqiGXuA";
         info.authorList = Arrays.asList("SteveKunG");
     }
 
@@ -320,7 +315,7 @@ public class IndicatorUtils
     {
         try
         {
-            Blocks.class.getField("AIR");
+            Minecraft.class.getField("mcDataDir");
             return true;
         }
         catch (Throwable e) {}
@@ -329,7 +324,7 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4"));
+        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
     }
 
     private int to32BitColor(int a, int r, int g, int b)

@@ -14,6 +14,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.network.play.client.CPacketEntityAction;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatorutils.ExtendedModSettings;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewSleepMP extends GuiNewChatSettings
@@ -42,6 +43,10 @@ public class GuiNewSleepMP extends GuiNewChatSettings
 
             if (!s.isEmpty())
             {
+                if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
+                {
+                    s = "@" + s;
+                }
                 this.sendChatMessage(s);
             }
             this.inputField.setText("");

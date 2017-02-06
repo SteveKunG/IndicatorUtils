@@ -48,7 +48,6 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MovingObjectPosition;
@@ -56,7 +55,6 @@ import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.event.ServerChatEvent;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.CommandBlockStatusRenderer;
 import stevekung.mods.indicatorutils.renderer.statusmode.GlobalStatusRenderer;
@@ -348,16 +346,6 @@ public class IndicatorUtilsEventHandler
         }
         GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
         GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
-    }
-
-    @SubscribeEvent
-    public void onServerChat(ServerChatEvent event)
-    {
-        if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
-        {
-            ChatComponentTranslation itextcomponent = new ChatComponentTranslation("chat.type.text", event.player.getDisplayName(), this.newChatWithLinks("@" + event.message));
-            event.component = itextcomponent;
-        }
     }
 
     @SubscribeEvent

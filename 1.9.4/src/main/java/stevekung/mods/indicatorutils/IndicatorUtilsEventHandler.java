@@ -32,16 +32,12 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.client.event.RenderLivingEvent;
-import net.minecraftforge.common.ForgeHooks;
-import net.minecraftforge.event.ServerChatEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.InputEvent.KeyInputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
@@ -330,16 +326,6 @@ public class IndicatorUtilsEventHandler
         }
         GuiIngameForge.renderObjective = ConfigManager.renderScoreboard;
         GuiIngameForge.renderBossHealth = ConfigManager.renderBossHealthBar;
-    }
-
-    @SubscribeEvent
-    public void onServerChat(ServerChatEvent event)
-    {
-        if (ExtendedModSettings.CHAT_MODE.equalsIgnoreCase("mineplex_party_chat"))
-        {
-            ITextComponent itextcomponent = new TextComponentTranslation("chat.type.text", event.getPlayer().getDisplayName(), ForgeHooks.newChatWithLinks("@" + event.getMessage()));
-            event.setComponent(itextcomponent);
-        }
     }
 
     @SubscribeEvent

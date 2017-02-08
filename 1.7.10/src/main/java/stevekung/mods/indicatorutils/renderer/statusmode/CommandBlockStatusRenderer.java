@@ -88,7 +88,7 @@ public class CommandBlockStatusRenderer
         }
         if (ConfigManager.enableServerIP)
         {
-            if (mc.func_147104_D() != null)
+            if (mc.func_147104_D() != null && !mc.isSingleplayer())
             {
                 String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
                 String serverIP = JsonMessageUtils.textToJson(mc.func_147104_D().serverIP, ConfigManager.customColorIPValue).getFormattedText();

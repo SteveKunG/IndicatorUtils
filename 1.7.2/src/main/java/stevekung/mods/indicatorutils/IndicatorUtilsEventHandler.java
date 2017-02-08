@@ -6,14 +6,11 @@
 
 package stevekung.mods.indicatorutils;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
@@ -29,6 +26,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.FontRenderer;
@@ -41,15 +39,12 @@ import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.entity.boss.BossStatus;
-import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
@@ -94,12 +89,20 @@ public class IndicatorUtilsEventHandler
     private GuiNewChat chat;
     public static List<String> playerList = Lists.<String>newArrayList();
     public static Map<String, Integer> playerPingMap = Maps.<String, Integer>newHashMap();
+    public static boolean setTCPNoDelay = false;
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.getNetHandler() != null && IndicatorUtilsEventHandler.setTCPNoDelay)
+        {
+            mc.getNetHandler().getNetworkManager().channel().config().setOption(ChannelOption.TCP_NODELAY, true);
+            IULog.info("Set TCP_NODELAY to true");
+            IndicatorUtilsEventHandler.setTCPNoDelay = false;
+        }
 
         if (mc.currentScreen != null)
         {
@@ -820,45 +823,5 @@ public class IndicatorUtilsEventHandler
         this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.chat);
         this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.chat);
         this.drawnChatLines = ReflectionUtils.get("field_146253_i", "field_146253_i", GuiNewChat.class, this.chat);
-    }
-
-    private IChatComponent newChatWithLinks(String string)
-    {
-        // Includes ipv4 and domain pattern
-        // Matches an ip (xx.xxx.xx.xxx) or a domain (something.com) with or
-        // without a protocol or path.
-        Pattern URL_PATTERN = Pattern.compile(
-                //         schema                          ipv4            OR           namespace                 port     path         ends
-                //   |-----------------|        |-------------------------|  |----------------------------|    |---------| |--|   |---------------|
-                "((?:[a-z0-9]{2,}:\\/\\/)?(?:(?:[0-9]{1,3}\\.){3}[0-9]{1,3}|(?:[-\\w_\\.]{1,}\\.[a-z]{2,}?))(?::[0-9]{1,5})?.*?(?=[!\"\u00A7 \n]|$))",
-                Pattern.CASE_INSENSITIVE);
-        IChatComponent ichat = new ChatComponentText("");
-        Matcher matcher = URL_PATTERN.matcher(string);
-        int lastEnd = 0;
-        // Find all urls
-        while (matcher.find())
-        {
-            int start = matcher.start();
-            int end = matcher.end();
-
-            // Append the previous left overs.
-            ichat.appendText(string.substring(lastEnd, start));
-            lastEnd = end;
-            String url = string.substring(start, end);
-            IChatComponent link = new ChatComponentText(url);
-
-            // Add schema so client doesn't crash.
-            if (URI.create(url).getScheme() == null)
-            {
-                url = "http://" + url;
-            }
-            // Set the click event and append the link.
-            ClickEvent click = new ClickEvent(ClickEvent.Action.OPEN_URL, url);
-            link.getChatStyle().setChatClickEvent(click);
-            ichat.appendSibling(link);
-        }
-        // Append the rest of the message.
-        ichat.appendText(string.substring(lastEnd));
-        return ichat;
     }
 }

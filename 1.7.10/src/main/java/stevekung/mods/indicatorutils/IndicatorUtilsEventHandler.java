@@ -26,6 +26,7 @@ import cpw.mods.fml.common.gameevent.TickEvent.ClientTickEvent;
 import cpw.mods.fml.common.gameevent.TickEvent.Phase;
 import cpw.mods.fml.common.gameevent.TickEvent.RenderTickEvent;
 import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.FontRenderer;
@@ -88,12 +89,20 @@ public class IndicatorUtilsEventHandler
     private GuiNewChat chat;
     public static List<String> playerList = Lists.<String>newArrayList();
     public static Map<String, Integer> playerPingMap = Maps.<String, Integer>newHashMap();
+    public static boolean setTCPNoDelay = false;
 
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
         Minecraft mc = Minecraft.getMinecraft();
+
+        if (mc.getNetHandler() != null && IndicatorUtilsEventHandler.setTCPNoDelay)
+        {
+            mc.getNetHandler().getNetworkManager().channel().config().setOption(ChannelOption.TCP_NODELAY, true);
+            IULog.info("Set TCP_NODELAY to true");
+            IndicatorUtilsEventHandler.setTCPNoDelay = false;
+        }
 
         if (mc.currentScreen != null)
         {

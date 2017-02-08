@@ -270,6 +270,7 @@ public class IndicatorUtils
     public void onClientConnectedToServer(FMLNetworkEvent.ClientConnectedToServerEvent event)
     {
         ReflectionUtils.set(!IndicatorUtils.isObfuscatedEnvironment() ? "field_73840_e" : "persistantChatGUI", new GuiNewChatIU(Minecraft.getMinecraft()), GuiIngame.class, Minecraft.getMinecraft().ingameGUI);
+        IndicatorUtilsEventHandler.setTCPNoDelay = true;
     }
 
     private static void initModInfo(ModMetadata info)

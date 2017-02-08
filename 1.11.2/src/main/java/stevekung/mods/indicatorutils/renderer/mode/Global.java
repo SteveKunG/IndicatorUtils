@@ -129,7 +129,7 @@ public class Global
             }
             else
             {
-                if (mc.getCurrentServerData() != null)
+                if (mc.getCurrentServerData() != null && !mc.isSingleplayer())
                 {
                     String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
                     String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();

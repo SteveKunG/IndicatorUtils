@@ -110,7 +110,7 @@ public class GlobalStatusRenderer
             }
             else
             {
-                if (mc.getCurrentServerData() != null)
+                if (mc.getCurrentServerData() != null && !mc.isSingleplayer())
                 {
                     String ip = JsonMessageUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
                     String serverIP = JsonMessageUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();

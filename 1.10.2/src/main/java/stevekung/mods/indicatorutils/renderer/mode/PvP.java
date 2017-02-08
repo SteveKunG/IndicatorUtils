@@ -125,7 +125,7 @@ public class PvP
             }
             else
             {
-                if (mc.getCurrentServerData() != null)
+                if (mc.getCurrentServerData() != null && !mc.isSingleplayer())
                 {
                     String ip = JsonUtils.textToJson("IP: ", ConfigManager.customColorIP).getFormattedText();
                     String serverIP = JsonUtils.textToJson(mc.getCurrentServerData().serverIP, ConfigManager.customColorIPValue).getFormattedText();

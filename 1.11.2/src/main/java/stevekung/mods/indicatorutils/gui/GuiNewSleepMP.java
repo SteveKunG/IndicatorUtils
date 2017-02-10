@@ -17,7 +17,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 @SideOnly(Side.CLIENT)
-public class GuiNewSleepMP extends GuiNewChatSettings
+public class GuiNewSleepMP extends GuiNewChatIU
 {
     @Override
     public void initGui()

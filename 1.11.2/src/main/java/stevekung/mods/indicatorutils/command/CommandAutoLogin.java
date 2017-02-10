@@ -20,29 +20,15 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.ForgeHooks;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandAutoLogin extends CommandBase
+public class CommandAutoLogin extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "/" + this.getName();
-    }
-
     @Override
     public String getName()
     {
@@ -161,21 +147,5 @@ public class CommandAutoLogin extends CommandBase
             return CommandBase.getListOfStringsMatchingLastWord(args, "add", "remove", "list");
         }
         return super.getTabCompletions(server, sender, args, pos);
-    }
-
-    private ITextComponent getChatComponentFromNthArg(String[] args, int index)
-    {
-        ITextComponent itextcomponent = new TextComponentString("");
-
-        for (int i = index; i < args.length; ++i)
-        {
-            if (i > index)
-            {
-                itextcomponent.appendText(" ");
-            }
-            ITextComponent itextcomponent1 = ForgeHooks.newChatWithLinks(args[i]);
-            itextcomponent.appendSibling(itextcomponent1);
-        }
-        return itextcomponent;
     }
 }

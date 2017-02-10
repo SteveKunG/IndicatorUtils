@@ -28,8 +28,6 @@ import stevekung.mods.indicatorutils.utils.IULog;
 @SideOnly(Side.CLIENT)
 public class RenderFishIU extends Render<EntityFishHook>
 {
-    private static final ResourceLocation FISH_PARTICLES = new ResourceLocation("textures/particle/particles.png");
-
     public RenderFishIU(RenderManager manager)
     {
         super(manager);
@@ -142,6 +140,6 @@ public class RenderFishIU extends Render<EntityFishHook>
     @Override
     protected ResourceLocation getEntityTexture(EntityFishHook entity)
     {
-        return FISH_PARTICLES;
+        return new ResourceLocation("textures/particle/particles.png");
     }
 }

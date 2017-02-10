@@ -10,7 +10,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.GuiPlayerTabOverlay;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
+import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 
 public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
@@ -40,6 +40,6 @@ public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
         {
             color = EnumTextColor.DARK_RED;
         }
-        StatusRendererHelper.INSTANCE.drawString(String.valueOf(networkPlayerInfo.getResponseTime()), x1 + x2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(networkPlayerInfo.getResponseTime())), y + 0.5F, color, true);
+        ClientRendererHelper.drawString(String.valueOf(networkPlayerInfo.getResponseTime()), x1 + x2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(networkPlayerInfo.getResponseTime())), y + 0.5F, color, true);
     }
 }

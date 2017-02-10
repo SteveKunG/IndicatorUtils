@@ -10,17 +10,11 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import javax.annotation.Nullable;
-
-import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
@@ -30,25 +24,6 @@ import stevekung.mods.indicatorutils.utils.JsonUtils;
 public class GameInfoHelper
 {
     public static GameInfoHelper INSTANCE = new GameInfoHelper();
-
-    public static Predicate<Entity> IS_DEATH_OR_SPECTATOR = new Predicate<Entity>()
-    {
-        @Override
-        public boolean apply(@Nullable Entity entity)
-        {
-            if (entity instanceof EntityPlayer)
-            {
-                EntityPlayer player = (EntityPlayer) entity;
-                return !GameInfoHelper.INSTANCE.isDeathOrSpectator(player);
-            }
-            return false;
-        }
-    };
-
-    public boolean isSinglePlayer()
-    {
-        return Minecraft.getMinecraft().isSingleplayer();
-    }
 
     public int getPing()
     {
@@ -118,22 +93,6 @@ public class GameInfoHelper
             game = JsonUtils.rawTextToJson(ConfigManager.customTextGameTime).getFormattedText();
         }
         return game + value + " " + AMPM;
-    }
-
-    public boolean isDeathOrSpectator(EntityPlayer player)
-    {
-        if (Minecraft.getMinecraft().playerController.getCurrentGameType().getName().equals("survival") && player.isPotionActive(MobEffects.INVISIBILITY) && player.getActivePotionEffect(MobEffects.INVISIBILITY).getDuration() > 9600)
-        {
-            return true;
-        }
-        else if (player.getHealth() <= 0.0F)
-        {
-            return true;
-        }
-        else
-        {
-            return player.isSpectator();
-        }
     }
 
     public int getCPS()

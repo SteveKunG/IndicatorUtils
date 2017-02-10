@@ -35,8 +35,6 @@ public class ConfigManager
     public static boolean enableAllRenderInfo;
     public static int afkMessageTime;
     public static String endGameChatMessage;
-    public static boolean enableArmorStatusRenderBug;
-    public static boolean enableHeldItemRenderBug;
     public static boolean enableEndGameChatMessage;
     public static boolean enableAFKMessage;
     public static boolean enableBlockhitAnimation;
@@ -238,16 +236,6 @@ public class ConfigManager
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "End Game Chat Message", "gg");
         prop.setMaxListLength(255);
         ConfigManager.endGameChatMessage = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Armor Status Render Bug", false);
-        prop.setComment(I18n.format("gui.config.indicatorutils.advanced"));
-        ConfigManager.enableArmorStatusRenderBug = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Held Item Render Bug", false);
-        prop.setComment(I18n.format("gui.config.indicatorutils.advanced"));
-        ConfigManager.enableHeldItemRenderBug = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable End Game Message", false);

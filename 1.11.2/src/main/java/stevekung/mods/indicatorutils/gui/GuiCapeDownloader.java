@@ -38,7 +38,7 @@ public class GuiCapeDownloader extends GuiScreen
         this.doneBtn = this.addButton(new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.done")));
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
         this.cancelBtn = this.addButton(new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.cancel")));
-        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.resetcape")));
+        this.resetBtn = this.addButton(new GuiButton(2, this.width / 2 - 50, this.height / 4 + 100 + 12, 100, 20, "Reset Cape"));
         this.resetBtn.enabled = !ExtendedModSettings.CAPE_URL.isEmpty();
     }
 
@@ -61,7 +61,7 @@ public class GuiCapeDownloader extends GuiScreen
     {
         if (button.enabled)
         {
-            if (button.id == 0)//Done
+            if (button.id == 0)
             {
                 if (!this.inputField.getText().isEmpty())
                 {
@@ -70,11 +70,11 @@ public class GuiCapeDownloader extends GuiScreen
                 }
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
-            if (button.id == 1)//Cancel
+            if (button.id == 1)
             {
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
-            if (button.id == 2)//Reset
+            if (button.id == 2)
             {
                 ExtendedModSettings.CAPE_URL = "";
                 CapeUtils.CAPE_TEXTURE.remove(IndicatorUtils.USERNAME);
@@ -114,8 +114,8 @@ public class GuiCapeDownloader extends GuiScreen
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
         this.drawDefaultBackground();
-        this.drawCenteredString(this.fontRendererObj, I18n.format("gui.capedownloader"), this.width / 2, 20, 16777215);
-        this.drawString(this.fontRendererObj, I18n.format("gui.capedownloader.desc"), this.width / 2 - 150, 37, 10526880);
+        this.drawCenteredString(this.fontRendererObj, "Custom Cape Downloader", this.width / 2, 20, 16777215);
+        this.drawString(this.fontRendererObj, "Put your Cape URL (Must be .png or image format)", this.width / 2 - 150, 37, 10526880);
         this.inputField.drawTextBox();
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

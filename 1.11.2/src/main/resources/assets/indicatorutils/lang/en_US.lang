@@ -13,14 +13,14 @@ gui.indicatorutils.config.name1=Configuration
 gui.indicatorutils.config.name=Indicator Utils Configuration GUI
 gui.config.indicatorutils.advanced=For advanced user only!
 gui.config.indicatorutils.movementhandler=This is an option for enable/disable movement handler (Toggle Sprint/Sneak, AFK System)
-gui.config.indicatorutils.blockhitanim=This is an option for enable/disable blockhit animation from 1.7 (Animation is broken in 1.8+ -.-)
-gui.config.indicatorutils.fishrender=This is an option for replacing vanilla fishing line rendering. Also this mod has been replaced new Fishing Rod model (Like 1.7)
+gui.config.indicatorutils.blockhitanim=This is an option for enable/disable blockhit animation from 1.7
+gui.config.indicatorutils.fishrender=This is an option for replacing vanilla fishing line rendering. Also this mod has been replaced new Fishing Rod model (Note : It needs resource pack that optimize fishing rod model position)
 gui.config.indicatorutils.customcape=This is an option for enable/disable custom cape feature in the game, you can upload your custom cape texture to any website.
 
 # COMMAND
-commands.getplayerpos.success=%s position is: X:%s Y:%s Z:%s Dim:%s
+commands.getplayerpos.success=%s position is: X:%s Y:%s Z:%s
 commands.getplayerpos.playernull=Player %s doesn't exist
-commands.getplayerpos.fail=/getplayerpos <player>
+commands.getplayerpos.usage=/getplayerpos <player>
 commands.indicatorutils.usage=/indicatorutil <displaymode|togglesprint|togglesneak|cps|keystroke|autoclearchat|armorstatus|potionstatus|autoswim>
 commands.indicatorutils.displaymode.usage=/indicatorutil displaymode <default|uhc|pvp|command|mode>
 commands.indicatorutils.displaymode.mode.usage=/indicatorutil displaymode mode <keybinding|command>
@@ -59,8 +59,3 @@ key.displaymode.previous.desc=Display Mode Previous
 key.reccommand.desc=/rec Command
 key.endgamemessage.desc=End Game Message
 key.capedownloadgui.desc=Cape Downloader GUI
-
-# GUI
-gui.capedownloader=Custom Cape Downloader
-gui.capedownloader.desc=Put your Cape URL (Must be .png or image format)
-gui.resetcape=Reset Cape

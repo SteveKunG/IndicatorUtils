@@ -24,20 +24,8 @@ import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandGetPlayerPosition extends CommandBase
+public class CommandGetPlayerPosition extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "/" + this.getName();
-    }
-
     @Override
     public String getName()
     {
@@ -53,7 +41,7 @@ public class CommandGetPlayerPosition extends CommandBase
         }
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.getplayerpos.fail");
+            throw new WrongUsageException("commands.getplayerpos.usage");
         }
         else
         {
@@ -61,7 +49,7 @@ public class CommandGetPlayerPosition extends CommandBase
 
             if (args.length > 1)
             {
-                throw new WrongUsageException("commands.getplayerpos.fail");
+                throw new WrongUsageException("commands.getplayerpos.usage");
             }
 
             if (player == null)
@@ -71,7 +59,7 @@ public class CommandGetPlayerPosition extends CommandBase
             else
             {
                 BlockPos pos = player.getPosition();
-                sender.sendMessage(new TextComponentTranslation("commands.getplayerpos.success", new Object[] { player.getName(), pos.getX(), pos.getY(), pos.getZ(), player.world.provider.getDimensionType().getName() }));
+                sender.sendMessage(new TextComponentTranslation("commands.getplayerpos.success", new Object[] { player.getName(), pos.getX(), pos.getY(), pos.getZ() }));
             }
         }
     }

@@ -16,28 +16,14 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.ForgeHooks;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandAFK extends CommandBase
+public class CommandAFK extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "commands.afk.usage";
-    }
-
     @Override
     public String getName()
     {
@@ -173,21 +159,5 @@ public class CommandAFK extends CommandBase
             }
         }
         return super.getTabCompletions(server, sender, args, pos);
-    }
-
-    private ITextComponent getChatComponentFromNthArg(String[] args, int index)
-    {
-        ITextComponent itextcomponent = new TextComponentString("");
-
-        for (int i = index; i < args.length; ++i)
-        {
-            if (i > index)
-            {
-                itextcomponent.appendText(" ");
-            }
-            ITextComponent itextcomponent1 = ForgeHooks.newChatWithLinks(args[i]);
-            itextcomponent.appendSibling(itextcomponent1);
-        }
-        return itextcomponent;
     }
 }

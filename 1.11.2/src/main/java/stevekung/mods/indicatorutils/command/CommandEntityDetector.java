@@ -26,20 +26,8 @@ import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandEntityDetector extends CommandBase
+public class CommandEntityDetector extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "/" + this.getName();
-    }
-
     @Override
     public String getName()
     {

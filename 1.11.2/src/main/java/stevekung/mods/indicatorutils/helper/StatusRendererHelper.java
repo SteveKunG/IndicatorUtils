@@ -16,73 +16,18 @@ import java.util.TimeZone;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
-import com.mojang.realmsclient.gui.ChatFormatting;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.VertexBuffer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.item.EntityBoat;
-import net.minecraft.entity.item.EntityEnderCrystal;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.item.EntityMinecart;
-import net.minecraft.entity.item.EntityXPOrb;
-import net.minecraft.entity.monster.EntityBlaze;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityElderGuardian;
-import net.minecraft.entity.monster.EntityEnderman;
-import net.minecraft.entity.monster.EntityEndermite;
-import net.minecraft.entity.monster.EntityEvoker;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityGuardian;
-import net.minecraft.entity.monster.EntityHusk;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMagmaCube;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.monster.EntityPolarBear;
-import net.minecraft.entity.monster.EntityShulker;
-import net.minecraft.entity.monster.EntitySilverfish;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySnowman;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityStray;
-import net.minecraft.entity.monster.EntityVex;
-import net.minecraft.entity.monster.EntityVindicator;
-import net.minecraft.entity.monster.EntityWitch;
-import net.minecraft.entity.monster.EntityWitherSkeleton;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.monster.EntityZombieVillager;
-import net.minecraft.entity.monster.IMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityChicken;
-import net.minecraft.entity.passive.EntityCow;
-import net.minecraft.entity.passive.EntityDonkey;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntityLlama;
-import net.minecraft.entity.passive.EntityMooshroom;
-import net.minecraft.entity.passive.EntityMule;
-import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.entity.passive.EntitySkeletonHorse;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityVillager;
-import net.minecraft.entity.passive.EntityWolf;
-import net.minecraft.entity.passive.EntityZombieHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.MobEffects;
@@ -121,7 +66,7 @@ public class StatusRendererHelper
         {
             GlStateManager.pushMatrix();
             float f = 0.0F;
-            GlStateManager.translate((float)x, hasName ? y + entityLivingBase.height + 0.75F - f : !GameInfoHelper.INSTANCE.isSinglePlayer() ? y + entityLivingBase.height + 1F - f : y + entityLivingBase.height + 0.5F - f, (float)z);
+            GlStateManager.translate((float)x, hasName ? y + entityLivingBase.height + 0.75F - f : !mc.isSingleplayer() ? y + entityLivingBase.height + 1F - f : y + entityLivingBase.height + 0.5F - f, (float)z);
             GlStateManager.glNormal3f(0.0F, 1.0F, 0.0F);
             GlStateManager.rotate(-mc.getRenderManager().playerViewY, 0.0F, 1.0F, 0.0F);
             GlStateManager.rotate((mc.getRenderManager().options.thirdPersonView == 2 ? -1 : 1) * mc.getRenderManager().playerViewX, 1.0F, 0.0F, 0.0F);
@@ -151,12 +96,12 @@ public class StatusRendererHelper
 
             if (!entityLivingBase.isSneaking())
             {
-                StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, 553648127, false);
+                ClientRendererHelper.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, 553648127, false);
                 GlStateManager.enableDepth();
             }
 
             GlStateManager.depthMask(true);
-            StatusRendererHelper.INSTANCE.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, entityLivingBase.isSneaking() ? 553648127 : -1, false);
+            ClientRendererHelper.drawString(text, -fontrenderer.getStringWidth(text) / 2, 0, entityLivingBase.isSneaking() ? 553648127 : -1, false);
             GlStateManager.enableLighting();
             GlStateManager.disableBlend();
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -203,26 +148,26 @@ public class StatusRendererHelper
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT));
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT), EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT));
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT), EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 16);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 16);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 16, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
                         }
                     }
                     if (ConfigManager.enableHeldItemInHand)
@@ -248,8 +193,8 @@ public class StatusRendererHelper
                                 arrowCountString = "";
                             }
 
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.BOW))
                             {
@@ -279,8 +224,8 @@ public class StatusRendererHelper
                                 arrowCountString = "";
                             }
 
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
 
                             if (offItem.getItem().equals(Items.BOW))
                             {
@@ -300,23 +245,23 @@ public class StatusRendererHelper
                     {
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT));
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT), EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT));
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT), EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 16);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 16);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 16, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
                         }
                     }
                     if (ConfigManager.enableHeldItemInHand && !mc.player.isSpectator())
@@ -343,8 +288,8 @@ public class StatusRendererHelper
                             }
 
                             width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.BOW))
                             {
@@ -376,8 +321,8 @@ public class StatusRendererHelper
                             }
 
                             width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
 
                             if (offItem.getItem().equals(Items.BOW))
                             {
@@ -399,24 +344,24 @@ public class StatusRendererHelper
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR));
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR), EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR));
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR), EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
                             width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) + 16);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) + 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) + 16);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) + 16, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR));
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - 52, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR));
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - 52, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) + 16);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) + 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) + 16);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) + 16, EnumTextColor.WHITE, true);
                         }
                     }
                     if (ConfigManager.enableHeldItemInHand)
@@ -443,8 +388,8 @@ public class StatusRendererHelper
                             }
 
                             width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 16, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.BOW))
                             {
@@ -475,8 +420,8 @@ public class StatusRendererHelper
                                 arrowCountString = "";
                             }
 
-                            StatusRendererHelper.INSTANCE.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
-                            StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - 52 - 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - 52 - 16, EnumTextColor.WHITE, true);
 
                             if (offItem.getItem().equals(Items.BOW))
                             {
@@ -497,26 +442,26 @@ public class StatusRendererHelper
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
                             width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.HELMET, armorPosition, helItem);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), flag ? armorTextPosition : width, helText, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, armorPosition, helItem);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), flag ? armorTextPosition : width, helText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
                             width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.CHESTPLATE, armorPosition, chestItem);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), flag ? armorTextPosition : width, chestText, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, armorPosition, chestItem);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), flag ? armorTextPosition : width, chestText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
                             width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.LEGGINGS, armorPosition, legItem);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), flag ? armorTextPosition : width, legText, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, armorPosition, legItem);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), flag ? armorTextPosition : width, legText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
                             width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
-                            StatusRendererHelper.INSTANCE.renderArmorWithEffect(ArmorType.BOOTS, armorPosition, bootItem);
-                            StatusRendererHelper.INSTANCE.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), flag ? armorTextPosition : width, bootText, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, armorPosition, bootItem);
+                            ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), flag ? armorTextPosition : width, bootText, EnumTextColor.WHITE, true);
                         }
                     }
                 }
@@ -544,8 +489,8 @@ public class StatusRendererHelper
                         }
 
                         width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
-                        StatusRendererHelper.INSTANCE.renderItemWithEffect(mainItem, armorPosition, bootItem + 16);
-                        StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, flag ? armorTextPosition : width, bootText + 16, EnumTextColor.WHITE, true);
+                        ClientRendererHelper.renderItemWithEffect(mainItem, armorPosition, bootItem + 16);
+                        ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, flag ? armorTextPosition : width, bootText + 16, EnumTextColor.WHITE, true);
 
                         if (mainItem.getItem().equals(Items.BOW))
                         {
@@ -577,8 +522,8 @@ public class StatusRendererHelper
                         }
 
                         width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
-                        StatusRendererHelper.INSTANCE.renderItemWithEffect(offItem, armorPosition, bootItem + 32);
-                        StatusRendererHelper.INSTANCE.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, flag ? armorTextPosition : width, bootText + 32, EnumTextColor.WHITE, true);
+                        ClientRendererHelper.renderItemWithEffect(offItem, armorPosition, bootItem + 32);
+                        ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString, flag ? armorTextPosition : width, bootText + 32, EnumTextColor.WHITE, true);
 
                         if (offItem.getItem().equals(Items.BOW))
                         {
@@ -648,9 +593,9 @@ public class StatusRendererHelper
 
                         if (!iconAndTime)
                         {
-                            StatusRendererHelper.INSTANCE.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(s1, showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                         }
-                        StatusRendererHelper.INSTANCE.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                        ClientRendererHelper.drawString(s, showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                         yPotion -= length;
                     }
                 }
@@ -696,9 +641,9 @@ public class StatusRendererHelper
 
                         if (!iconAndTime)
                         {
-                            StatusRendererHelper.INSTANCE.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(s1, showIcon ? xPotion + 46 : xPotion + 28, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                         }
-                        StatusRendererHelper.INSTANCE.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                        ClientRendererHelper.drawString(s, showIcon ? xPotion + 46 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                         yPotion -= length;
                     }
                 }
@@ -749,9 +694,9 @@ public class StatusRendererHelper
 
                             if (!iconAndTime)
                             {
-                                StatusRendererHelper.INSTANCE.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                                ClientRendererHelper.drawString(s1, right ? showIcon ? xPotion + 8 - stringwidth2 : xPotion + 28 - stringwidth2 : showIcon ? xPotion + 50 : xPotion + 28, yPotion + 6, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                             }
-                            StatusRendererHelper.INSTANCE.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(s, right ? showIcon ? xPotion + 8 - stringwidth1 : xPotion + 28 - stringwidth1 : showIcon ? xPotion + 50 : xPotion + 28, iconAndTime ? yPotion + 11 : yPotion + 16, ConfigManager.highlightPotionColor ? StatusRendererHelper.highlightPotionTextColor(potion) : EnumTextColor.WHITE, true);
                             yPotion += length;
                         }
                     }
@@ -877,114 +822,9 @@ public class StatusRendererHelper
                     int k = mc.fontRendererObj.getStringWidth(s);
                     int l = scaledRes.getScaledWidth() - 2 - k;
                     float i1 = y + j * i;
-                    StatusRendererHelper.INSTANCE.drawString(s, swapToRight ? 3.5F : l, i1, EnumTextColor.WHITE, true);
+                    ClientRendererHelper.drawString(s, swapToRight ? 3.5F : l, i1, EnumTextColor.WHITE, true);
                 }
             }
-        }
-    }
-
-    public void renderArmorWithEffect(ArmorType type, int x, int y)
-    {
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        if (ConfigManager.enableArmorStatusRenderBug)
-        {
-            GlStateManager.disableDepth();
-        }
-        Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(this.getArmorType(type), x, y);
-        if (ConfigManager.enableArmorStatusRenderBug)
-        {
-            GlStateManager.enableDepth();
-        }
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
-        RenderHelper.disableStandardItemLighting();
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.disableLighting();
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableColorMaterial();
-        GlStateManager.disableLighting();
-        GlStateManager.enableCull();
-        Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRendererObj, this.getArmorType(type), x, y);
-        GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-        GlStateManager.disableLighting();
-    }
-
-    public void renderItemWithEffect(ItemStack itemStack, int x, int y)
-    {
-        RenderHelper.enableGUIStandardItemLighting();
-        GlStateManager.enableRescaleNormal();
-        GlStateManager.enableBlend();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        if (ConfigManager.enableHeldItemRenderBug)
-        {
-            GlStateManager.disableDepth();
-        }
-        Minecraft.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(itemStack, x, y);
-        if (ConfigManager.enableHeldItemRenderBug)
-        {
-            GlStateManager.enableDepth();
-        }
-        GlStateManager.disableRescaleNormal();
-        GlStateManager.disableBlend();
-        RenderHelper.disableStandardItemLighting();
-
-        if (itemStack.isItemStackDamageable())
-        {
-            RenderHelper.enableGUIStandardItemLighting();
-            GlStateManager.disableLighting();
-            GlStateManager.enableRescaleNormal();
-            GlStateManager.enableColorMaterial();
-            GlStateManager.disableLighting();
-            GlStateManager.enableCull();
-            Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRendererObj, itemStack, x, y);
-            GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
-            GlStateManager.disableLighting();
-        }
-    }
-
-    public void drawString(String message, float x, float y, EnumTextColor color, boolean shadow)
-    {
-        this.drawString(message, x, y, color.getColor(), shadow);
-    }
-
-    public void drawString(String message, float x, float y, int color, boolean shadow)
-    {
-        Minecraft.getMinecraft().fontRendererObj.drawString(message, x, y, color, shadow);
-    }
-
-    public void drawStringAtRecord(String text, float partialTicks)
-    {
-        Minecraft mc = Minecraft.getMinecraft();
-        ScaledResolution scaledresolution = new ScaledResolution(mc);
-        boolean isCreative = mc.player.capabilities.isCreativeMode;
-        int height = isCreative ? 60 : 80;
-        int i = scaledresolution.getScaledWidth();
-        int j = scaledresolution.getScaledHeight();
-        float f2 = 256 - partialTicks;
-        int l1 = (int)(f2 * 255.0F / 20.0F);
-
-        if (l1 > 255)
-        {
-            l1 = 255;
-        }
-        if (l1 > 8)
-        {
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(i / 2, j - height + -0.5F, 0.0F);
-            StatusRendererHelper.INSTANCE.drawRect(6, -6, mc.fontRendererObj.getStringWidth(text) / 2 + 2, -mc.fontRendererObj.getStringWidth(text) / 2 - 2, 16777216);
-            GlStateManager.popMatrix();
-
-            GlStateManager.pushMatrix();
-            GlStateManager.translate(i / 2, j - height, 0.0F);
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            int l = 16777215;
-            Minecraft.getMinecraft().fontRendererObj.drawString(text, -mc.fontRendererObj.getStringWidth(text) / 2, -4, l + (l1 << 24 & -16777216), true);
-            GlStateManager.disableBlend();
-            GlStateManager.popMatrix();
         }
     }
 
@@ -1134,97 +974,6 @@ public class StatusRendererHelper
         GameInfoHelper.INSTANCE.setActionBarMessage(new JsonUtils().text("Change display mode to " + "[" + mode + "]"), false);
     }
 
-    public void drawRect(double top, double bottom, double left, double right, int color)
-    {
-        float r = (color >> 16 & 255) / 255.0F;
-        float g = (color >> 8 & 255) / 255.0F;
-        float b = (color & 255) / 255.0F;
-        GlStateManager.disableTexture2D();
-        GlStateManager.enableBlend();
-        GlStateManager.disableAlpha();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.shadeModel(7425);
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION_COLOR);
-        vertexbuffer.pos(right, top, 0.0D).color(r, g, b, 0.35F).endVertex();
-        vertexbuffer.pos(left, top, 0.0D).color(r, g, b, 0.35F).endVertex();
-        vertexbuffer.pos(left, bottom, 0.0D).color(r, g, b, 0.35F).endVertex();
-        vertexbuffer.pos(right, bottom, 0.0D).color(r, g, b, 0.35F).endVertex();
-        tessellator.draw();
-        GlStateManager.shadeModel(7424);
-        GlStateManager.disableBlend();
-        GlStateManager.enableAlpha();
-        GlStateManager.enableTexture2D();
-    }
-
-    public void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
-    {
-        if (left < right)
-        {
-            int i = left;
-            left = right;
-            right = i;
-        }
-        if (top < bottom)
-        {
-            int j = top;
-            top = bottom;
-            bottom = j;
-        }
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.getInstance();
-        VertexBuffer vertexbuffer = tessellator.getBuffer();
-        GlStateManager.enableBlend();
-        GlStateManager.disableTexture2D();
-        GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-        GlStateManager.color(f, f1, f2, alpha);
-        vertexbuffer.begin(7, DefaultVertexFormats.POSITION);
-        vertexbuffer.pos(left, bottom, 0.0D).endVertex();
-        vertexbuffer.pos(right, bottom, 0.0D).endVertex();
-        vertexbuffer.pos(right, top, 0.0D).endVertex();
-        vertexbuffer.pos(left, top, 0.0D).endVertex();
-        tessellator.draw();
-        GlStateManager.enableTexture2D();
-        GlStateManager.disableBlend();
-    }
-
-    public static String convertToRainbowColor(String[] value)
-    {
-        int[] colors = { 3, 5, 13, 1, 2, 4, 12 };
-        int i = 0;
-        String text = "";
-        String[] as;
-        int k = (as = value).length;
-
-        for (int j = 0; j < k; j++)
-        {
-            String part = as[j];
-            char[] __tmpChars = part.toCharArray();
-            char[] ac;
-            int i1 = (ac = __tmpChars).length;
-
-            for (int l = 0; l < i1; l++)
-            {
-                char __curr = ac[l];
-                text = text + ChatFormatting.PREFIX_CODE + Integer.toString(colors[i] % 15 + 1, 16) + Character.toString(__curr);
-
-                if (i < colors.length - 1)
-                {
-                    i++;
-                }
-                else
-                {
-                    i = 0;
-                }
-            }
-            text = text + " ";
-        }
-        return text;
-    }
-
     private static Locale getDateFormat()
     {
         if (ConfigManager.dateFormat.equalsIgnoreCase("US"))
@@ -1346,593 +1095,6 @@ public class StatusRendererHelper
             color = EnumTextColor.UNLUCK;
         }
         return color;
-    }
-
-    public static void initEntityDetectorWithGlowing()
-    {
-        Minecraft mc = Minecraft.getMinecraft();
-
-        if (mc.world != null)
-        {
-            for (Entity list : mc.world.loadedEntityList)
-            {
-                if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("all"))
-                {
-                    if (!(list instanceof EntityPlayerSP))
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("only_mob"))
-                {
-                    if (list instanceof EntityMob || list instanceof IMob)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("only_creature"))
-                {
-                    if (list instanceof EntityAnimal)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("only_non_mob"))
-                {
-                    if (list instanceof EntityItem || list instanceof EntityXPOrb || list instanceof EntityArmorStand || list instanceof EntityBoat || list instanceof EntityMinecart)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("only_player"))
-                {
-                    if (list instanceof EntityOtherPlayerMP)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("zombie"))
-                {
-                    if (list instanceof EntityZombie)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("zombie_villager"))
-                {
-                    if (list instanceof EntityZombieVillager)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("husk"))
-                {
-                    if (list instanceof EntityHusk)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("creeper"))
-                {
-                    if (list instanceof EntityCreeper)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("skeleton"))
-                {
-                    if (list instanceof EntitySkeleton)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("wither_skeleton"))
-                {
-                    if (list instanceof EntityWitherSkeleton)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("stray"))
-                {
-                    if (list instanceof EntityStray)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("spider"))
-                {
-                    if (list instanceof EntitySpider)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("slime"))
-                {
-                    if (list instanceof EntitySlime)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("magma_cube"))
-                {
-                    if (list instanceof EntityMagmaCube)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ghast"))
-                {
-                    if (list instanceof EntityGhast)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("enderman"))
-                {
-                    if (list instanceof EntityEnderman)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("silverfish"))
-                {
-                    if (list instanceof EntitySilverfish || list instanceof EntityEndermite)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("blaze"))
-                {
-                    if (list instanceof EntityBlaze)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("witch"))
-                {
-                    if (list instanceof EntityWitch)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("guardian"))
-                {
-                    if (list instanceof EntityGuardian)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("elder_guardian"))
-                {
-                    if (list instanceof EntityElderGuardian)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("shulker"))
-                {
-                    if (list instanceof EntityShulker)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("pig"))
-                {
-                    if (list instanceof EntityPig)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("sheep"))
-                {
-                    if (list instanceof EntitySheep)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("cow"))
-                {
-                    if (list instanceof EntityCow || list instanceof EntityMooshroom)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("chicken"))
-                {
-                    if (list instanceof EntityChicken)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("squid"))
-                {
-                    if (list instanceof EntitySquid)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("wolf"))
-                {
-                    if (list instanceof EntityWolf)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("snowman"))
-                {
-                    if (list instanceof EntitySnowman)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ocelot"))
-                {
-                    if (list instanceof EntityOcelot)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("iron_golem"))
-                {
-                    if (list instanceof EntityIronGolem)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("horse"))
-                {
-                    if (list instanceof EntityHorse)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("donkey"))
-                {
-                    if (list instanceof EntityDonkey)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("mule"))
-                {
-                    if (list instanceof EntityMule)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("skeleton_horse"))
-                {
-                    if (list instanceof EntitySkeletonHorse)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("zombie_horse"))
-                {
-                    if (list instanceof EntityZombieHorse)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("rabbit"))
-                {
-                    if (list instanceof EntityRabbit)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("polar_bear"))
-                {
-                    if (list instanceof EntityPolarBear)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("llama"))
-                {
-                    if (list instanceof EntityLlama)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("evoker"))
-                {
-                    if (list instanceof EntityEvoker)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("vex"))
-                {
-                    if (list instanceof EntityVex)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("vindicator"))
-                {
-                    if (list instanceof EntityVindicator)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("villager"))
-                {
-                    if (list instanceof EntityVillager)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("item"))
-                {
-                    if (list instanceof EntityItem)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("xp"))
-                {
-                    if (list instanceof EntityXPOrb)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("armor_stand"))
-                {
-                    if (list instanceof EntityArmorStand)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("boat"))
-                {
-                    if (list instanceof EntityBoat)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("minecart"))
-                {
-                    if (list instanceof EntityMinecart)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("ender_crystal"))
-                {
-                    if (list instanceof EntityEnderCrystal)
-                    {
-                        list.setGlowing(true);
-                    }
-                    else
-                    {
-                        list.setGlowing(false);
-                    }
-                }
-                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("reset"))
-                {
-                    if (list instanceof EntityLivingBase)
-                    {
-                        list.setGlowing(((EntityLivingBase)list).isPotionActive(MobEffects.GLOWING));
-                    }
-                    list.setGlowing(false);
-                }
-                else
-                {
-                    for (String name : GameInfoHelper.INSTANCE.getPlayerInfoListClient())
-                    {
-                        if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase(name))
-                        {
-                            if (list instanceof EntityOtherPlayerMP && ((EntityOtherPlayerMP)list).getName().equalsIgnoreCase(ExtendedModSettings.ENTITY_DETECT_TYPE))
-                            {
-                                list.setGlowing(true);
-                            }
-                            else
-                            {
-                                list.setGlowing(false);
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     public static String getBetterBiomeName(Chunk chunk, World world, BlockPos pos)

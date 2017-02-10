@@ -39,6 +39,8 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.TextFormatting;
+import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
@@ -53,6 +55,7 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
+import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import stevekung.mods.indicatorutils.IndicatorUtils;
@@ -61,7 +64,7 @@ import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.gui.GuiBossOverlayIU;
 import stevekung.mods.indicatorutils.gui.GuiCapeDownloader;
-import stevekung.mods.indicatorutils.gui.GuiNewChatSettings;
+import stevekung.mods.indicatorutils.gui.GuiNewChatIU;
 import stevekung.mods.indicatorutils.gui.GuiNewSleepMP;
 import stevekung.mods.indicatorutils.gui.GuiPlayerTabOverlayIU;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
@@ -80,6 +83,7 @@ import stevekung.mods.indicatorutils.utils.IULog;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
 import stevekung.mods.indicatorutils.utils.ReflectionUtils;
+import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 public class IndicatorUtilsEventHandler
 {
@@ -121,6 +125,45 @@ public class IndicatorUtilsEventHandler
         this.json = new JsonUtils();
     }
 
+    // Credit to Jarbelar
+    // 0 = ShowDesc, 1 = NoConnection, 2 = MissingUUID
+    @SubscribeEvent
+    public void onCheckVersion(PlayerTickEvent event)
+    {
+        String changeLog = "http://pastebin.com/rJ7He59c";
+        JsonUtils json = new JsonUtils();
+
+        if (event.player.world.isRemote)
+        {
+            if (ConfigManager.enableVersionChecker)
+            {
+                if (!IndicatorUtils.STATUS_CHECK[1] && VersionChecker.INSTANCE.noConnection())
+                {
+                    event.player.sendMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.red()));
+                    event.player.sendMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.red()));
+                    IndicatorUtils.STATUS_CHECK[1] = true;
+                    return;
+                }
+                if (!IndicatorUtils.STATUS_CHECK[0] && !IndicatorUtils.STATUS_CHECK[1])
+                {
+                    for (String log : VersionChecker.INSTANCE.getChangeLog())
+                    {
+                        if (ConfigManager.showChangeLogInGame)
+                        {
+                            event.player.sendMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
+                        }
+                    }
+                    IndicatorUtils.STATUS_CHECK[0] = true;
+                }
+            }
+            if (IndicatorUtils.STATUS_CHECK[2])
+            {
+                event.player.sendMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.red().setBold(true)));
+                IndicatorUtils.STATUS_CHECK[2] = false;
+            }
+        }
+    }
+
     @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent event)
     {
@@ -134,29 +177,14 @@ public class IndicatorUtilsEventHandler
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
-        StatusRendererHelper.initEntityDetectorWithGlowing();
-
-        if (this.mc.currentScreen != null)
-        {
-            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatSettings || this.mc.currentScreen instanceof GuiSleepMP))
-            {
-                this.mc.displayGuiScreen(new GuiNewChatSettings());
-            }
-            if (this.mc.currentScreen instanceof GuiSleepMP && !(this.mc.currentScreen instanceof GuiNewSleepMP))
-            {
-                this.mc.displayGuiScreen(new GuiNewSleepMP());
-            }
-            if (this.mc.currentScreen instanceof GuiNewSleepMP && !this.mc.player.isPlayerSleeping())
-            {
-                this.mc.displayGuiScreen((GuiScreen)null);
-            }
-        }
+        this.replaceChatGUI();
+        ClientRendererHelper.runGlowingEntityDetector();
 
         if (event.phase == Phase.START)
         {
-            this.afkForPlayers();
-            this.autoFish();
-            this.autoClearChat();
+            this.runAFK();
+            this.runAutoFish();
+            this.runAutoClearChat();
 
             if (this.pressTimeDelay > 0)
             {
@@ -270,7 +298,7 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderIndicator(RenderGameOverlayEvent event)
+    public void onRenderOverlay(RenderGameOverlayEvent event)
     {
         if (event.getType() == ElementType.TEXT)
         {
@@ -310,12 +338,12 @@ public class IndicatorUtilsEventHandler
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        StatusRendererHelper.INSTANCE.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.getPartialTicks());
+                        ClientRendererHelper.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.getPartialTicks());
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
                     {
-                        StatusRendererHelper.INSTANCE.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
-                        this.mc.fontRendererObj.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
+                        ClientRendererHelper.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        ClientRendererHelper.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
 
@@ -328,7 +356,7 @@ public class IndicatorUtilsEventHandler
                     {
                         color = EnumTextColor.RED;
                     }
-                    StatusRendererHelper.INSTANCE.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                    ClientRendererHelper.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
                 }
             }
         }
@@ -339,7 +367,7 @@ public class IndicatorUtilsEventHandler
     {
         if (this.mc.currentScreen == null && this.mc.gameSettings.keyBindCommand.isPressed())
         {
-            this.mc.displayGuiScreen(new GuiNewChatSettings("/"));
+            this.mc.displayGuiScreen(new GuiNewChatIU("/"));
         }
         if (ConfigManager.enableCustomCapeFeature)
         {
@@ -553,7 +581,7 @@ public class IndicatorUtilsEventHandler
         this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 
-    private void autoFish()
+    private void runAutoFish()
     {
         if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
         {
@@ -614,7 +642,7 @@ public class IndicatorUtilsEventHandler
         }
     }
 
-    private void afkForPlayers()
+    private void runAFK()
     {
         if (IndicatorUtilsEventHandler.AFK_ENABLED)
         {
@@ -691,7 +719,7 @@ public class IndicatorUtilsEventHandler
         }
     }
 
-    private void autoClearChat()
+    private void runAutoClearChat()
     {
         if (ExtendedModSettings.AUTO_CLEAR_CHAT)
         {
@@ -729,6 +757,25 @@ public class IndicatorUtilsEventHandler
         else
         {
             this.clearChatTick = 0;
+        }
+    }
+
+    private void replaceChatGUI()
+    {
+        if (this.mc.currentScreen != null)
+        {
+            if (this.mc.currentScreen instanceof GuiChat && !(this.mc.currentScreen instanceof GuiNewChatIU || this.mc.currentScreen instanceof GuiSleepMP))
+            {
+                this.mc.displayGuiScreen(new GuiNewChatIU());
+            }
+            if (this.mc.currentScreen instanceof GuiSleepMP && !(this.mc.currentScreen instanceof GuiNewSleepMP))
+            {
+                this.mc.displayGuiScreen(new GuiNewSleepMP());
+            }
+            if (this.mc.currentScreen instanceof GuiNewSleepMP && !this.mc.player.isPlayerSleeping())
+            {
+                this.mc.displayGuiScreen((GuiScreen)null);
+            }
         }
     }
 

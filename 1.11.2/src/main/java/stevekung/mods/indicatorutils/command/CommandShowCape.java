@@ -19,20 +19,8 @@ import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandShowCape extends CommandBase
+public class CommandShowCape extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "/" + this.getName();
-    }
-
     @Override
     public String getName()
     {

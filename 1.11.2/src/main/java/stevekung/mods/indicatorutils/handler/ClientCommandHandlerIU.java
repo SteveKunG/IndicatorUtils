@@ -61,7 +61,7 @@ public class ClientCommandHandlerIU extends ClientCommandHandler
                 icommand.execute(this.getServer(), sender, args);
                 return 1;
             }
-            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.permission", new Object[0]));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.permission"));
         }
         catch (WrongUsageException wue)
         {
@@ -73,7 +73,7 @@ public class ClientCommandHandlerIU extends ClientCommandHandler
         }
         catch (Throwable t)
         {
-            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.exception", new Object[0]));
+            sender.sendMessage(this.format(TextFormatting.RED, "commands.generic.exception"));
             t.printStackTrace();
         }
         return -1;

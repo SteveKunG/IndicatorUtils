@@ -17,15 +17,15 @@ import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class GuiNewChatSettings extends GuiChat
+public class GuiNewChatIU extends GuiChat
 {
     private boolean isDragging;
     private int lastPosX;
     private int lastPosY;
 
-    public GuiNewChatSettings() {}
+    public GuiNewChatIU() {}
 
-    public GuiNewChatSettings(String input)
+    public GuiNewChatIU(String input)
     {
         super(input);
     }

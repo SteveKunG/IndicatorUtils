@@ -21,7 +21,7 @@ public class JsonUtils
 {
     public static ITextComponent rawTextToJson(String json)
     {
-        ITextComponent text = new JsonUtils().text("null ").setStyle(new JsonUtils().style().setColor(TextFormatting.RED));
+        ITextComponent text = new JsonUtils().text("null ").setStyle(new JsonUtils().red());
 
         try
         {

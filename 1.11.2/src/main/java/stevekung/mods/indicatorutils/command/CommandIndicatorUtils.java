@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Arrays;
 import java.util.List;
 
 import net.minecraft.command.CommandBase;
@@ -18,30 +17,12 @@ import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandIndicatorUtils extends CommandBase
+public class CommandIndicatorUtils extends ClientCommandBaseIU
 {
-    @Override
-    public List<String> getAliases()
-    {
-        return Arrays.<String>asList("iu");
-    }
-
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getUsage(ICommandSender sender)
-    {
-        return "/" + this.getName();
-    }
-
     @Override
     public String getName()
     {
-        return "indicatorutils";
+        return "iu";
     }
 
     @Override

@@ -38,7 +38,7 @@ public class ExtendedModSettings
     public static String CPS_POSITION = "left";
     public static String DISPLAY_MODE = "default";
     public static String AUTO_CLEAR_CHAT_MODE = "all";
-    public static String ENTITY_DETECT_TYPE = "null";
+    public static String ENTITY_DETECT_TYPE = "reset";
     public static String CAPE_URL = "";
     public static String CHAT_MODE = "";
 

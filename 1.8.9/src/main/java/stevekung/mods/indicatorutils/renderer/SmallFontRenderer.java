@@ -9,17 +9,11 @@ package stevekung.mods.indicatorutils.renderer;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
 import org.apache.commons.io.IOUtils;
 import org.lwjgl.opengl.GL11;
-
-import com.ibm.icu.text.ArabicShaping;
-import com.ibm.icu.text.ArabicShapingException;
-import com.ibm.icu.text.Bidi;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
@@ -38,23 +32,21 @@ import stevekung.mods.indicatorutils.utils.EnumTextColor;
 @SideOnly(Side.CLIENT)
 public class SmallFontRenderer implements IResourceManagerReloadListener
 {
-    private static ResourceLocation[] UNICODE_PAGE_LOCATIONS = new ResourceLocation[256];
-    protected int[] charWidth = new int[256];
-    public int FONT_HEIGHT = 9;
-    public Random fontRandom = new Random();
-    protected byte[] glyphWidth = new byte[65536];
+    private ResourceLocation[] unicodePageLocations = new ResourceLocation[256];
+    private int[] charWidth = new int[256];
+    private int FONT_HEIGHT = 9;
+    private Random fontRandom = new Random();
+    private byte[] glyphWidth = new byte[65536];
     private int[] colorCode = new int[32];
-    protected ResourceLocation locationFontTexture;
+    private ResourceLocation locationFontTexture;
     private TextureManager renderEngine;
-    protected float posX;
-    protected float posY;
+    private float posX;
+    private float posY;
     private boolean unicodeFlag;
-    private boolean bidiFlag;
     private float red;
     private float blue;
     private float green;
     private float alpha;
-    private int textColor;
     private boolean randomStyle;
     private boolean boldStyle;
     private boolean italicStyle;
@@ -195,7 +187,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
     }
 
-    protected float renderDefaultChar(int ch, boolean italic)
+    private float renderDefaultChar(int ch, boolean italic)
     {
         int i = ch % 16 * 8;
         int j = ch / 16 * 8;
@@ -218,11 +210,11 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
     private ResourceLocation getUnicodePageLocation(int page)
     {
-        if (UNICODE_PAGE_LOCATIONS[page] == null)
+        if (this.unicodePageLocations[page] == null)
         {
-            UNICODE_PAGE_LOCATIONS[page] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(page)}));
+            this.unicodePageLocations[page] = new ResourceLocation(String.format("textures/font/unicode_page_%02x.png", new Object[] {Integer.valueOf(page)}));
         }
-        return UNICODE_PAGE_LOCATIONS[page];
+        return this.unicodePageLocations[page];
     }
 
     private void loadGlyphTexture(int page)
@@ -230,7 +222,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         this.bindTexture(this.getUnicodePageLocation(page));
     }
 
-    protected float renderUnicodeChar(char ch, boolean italic)
+    private float renderUnicodeChar(char ch, boolean italic)
     {
         if (this.glyphWidth[ch] == 0)
         {
@@ -262,22 +254,12 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
     }
 
-    public int drawStringWithShadow(String text, float x, float y, int color)
-    {
-        return this.drawString(text, x, y, color, true);
-    }
-
-    public int drawString(String text, float x, float y, int color)
-    {
-        return this.drawString(text, x, y, color, false);
-    }
-
     public int drawString(String text, float x, float y, EnumTextColor color, boolean dropShadow)
     {
         return this.drawString(text, x, y, color.getColor(), dropShadow);
     }
 
-    public int drawString(String text, float x, float y, int color, boolean dropShadow)
+    private int drawString(String text, float x, float y, int color, boolean dropShadow)
     {
         this.enableAlpha();
         this.resetStyles();
@@ -293,20 +275,6 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
             i = this.renderString(text, x, y, color, false);
         }
         return i;
-    }
-
-    private String bidiReorder(String text)
-    {
-        try
-        {
-            Bidi bidi = new Bidi(new ArabicShaping(8).shape(text), 127);
-            bidi.setReorderingMode(0);
-            return bidi.writeReordered(2);
-        }
-        catch (ArabicShapingException var3)
-        {
-            return text;
-        }
     }
 
     private void resetStyles()
@@ -345,7 +313,6 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
                         i1 += 16;
                     }
                     int j1 = this.colorCode[i1];
-                    this.textColor = j1;
                     this.setColor((j1 >> 16) / 255.0F, (j1 >> 8 & 255) / 255.0F, (j1 & 255) / 255.0F, this.alpha);
                 }
                 else if (i1 == 16)
@@ -442,7 +409,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
     }
 
-    protected void doDraw(float f)
+    private void doDraw(float f)
     {
         if (this.strikethroughStyle)
         {
@@ -474,16 +441,6 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         this.posX += (int)f;
     }
 
-    private int renderStringAligned(String text, int x, int y, int width, int color, boolean dropShadow)
-    {
-        if (this.bidiFlag)
-        {
-            int i = this.getStringWidth(this.bidiReorder(text));
-            x = x + width - i;
-        }
-        return this.renderString(text, x, y, color, dropShadow);
-    }
-
     private int renderString(String text, float x, float y, int color, boolean dropShadow)
     {
         if (text == null)
@@ -492,10 +449,6 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
         else
         {
-            if (this.bidiFlag)
-            {
-                text = this.bidiReorder(text);
-            }
             if ((color & -67108864) == 0)
             {
                 color |= -16777216;
@@ -562,7 +515,7 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
     }
 
-    public int getCharWidth(char character)
+    private int getCharWidth(char character)
     {
         if (character == 167)
         {
@@ -595,264 +548,23 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
         }
     }
 
-    public String trimStringToWidth(String text, int width)
-    {
-        return this.trimStringToWidth(text, width, false);
-    }
-
-    public String trimStringToWidth(String text, int width, boolean reverse)
-    {
-        StringBuilder stringbuilder = new StringBuilder();
-        int i = 0;
-        int j = reverse ? text.length() - 1 : 0;
-        int k = reverse ? -1 : 1;
-        boolean flag = false;
-        boolean flag1 = false;
-
-        for (int l = j; l >= 0 && l < text.length() && i < width; l += k)
-        {
-            char c0 = text.charAt(l);
-            int i1 = this.getCharWidth(c0);
-
-            if (flag)
-            {
-                flag = false;
-
-                if (c0 != 108 && c0 != 76)
-                {
-                    if (c0 == 114 || c0 == 82)
-                    {
-                        flag1 = false;
-                    }
-                }
-                else
-                {
-                    flag1 = true;
-                }
-            }
-            else if (i1 < 0)
-            {
-                flag = true;
-            }
-            else
-            {
-                i += i1;
-
-                if (flag1)
-                {
-                    ++i;
-                }
-            }
-
-            if (i > width)
-            {
-                break;
-            }
-            if (reverse)
-            {
-                stringbuilder.insert(0, c0);
-            }
-            else
-            {
-                stringbuilder.append(c0);
-            }
-        }
-        return stringbuilder.toString();
-    }
-
-    private String trimStringNewline(String text)
-    {
-        while (text != null && text.endsWith("\n"))
-        {
-            text = text.substring(0, text.length() - 1);
-        }
-        return text;
-    }
-
-    public void drawSplitString(String str, int x, int y, int wrapWidth, int textColor)
-    {
-        this.resetStyles();
-        this.textColor = textColor;
-        str = this.trimStringNewline(str);
-        this.renderSplitString(str, x, y, wrapWidth, false);
-    }
-
-    private void renderSplitString(String str, int x, int y, int wrapWidth, boolean addShadow)
-    {
-        for (String s : this.listFormattedStringToWidth(str, wrapWidth))
-        {
-            this.renderStringAligned(s, x, y, wrapWidth, this.textColor, addShadow);
-            y += this.FONT_HEIGHT;
-        }
-    }
-
-    public int splitStringWidth(String str, int maxLength)
-    {
-        return this.FONT_HEIGHT * this.listFormattedStringToWidth(str, maxLength).size();
-    }
-
-    public void setUnicodeFlag(boolean unicodeFlagIn)
-    {
-        this.unicodeFlag = unicodeFlagIn;
-    }
-
-    public boolean getUnicodeFlag()
-    {
-        return this.unicodeFlag;
-    }
-
-    public void setBidiFlag(boolean bidiFlagIn)
-    {
-        this.bidiFlag = bidiFlagIn;
-    }
-
-    public List<String> listFormattedStringToWidth(String str, int wrapWidth)
-    {
-        return Arrays.<String>asList(this.wrapFormattedStringToWidth(str, wrapWidth).split("\n"));
-    }
-
-    String wrapFormattedStringToWidth(String str, int wrapWidth)
-    {
-        int i = this.sizeStringToWidth(str, wrapWidth);
-
-        if (str.length() <= i)
-        {
-            return str;
-        }
-        else
-        {
-            String s = str.substring(0, i);
-            char c0 = str.charAt(i);
-            boolean flag = c0 == 32 || c0 == 10;
-            String s1 = getFormatFromString(s) + str.substring(i + (flag ? 1 : 0));
-            return s + "\n" + this.wrapFormattedStringToWidth(s1, wrapWidth);
-        }
-    }
-
-    private int sizeStringToWidth(String str, int wrapWidth)
-    {
-        int i = str.length();
-        int j = 0;
-        int k = 0;
-        int l = -1;
-
-        for (boolean flag = false; k < i; ++k)
-        {
-            char c0 = str.charAt(k);
-
-            switch (c0)
-            {
-            case '\n':
-                --k;
-                break;
-            case ' ':
-                l = k;
-            default:
-                j += this.getCharWidth(c0);
-
-                if (flag)
-                {
-                    ++j;
-                }
-                break;
-            case '\u00a7':
-
-                if (k < i - 1)
-                {
-                    ++k;
-                    char c1 = str.charAt(k);
-
-                    if (c1 != 108 && c1 != 76)
-                    {
-                        if (c1 == 114 || c1 == 82 || isFormatColor(c1))
-                        {
-                            flag = false;
-                        }
-                    }
-                    else
-                    {
-                        flag = true;
-                    }
-                }
-            }
-
-            if (c0 == 10)
-            {
-                ++k;
-                l = k;
-                break;
-            }
-            if (j > wrapWidth)
-            {
-                break;
-            }
-        }
-        return k != i && l != -1 && l < k ? l : k;
-    }
-
-    private static boolean isFormatColor(char colorChar)
-    {
-        return colorChar >= 48 && colorChar <= 57 || colorChar >= 97 && colorChar <= 102 || colorChar >= 65 && colorChar <= 70;
-    }
-
-    private static boolean isFormatSpecial(char formatChar)
-    {
-        return formatChar >= 107 && formatChar <= 111 || formatChar >= 75 && formatChar <= 79 || formatChar == 114 || formatChar == 82;
-    }
-
-    public static String getFormatFromString(String text)
-    {
-        String s = "";
-        int i = -1;
-        int j = text.length();
-
-        while ((i = text.indexOf(167, i + 1)) != -1)
-        {
-            if (i < j - 1)
-            {
-                char c0 = text.charAt(i + 1);
-
-                if (isFormatColor(c0))
-                {
-                    s = "\u00a7" + c0;
-                }
-                else if (isFormatSpecial(c0))
-                {
-                    s = s + "\u00a7" + c0;
-                }
-            }
-        }
-        return s;
-    }
-
-    public boolean getBidiFlag()
-    {
-        return this.bidiFlag;
-    }
-
-    protected void setColor(float r, float g, float b, float a)
+    private void setColor(float r, float g, float b, float a)
     {
         GlStateManager.color(r,g,b,a);
     }
 
-    protected void enableAlpha()
+    private void enableAlpha()
     {
         GlStateManager.enableAlpha();
     }
 
-    protected void bindTexture(ResourceLocation location)
+    private void bindTexture(ResourceLocation location)
     {
         this.renderEngine.bindTexture(location);
     }
 
-    protected InputStream getResourceInputStream(ResourceLocation location) throws IOException
+    private InputStream getResourceInputStream(ResourceLocation location) throws IOException
     {
         return Minecraft.getMinecraft().getResourceManager().getResource(location).getInputStream();
-    }
-
-    public int getColorCode(char character)
-    {
-        int i = "0123456789abcdef".indexOf(character);
-        return i >= 0 && i < this.colorCode.length ? this.colorCode[i] : -1;
     }
 }

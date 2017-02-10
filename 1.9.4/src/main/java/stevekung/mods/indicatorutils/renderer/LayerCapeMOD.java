@@ -16,14 +16,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 
 @SideOnly(Side.CLIENT)
 public class LayerCapeMOD implements LayerRenderer<AbstractClientPlayer>
 {
-    private final RenderPlayer playerRenderer;
+    private RenderPlayer playerRenderer;
 
     public LayerCapeMOD(RenderPlayer playerRendererIn)
     {

@@ -14,10 +14,10 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.MovementInputFromOptions;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 
 @SideOnly(Side.CLIENT)
 public class MovementInputFromOptionsIU extends MovementInputFromOptions
@@ -39,7 +39,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
         {
             this.moveStrafe = 0.0F;
             this.moveForward = 0.0F;
-            int afkMoveTick = IndicatorUtilsEventHandler.afkMoveTick;
+            int afkMoveTick = IndicatorUtilsEventHandler.AFK_MOVE_TICK;
 
             if (afkMoveTick > 0 && afkMoveTick < 2)
             {

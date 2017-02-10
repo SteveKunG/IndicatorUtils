@@ -47,7 +47,7 @@ public class ReflectionUtils
         }
         catch (NoSuchFieldException e)
         {
-            System.out.println("None of the two fields found: " + nameObf + " and " + nameDeObf);
+            IULog.info("None of the two fields found: " + nameObf + " and " + nameDeObf);
             e.printStackTrace();
         }
         catch (SecurityException e)
@@ -107,7 +107,7 @@ public class ReflectionUtils
         }
         catch (NoSuchFieldException e)
         {
-            System.out.println("None of the two fields found: " + nameObf + " and " + nameDeObf);
+            IULog.info("None of the two fields found: " + nameObf + " and " + nameDeObf);
             e.printStackTrace();
         }
         catch (SecurityException e)
@@ -187,7 +187,7 @@ public class ReflectionUtils
         }
         catch (NoSuchFieldException e)
         {
-            System.out.println("None of the two fields found: " + nameObf + " and " + nameDeObf);
+            IULog.info("None of the two fields found: " + nameObf + " and " + nameDeObf);
             e.printStackTrace();
         }
         catch (SecurityException e)

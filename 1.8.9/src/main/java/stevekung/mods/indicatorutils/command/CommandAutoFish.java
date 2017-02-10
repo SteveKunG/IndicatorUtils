@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -16,23 +15,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.init.Items;
 import net.minecraft.util.BlockPos;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandAutoFish extends CommandBase
+public class CommandAutoFish extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "/" + this.getCommandName();
-    }
-
     @Override
     public String getCommandName()
     {
@@ -42,46 +29,56 @@ public class CommandAutoFish extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        JsonUtils json = new JsonUtils();
+
+        if (args.length < 1)
         {
-            if ("disable".equals(args[0]))
+            throw new WrongUsageException("commands.autofish.usage");
+        }
+        else
+        {
+            if (args.length > 1)
             {
-                if (IndicatorUtilsEventHandler.autoFishEnabled == true)
+                throw new WrongUsageException("commands.autofish.usage");
+            }
+            if ("disable".equalsIgnoreCase(args[0]))
+            {
+                if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
                 {
-                    IndicatorUtilsEventHandler.autoFishEnabled = false;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Disabled auto fish", "white"));
-                    return;
+                    IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
+                    sender.addChatMessage(json.text("Disabled auto fish"));
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /autofish command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have not start using /autofish command").setChatStyle(json.red()));
                 }
             }
-            if ("enable".equals(args[0]))
+            else if ("enable".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.autoFishEnabled == false)
+                if (!IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
                 {
                     if (Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem() == null || Minecraft.getMinecraft().thePlayer.getCurrentEquippedItem().getItem() != Items.fishing_rod)
                     {
-                        sender.addChatMessage(JsonMessageUtils.textToJson("You are not held the fishing rod", "red"));
+                        sender.addChatMessage(json.text("You are not held the fishing rod").setChatStyle(json.red()));
                         return;
                     }
                     else
                     {
-                        IndicatorUtilsEventHandler.autoFishEnabled = true;
-                        sender.addChatMessage(JsonMessageUtils.textToJson("Enabled auto fish", "white"));
+                        IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = true;
+                        sender.addChatMessage(json.text("Enabled auto fish"));
                         return;
                     }
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /autofish command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have already start /autofish command").setChatStyle(json.red()));
                 }
             }
+            else
+            {
+                throw new WrongUsageException("commands.autofish.usage");
+            }
         }
-        throw new WrongUsageException("commands.autofish.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override
@@ -91,6 +88,6 @@ public class CommandAutoFish extends CommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable");
         }
-        return Collections.<String>emptyList();
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

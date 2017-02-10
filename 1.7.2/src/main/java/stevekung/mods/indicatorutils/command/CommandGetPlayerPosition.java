@@ -6,43 +6,22 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collection;
 import java.util.List;
 
-import org.apache.logging.log4j.Level;
-
-import com.google.common.base.Functions;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-
-import cpw.mods.fml.common.FMLLog;
 import net.minecraft.client.resources.I18n;
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.OldMethodHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandGetPlayerPosition extends CommandBase
+public class CommandGetPlayerPosition extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "/" + this.getCommandName();
-    }
-
     @Override
     public String getCommandName()
     {
@@ -54,19 +33,24 @@ public class CommandGetPlayerPosition extends CommandBase
     {
         if (!IndicatorUtils.isSteveKunG())
         {
-            this.exitJava(-1, true);
+            OldMethodHelper.exitJava(-1, true);
         }
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.getplayerpos.fail", new Object[] { this.getCommandUsage(sender) });
+            throw new WrongUsageException("commands.getplayerpos.usage");
         }
         else
         {
             EntityPlayer player = sender.getEntityWorld().getPlayerEntityByName(args[0]);
 
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.getplayerpos.usage");
+            }
+
             if (player == null)
             {
-                sender.addChatMessage(JsonMessageUtils.json("\"text\":\"" + I18n.format("commands.getplayerpos.playernull", args[0]) + "\",\"color\":\"red\""));
+                sender.addChatMessage(new JsonUtils().text(I18n.format("commands.getplayerpos.playernull", args[0])).setChatStyle(new JsonUtils().red()));
             }
             else
             {
@@ -85,60 +69,5 @@ public class CommandGetPlayerPosition extends CommandBase
     public boolean isUsernameIndex(String[] args, int index)
     {
         return index == 0;
-    }
-
-    private List<String> getListOfStringsMatchingLastWord2(String[] p_175762_0_, Collection<?> p_175762_1_)
-    {
-        String s = p_175762_0_[p_175762_0_.length - 1];
-        List<String> list = Lists.<String>newArrayList();
-
-        if (!p_175762_1_.isEmpty())
-        {
-            for (String s1 : Iterables.transform(p_175762_1_, Functions.toStringFunction()))
-            {
-                if (doesStringStartWith(s, s1))
-                {
-                    list.add(s1);
-                }
-            }
-
-            if (list.isEmpty())
-            {
-                for (Object object : p_175762_1_)
-                {
-                    if (object instanceof ResourceLocation && doesStringStartWith(s, ((ResourceLocation)object).getResourcePath()))
-                    {
-                        list.add(String.valueOf(object));
-                    }
-                }
-            }
-        }
-        return list;
-    }
-
-    private void exitJava(int exitCode, boolean hardExit)
-    {
-        FMLLog.log(Level.INFO, "Java has been asked to exit (code %d) by %s.", exitCode, Thread.currentThread().getStackTrace()[1]);
-
-        if (hardExit)
-        {
-            FMLLog.log(Level.INFO, "This is an abortive exit and could cause world corruption or other things");
-        }
-        if (Boolean.parseBoolean(System.getProperty("fml.debugExit", "false")))
-        {
-            FMLLog.log(Level.INFO, new Throwable(), "Exit trace");
-        }
-        else
-        {
-            FMLLog.log(Level.INFO, "If this was an unexpected exit, use -Dfml.debugExit=true as a JVM argument to find out where it was called");
-        }
-        if (hardExit)
-        {
-            Runtime.getRuntime().halt(exitCode);
-        }
-        else
-        {
-            Runtime.getRuntime().exit(exitCode);
-        }
     }
 }

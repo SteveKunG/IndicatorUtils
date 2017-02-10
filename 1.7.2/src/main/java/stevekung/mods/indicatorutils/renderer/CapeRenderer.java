@@ -14,8 +14,8 @@ import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.client.event.RenderPlayerEvent;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 
 public class CapeRenderer
@@ -30,6 +30,7 @@ public class CapeRenderer
         if (event.entityPlayer.getCommandSenderName().equals(IndicatorUtils.USERNAME) && !player.isInvisible() && ExtendedModSettings.SHOW_CAPE && (!CapeUtils.CAPE_TEXTURE.isEmpty() || !ExtendedModSettings.CAPE_URL.isEmpty()))
         {
             CapeUtils.bindCapeTexture();
+            GL11.glColor3f(1.0F, 1.0F, 1.0F);
             GL11.glPushMatrix();
             GL11.glTranslatef(0.0F, 0.0F, 0.125F);
             double d3 = player.field_71091_bM + (player.field_71094_bP - player.field_71091_bM) * event.partialRenderTick - (player.prevPosX + (player.posX - player.prevPosX) * event.partialRenderTick);
@@ -44,7 +45,6 @@ public class CapeRenderer
             {
                 f5 = -6.0F;
             }
-
             if (f5 > 32.0F)
             {
                 f5 = 32.0F;

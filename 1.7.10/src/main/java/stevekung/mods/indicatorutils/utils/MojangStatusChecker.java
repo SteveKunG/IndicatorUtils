@@ -56,7 +56,6 @@ public enum MojangStatusChecker
         }
         catch (IOException e)
         {
-            e.printStackTrace();
             return ServerStatus.UNKNOWN;
         }
     }
@@ -89,15 +88,15 @@ public enum MojangStatusChecker
 
         public static ServerStatus get(String status)
         {
-            if (status.equals("green"))
+            if (status.equalsIgnoreCase("green"))
             {
                 return ServerStatus.ONLINE;
             }
-            else if (status.equals("yellow"))
+            else if (status.equalsIgnoreCase("yellow"))
             {
                 return ServerStatus.UNSTABLE;
             }
-            else if (status.equals("red"))
+            else if (status.equalsIgnoreCase("red"))
             {
                 return ServerStatus.OFFLINE;
             }

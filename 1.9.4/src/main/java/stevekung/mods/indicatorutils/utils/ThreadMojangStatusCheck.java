@@ -40,7 +40,7 @@ public class ThreadMojangStatusCheck extends Thread
                 {
                     String service = statusChecker.getName();
                     ServerStatus status = statusChecker.getStatus();
-                    Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.json("\"text\":\"" + service + ": \",\"extra\":[{\"text\":\"" + status.getStatus() + "\",\"color\":\"" + status.getColor() + "\"}]"));
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(new JsonUtils().text(service + ": ").appendSibling(new JsonUtils().text(status.getStatus()).setStyle(new JsonUtils().colorFromConfig(status.getColor()))));
                 }
             }
         }

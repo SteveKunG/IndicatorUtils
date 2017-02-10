@@ -23,7 +23,7 @@ import stevekung.mods.indicatorutils.utils.CapeUtils;
 @SideOnly(Side.CLIENT)
 public class LayerCapeMOD implements LayerRenderer<AbstractClientPlayer>
 {
-    private final RenderPlayer playerRenderer;
+    private RenderPlayer playerRenderer;
 
     public LayerCapeMOD(RenderPlayer playerRendererIn)
     {

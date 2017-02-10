@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -16,23 +15,11 @@ import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EnumPlayerModelParts;
 import net.minecraft.util.BlockPos;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandShowCape extends CommandBase
+public class CommandShowCape extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "/" + this.getCommandName();
-    }
-
     @Override
     public String getCommandName()
     {
@@ -42,30 +29,36 @@ public class CommandShowCape extends CommandBase
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        if (args.length < 1)
         {
-            if ("disable".equals(args[0]))
+            throw new WrongUsageException("commands.capeiu.usage");
+        }
+        else
+        {
+            if (args.length > 1)
+            {
+                throw new WrongUsageException("commands.capeiu.usage");
+            }
+
+            if ("disable".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.SHOW_CAPE = false;
                 ExtendedModSettings.saveExtendedSettings();
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, true);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Disabled Custom Cape"));
-                return;
+                sender.addChatMessage(new JsonUtils().text("Disabled Custom Cape"));
             }
-            if ("enable".equals(args[0]))
+            else if ("enable".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.SHOW_CAPE = true;
                 ExtendedModSettings.saveExtendedSettings();
                 Minecraft.getMinecraft().gameSettings.setModelPartEnabled(EnumPlayerModelParts.CAPE, false);
                 Minecraft.getMinecraft().gameSettings.sendSettingsToServer();
                 Minecraft.getMinecraft().gameSettings.saveOptions();
-                sender.addChatMessage(JsonMessageUtils.textToJson("Enabled Custom Cape"));
-                return;
+                sender.addChatMessage(new JsonUtils().text("Enabled Custom Cape"));
             }
         }
-        throw new WrongUsageException("commands.capeiu.usage", new Object[] { this.getCommandUsage(sender) });
     }
 
     @Override
@@ -75,6 +68,6 @@ public class CommandShowCape extends CommandBase
         {
             return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable");
         }
-        return Collections.<String>emptyList();
+        return super.addTabCompletionOptions(sender, args, pos);
     }
 }

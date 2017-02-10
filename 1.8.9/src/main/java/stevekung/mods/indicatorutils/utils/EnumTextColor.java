@@ -34,6 +34,10 @@ public enum EnumTextColor
     POISON(EnumTextColor.rgbToDecimal(81, 152, 50)),
     WITHER(EnumTextColor.rgbToDecimal(105, 84, 80)),
     HEALTH_BOOST(EnumTextColor.rgbToDecimal(245, 124, 35)),
+    GLOWING(EnumTextColor.rgbToDecimal(146, 158, 96)),
+    LEVITATION(EnumTextColor.rgbToDecimal(204, 252, 252)),
+    LUCK(EnumTextColor.rgbToDecimal(50, 151, 0)),
+    UNLUCK(EnumTextColor.rgbToDecimal(190, 162, 76)),
 
     ;
     private int color;

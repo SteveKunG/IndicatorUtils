@@ -36,7 +36,7 @@ public class Global
         {
             String string = list.get(i);
 
-            if (!Strings.isNullOrEmpty(string) || string != "")
+            if (!Strings.isNullOrEmpty(string))
             {
                 ScaledResolution scaledRes = new ScaledResolution(mc);
                 boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;

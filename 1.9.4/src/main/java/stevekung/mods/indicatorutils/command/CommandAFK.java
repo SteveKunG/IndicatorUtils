@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.Collections;
 import java.util.List;
 
 import net.minecraft.client.Minecraft;
@@ -17,28 +16,14 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.common.ForgeHooks;
-import stevekung.mods.indicatorutils.ConfigManager;
-import stevekung.mods.indicatorutils.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.utils.JsonMessageUtils;
-import stevekung.mods.indicatorutils.utils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
+import stevekung.mods.indicatorutils.utils.JsonUtils;
 
-public class CommandAFK extends CommandBase
+public class CommandAFK extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "commands.afk.usage";
-    }
-
     @Override
     public String getCommandName()
     {
@@ -48,39 +33,44 @@ public class CommandAFK extends CommandBase
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (args.length == 1)
+        JsonUtils json = new JsonUtils();
+
+        if (args.length < 1)
         {
-            if ("stop".equals(args[0]))
+            throw new WrongUsageException("commands.afk.usage");
+        }
+        else
+        {
+            if ("stop".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.afkEnabled == true)
+                if (args.length > 1)
                 {
-                    IndicatorUtilsEventHandler.afkEnabled = false;
-                    IndicatorUtilsEventHandler.afkMoveTick = 0;
+                    throw new WrongUsageException("commands.afk.usage");
+                }
+                if (IndicatorUtilsEventHandler.AFK_ENABLED)
+                {
+                    IndicatorUtilsEventHandler.AFK_ENABLED = false;
+                    IndicatorUtilsEventHandler.AFK_MOVE_TICK = 0;
 
                     if (ConfigManager.enableAFKMessage)
                     {
-                        Minecraft.getMinecraft().thePlayer.sendChatMessage("I'm back! AFK Time is : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(IndicatorUtilsEventHandler.afkTick) + " minutes");
+                        Minecraft.getMinecraft().thePlayer.sendChatMessage("I'm back! AFK Time is : " + GameInfoHelper.INSTANCE.ticksToElapsedTime(IndicatorUtilsEventHandler.AFK_TICK) + " minutes");
                     }
-                    return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /afk command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
-        }
-        if (args.length == 1 || args.length >= 2)
-        {
-            if ("start".equals(args[0]))
+            else if ("start".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.afkEnabled == false)
+                if (!IndicatorUtilsEventHandler.AFK_ENABLED)
                 {
                     ITextComponent component = this.getChatComponentFromNthArg(args, 1);
                     TextComponentTranslation textcomponent = new TextComponentTranslation("commands.afk.reason", new Object[] { component.createCopy() });
                     String reason = textcomponent.getUnformattedText();
-                    IndicatorUtilsEventHandler.afkEnabled = true;
-                    IndicatorUtilsEventHandler.afkReason = reason;
+                    IndicatorUtilsEventHandler.AFK_ENABLED = true;
+                    IndicatorUtilsEventHandler.AFK_REASON = reason;
 
                     if (reason.isEmpty())
                     {
@@ -97,56 +87,61 @@ public class CommandAFK extends CommandBase
                     {
                         Minecraft.getMinecraft().thePlayer.sendChatMessage(message + reason);
                     }
-                    return;
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have already start /afk command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have already start /afk command").setStyle(json.red()));
                 }
             }
-        }
-        if (args.length >= 2)
-        {
-            if ("changereason".equals(args[0]))
+            else if ("changereason".equalsIgnoreCase(args[0]))
             {
-                if (IndicatorUtilsEventHandler.afkEnabled)
+                if (args.length == 1)
                 {
-                    String afkTemp = IndicatorUtilsEventHandler.afkReason;
+                    throw new WrongUsageException("commands.afk.usage");
+                }
+
+                if (IndicatorUtilsEventHandler.AFK_ENABLED)
+                {
+                    String afkTemp = IndicatorUtilsEventHandler.AFK_REASON;
                     ITextComponent component = this.getChatComponentFromNthArg(args, 1);
                     TextComponentTranslation textcomponent = new TextComponentTranslation("commands.afk.reason", new Object[] { component.createCopy() });
                     String reason = textcomponent.getUnformattedText();
-                    IndicatorUtilsEventHandler.afkReason = reason;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Change AFK Reason from " + afkTemp + " to " + reason));
-                    return;
+                    IndicatorUtilsEventHandler.AFK_REASON = reason;
+                    sender.addChatMessage(json.text("Change AFK Reason from " + afkTemp + " to " + reason));
                 }
                 else
                 {
-                    sender.addChatMessage(JsonMessageUtils.textToJson("You have not start using /afk command", "red"));
-                    return;
+                    sender.addChatMessage(json.text("You have not start using /afk command").setStyle(json.red()));
                 }
             }
-        }
-        if (args.length == 2)
-        {
-            if ("mode".equals(args[0]))
+            else if ("mode".equalsIgnoreCase(args[0]))
             {
-                if (args[1].equals("idle"))
+                if (args.length == 1 || args.length > 2)
                 {
-                    IndicatorUtilsEventHandler.afkMode = "idle";
-                    IndicatorUtilsEventHandler.afkMoveTick = 0;
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set AFK mode to idle"));
-                    return;
+                    throw new WrongUsageException("commands.afk.mode.usage");
                 }
-                if (args[1].equals("move"))
+
+                if ("idle".equalsIgnoreCase(args[1]))
                 {
-                    IndicatorUtilsEventHandler.afkMode = "move";
-                    sender.addChatMessage(JsonMessageUtils.textToJson("Set AFK mode to move"));
-                    return;
+                    IndicatorUtilsEventHandler.AFK_MODE = "idle";
+                    IndicatorUtilsEventHandler.AFK_MOVE_TICK = 0;
+                    sender.addChatMessage(json.text("Set AFK mode to idle"));
+                }
+                else if ("move".equalsIgnoreCase(args[1]))
+                {
+                    IndicatorUtilsEventHandler.AFK_MODE = "move";
+                    sender.addChatMessage(json.text("Set AFK mode to move"));
+                }
+                else
+                {
+                    throw new WrongUsageException("commands.afk.mode.usage");
                 }
             }
+            else
+            {
+                throw new WrongUsageException("commands.afk.usage");
+            }
         }
-        throw new WrongUsageException("commands.afk.usage");
     }
 
     @Override
@@ -158,27 +153,11 @@ public class CommandAFK extends CommandBase
         }
         if (args.length == 2)
         {
-            if (args[0].equals("mode"))
+            if (args[0].equalsIgnoreCase("mode"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move");
             }
         }
-        return Collections.<String>emptyList();
-    }
-
-    public ITextComponent getChatComponentFromNthArg(String[] args, int index)
-    {
-        ITextComponent itextcomponent = new TextComponentString("");
-
-        for (int i = index; i < args.length; ++i)
-        {
-            if (i > index)
-            {
-                itextcomponent.appendText(" ");
-            }
-            ITextComponent itextcomponent1 = ForgeHooks.newChatWithLinks(args[i]);
-            itextcomponent.appendSibling(itextcomponent1);
-        }
-        return itextcomponent;
+        return super.getTabCompletionOptions(server, sender, args, pos);
     }
 }

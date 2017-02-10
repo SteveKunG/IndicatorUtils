@@ -19,8 +19,8 @@ import com.google.common.collect.Maps;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;
-import stevekung.mods.indicatorutils.ExtendedModSettings;
 import stevekung.mods.indicatorutils.IndicatorUtils;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 public class CapeUtils
 {
@@ -29,29 +29,53 @@ public class CapeUtils
 
     public static void bindCapeTexture()
     {
-        GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.get(IndicatorUtils.USERNAME).getGlTextureId());
+        if (CapeUtils.CAPE_TEXTURE.get(IndicatorUtils.USERNAME) != null)
+        {
+            GlStateManager.bindTexture(CapeUtils.CAPE_TEXTURE.get(IndicatorUtils.USERNAME).getGlTextureId());
+        }
     }
 
     public static void setCapeURL(String url, boolean startup)
     {
-        if (CapeUtils.textureUploaded)
+        URL jurl = null;
+        boolean noConnection = false;
+        JsonUtils json = new JsonUtils();
+
+        try
+        {
+            jurl = new URL(url);
+        }
+        catch (MalformedURLException e)
+        {
+            noConnection = true;
+            e.printStackTrace();
+            return;
+        }
+
+        if (CapeUtils.textureUploaded && !noConnection)
         {
             try
             {
-                CapeUtils.CAPE_TEXTURE.put(IndicatorUtils.USERNAME, new DynamicTexture(ImageIO.read(new URL(url))));
+                CapeUtils.CAPE_TEXTURE.put(IndicatorUtils.USERNAME, new DynamicTexture(ImageIO.read(jurl)));
                 ExtendedModSettings.CAPE_URL = CapeUtils.encodeCapeURL(url);
                 ExtendedModSettings.saveExtendedSettings();
                 CapeUtils.textureUploaded = false;
             }
             catch (MalformedURLException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Missing protocol or wrong URL format", "red"));
+                if (Minecraft.getMinecraft().thePlayer != null)
+                {
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Missing protocol or wrong URL format").setStyle(json.red()));
+                }
                 e.printStackTrace();
                 return;
             }
             catch (IOException e)
             {
-                Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Cannot read image from URL", "red"));
+                if (Minecraft.getMinecraft().thePlayer != null)
+                {
+                    Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Cannot read image from URL").setStyle(json.red()));
+                }
                 e.printStackTrace();
                 return;
             }
@@ -59,7 +83,7 @@ public class CapeUtils
 
         if (!startup)
         {
-            Minecraft.getMinecraft().thePlayer.addChatMessage(JsonMessageUtils.textToJson("Downloaded new cape texture from URL"));
+            Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Downloaded new cape texture from URL"));
         }
     }
 

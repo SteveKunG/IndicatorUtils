@@ -11,7 +11,7 @@ import org.lwjgl.input.Keyboard;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraftforge.client.settings.KeyModifier;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import stevekung.mods.indicatorutils.ConfigManager;
+import stevekung.mods.indicatorutils.config.ConfigManager;
 
 public class KeyBindingHandler
 {

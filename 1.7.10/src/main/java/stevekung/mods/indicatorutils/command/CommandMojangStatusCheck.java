@@ -6,25 +6,12 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
 
-public class CommandMojangStatusCheck extends CommandBase
+public class CommandMojangStatusCheck extends ClientCommandBaseIU
 {
-    @Override
-    public int getRequiredPermissionLevel()
-    {
-        return 0;
-    }
-
-    @Override
-    public String getCommandUsage(ICommandSender sender)
-    {
-        return "/" + this.getCommandName();
-    }
-
     @Override
     public String getCommandName()
     {

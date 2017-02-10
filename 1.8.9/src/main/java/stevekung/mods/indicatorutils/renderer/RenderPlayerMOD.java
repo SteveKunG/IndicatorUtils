@@ -10,7 +10,7 @@ import java.util.Iterator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
-import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.model.ModelPlayer;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.renderer.entity.layers.LayerCustomHead;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
@@ -28,7 +28,7 @@ public class RenderPlayerMOD extends RenderPlayer
     public RenderPlayerMOD(boolean useSmallArms)
     {
         super(Minecraft.getMinecraft().getRenderManager(), useSmallArms);
-        this.mainModel = new ModelPlayerMOD(0.0F, useSmallArms);
+        this.mainModel = new ModelPlayer(0.0F, useSmallArms);
         this.addLayer(new LayerCapeMOD(this));
 
         boolean removedVanilla = false;
@@ -49,23 +49,5 @@ public class RenderPlayerMOD extends RenderPlayer
         {
             this.addLayer(new LayerCustomHead(this.getMainModel().bipedHead));
         }
-    }
-
-    @Override
-    public void renderRightArm(AbstractClientPlayer clientPlayer)
-    {
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 771);
-        super.renderRightArm(clientPlayer);
-        GlStateManager.disableBlend();
-    }
-
-    @Override
-    public void renderLeftArm(AbstractClientPlayer clientPlayer)
-    {
-        GlStateManager.enableBlend();
-        GlStateManager.blendFunc(770, 771);
-        super.renderLeftArm(clientPlayer);
-        GlStateManager.disableBlend();
     }
 }

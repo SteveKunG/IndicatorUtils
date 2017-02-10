@@ -81,7 +81,6 @@ public class ConfigManager
     public static boolean renderScoreboard;
     public static boolean renderBossHealthBar;
     public static boolean hideBossHealthBar;
-    public static boolean renderIngamePotionEffect;
 
     // Key Binding Settings
     public static String keyDisplayModeNext;
@@ -422,10 +421,6 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", true);
         ConfigManager.hideBossHealthBar = prop.getBoolean();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Render Potion Effect", true);
-        ConfigManager.renderIngamePotionEffect = prop.getBoolean();
         propOrder.add(prop.getName());
         return propOrder;
     }

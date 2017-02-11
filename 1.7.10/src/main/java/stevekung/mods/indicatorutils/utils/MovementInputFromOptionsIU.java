@@ -79,6 +79,11 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
                 this.mc.thePlayer.setSprinting(true);
             }
 
+            if (this.mc.thePlayer.capabilities.isFlying && this.mc.thePlayer.ridingEntity == null)
+            {
+                this.mc.thePlayer.capabilities.setFlySpeed(0.05F * (this.mc.thePlayer.isSprinting() ? 2 : 1));
+            }
+
             boolean swim = IndicatorUtils.isSteveKunG() && ExtendedModSettings.AUTO_SWIM && (this.mc.thePlayer.isInWater() || this.mc.thePlayer.handleLavaMovement());
             this.jump = this.gameSettings.keyBindJump.getIsKeyPressed() || swim;
             this.sneak = this.gameSettings.keyBindSneak.getIsKeyPressed() || ExtendedModSettings.TOGGLE_SNEAK;

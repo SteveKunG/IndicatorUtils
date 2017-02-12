@@ -70,7 +70,7 @@ public class KeystrokeRenderer
         boolean left = ConfigManager.keystrokePosition.equalsIgnoreCase("left");
         int leftPos = left ? -328 : scaledRes.getScaledWidth() - 403;
 
-        GlStateManager.translate(leftPos, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KETSTROKE_Y_OFFSET, 0.0F);
+        GlStateManager.translate(leftPos, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KEYSTROKE_Y_OFFSET, 0.0F);
 
         if (ConfigManager.enableKeystrokeLMBRMB)
         {
@@ -152,7 +152,7 @@ public class KeystrokeRenderer
         SmallFontRenderer font = new SmallFontRenderer();
         boolean left = ConfigManager.keystrokePosition.equalsIgnoreCase("left");
         int leftPos = left ? -335 : scaledRes.getScaledWidth() - 395;
-        GlStateManager.translate(leftPos, scaledRes.getScaledHeight() - 180 + ExtendedModSettings.KETSTROKE_Y_OFFSET, 0.0F);
+        GlStateManager.translate(leftPos, scaledRes.getScaledHeight() - 180 + ExtendedModSettings.KEYSTROKE_Y_OFFSET, 0.0F);
 
         if (ConfigManager.enableKeystrokeLMBRMB)
         {
@@ -253,7 +253,7 @@ public class KeystrokeRenderer
         boolean mmbClicked = chatOpen && Mouse.isButtonDown(2);
         float xPosition = 145.0F;
         ScaledResolution scaledRes = new ScaledResolution(mc);
-        GlStateManager.translate(scaledRes.getScaledWidth() - 410 + ExtendedModSettings.KETSTROKE_X_OFFSET, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KETSTROKE_Y_OFFSET, 0.0F);
+        GlStateManager.translate(scaledRes.getScaledWidth() - 410 + ExtendedModSettings.KEYSTROKE_X_OFFSET, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KEYSTROKE_Y_OFFSET, 0.0F);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(xPosition + 155.0F, 4.5F, 0.0F);
@@ -474,7 +474,7 @@ public class KeystrokeRenderer
         float xPosition = 177.0F;
         ScaledResolution scaledRes = new ScaledResolution(mc);
         SmallFontRenderer font = new SmallFontRenderer();
-        GlStateManager.translate(scaledRes.getScaledWidth() - 395 + ExtendedModSettings.KETSTROKE_X_OFFSET, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KETSTROKE_Y_OFFSET, 0.0F);
+        GlStateManager.translate(scaledRes.getScaledWidth() - 395 + ExtendedModSettings.KEYSTROKE_X_OFFSET, scaledRes.getScaledHeight() - 175 + ExtendedModSettings.KEYSTROKE_Y_OFFSET, 0.0F);
 
         GlStateManager.pushMatrix();
         GlStateManager.translate(xPosition + 12.5F, 0.0F, 0.0F);

@@ -67,6 +67,7 @@ import stevekung.mods.indicatorutils.gui.GuiCapeDownloader;
 import stevekung.mods.indicatorutils.gui.GuiNewChatIU;
 import stevekung.mods.indicatorutils.gui.GuiNewSleepMP;
 import stevekung.mods.indicatorutils.gui.GuiPlayerTabOverlayIU;
+import stevekung.mods.indicatorutils.gui.GuiRenderStatusSettings;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
@@ -528,7 +529,7 @@ public class IndicatorUtilsEventHandler
             {
                 if (ConfigManager.enableKeystroke)
                 {
-                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat)
+                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
                     {
                         KeystrokeRenderer.init(this.mc);
                     }

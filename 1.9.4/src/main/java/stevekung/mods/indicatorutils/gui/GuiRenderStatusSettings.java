@@ -1,3 +1,9 @@
+/*******************************************************************************
+ *
+ * Copyright 2016 Wasinthorn Suksri/SteveKunG - Indicator Utils
+ *
+ ******************************************************************************/
+
 package stevekung.mods.indicatorutils.gui;
 
 import java.io.IOException;

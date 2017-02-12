@@ -78,6 +78,7 @@ import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
 import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
 import stevekung.mods.indicatorutils.renderer.mode.Global;
 import stevekung.mods.indicatorutils.renderer.mode.PvP;
@@ -733,6 +734,16 @@ public class IndicatorUtilsEventHandler
                 mc.fontRenderer.drawString(I18n.format("gui.indicatorutils.config.name1"), mc.currentScreen.width - 50 - mc.fontRenderer.getStringWidth(I18n.format("gui.indicatorutils.config.name1")) / 2, mc.currentScreen.height - 16, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
                 Gui.drawRect(mc.currentScreen.width - 100, mc.currentScreen.height - 35, mc.currentScreen.width - 99, mc.currentScreen.height, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
                 Gui.drawRect(mc.currentScreen.width - 100, mc.currentScreen.height - 35, mc.currentScreen.width, mc.currentScreen.height - 34, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
+            }
+            if (!mc.gameSettings.hideGUI)
+            {
+                if (ConfigManager.enableKeystroke)
+                {
+                    if (mc.currentScreen == null || mc.currentScreen instanceof GuiChat)
+                    {
+                        KeystrokeRenderer.init(mc);
+                    }
+                }
             }
         }
     }

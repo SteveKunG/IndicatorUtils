@@ -15,6 +15,7 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.gui.GuiRenderStatusSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandIndicatorUtils extends ClientCommandBaseIU
@@ -165,49 +166,6 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 else
                 {
                     throw new WrongUsageException("commands.indicatorutils.cps.usage");
-                }
-            }
-            else if ("keystroke".equalsIgnoreCase(args[0]))
-            {
-                if (args.length == 1)
-                {
-                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
-                }
-
-                if ("reset".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
-                    }
-                    ExtendedModSettings.KETSTROKE_Y_OFFSET = 0;
-                    ExtendedModSettings.KETSTROKE_X_OFFSET = 0;
-                    sender.sendMessage(json.text("Reset Keystroke Offset"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("x".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length == 2 || args.length > 3)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
-                    }
-                    ExtendedModSettings.KETSTROKE_X_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.sendMessage(json.text("Set Keystroke X Offset to " + args[2]));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("y".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length == 2 || args.length > 3)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
-                    }
-                    ExtendedModSettings.KETSTROKE_Y_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.sendMessage(json.text("Set Keystroke Y Offset to " + args[2]));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else
-                {
-                    throw new WrongUsageException("commands.indicatorutils.keystroke.usage");
                 }
             }
             else if ("displaymode".equalsIgnoreCase(args[0]))
@@ -413,65 +371,9 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     ExtendedModSettings.saveExtendedSettings();
                 }
             }
-            else if (args[0].equalsIgnoreCase("armorstatus"))
+            else if (args[0].equalsIgnoreCase("gui"))
             {
-                if (args.length == 1)
-                {
-                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
-                }
-
-                if (args[1].equalsIgnoreCase("reset"))
-                {
-                    if (args.length > 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
-                    }
-                    ExtendedModSettings.ARMOR_STATUS_OFFSET = 0;
-                    sender.sendMessage(json.text("Reset Armor Status Offset"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if (args[1].equalsIgnoreCase("y"))
-                {
-                    if (args.length == 2 || args.length > 3)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
-                    }
-                    ExtendedModSettings.ARMOR_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.sendMessage(json.text("Set Armor Status Y Offset to " + CommandBase.parseInt(args[2])));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else
-                {
-                    throw new WrongUsageException("commands.indicatorutils.armorstatus.usage");
-                }
-            }
-            else if (args[0].equalsIgnoreCase("potionstatus"))
-            {
-                if (args.length == 1)
-                {
-                    throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
-                }
-
-                if ("reset".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
-                    }
-                    ExtendedModSettings.POTION_STATUS_OFFSET = 0;
-                    sender.sendMessage(json.text("Reset Potion Status Offset"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                if ("y".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length == 2 || args.length > 3)
-                    {
-                        throw new WrongUsageException("commands.indicatorutils.potionstatus.usage");
-                    }
-                    ExtendedModSettings.POTION_STATUS_OFFSET = CommandBase.parseInt(args[2]);
-                    sender.sendMessage(json.text("Set Potion Status Y Offset to " + CommandBase.parseInt(args[2])));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
+                new GuiRenderStatusSettings().display();
             }
             else
             {
@@ -485,7 +387,7 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "displaymode", "togglesprint", "togglesneak", "cps", "keystroke", "autoclearchat", "armorstatus", "potionstatus", "autoswim");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "displaymode", "togglesprint", "togglesneak", "cps", "autoclearchat", "autoswim", "gui");
         }
         if (args.length == 2)
         {
@@ -504,18 +406,6 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
             if (args[0].equalsIgnoreCase("cps"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "custom");
-            }
-            if (args[0].equalsIgnoreCase("keystroke"))
-            {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "x", "y", "reset");
-            }
-            if (args[0].equalsIgnoreCase("armorstatus"))
-            {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "y", "reset");
-            }
-            if (args[0].equalsIgnoreCase("potionstatus"))
-            {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "y", "reset");
             }
         }
         if (args.length == 3)

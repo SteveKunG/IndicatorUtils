@@ -26,8 +26,8 @@ public class ExtendedModSettings
     public static boolean AUTO_SWIM = false;
     public static boolean SHOW_CAPE = true;
 
-    public static int KETSTROKE_Y_OFFSET = 0;
-    public static int KETSTROKE_X_OFFSET = 0;
+    public static int KEYSTROKE_Y_OFFSET = 0;
+    public static int KEYSTROKE_X_OFFSET = 0;
     public static int ARMOR_STATUS_OFFSET = 0;
     public static int POTION_STATUS_OFFSET = 0;
     public static int AUTO_CLEAR_CHAT_TIME = 60;
@@ -66,8 +66,8 @@ public class ExtendedModSettings
             ExtendedModSettings.AUTO_SWIM = nbttagcompound.getBoolean("AutoSwim");
             ExtendedModSettings.SHOW_CAPE = nbttagcompound.getBoolean("ShowCape");
 
-            ExtendedModSettings.KETSTROKE_X_OFFSET = nbttagcompound.getInteger("KeystrokeX");
-            ExtendedModSettings.KETSTROKE_Y_OFFSET = nbttagcompound.getInteger("KeystrokeY");
+            ExtendedModSettings.KEYSTROKE_X_OFFSET = nbttagcompound.getInteger("KeystrokeX");
+            ExtendedModSettings.KEYSTROKE_Y_OFFSET = nbttagcompound.getInteger("KeystrokeY");
             ExtendedModSettings.ARMOR_STATUS_OFFSET = nbttagcompound.getInteger("ArmorStatusOffset");
             ExtendedModSettings.POTION_STATUS_OFFSET = nbttagcompound.getInteger("PotionStatusOffset");
             ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = nbttagcompound.getInteger("AutoClearChatTime");
@@ -107,8 +107,8 @@ public class ExtendedModSettings
             nbttagcompound.setBoolean("AutoSwim", ExtendedModSettings.AUTO_SWIM);
             nbttagcompound.setBoolean("ShowCape", ExtendedModSettings.SHOW_CAPE);
 
-            nbttagcompound.setInteger("KeystrokeX", ExtendedModSettings.KETSTROKE_X_OFFSET);
-            nbttagcompound.setInteger("KeystrokeY", ExtendedModSettings.KETSTROKE_Y_OFFSET);
+            nbttagcompound.setInteger("KeystrokeX", ExtendedModSettings.KEYSTROKE_X_OFFSET);
+            nbttagcompound.setInteger("KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
             nbttagcompound.setInteger("ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
             nbttagcompound.setInteger("PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
             nbttagcompound.setInteger("AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);

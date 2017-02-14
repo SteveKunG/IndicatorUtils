@@ -43,6 +43,7 @@ public class ConfigManager
     public static boolean enableModifiedMovementHandler;
     public static boolean replaceVanillaFishingLine;
     public static boolean enableCustomCapeFeature;
+    public static boolean enableOldSneakFeature;
     public static boolean showChangeLogInGame;
     public static boolean enableVersionChecker;
     public static boolean mojangStatusCheckOnStartup;
@@ -274,6 +275,11 @@ public class ConfigManager
         ConfigManager.enableCustomCapeFeature = prop.getBoolean();
         prop.setComment(I18n.format("gui.config.indicatorutils.customcape"));
         prop.setRequiresMcRestart(true);
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Old Sneak Feature", false);
+        ConfigManager.enableOldSneakFeature = prop.getBoolean();
+        prop.setComment(I18n.format("gui.config.indicatorutils.oldsneak"));
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Show Change Log in Game", true);

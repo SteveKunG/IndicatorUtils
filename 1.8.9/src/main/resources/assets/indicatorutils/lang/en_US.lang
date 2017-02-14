@@ -17,6 +17,7 @@ gui.config.indicatorutils.movementhandler=This is an option for enable/disable m
 gui.config.indicatorutils.blockhitanim=This is an option for enable/disable blockhit animation from 1.7
 gui.config.indicatorutils.fishrender=This is an option for replacing vanilla fishing line rendering. Also this mod has been replaced new Fishing Rod model (Note : It needs resource pack that optimize fishing rod model position)
 gui.config.indicatorutils.customcape=This is an option for enable/disable custom cape feature in the game, you can upload your custom cape texture to any website.
+gui.config.indicatorutils.oldsneak=This is an option for enable/disable old sneak camera view from 1.7
 keycodeexample.tooltip=Copy this URL and set your custom key code
 
 # COMMAND

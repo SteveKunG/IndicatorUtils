@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
@@ -113,6 +114,9 @@ public class IndicatorUtilsEventHandler
     private JsonUtils json;
 
     private GuiPlayerTabOverlayIU overlayPlayerList;
+
+    private long sneakTimeOld = 0L;
+    private boolean sneakingOld = false;
 
     public IndicatorUtilsEventHandler()
     {
@@ -562,6 +566,16 @@ public class IndicatorUtilsEventHandler
     {
         Minecraft mc = Minecraft.getMinecraft();
 
+        if (event.phase == Phase.START)
+        {
+            if (ConfigManager.enableOldSneakFeature)
+            {
+                if (mc.thePlayer != null)
+                {
+                    mc.thePlayer.eyeHeight = this.getOldEyeHeight(mc.thePlayer);
+                }
+            }
+        }
         if (event.phase == Phase.END)
         {
             if (mc.currentScreen instanceof GuiIngameMenu)
@@ -820,6 +834,60 @@ public class IndicatorUtilsEventHandler
                 this.mc.displayGuiScreen((GuiScreen)null);
             }
         }
+    }
+
+    private float getOldEyeHeight(EntityPlayer player)
+    {
+        if (this.sneakingOld != player.isSneaking() || this.sneakTimeOld <= 0L)
+        {
+            this.sneakTimeOld = System.currentTimeMillis();
+        }
+
+        this.sneakingOld = player.isSneaking();
+        float defaultEyeHeight = 1.62F;
+        double sneakPress = 0.0004D;
+        double sneakValue = 0.015D;
+        int sneakTime = -50;
+        long systemTime = 58L;
+
+        if (player.isSneaking())
+        {
+            int sneakSystemTime = (int)(this.sneakTimeOld + systemTime - System.currentTimeMillis());
+
+            if (sneakSystemTime > sneakTime)
+            {
+                defaultEyeHeight += (float)(sneakSystemTime * sneakPress);
+
+                if (defaultEyeHeight < 0.0F || defaultEyeHeight > 10.0F)
+                {
+                    defaultEyeHeight = 1.54F;
+                }
+            }
+            else
+            {
+                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
+            }
+        }
+        else
+        {
+            int sneakSystemTime = (int)(this.sneakTimeOld + systemTime - System.currentTimeMillis());
+
+            if (sneakSystemTime > sneakTime)
+            {
+                defaultEyeHeight -= (float)(sneakSystemTime * sneakPress);
+                defaultEyeHeight = (float)(defaultEyeHeight - sneakValue);
+
+                if (defaultEyeHeight < 0.0F)
+                {
+                    defaultEyeHeight = 1.62F;
+                }
+            }
+            else
+            {
+                defaultEyeHeight -= 0.0F;
+            }
+        }
+        return defaultEyeHeight;
     }
 
     private void stopCommandTick()

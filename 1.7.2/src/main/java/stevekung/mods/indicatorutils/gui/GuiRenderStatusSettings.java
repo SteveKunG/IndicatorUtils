@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiRenderStatusSettings extends GuiScreen
@@ -74,7 +75,8 @@ public class GuiRenderStatusSettings extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        this.drawCenteredString(this.fontRendererObj, "Render Status Settings", this.width / 2, 10, 16777215);
+        ClientRendererHelper.drawRectNew(this.width / 2 - 61, 17, this.width / 2 + this.mc.fontRenderer.getStringWidth("Render Status Settings") - 56, 31, 16777216, 0.5F);
+        this.drawCenteredString(this.fontRendererObj, "Render Status Settings", this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }
 }

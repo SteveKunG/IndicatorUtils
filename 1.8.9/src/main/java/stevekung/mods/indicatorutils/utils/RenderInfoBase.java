@@ -62,10 +62,13 @@ public class RenderInfoBase
         {
             String pingna = json.text("n/a").setChatStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
 
-            if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
+            if (IndicatorUtilsEventHandler.CHECK_UUID_TICK == 160)
             {
-                IndicatorUtilsEventHandler.CHECK_UUID = true;
-                IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.CHECK_UUID;
+                if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
+                {
+                    IndicatorUtilsEventHandler.CHECK_UUID = true;
+                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.CHECK_UUID;
+                }
             }
             list.add(ping + pingna);
         }

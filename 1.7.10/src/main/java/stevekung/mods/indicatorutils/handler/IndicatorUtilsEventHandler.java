@@ -654,7 +654,7 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderHealthStatus(RenderLivingEvent.Post event)
+    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post event)
     {
         Minecraft mc = Minecraft.getMinecraft();
         EntityLivingBase entity = event.entity;

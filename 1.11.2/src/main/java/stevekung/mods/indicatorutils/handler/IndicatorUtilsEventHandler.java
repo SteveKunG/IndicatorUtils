@@ -90,6 +90,7 @@ import stevekung.mods.indicatorutils.utils.VersionChecker;
 public class IndicatorUtilsEventHandler
 {
     public static boolean CHECK_UUID = false;
+    public static int CHECK_UUID_TICK;
     public static boolean AFK_ENABLED;
     public static String AFK_MODE = "idle";
     public static String AFK_REASON;
@@ -204,6 +205,14 @@ public class IndicatorUtilsEventHandler
                 this.pressTime = 0;
             }
 
+            if (GameInfoHelper.INSTANCE.isHypixel())
+            {
+                if (IndicatorUtilsEventHandler.CHECK_UUID_TICK < 160)
+                {
+                    IndicatorUtilsEventHandler.CHECK_UUID_TICK++;
+                }
+            }
+
             if (IndicatorUtilsEventHandler.REC_ENABLED)
             {
                 ++this.recTick;
@@ -237,6 +246,8 @@ public class IndicatorUtilsEventHandler
     public void onDisconnectedFromServerEvent(ClientDisconnectionFromServerEvent event)
     {
         this.stopCommandTick();
+        IndicatorUtilsEventHandler.CHECK_UUID_TICK = 0;
+        IndicatorUtilsEventHandler.CHECK_UUID = false;
     }
 
     @SubscribeEvent
@@ -484,7 +495,7 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onRenderHealthStatus(RenderLivingEvent.Post event)
+    public void onRenderHealthStatus(RenderLivingEvent.Specials.Post event)
     {
         EntityLivingBase entity = event.getEntity();
         float health = entity.getHealth() + entity.getAbsorptionAmount();

@@ -17,12 +17,10 @@ import org.lwjgl.input.Mouse;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.ChatLine;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
@@ -111,9 +109,6 @@ public class IndicatorUtilsEventHandler
     private int pressTimeDelay;
 
     private int clearChatTick;
-    private List<String> sentMessages;
-    private List<ChatLine> chatLines;
-    private List<ChatLine> drawnChatLines;
 
     private Minecraft mc;
     private JsonUtils json;
@@ -392,6 +387,16 @@ public class IndicatorUtilsEventHandler
                 this.mc.displayGuiScreen(new GuiCapeDownloader());
             }
         }
+        if (ConfigManager.enableClearChatRecentSentMessage)
+        {
+            if (Keyboard.isKeyDown(Keyboard.KEY_F3) && Keyboard.isKeyDown(Keyboard.KEY_D))
+            {
+                if (this.mc.ingameGUI != null)
+                {
+                    this.mc.ingameGUI.getChatGUI().clearChatMessages(true);
+                }
+            }
+        }
         if (KeyBindingHandler.KEY_REC_COMMAND.isKeyDown())
         {
             if (IndicatorUtilsEventHandler.REC_ENABLED)
@@ -599,9 +604,6 @@ public class IndicatorUtilsEventHandler
 
     private void initReflection()
     {
-        this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        this.drawnChatLines = ReflectionUtils.get("drawnChatLines", "field_146253_i", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
         IndicatorUtilsEventHandler.MAP_BOSS_INFOS = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
         this.overlayBoss = new GuiBossOverlayIU(this.mc);
         this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
@@ -754,28 +756,19 @@ public class IndicatorUtilsEventHandler
 
             if (chatTick % ExtendedModSettings.AUTO_CLEAR_CHAT_TIME == 0)
             {
-                if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlychat"))
+                if (this.mc.ingameGUI != null)
                 {
-                    if (this.chatLines != null && this.drawnChatLines != null)
+                    if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlychat"))
                     {
-                        this.chatLines.clear();
-                        this.drawnChatLines.clear();
+                        this.mc.ingameGUI.getChatGUI().clearChatMessages(false);
                     }
-                }
-                else if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlysentmessage"))
-                {
-                    if (this.sentMessages != null)
+                    else if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlysentmessage"))
                     {
-                        this.sentMessages.clear();
+                        this.mc.ingameGUI.getChatGUI().getSentMessages().clear();
                     }
-                }
-                else
-                {
-                    if (this.sentMessages != null && this.chatLines != null && this.drawnChatLines != null)
+                    else
                     {
-                        this.sentMessages.clear();
-                        this.chatLines.clear();
-                        this.drawnChatLines.clear();
+                        this.mc.ingameGUI.getChatGUI().clearChatMessages(true);
                     }
                 }
             }

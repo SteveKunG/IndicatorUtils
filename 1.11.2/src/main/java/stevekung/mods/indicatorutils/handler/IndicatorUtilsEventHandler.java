@@ -130,6 +130,7 @@ public class IndicatorUtilsEventHandler
     private boolean sneakingOld = false;
 
     public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
+    private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
 
     public IndicatorUtilsEventHandler()
     {
@@ -177,22 +178,6 @@ public class IndicatorUtilsEventHandler
         if (event.getModID().equalsIgnoreCase(IndicatorUtils.MOD_ID))
         {
             ConfigManager.syncConfig(false);
-        }
-    }
-
-    private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
-
-    @SideOnly(Side.CLIENT)
-    static class PlayerComparator implements Comparator<NetworkPlayerInfo>
-    {
-        private PlayerComparator() {}
-
-        @Override
-        public int compare(NetworkPlayerInfo p_compare_1_, NetworkPlayerInfo p_compare_2_)
-        {
-            ScorePlayerTeam scoreplayerteam = p_compare_1_.getPlayerTeam();
-            ScorePlayerTeam scoreplayerteam1 = p_compare_2_.getPlayerTeam();
-            return ComparisonChain.start().compareTrueFirst(p_compare_1_.getGameType() != GameType.SPECTATOR, p_compare_2_.getGameType() != GameType.SPECTATOR).compare(scoreplayerteam != null ? scoreplayerteam.getRegisteredName() : "", scoreplayerteam1 != null ? scoreplayerteam1.getRegisteredName() : "").compare(p_compare_1_.getGameProfile().getName(), p_compare_2_.getGameProfile().getName()).result();
         }
     }
 
@@ -902,6 +887,20 @@ public class IndicatorUtilsEventHandler
                     IndicatorUtilsEventHandler.PLAYER_PING_MAP.put(gameprofile.getName(), networkplayerinfo1.getResponseTime());
                 }
             }
+        }
+    }
+
+    @SideOnly(Side.CLIENT)
+    static class PlayerComparator implements Comparator<NetworkPlayerInfo>
+    {
+        private PlayerComparator() {}
+
+        @Override
+        public int compare(NetworkPlayerInfo info1, NetworkPlayerInfo info2)
+        {
+            ScorePlayerTeam scoreplayerteam = info1.getPlayerTeam();
+            ScorePlayerTeam scoreplayerteam1 = info2.getPlayerTeam();
+            return ComparisonChain.start().compareTrueFirst(info1.getGameType() != GameType.SPECTATOR, info2.getGameType() != GameType.SPECTATOR).compare(scoreplayerteam != null ? scoreplayerteam.getRegisteredName() : "", scoreplayerteam1 != null ? scoreplayerteam1.getRegisteredName() : "").compare(info1.getGameProfile().getName(), info2.getGameProfile().getName()).result();
         }
     }
 }

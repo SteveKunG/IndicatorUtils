@@ -109,7 +109,6 @@ public class ConfigManager
     public static String customColorPingValue2;
     public static String customColorPingValue3;
     public static String customColorPingValue4;
-    public static String customColorPingNA;
     public static String customColorIP;
     public static String customColorIPValue;
     public static String customColorIPMCValue;
@@ -553,12 +552,6 @@ public class ConfigManager
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingValue4 = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping n/a", "red");
-        prop.setConfigEntryClass(ConfigColorEntryIU.class);
-        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorPingNA = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "IP", "white");

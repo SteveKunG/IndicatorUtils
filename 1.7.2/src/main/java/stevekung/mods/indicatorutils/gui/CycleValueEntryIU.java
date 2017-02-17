@@ -8,7 +8,6 @@ package stevekung.mods.indicatorutils.gui;
 
 import cpw.mods.fml.client.config.GuiConfig;
 import cpw.mods.fml.client.config.GuiConfigEntries;
-import cpw.mods.fml.client.config.GuiConfigEntries.ButtonEntry;
 import cpw.mods.fml.client.config.IConfigElement;
 import net.minecraft.client.resources.I18n;
 

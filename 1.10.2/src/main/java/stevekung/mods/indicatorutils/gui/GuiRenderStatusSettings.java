@@ -18,7 +18,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
-import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 
 @SideOnly(Side.CLIENT)
 public class GuiRenderStatusSettings extends GuiScreen
@@ -77,7 +76,6 @@ public class GuiRenderStatusSettings extends GuiScreen
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
     {
-        ClientRendererHelper.drawRectNew(this.width / 2 - 61, 17, this.width / 2 + this.mc.fontRendererObj.getStringWidth("Render Status Settings") - 56, 31, 16777216, 0.5F);
         this.drawCenteredString(this.fontRendererObj, "Render Status Settings", this.width / 2, 20, 16777215);
         super.drawScreen(mouseX, mouseY, partialTicks);
     }

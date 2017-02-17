@@ -125,4 +125,14 @@ public class GameInfoHelper
         i = i % 60;
         return i < 10 ? j + ":0" + i : j + ":" + i;
     }
+
+    public String[] getColorCode()
+    {
+        return new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};
+    }
+
+    public String[] getJsonColor()
+    {
+        return new String[] {"black", "dark_blue", "dark_green", "dark_aqua", "dark_red", "dark_purple", "gold", "gray", "dark_gray", "blue", "green", "aqua", "red", "light_purple", "yellow", "white"};
+    }
 }

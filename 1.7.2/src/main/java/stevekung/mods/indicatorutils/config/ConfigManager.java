@@ -18,6 +18,7 @@ import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
+import stevekung.mods.indicatorutils.gui.ConfigColorEntryIU;
 import stevekung.mods.indicatorutils.gui.NumberSliderEntry;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.IULog;
@@ -531,190 +532,284 @@ public class ConfigManager
     {
         List<String> propOrder = new ArrayList<String>();
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPing = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping < 199", "green");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingValue1 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping >= 200 && Ping <= 300", "yellow");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingValue2 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping >= 301 && Ping <= 499", "red");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingValue3 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping >= 500", "dark_red");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingValue4 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping n/a", "red");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorPingNA = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "IP", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorIP = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "IP Server", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorIPValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "IP Server MC Version", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorIPMCValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "FPS", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorFPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "FPS > 40", "green");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorFPSValue1 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "FPS >= 26 && FPS <= 40", "yellow");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorFPSValue2 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "FPS <= 25", "red");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorFPSValue3 = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorXYZ = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ Nether", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorXYZNether = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ Overworld", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorXYZOverworld = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ X Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorXValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ Y Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorYValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "XYZ Z Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorZValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Biome", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorBiome = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Biome Name", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorBiomeValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "CPS", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "CPS Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorRPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorRPSValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Percent", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorArmorPercent = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Max Durability", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorArmorMaxDurability = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Damage Durability", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorArmorDamageDurability = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Time AM PM", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorTimeAMPM = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Current Time", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCurrentTime = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Current Time Day", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCurrentTimeDay = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Current Time Month", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCurrentTimeMonth = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Current Time Year", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCurrentTimeYear = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Current Time Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorCurrentTimeValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Game Time", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorGameTime = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Game Time Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorGameTimeValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Time Zone", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorTimeZone = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Time Zone Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorTimeZoneValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "World Time", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorWorldTime = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Looking at", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorLookingAt = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Direction", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorDirection = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Direction Value", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorDirectionValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Weather Prefix", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorWeatherPrefix = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Raining", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorRaining = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Thunder", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorThunder = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Held Item", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorHeldItem = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Held Item Arrow Count", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorHeldItemArrowCount = prop.getString();
         propOrder.add(prop.getName());
         return propOrder;

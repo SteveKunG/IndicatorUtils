@@ -7,12 +7,18 @@
 package stevekung.mods.indicatorutils.handler;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
+
+import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Maps;
+import com.google.common.collect.Ordering;
+import com.mojang.authlib.GameProfile;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
@@ -25,6 +31,7 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiSleepMP;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
 import net.minecraft.client.resources.I18n;
@@ -34,6 +41,7 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.ScoreObjective;
+import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
@@ -41,6 +49,7 @@ import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.BossInfoLerping;
+import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
@@ -57,6 +66,8 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigGuiFactory;
 import stevekung.mods.indicatorutils.config.ConfigManager;
@@ -87,8 +98,6 @@ import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 public class IndicatorUtilsEventHandler
 {
-    public static boolean CHECK_UUID = false;
-    public static int CHECK_UUID_TICK;
     public static boolean AFK_ENABLED;
     public static String AFK_MODE = "idle";
     public static String AFK_REASON;
@@ -120,6 +129,8 @@ public class IndicatorUtilsEventHandler
     private long sneakTimeOld = 0L;
     private boolean sneakingOld = false;
 
+    public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
+
     public IndicatorUtilsEventHandler()
     {
         this.mc = Minecraft.getMinecraft();
@@ -127,7 +138,7 @@ public class IndicatorUtilsEventHandler
     }
 
     // Credit to Jarbelar
-    // 0 = ShowDesc, 1 = NoConnection, 2 = MissingUUID
+    // 0 = ShowDesc, 1 = NoConnection
     @SubscribeEvent
     public void onCheckVersion(PlayerTickEvent event)
     {
@@ -157,11 +168,6 @@ public class IndicatorUtilsEventHandler
                     IndicatorUtils.STATUS_CHECK[0] = true;
                 }
             }
-            if (IndicatorUtils.STATUS_CHECK[2])
-            {
-                event.player.sendMessage(json.text("Ping will display as n/a causes by /nick command in Hypixel").setStyle(json.red().setBold(true)));
-                IndicatorUtils.STATUS_CHECK[2] = false;
-            }
         }
     }
 
@@ -174,11 +180,28 @@ public class IndicatorUtilsEventHandler
         }
     }
 
+    private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
+
+    @SideOnly(Side.CLIENT)
+    static class PlayerComparator implements Comparator<NetworkPlayerInfo>
+    {
+        private PlayerComparator() {}
+
+        @Override
+        public int compare(NetworkPlayerInfo p_compare_1_, NetworkPlayerInfo p_compare_2_)
+        {
+            ScorePlayerTeam scoreplayerteam = p_compare_1_.getPlayerTeam();
+            ScorePlayerTeam scoreplayerteam1 = p_compare_2_.getPlayerTeam();
+            return ComparisonChain.start().compareTrueFirst(p_compare_1_.getGameType() != GameType.SPECTATOR, p_compare_2_.getGameType() != GameType.SPECTATOR).compare(scoreplayerteam != null ? scoreplayerteam.getRegisteredName() : "", scoreplayerteam1 != null ? scoreplayerteam1.getRegisteredName() : "").compare(p_compare_1_.getGameProfile().getName(), p_compare_2_.getGameProfile().getName()).result();
+        }
+    }
+
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
         this.initReflection();
         this.replaceChatGUI();
+        this.getPingForNullUUID();
         ClientRendererHelper.runGlowingEntityDetector();
 
         if (event.phase == Phase.START)
@@ -198,14 +221,6 @@ public class IndicatorUtilsEventHandler
             if (this.pressOneTimeTick == 0)
             {
                 this.pressTime = 0;
-            }
-
-            if (GameInfoHelper.INSTANCE.isHypixel())
-            {
-                if (IndicatorUtilsEventHandler.CHECK_UUID_TICK < 160)
-                {
-                    IndicatorUtilsEventHandler.CHECK_UUID_TICK++;
-                }
             }
 
             if (IndicatorUtilsEventHandler.REC_ENABLED)
@@ -241,8 +256,7 @@ public class IndicatorUtilsEventHandler
     public void onDisconnectedFromServerEvent(ClientDisconnectionFromServerEvent event)
     {
         this.stopCommandTick();
-        IndicatorUtilsEventHandler.CHECK_UUID_TICK = 0;
-        IndicatorUtilsEventHandler.CHECK_UUID = false;
+        IndicatorUtilsEventHandler.PLAYER_PING_MAP.clear();
     }
 
     @SubscribeEvent
@@ -868,6 +882,26 @@ public class IndicatorUtilsEventHandler
             IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
             IndicatorUtilsEventHandler.AUTO_FISH_TICK = 0;
             IULog.info("Stopping AutoFish Command");
+        }
+    }
+
+    private void getPingForNullUUID()
+    {
+        if (this.mc.player != null)
+        {
+            NetHandlerPlayClient nethandlerplayclient = this.mc.player.connection;
+            List<NetworkPlayerInfo> list = this.ordering.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+            int maxPlayers = list.size();
+
+            for (int i = 0; i < maxPlayers; ++i)
+            {
+                if (i < list.size())
+                {
+                    NetworkPlayerInfo networkplayerinfo1 = list.get(i);
+                    GameProfile gameprofile = networkplayerinfo1.getGameProfile();
+                    IndicatorUtilsEventHandler.PLAYER_PING_MAP.put(gameprofile.getName(), networkplayerinfo1.getResponseTime());
+                }
+            }
         }
     }
 }

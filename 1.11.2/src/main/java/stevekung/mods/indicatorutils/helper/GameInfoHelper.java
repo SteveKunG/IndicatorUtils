@@ -9,6 +9,7 @@ package stevekung.mods.indicatorutils.helper;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import com.google.common.collect.Lists;
 
@@ -18,6 +19,7 @@ import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.util.text.ITextComponent;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
@@ -25,9 +27,23 @@ public class GameInfoHelper
 {
     public static GameInfoHelper INSTANCE = new GameInfoHelper();
 
-    public int getPing()
+    public int getPing(boolean uuid)
     {
-        return Minecraft.getMinecraft().getConnection().getPlayerInfo(Minecraft.getMinecraft().player.getUniqueID()).getResponseTime();
+        if (uuid)
+        {
+            return Minecraft.getMinecraft().getConnection().getPlayerInfo(Minecraft.getMinecraft().player.getUniqueID()).getResponseTime();
+        }
+        else
+        {
+            for (Entry<String, Integer> entry : IndicatorUtilsEventHandler.PLAYER_PING_MAP.entrySet())
+            {
+                if (entry.getKey().contains(ExtendedModSettings.HYPIXEL_NICK_NAME))
+                {
+                    return entry.getValue();
+                }
+            }
+            return 0;
+        }
     }
 
     public boolean isHypixel()

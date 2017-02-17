@@ -131,7 +131,7 @@ public class IndicatorUtilsEventHandler
     }
 
     // Credit to Jarbelar
-    // 0 = ShowDesc, 1 = NoConnection, 2 = MissingUUID
+    // 0 = ShowDesc, 1 = NoConnection
     @SubscribeEvent
     public void onCheckVersion(PlayerTickEvent event)
     {
@@ -265,6 +265,8 @@ public class IndicatorUtilsEventHandler
     public void onDisconnectedFromServerEvent(ClientDisconnectionFromServerEvent event)
     {
         this.stopCommandTick();
+        IndicatorUtilsEventHandler.playerList.clear();
+        IndicatorUtilsEventHandler.playerPingMap.clear();
     }
 
     @SubscribeEvent

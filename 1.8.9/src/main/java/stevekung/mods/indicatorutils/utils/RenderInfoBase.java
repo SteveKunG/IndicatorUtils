@@ -18,7 +18,6 @@ import net.minecraft.world.chunk.Chunk;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
-import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 
@@ -39,38 +38,48 @@ public class RenderInfoBase
         if (mc.getNetHandler().getPlayerInfo(mc.thePlayer.getUniqueID()) != null)
         {
             String pingcolor = ConfigManager.customColorPingValue1;
+            int pingValue = GameInfoHelper.INSTANCE.getPing(true);
 
-            if (GameInfoHelper.INSTANCE.getPing() >= 200 && GameInfoHelper.INSTANCE.getPing() <= 300)
+            if (pingValue >= 200 && pingValue <= 300)
             {
                 pingcolor = ConfigManager.customColorPingValue2;
             }
-            else if (GameInfoHelper.INSTANCE.getPing() >= 301 && GameInfoHelper.INSTANCE.getPing() <= 499)
+            else if (pingValue >= 301 && pingValue <= 499)
             {
                 pingcolor = ConfigManager.customColorPingValue3;
             }
-            else if (GameInfoHelper.INSTANCE.getPing() >= 500)
+            else if (pingValue >= 500)
             {
                 pingcolor = ConfigManager.customColorPingValue4;
             }
 
             if (!mc.isSingleplayer())
             {
-                list.add(ping + json.text(GameInfoHelper.INSTANCE.getPing() + "ms").setChatStyle(json.colorFromConfig(pingcolor)).getFormattedText());
+                list.add(ping + json.text(pingValue + "ms").setChatStyle(json.colorFromConfig(pingcolor)).getFormattedText());
             }
         }
         else
         {
-            String pingna = json.text("n/a").setChatStyle(json.colorFromConfig(ConfigManager.customColorPingNA)).getFormattedText();
+            String pingcolor = ConfigManager.customColorPingValue1;
+            int pingValue = GameInfoHelper.INSTANCE.getPing(false);
 
-            if (IndicatorUtilsEventHandler.CHECK_UUID_TICK == 160)
+            if (pingValue >= 200 && pingValue <= 300)
             {
-                if (!IndicatorUtilsEventHandler.CHECK_UUID && GameInfoHelper.INSTANCE.isHypixel())
-                {
-                    IndicatorUtilsEventHandler.CHECK_UUID = true;
-                    IndicatorUtils.STATUS_CHECK[2] = IndicatorUtilsEventHandler.CHECK_UUID;
-                }
+                pingcolor = ConfigManager.customColorPingValue2;
             }
-            list.add(ping + pingna);
+            else if (pingValue >= 301 && pingValue <= 499)
+            {
+                pingcolor = ConfigManager.customColorPingValue3;
+            }
+            else if (pingValue >= 500)
+            {
+                pingcolor = ConfigManager.customColorPingValue4;
+            }
+
+            if (!mc.isSingleplayer())
+            {
+                list.add(ping + json.text(pingValue + "ms").setChatStyle(json.colorFromConfig(pingcolor)).getFormattedText());
+            }
         }
         return list;
     }

@@ -117,7 +117,6 @@ public class ConfigManager
     public static String customColorPingValue2;
     public static String customColorPingValue3;
     public static String customColorPingValue4;
-    public static String customColorPingNA;
     public static String customColorIP;
     public static String customColorIPValue;
     public static String customColorIPMCValue;
@@ -580,12 +579,6 @@ public class ConfigManager
         ConfigManager.customColorPingValue4 = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping n/a", "red");
-        prop.setConfigEntryClass(ConfigColorEntryIU.class);
-        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorPingNA = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "IP", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
@@ -941,7 +934,7 @@ public class ConfigManager
         ConfigManager.customTextDirection = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Weather Text", false);
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Weather Text", false);
         ConfigManager.useCustomWeather = prop.getBoolean();
         propOrder.add(prop.getName());
 

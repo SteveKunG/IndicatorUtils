@@ -45,6 +45,7 @@ commands.autologin.usage=/autologin <add|remove|list> <command> <value>
 commands.autologin.list.count=Showing %s auto login data entry
 commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'
 commands.autologin.list.empty=There are no auto login data entries was saved
+commands.setnick.usage=/setnick <nick>
 
 # KEY BINDING
 key.indicatorutils.category=Indicator Utils

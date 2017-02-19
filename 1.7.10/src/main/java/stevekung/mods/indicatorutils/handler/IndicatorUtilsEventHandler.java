@@ -877,6 +877,22 @@ public class IndicatorUtilsEventHandler
                     this.mc.thePlayer.setAngles(angle, angle);
                 }
             }
+            else if (IndicatorUtilsEventHandler.AFK_MODE.equalsIgnoreCase("360"))
+            {
+                if (this.mc.thePlayer != null)
+                {
+                    this.mc.thePlayer.setAngles(5.0F, 0.0F);
+                }
+            }
+            else if (IndicatorUtilsEventHandler.AFK_MODE.equalsIgnoreCase("360move"))
+            {
+                if (this.mc.thePlayer != null)
+                {
+                    this.mc.thePlayer.setAngles(5.0F, 0.0F);
+                }
+                ++IndicatorUtilsEventHandler.AFK_MOVE_TICK;
+                IndicatorUtilsEventHandler.AFK_MOVE_TICK %= 8;
+            }
             else
             {
                 if (this.mc.thePlayer != null)

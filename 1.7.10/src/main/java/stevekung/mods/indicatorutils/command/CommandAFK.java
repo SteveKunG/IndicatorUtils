@@ -130,6 +130,16 @@ public class CommandAFK extends ClientCommandBaseIU
                     IndicatorUtilsEventHandler.AFK_MODE = "move";
                     sender.addChatMessage(json.text("Set AFK mode to move"));
                 }
+                else if ("360".equalsIgnoreCase(args[1]))
+                {
+                    IndicatorUtilsEventHandler.AFK_MODE = "360";
+                    sender.addChatMessage(json.text("Set AFK mode to 360"));
+                }
+                else if ("360move".equalsIgnoreCase(args[1]))
+                {
+                    IndicatorUtilsEventHandler.AFK_MODE = "360move";
+                    sender.addChatMessage(json.text("Set AFK mode to 360move"));
+                }
                 else
                 {
                     throw new WrongUsageException("commands.afk.mode.usage");
@@ -153,7 +163,7 @@ public class CommandAFK extends ClientCommandBaseIU
         {
             if (args[0].equalsIgnoreCase("mode"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "idle", "move", "360", "360move");
             }
         }
         return super.addTabCompletionOptions(sender, args);

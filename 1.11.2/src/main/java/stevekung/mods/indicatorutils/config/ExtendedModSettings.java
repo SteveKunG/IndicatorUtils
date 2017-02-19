@@ -34,7 +34,7 @@ public class ExtendedModSettings
     public static int CPS_X_OFFSET = 3;
     public static int CPS_Y_OFFSET = 2;
     public static float CPS_OPACITY = 0.5F;
-    public static float RENDER_INFO_OPACITY = 0.5F;
+    public static float RENDER_INFO_OPACITY = 0.0F;
 
     public static String CPS_POSITION = "left";
     public static String DISPLAY_MODE = "default";

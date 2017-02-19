@@ -42,6 +42,7 @@ public class GuiRenderStatusSettings extends GuiScreen
         this.buttonList.add(new GuiRenderStatusSliderInt(202, this.width / 2 - 100, this.height / 4 - 25, GuiRenderStatusSliderInt.Options.POTION_Y));
         this.buttonList.add(new GuiRenderStatusSliderInt(203, this.width / 2 - 100, this.height / 4, GuiRenderStatusSliderInt.Options.KEYSTOKE_X));
         this.buttonList.add(new GuiRenderStatusSliderInt(204, this.width / 2 - 100, this.height / 4 + 25, GuiRenderStatusSliderInt.Options.KEYSTOKE_Y));
+        this.buttonList.add(new GuiRenderStatusSliderFloat(205, this.width / 2 - 100, this.height / 4 + 50, GuiRenderStatusSliderFloat.Options.RENDER_INFO_OPACITY));
     }
 
     @Override

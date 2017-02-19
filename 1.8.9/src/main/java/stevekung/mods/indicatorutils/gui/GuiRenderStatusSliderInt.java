@@ -15,13 +15,13 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 @SideOnly(Side.CLIENT)
-public class GuiRenderStatusSlider extends GuiButton
+public class GuiRenderStatusSliderInt extends GuiButton
 {
     private float sliderValue;
     public boolean dragging;
     private Options options;
 
-    public GuiRenderStatusSlider(int buttonId, int x, int y, Options option)
+    public GuiRenderStatusSliderInt(int buttonId, int x, int y, Options option)
     {
         super(buttonId, x, y, 200, 20, "");
         this.sliderValue = 1.0F;

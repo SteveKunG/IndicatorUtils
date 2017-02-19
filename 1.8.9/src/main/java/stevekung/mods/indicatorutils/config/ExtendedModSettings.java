@@ -34,6 +34,7 @@ public class ExtendedModSettings
     public static int CPS_X_OFFSET = 3;
     public static int CPS_Y_OFFSET = 2;
     public static float CPS_OPACITY = 0.5F;
+    public static float RENDER_INFO_OPACITY = 0.0F;
 
     public static String CPS_POSITION = "left";
     public static String DISPLAY_MODE = "default";
@@ -74,6 +75,7 @@ public class ExtendedModSettings
             ExtendedModSettings.CPS_X_OFFSET = nbttagcompound.getInteger("CpsX");
             ExtendedModSettings.CPS_Y_OFFSET = nbttagcompound.getInteger("CpsY");
             ExtendedModSettings.CPS_OPACITY = nbttagcompound.getFloat("CpsOpacity");
+            ExtendedModSettings.RENDER_INFO_OPACITY = nbttagcompound.getFloat("RenderInfoOpacity");
 
             ExtendedModSettings.CPS_POSITION = nbttagcompound.getString("CpsPosition");
             ExtendedModSettings.DISPLAY_MODE = nbttagcompound.getString("DisplayMode");
@@ -115,6 +117,7 @@ public class ExtendedModSettings
             nbttagcompound.setInteger("CpsX", ExtendedModSettings.CPS_X_OFFSET);
             nbttagcompound.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
             nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
+            nbttagcompound.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
 
             nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
             nbttagcompound.setString("DisplayMode", ExtendedModSettings.DISPLAY_MODE);

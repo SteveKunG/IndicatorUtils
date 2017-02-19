@@ -37,6 +37,7 @@ import stevekung.mods.indicatorutils.command.CommandEntityDetector;
 import stevekung.mods.indicatorutils.command.CommandGetPlayerPosition;
 import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
 import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
+import stevekung.mods.indicatorutils.command.CommandSetNickHypixel;
 import stevekung.mods.indicatorutils.command.CommandShowCape;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
@@ -66,7 +67,7 @@ public class IndicatorUtils
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
-    public static final boolean[] STATUS_CHECK = { false, false, false };
+    public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
 
     static
@@ -110,6 +111,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandEntityDetector());
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
+            ClientCommandHandler.instance.registerCommand(new CommandSetNickHypixel());
 
             if (ConfigManager.enableCustomCapeFeature)
             {

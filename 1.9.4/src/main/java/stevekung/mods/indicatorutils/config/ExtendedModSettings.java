@@ -41,6 +41,7 @@ public class ExtendedModSettings
     public static String ENTITY_DETECT_TYPE = "reset";
     public static String CAPE_URL = "";
     public static String CHAT_MODE = "";
+    public static String HYPIXEL_NICK_NAME = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -81,6 +82,7 @@ public class ExtendedModSettings
             ExtendedModSettings.ENTITY_DETECT_TYPE = nbttagcompound.getString("EntityDetectType");
             ExtendedModSettings.CAPE_URL = nbttagcompound.getString("CapeURL");
             ExtendedModSettings.CHAT_MODE = nbttagcompound.getString("ChatMode");
+            ExtendedModSettings.HYPIXEL_NICK_NAME = nbttagcompound.getString("HypixelNickName");
 
             ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = nbttagcompound.getString("ToggleSprintUseMode");
             ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = nbttagcompound.getString("ToggleSneakUseMode");
@@ -122,6 +124,7 @@ public class ExtendedModSettings
             nbttagcompound.setString("EntityDetectType", ExtendedModSettings.ENTITY_DETECT_TYPE);
             nbttagcompound.setString("CapeURL", ExtendedModSettings.CAPE_URL);
             nbttagcompound.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
+            nbttagcompound.setString("HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
 
             nbttagcompound.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             nbttagcompound.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);

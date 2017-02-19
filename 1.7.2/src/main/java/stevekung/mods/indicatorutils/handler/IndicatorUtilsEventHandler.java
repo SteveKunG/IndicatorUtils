@@ -454,6 +454,16 @@ public class IndicatorUtilsEventHandler
     {
         if (event.type == ElementType.TEXT)
         {
+            if (ConfigManager.enableKeystroke)
+            {
+                if (!this.mc.gameSettings.hideGUI)
+                {
+                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
+                    {
+                        KeystrokeRenderer.init(this.mc);
+                    }
+                }
+            }
             if (ConfigManager.enableAllRenderInfo)
             {
                 if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
@@ -737,16 +747,6 @@ public class IndicatorUtilsEventHandler
                 mc.fontRenderer.drawString(I18n.format("gui.indicatorutils.config.name1"), mc.currentScreen.width - 50 - mc.fontRenderer.getStringWidth(I18n.format("gui.indicatorutils.config.name1")) / 2, mc.currentScreen.height - 16, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
                 Gui.drawRect(mc.currentScreen.width - 100, mc.currentScreen.height - 35, mc.currentScreen.width - 99, mc.currentScreen.height, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
                 Gui.drawRect(mc.currentScreen.width - 100, mc.currentScreen.height - 35, mc.currentScreen.width, mc.currentScreen.height - 34, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
-            }
-            if (!mc.gameSettings.hideGUI)
-            {
-                if (ConfigManager.enableKeystroke)
-                {
-                    if (mc.currentScreen == null || mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
-                    {
-                        KeystrokeRenderer.init(mc);
-                    }
-                }
             }
         }
     }

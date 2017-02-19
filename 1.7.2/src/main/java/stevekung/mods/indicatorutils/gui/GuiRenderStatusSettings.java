@@ -36,10 +36,11 @@ public class GuiRenderStatusSettings extends GuiScreen
     public void initGui()
     {
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 120, I18n.format("gui.done")));
-        this.buttonList.add(new GuiRenderStatusSlider(201, this.width / 2 - 100, this.height / 4 - 50, GuiRenderStatusSlider.Options.ARMOR_Y));
-        this.buttonList.add(new GuiRenderStatusSlider(202, this.width / 2 - 100, this.height / 4 - 25, GuiRenderStatusSlider.Options.POTION_Y));
-        this.buttonList.add(new GuiRenderStatusSlider(203, this.width / 2 - 100, this.height / 4, GuiRenderStatusSlider.Options.KEYSTOKE_X));
-        this.buttonList.add(new GuiRenderStatusSlider(204, this.width / 2 - 100, this.height / 4 + 25, GuiRenderStatusSlider.Options.KEYSTOKE_Y));
+        this.buttonList.add(new GuiRenderStatusSliderInt(201, this.width / 2 - 100, this.height / 4 - 50, GuiRenderStatusSliderInt.Options.ARMOR_Y));
+        this.buttonList.add(new GuiRenderStatusSliderInt(202, this.width / 2 - 100, this.height / 4 - 25, GuiRenderStatusSliderInt.Options.POTION_Y));
+        this.buttonList.add(new GuiRenderStatusSliderInt(203, this.width / 2 - 100, this.height / 4, GuiRenderStatusSliderInt.Options.KEYSTOKE_X));
+        this.buttonList.add(new GuiRenderStatusSliderInt(204, this.width / 2 - 100, this.height / 4 + 25, GuiRenderStatusSliderInt.Options.KEYSTOKE_Y));
+        this.buttonList.add(new GuiRenderStatusSliderFloat(205, this.width / 2 - 100, this.height / 4 + 50, GuiRenderStatusSliderFloat.Options.RENDER_INFO_OPACITY));
     }
 
     @Override

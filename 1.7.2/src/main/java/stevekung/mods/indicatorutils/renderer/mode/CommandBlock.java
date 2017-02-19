@@ -14,6 +14,7 @@ import com.google.common.collect.Lists;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
@@ -42,6 +43,17 @@ public class CommandBlock
 
                 if (!mc.gameSettings.showDebugInfo)
                 {
+                    int stringWidth = mc.fontRenderer.getStringWidth(string) + 2;
+                    int yOverlay = 3 + height * i;
+
+                    if (swapToRight)
+                    {
+                        ClientRendererHelper.drawRectNew(xPosition - 2, yOverlay - 1, xPosition + stringWidth - 1, yOverlay + height - 1, 16777216, ExtendedModSettings.RENDER_INFO_OPACITY);
+                    }
+                    else
+                    {
+                        ClientRendererHelper.drawRectNew(1, yOverlay - 1, 2 + stringWidth + 1, yOverlay + height - 1, 16777216, ExtendedModSettings.RENDER_INFO_OPACITY);
+                    }
                     ClientRendererHelper.drawString(string, swapToRight ? xPosition : 3.5F, y, EnumTextColor.WHITE, true);
                 }
             }

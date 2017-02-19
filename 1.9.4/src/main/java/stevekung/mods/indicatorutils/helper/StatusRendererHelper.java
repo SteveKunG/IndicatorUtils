@@ -797,9 +797,9 @@ public class StatusRendererHelper
 
             for (int i = 0; i < list.size(); ++i)
             {
-                String s = list.get(i);
+                String string = list.get(i);
 
-                if (!Strings.isNullOrEmpty(s))
+                if (!Strings.isNullOrEmpty(string))
                 {
                     float y = 3.5F;
 
@@ -818,11 +818,22 @@ public class StatusRendererHelper
                             }
                         }
                     }
-                    int j = mc.fontRendererObj.FONT_HEIGHT + 1;
-                    int k = mc.fontRendererObj.getStringWidth(s);
-                    int l = scaledRes.getScaledWidth() - 2 - k;
-                    float i1 = y + j * i;
-                    ClientRendererHelper.drawString(s, swapToRight ? 3.5F : l, i1, EnumTextColor.WHITE, true);
+                    int height = mc.fontRendererObj.FONT_HEIGHT + 1;
+                    int stringWidth = mc.fontRendererObj.getStringWidth(string);
+                    int xPosition = scaledRes.getScaledWidth() - 2 - stringWidth;
+                    float yPosition = y + height * i;
+                    int stringWidth2 = mc.fontRendererObj.getStringWidth(string) + 2;
+                    int yOverlay = 3 + height * i;
+
+                    if (!swapToRight)
+                    {
+                        ClientRendererHelper.drawRectNew(xPosition - 2, yOverlay - 1, xPosition + stringWidth2 - 1, yOverlay + height - 1, 16777216, ExtendedModSettings.RENDER_INFO_OPACITY);
+                    }
+                    else
+                    {
+                        ClientRendererHelper.drawRectNew(1, yOverlay - 1, 2 + stringWidth2 + 1, yOverlay + height - 1, 16777216, ExtendedModSettings.RENDER_INFO_OPACITY);
+                    }
+                    ClientRendererHelper.drawString(string, swapToRight ? 3.5F : xPosition, yPosition, EnumTextColor.WHITE, true);
                 }
             }
         }

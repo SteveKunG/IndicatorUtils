@@ -317,6 +317,16 @@ public class IndicatorUtilsEventHandler
     {
         if (event.getType() == ElementType.TEXT)
         {
+            if (ConfigManager.enableKeystroke)
+            {
+                if (!this.mc.gameSettings.hideGUI)
+                {
+                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
+                    {
+                        KeystrokeRenderer.init(this.mc);
+                    }
+                }
+            }
             if (ConfigManager.enableAllRenderInfo)
             {
                 if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
@@ -549,16 +559,6 @@ public class IndicatorUtilsEventHandler
         }
         if (event.phase == Phase.END)
         {
-            if (!this.mc.gameSettings.hideGUI)
-            {
-                if (ConfigManager.enableKeystroke)
-                {
-                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
-                    {
-                        KeystrokeRenderer.init(this.mc);
-                    }
-                }
-            }
             if (this.mc.currentScreen instanceof GuiIngameMenu)
             {
                 int i = Mouse.getEventX() * this.mc.currentScreen.width / this.mc.displayWidth;

@@ -10,7 +10,7 @@ import java.lang.reflect.Field;
 
 public class ReflectionUtils
 {
-    public static <T> void set(String name, T value, Class c, T obj)
+    public static <T> void set(String name, T value, Class<?> c, T obj)
     {
         try
         {
@@ -36,7 +36,7 @@ public class ReflectionUtils
         }
     }
 
-    public static <T> void set(String nameObf, String nameDeObf, T value, Class c, T obj)
+    public static <T> void set(String nameObf, String nameDeObf, T value, Class<?> c, T obj)
     {
         try
         {
@@ -64,7 +64,7 @@ public class ReflectionUtils
         }
     }
 
-    public static <T> void setFinal(String name, T value, Class c, T obj)
+    public static <T> void setFinal(String name, T value, Class<?> c, T obj)
     {
         try
         {
@@ -93,7 +93,7 @@ public class ReflectionUtils
         }
     }
 
-    public static <T> void setFinal(String nameObf, String nameDeObf, T value, Class c, T obj)
+    public static <T> void setFinal(String nameObf, String nameDeObf, T value, Class<?> c, T obj)
     {
         try
         {
@@ -124,7 +124,7 @@ public class ReflectionUtils
         }
     }
 
-    private static <T> boolean fieldExists(String name, Class c, T obj)
+    private static <T> boolean fieldExists(String name, Class<?> c, T obj)
     {
         try
         {
@@ -145,7 +145,8 @@ public class ReflectionUtils
         return true;
     }
 
-    public static <T, A> A get(String name, Class c, T obj)
+    @SuppressWarnings("unchecked")
+    public static <T, A> A get(String name, Class<?> c, T obj)
     {
         try
         {
@@ -176,7 +177,8 @@ public class ReflectionUtils
         return null;
     }
 
-    public static <T, A> A get(String nameObf, String nameDeObf, Class c, T obj)
+    @SuppressWarnings("unchecked")
+    public static <T, A> A get(String nameObf, String nameDeObf, Class<?> c, T obj)
     {
         try
         {

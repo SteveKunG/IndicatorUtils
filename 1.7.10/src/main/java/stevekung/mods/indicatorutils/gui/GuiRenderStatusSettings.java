@@ -32,6 +32,7 @@ public class GuiRenderStatusSettings extends GuiScreen
         Minecraft.getMinecraft().displayGuiScreen(this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

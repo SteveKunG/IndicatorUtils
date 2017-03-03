@@ -31,9 +31,9 @@ import net.minecraft.util.MathHelper;
 public class GuiNewChatIU extends GuiNewChat
 {
     private final Minecraft mc;
-    private final List sentMessages = new ArrayList();
-    private final List chatLines = new ArrayList();
-    private final List field_146253_i = new ArrayList();
+    private final List<String> sentMessages = new ArrayList<String>();
+    private final List<ChatLine> chatLines = new ArrayList<ChatLine>();
+    private final List<ChatLine> field_146253_i = new ArrayList<ChatLine>();
     private int field_146250_j;
     private boolean field_146251_k;
 
@@ -72,7 +72,7 @@ public class GuiNewChatIU extends GuiNewChat
 
                 for (j1 = 0; j1 + this.field_146250_j < this.field_146253_i.size() && j1 < j; ++j1)
                 {
-                    ChatLine chatline = (ChatLine)this.field_146253_i.get(j1 + this.field_146250_j);
+                    ChatLine chatline = this.field_146253_i.get(j1 + this.field_146250_j);
 
                     if (chatline != null)
                     {
@@ -184,12 +184,13 @@ public class GuiNewChatIU extends GuiNewChat
         int k = MathHelper.floor_float(this.func_146228_f() / this.func_146244_h());
         int l = 0;
         ChatComponentText chatcomponenttext = new ChatComponentText("");
-        ArrayList arraylist = Lists.newArrayList();
-        ArrayList arraylist1 = Lists.newArrayList(p_146237_1_);
+        ArrayList<ChatComponentText> arraylist = Lists.newArrayList();
+        @SuppressWarnings("unchecked")
+        ArrayList<ChatComponentText> arraylist1 = Lists.newArrayList(p_146237_1_);
 
         for (int i1 = 0; i1 < arraylist1.size(); ++i1)
         {
-            IChatComponent ichatcomponent1 = (IChatComponent)arraylist1.get(i1);
+            IChatComponent ichatcomponent1 = arraylist1.get(i1);
             String s = this.func_146235_b(ichatcomponent1.getChatStyle().getFormattingCode() + ichatcomponent1.getUnformattedTextForChat());
             int j1 = this.mc.fontRenderer.getStringWidth(s);
             ChatComponentText chatcomponenttext1 = new ChatComponentText(s);
@@ -244,9 +245,9 @@ public class GuiNewChatIU extends GuiNewChat
         boolean flag2 = this.getChatOpen();
         IChatComponent ichatcomponent2;
 
-        for (Iterator iterator = arraylist.iterator(); iterator.hasNext(); this.field_146253_i.add(0, new ChatLine(p_146237_3_, ichatcomponent2, p_146237_2_)))
+        for (Iterator<ChatComponentText> iterator = arraylist.iterator(); iterator.hasNext(); this.field_146253_i.add(0, new ChatLine(p_146237_3_, ichatcomponent2, p_146237_2_)))
         {
-            ichatcomponent2 = (IChatComponent)iterator.next();
+            ichatcomponent2 = iterator.next();
 
             if (flag2 && this.field_146250_j > 0)
             {
@@ -279,7 +280,7 @@ public class GuiNewChatIU extends GuiNewChat
 
         for (int i = this.chatLines.size() - 1; i >= 0; --i)
         {
-            ChatLine chatline = (ChatLine)this.chatLines.get(i);
+            ChatLine chatline = this.chatLines.get(i);
             this.func_146237_a(chatline.func_151461_a(), chatline.getChatLineID(), chatline.getUpdatedCounter(), true);
         }
     }
@@ -288,7 +289,7 @@ public class GuiNewChatIU extends GuiNewChat
      * Gets the list of messages previously sent through the chat GUI
      */
     @Override
-    public List getSentMessages()
+    public List<String> getSentMessages()
     {
         return this.sentMessages;
     }
@@ -299,7 +300,7 @@ public class GuiNewChatIU extends GuiNewChat
     @Override
     public void addToSentMessages(String p_146239_1_)
     {
-        if (this.sentMessages.isEmpty() || !((String)this.sentMessages.get(this.sentMessages.size() - 1)).equals(p_146239_1_))
+        if (this.sentMessages.isEmpty() || !this.sentMessages.get(this.sentMessages.size() - 1).equals(p_146239_1_))
         {
             this.sentMessages.add(p_146239_1_);
         }
@@ -363,9 +364,9 @@ public class GuiNewChatIU extends GuiNewChat
 
                     if (k1 >= 0 && k1 < this.field_146253_i.size())
                     {
-                        ChatLine chatline = (ChatLine)this.field_146253_i.get(k1);
+                        ChatLine chatline = this.field_146253_i.get(k1);
                         int l1 = 0;
-                        Iterator iterator = chatline.func_151461_a().iterator();
+                        Iterator<?> iterator = chatline.func_151461_a().iterator();
 
                         while (iterator.hasNext())
                         {
@@ -412,12 +413,12 @@ public class GuiNewChatIU extends GuiNewChat
     @Override
     public void deleteChatLine(int p_146242_1_)
     {
-        Iterator iterator = this.field_146253_i.iterator();
+        Iterator<ChatLine> iterator = this.field_146253_i.iterator();
         ChatLine chatline;
 
         while (iterator.hasNext())
         {
-            chatline = (ChatLine)iterator.next();
+            chatline = iterator.next();
 
             if (chatline.getChatLineID() == p_146242_1_)
             {
@@ -429,7 +430,7 @@ public class GuiNewChatIU extends GuiNewChat
 
         while (iterator.hasNext())
         {
-            chatline = (ChatLine)iterator.next();
+            chatline = iterator.next();
 
             if (chatline.getChatLineID() == p_146242_1_)
             {

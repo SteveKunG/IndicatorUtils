@@ -153,7 +153,7 @@ public class CommandAFK extends ClientCommandBaseIU
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender sender, String[] args)
+    public List<?> addTabCompletionOptions(ICommandSender sender, String[] args)
     {
         if (args.length == 1)
         {

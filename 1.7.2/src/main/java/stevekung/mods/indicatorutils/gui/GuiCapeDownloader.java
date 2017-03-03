@@ -24,6 +24,7 @@ public class GuiCapeDownloader extends GuiScreen
     private GuiButton cancelBtn;
     private GuiButton resetBtn;
 
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

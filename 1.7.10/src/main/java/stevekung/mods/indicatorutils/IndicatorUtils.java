@@ -25,13 +25,7 @@ import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
-import stevekung.mods.indicatorutils.command.CommandAFK;
-import stevekung.mods.indicatorutils.command.CommandAutoFish;
-import stevekung.mods.indicatorutils.command.CommandAutoLogin;
-import stevekung.mods.indicatorutils.command.CommandGetPlayerPosition;
-import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
-import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
-import stevekung.mods.indicatorutils.command.CommandShowCape;
+import stevekung.mods.indicatorutils.command.*;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.handler.ClientCommandHandlerIU;
@@ -41,12 +35,7 @@ import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.CapeRenderer;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
-import stevekung.mods.indicatorutils.utils.CapeUtils;
-import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.ModSecurityManager;
-import stevekung.mods.indicatorutils.utils.ReflectionUtils;
-import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
-import stevekung.mods.indicatorutils.utils.VersionChecker;
+import stevekung.mods.indicatorutils.utils.*;
 
 @Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:Forge@[10.13.4.1558,);", guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils

@@ -940,6 +940,7 @@ public class ConfigManager
         return propOrder;
     }
 
+    @SuppressWarnings({ "rawtypes", "unchecked" })
     public static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> list = new ArrayList<IConfigElement>();

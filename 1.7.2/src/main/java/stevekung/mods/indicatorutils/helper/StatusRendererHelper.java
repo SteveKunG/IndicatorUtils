@@ -7,12 +7,7 @@
 package stevekung.mods.indicatorutils.helper;
 
 import java.text.SimpleDateFormat;
-import java.util.Collection;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
 import org.lwjgl.opengl.GL11;
 
@@ -426,6 +421,7 @@ public class StatusRendererHelper
         }
     }
 
+    @SuppressWarnings("unchecked")
     public static void renderPotionEffect(Minecraft mc)
     {
         if (ConfigManager.enablePotionStatus)
@@ -449,9 +445,9 @@ public class StatusRendererHelper
                         length = lengthVal / (collection.size() - 1);
                     }
 
-                    for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                    for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                     {
-                        PotionEffect potioneffect = (PotionEffect)iterator.next();
+                        PotionEffect potioneffect = iterator.next();
                         Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                         String s = Potion.getDurationString(potioneffect);
                         String s1 = I18n.format(potion.getName(), new Object[0]);
@@ -507,9 +503,9 @@ public class StatusRendererHelper
                         length = lengthVal / (collection.size() - 1);
                     }
 
-                    for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                    for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                     {
-                        PotionEffect potioneffect = (PotionEffect)iterator.next();
+                        PotionEffect potioneffect = iterator.next();
                         Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                         String s = Potion.getDurationString(potioneffect);
                         String s1 = I18n.format(potion.getName(), new Object[0]);
@@ -566,9 +562,9 @@ public class StatusRendererHelper
                             length = lengthVal / (collection.size() - 1);
                         }
 
-                        for (Iterator iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
+                        for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
                         {
-                            PotionEffect potioneffect = (PotionEffect)iterator.next();
+                            PotionEffect potioneffect = iterator.next();
                             Potion potion = Potion.potionTypes[potioneffect.getPotionID()];
                             String s = Potion.getDurationString(potioneffect);
                             String s1 = I18n.format(potion.getName(), new Object[0]);

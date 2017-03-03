@@ -6,11 +6,7 @@
 
 package stevekung.mods.indicatorutils.handler;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -34,17 +30,7 @@ import cpw.mods.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServer
 import io.netty.channel.ChannelOption;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
-import net.minecraft.client.gui.ChatLine;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiIngame;
-import net.minecraft.client.gui.GuiIngameMenu;
-import net.minecraft.client.gui.GuiNewChat;
-import net.minecraft.client.gui.GuiPlayerInfo;
-import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSleepMP;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.resources.I18n;
@@ -68,11 +54,7 @@ import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigGuiFactory;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
-import stevekung.mods.indicatorutils.gui.GuiCapeDownloader;
-import stevekung.mods.indicatorutils.gui.GuiNewChatIU;
-import stevekung.mods.indicatorutils.gui.GuiNewChatSettings;
-import stevekung.mods.indicatorutils.gui.GuiNewSleepMP;
-import stevekung.mods.indicatorutils.gui.GuiRenderStatusSettings;
+import stevekung.mods.indicatorutils.gui.*;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
@@ -84,12 +66,7 @@ import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
 import stevekung.mods.indicatorutils.renderer.mode.Global;
 import stevekung.mods.indicatorutils.renderer.mode.PvP;
 import stevekung.mods.indicatorutils.renderer.mode.UHC;
-import stevekung.mods.indicatorutils.utils.EnumTextColor;
-import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.JsonUtils;
-import stevekung.mods.indicatorutils.utils.MovementInputFromOptionsIU;
-import stevekung.mods.indicatorutils.utils.ReflectionUtils;
-import stevekung.mods.indicatorutils.utils.VersionChecker;
+import stevekung.mods.indicatorutils.utils.*;
 
 public class IndicatorUtilsEventHandler
 {
@@ -105,8 +82,8 @@ public class IndicatorUtilsEventHandler
     public static boolean AUTO_FISH_ENABLED;
     public static int AUTO_FISH_TICK;
 
-    public static List<Long> L_CLICK = new ArrayList();
-    public static List<Long> R_CLICK = new ArrayList();
+    public static List<Long> L_CLICK = new ArrayList<Long>();
+    public static List<Long> R_CLICK = new ArrayList<Long>();
 
     private int pressTime;
     private int pressOneTimeTick;
@@ -195,6 +172,7 @@ public class IndicatorUtilsEventHandler
         if (this.mc.thePlayer != null)
         {
             NetHandlerPlayClient handler = this.mc.thePlayer.sendQueue;
+            @SuppressWarnings("unchecked")
             List<GuiPlayerInfo> players = handler.playerInfoList;
             int maxPlayers = handler.currentServerMaxPlayers;
 
@@ -292,6 +270,7 @@ public class IndicatorUtilsEventHandler
             event.setCanceled(true);
             ScoreObjective scoreobjective = mc.theWorld.getScoreboard().func_96539_a(0);
             NetHandlerPlayClient handler = mc.thePlayer.sendQueue;
+            @SuppressWarnings("unchecked")
             List<GuiPlayerInfo> players = handler.playerInfoList;
             int maxPlayers = handler.currentServerMaxPlayers;
             int width = event.resolution.getScaledWidth();

@@ -12,11 +12,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ChatLine;
-import net.minecraft.client.gui.GuiChat;
-import net.minecraft.client.gui.GuiNewChat;
-import net.minecraft.client.gui.GuiUtilRenderComponents;
-import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentText;

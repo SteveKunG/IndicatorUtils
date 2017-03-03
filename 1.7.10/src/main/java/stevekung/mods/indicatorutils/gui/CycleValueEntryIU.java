@@ -18,7 +18,7 @@ public class CycleValueEntryIU extends ButtonEntry
     protected int defaultIndex;
     protected int currentIndex;
 
-    public CycleValueEntryIU(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
+    public CycleValueEntryIU(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement<?> configElement)
     {
         super(owningScreen, owningEntryList, configElement);
         this.beforeIndex = this.getIndex(configElement.get().toString());
@@ -91,6 +91,7 @@ public class CycleValueEntryIU extends ButtonEntry
         }
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public boolean saveConfigElement()
     {

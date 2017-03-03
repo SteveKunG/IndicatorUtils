@@ -17,6 +17,7 @@ import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 @SideOnly(Side.CLIENT)
 public class GuiNewSleepMP extends GuiNewChatSettings
 {
+    @SuppressWarnings("unchecked")
     @Override
     public void initGui()
     {

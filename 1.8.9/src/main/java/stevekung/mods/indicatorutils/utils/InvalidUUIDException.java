@@ -8,6 +8,8 @@ package stevekung.mods.indicatorutils.utils;
 
 public class InvalidUUIDException extends RuntimeException
 {
+    private static final long serialVersionUID = 6188339323554674291L;
+
     public InvalidUUIDException(String uuid)
     {
         super("Invalid UUID " + "\"" + uuid + "\"");

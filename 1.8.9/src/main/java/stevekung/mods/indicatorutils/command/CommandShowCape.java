@@ -62,7 +62,7 @@ public class CommandShowCape extends ClientCommandBaseIU
     }
 
     @Override
-    public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {

@@ -15,25 +15,26 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 version = "2.0.8"
 group = "stevekung.mods.indicatorutils"
-archivesBaseName = "Indicator-Utils-1.9.4"
+archivesBaseName = "Indicator-Utils-All"
 
 sourceCompatibility = targetCompatibility = "1.8"
 
 compileJava {
     sourceCompatibility = targetCompatibility = "1.8"
+	options.encoding = 'UTF-8'
+	options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
 }
 
 minecraft {
     version = "1.9.4-12.17.0.2051"
     runDir = "run"
     mappings = "snapshot_20160518"
+	makeObfSourceJar = false
 }
 
-dependencies {
-}
+dependencies {}
 
-processResources
-{
+processResources {
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
@@ -45,4 +46,25 @@ processResources
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }
+}
+
+ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
+ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**']
+
+task buildJar(type: Jar, dependsOn: "rePackAllJar") {
+	outputs.upToDateWhen { false }
+	baseName = "Indicator-Utils-1.9.4"
+
+	from(zipTree(project.ext.coreJar)) {
+		includes.addAll(project.ext.coreFiles)
+	}
+}
+
+task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
+	from 'temporary'
+}
+
+task copyModFiles(type: Copy, dependsOn: "reobfJar") {
+	from(zipTree(project.ext.coreJar))
+	into 'temporary'
 }

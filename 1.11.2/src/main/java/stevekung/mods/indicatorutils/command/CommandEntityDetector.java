@@ -273,10 +273,10 @@ public class CommandEntityDetector extends ClientCommandBaseIU
     }
 
     @Override
-    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
-        List<NetworkPlayerInfo> playerInfo = new ArrayList(connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> playerInfo = new ArrayList<NetworkPlayerInfo>(connection.getPlayerInfoMap());
         List<String> playerList = Lists.newArrayList(new String[] { "all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "llama", "villager", "evoker", "vex", "vindicator", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal" });
 
         for (int i = 0; i < playerInfo.size(); ++i)

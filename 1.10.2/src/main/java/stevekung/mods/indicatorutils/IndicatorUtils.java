@@ -30,31 +30,14 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.FMLInjectionData;
 import net.minecraftforge.fml.relauncher.Side;
-import stevekung.mods.indicatorutils.command.CommandAFK;
-import stevekung.mods.indicatorutils.command.CommandAutoFish;
-import stevekung.mods.indicatorutils.command.CommandAutoLogin;
-import stevekung.mods.indicatorutils.command.CommandEntityDetector;
-import stevekung.mods.indicatorutils.command.CommandGetPlayerPosition;
-import stevekung.mods.indicatorutils.command.CommandIndicatorUtils;
-import stevekung.mods.indicatorutils.command.CommandMojangStatusCheck;
-import stevekung.mods.indicatorutils.command.CommandSetNickHypixel;
-import stevekung.mods.indicatorutils.command.CommandShowCape;
+import stevekung.mods.indicatorutils.command.*;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
-import stevekung.mods.indicatorutils.handler.BlockhitAnimationHandler;
-import stevekung.mods.indicatorutils.handler.ClientCommandHandlerIU;
-import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
-import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
+import stevekung.mods.indicatorutils.handler.*;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
-import stevekung.mods.indicatorutils.utils.CapeUtils;
-import stevekung.mods.indicatorutils.utils.IULog;
-import stevekung.mods.indicatorutils.utils.ModSecurityManager;
-import stevekung.mods.indicatorutils.utils.ReflectionUtils;
-import stevekung.mods.indicatorutils.utils.ThreadMojangStatusCheck;
-import stevekung.mods.indicatorutils.utils.VersionChecker;
+import stevekung.mods.indicatorutils.utils.*;
 
 @Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:Forge@[12.18.3.2185,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
@@ -143,6 +126,7 @@ public class IndicatorUtils
                 field.set(Minecraft.getMinecraft().getRenderManager(), new RenderPlayerMOD());
                 field = RenderManager.class.getDeclaredField(IndicatorUtils.isObfuscatedEnvironment() ? "skinMap" : "field_178636_l");
                 field.setAccessible(true);
+                @SuppressWarnings("unchecked")
                 Map<String, RenderPlayer> skinMap = (Map<String, RenderPlayer>) field.get(Minecraft.getMinecraft().getRenderManager());
 
                 for (Iterator<Entry<String, RenderPlayer>> it = skinMap.entrySet().iterator(); it.hasNext();)

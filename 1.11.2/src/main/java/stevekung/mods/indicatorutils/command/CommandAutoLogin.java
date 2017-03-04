@@ -140,7 +140,7 @@ public class CommandAutoLogin extends ClientCommandBaseIU
     }
 
     @Override
-    public List getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
+    public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         if (args.length == 1)
         {

@@ -741,7 +741,7 @@ public class StatusRendererHelper
                 String rainingText = json.text("Raining").setStyle(json.colorFromConfig(ConfigManager.customColorRaining)).getFormattedText();
                 String thunderText = json.text("Thunder").setStyle(json.colorFromConfig(ConfigManager.customColorThunder)).getFormattedText();
 
-                if (ConfigManager.useCustomWeather)
+                if (ConfigManager.useCustomTextWeather)
                 {
                     prefixText = JsonUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
                     rainingText = JsonUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
@@ -758,6 +758,10 @@ public class StatusRendererHelper
                 {
                     list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.world.getWorldTime() % 24000));
                 }
+            }
+            if (ConfigManager.enableMoonPhase)
+            {
+                list.add(GameInfoHelper.INSTANCE.getMoonPhase(mc));
             }
             if (ConfigManager.enableTimeZone)
             {

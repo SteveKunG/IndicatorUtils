@@ -99,6 +99,7 @@ public class ConfigManager
     public static boolean useShortDate;
     public static boolean enableCurrentTime;
     public static boolean enableGameTime;
+    public static boolean enableMoonPhase;
     public static boolean enableWeatherStatus;
     public static boolean enableTimeZone;
     public static boolean enableStandardWorldTime;
@@ -150,6 +151,8 @@ public class ConfigManager
     public static String customColorThunder;
     public static String customColorHeldItem;
     public static String customColorHeldItemArrowCount;
+    public static String customColorMoonPhase;
+    public static String customColorMoonPhaseStatus;
 
     // Custom Text Settings
     public static boolean useCustomTextPing;
@@ -179,10 +182,12 @@ public class ConfigManager
     public static String customTextLookingAt;
     public static boolean useCustomTextDirection;
     public static String customTextDirection;
-    public static boolean useCustomWeather;
+    public static boolean useCustomTextWeather;
     public static String customTextWeather;
     public static String customTextRaining;
     public static String customTextThunder;
+    public static boolean useCustomMoonPhaseText;
+    public static String customTextMoonPhase;
 
     public static void init(File file)
     {
@@ -507,6 +512,10 @@ public class ConfigManager
         ConfigManager.enableGameTime = prop.getBoolean();
         propOrder.add(prop.getName());
 
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Moon Phase", false);
+        ConfigManager.enableMoonPhase = prop.getBoolean();
+        propOrder.add(prop.getName());
+
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Weather Status", true);
         ConfigManager.enableWeatherStatus = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -799,6 +808,18 @@ public class ConfigManager
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorHeldItemArrowCount = prop.getString();
         propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Moon Phase", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
+        ConfigManager.customColorMoonPhase = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Moon Phase Status", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
+        ConfigManager.customColorMoonPhaseStatus = prop.getString();
+        propOrder.add(prop.getName());
         return propOrder;
     }
 
@@ -914,7 +935,7 @@ public class ConfigManager
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Weather Text", false);
-        ConfigManager.useCustomWeather = prop.getBoolean();
+        ConfigManager.useCustomTextWeather = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Weather Prefix Text", "\"text\":\" | \"");
@@ -927,6 +948,14 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Thunder Text", "\"text\":\"Thunder\"");
         ConfigManager.customTextThunder = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Moon Phase Text", false);
+        ConfigManager.useCustomMoonPhaseText = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Moon Phase Text", "\"text\":\"Moon Phase: \"");
+        ConfigManager.customTextMoonPhase = prop.getString();
         propOrder.add(prop.getName());
         return propOrder;
     }

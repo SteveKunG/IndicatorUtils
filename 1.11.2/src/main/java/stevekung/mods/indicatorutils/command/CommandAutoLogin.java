@@ -9,8 +9,6 @@ package stevekung.mods.indicatorutils.command;
 import java.util.Collection;
 import java.util.List;
 
-import javax.xml.bind.DatatypeConverter;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.command.CommandBase;
@@ -25,6 +23,7 @@ import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatorutils.utils.Base64Utils;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandAutoLogin extends ClientCommandBaseIU
@@ -66,7 +65,7 @@ public class CommandAutoLogin extends ClientCommandBaseIU
                         }
                         ITextComponent component = this.getChatComponentFromNthArg(args, 2);
                         String value = component.createCopy().getUnformattedText();
-                        ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", DatatypeConverter.printBase64Binary(value.getBytes()), IndicatorUtils.USERNAME);
+                        ExtendedModSettings.loginData.addAutoLogin(data.serverIP, "/" + args[1] + " ", Base64Utils.encode(value), IndicatorUtils.USERNAME);
                         sender.sendMessage(json.text("Set auto login data for Server: " + data.serverIP));
                         ExtendedModSettings.saveExtendedSettings();
                     }

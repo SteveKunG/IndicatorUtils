@@ -8,11 +8,10 @@ package stevekung.mods.indicatorutils;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -46,17 +45,23 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 8;
+    public static final int BUILD_VERSION = 9;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
     public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
+    public static List<String> IGNORE_LIST = Lists.newArrayList();
 
     static
     {
         ModSecurityManager.lockedWithPirateUser("MCCommanderTH", false);
         ModSecurityManager.lockedWithUUID("eef3a603-1c1b-4c98-8264-d2f04b231ef4", false);
+        IndicatorUtils.IGNORE_LIST.add("ZWVmM2E2MDMtMWMxYi00Yzk4LTgyNjQtZDJmMDRiMjMxZWY0");
+        IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTgtODQwNy00MWI5LWI4ZGItODljMmM4YjE5MmRj");
+        IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
+        IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");
+        IndicatorUtils.IGNORE_LIST.add("MmNkODhhZDAtODliMS00Y2E3LTkwN2UtNzgwNjZmZTM2YjA4");
     }
 
     @EventHandler
@@ -162,7 +167,7 @@ public class IndicatorUtils
             if (!ExtendedModSettings.CAPE_URL.isEmpty())
             {
                 CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
+                CapeUtils.setCapeURL(Base64Utils.decode(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
             }
             else

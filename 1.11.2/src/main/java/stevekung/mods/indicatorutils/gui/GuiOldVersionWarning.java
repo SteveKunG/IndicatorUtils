@@ -19,7 +19,6 @@ import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 @SideOnly(Side.CLIENT)
@@ -33,7 +32,7 @@ public class GuiOldVersionWarning extends GuiScreen
     @Override
     public void initGui()
     {
-        if (IndicatorUtils.isSteveKunG())
+        if (IndicatorUtils.ALLOWED)
         {
             this.buttonList.clear();
             this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + 32, this.height - 30), I18n.format("Ignore this message")));
@@ -64,11 +63,10 @@ public class GuiOldVersionWarning extends GuiScreen
     @Override
     protected void actionPerformed(GuiButton button) throws IOException
     {
-        if (IndicatorUtils.isSteveKunG())
+        if (IndicatorUtils.ALLOWED)
         {
             if (button.id == 0)
             {
-                OldVersionWarningEventHandler.ignoreGUI = false;
                 this.mc.displayGuiScreen(new GuiMainMenu());
             }
         }

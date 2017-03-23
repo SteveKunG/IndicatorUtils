@@ -45,13 +45,14 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 9;
+    public static final int BUILD_VERSION = 7;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
     public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
     public static List<String> IGNORE_LIST = Lists.newArrayList();
+    public static boolean ALLOWED;
 
     static
     {
@@ -77,6 +78,16 @@ public class IndicatorUtils
         this.initModInfo(event.getModMetadata());
         ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
         IndicatorUtils.USERNAME = GameProfileUtils.getUsername();
+
+        for (String list : IndicatorUtils.IGNORE_LIST)
+        {
+            list = Base64Utils.decode(list);
+
+            if (list.trim().contains(GameProfileUtils.getUUID().toString()))
+            {
+                IndicatorUtils.ALLOWED = true;
+            }
+        }
     }
 
     @EventHandler
@@ -194,11 +205,7 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        for (String uuid : IndicatorUtils.IGNORE_LIST)
-        {
-            return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment() || GameProfileUtils.getUUID().equals(UUID.fromString(Base64Utils.decode(uuid)));
-        }
-        return false;
+        return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
     }
 
     private void initModInfo(ModMetadata info)

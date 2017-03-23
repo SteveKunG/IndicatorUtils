@@ -18,8 +18,6 @@ import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 public class OldVersionWarningEventHandler
 {
-    public static boolean ignoreGUI = true;
-
     @SubscribeEvent
     @SideOnly(Side.CLIENT)
     public void onGuiOpen(GuiOpenEvent event)
@@ -29,7 +27,7 @@ public class OldVersionWarningEventHandler
             MinecraftForge.EVENT_BUS.unregister(this);
             return;
         }
-        if (VersionChecker.INSTANCE.isLatestVersion() || OldVersionWarningEventHandler.ignoreGUI)
+        if (VersionChecker.INSTANCE.isLatestVersion())
         {
             if (event.getGui() instanceof GuiMainMenu)
             {

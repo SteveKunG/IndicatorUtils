@@ -62,6 +62,10 @@ public class IndicatorUtils
         IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
         IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");
         IndicatorUtils.IGNORE_LIST.add("MmNkODhhZDAtODliMS00Y2E3LTkwN2UtNzgwNjZmZTM2YjA4");
+        IndicatorUtils.IGNORE_LIST.add("ZjFkZmRkNDctNmUwMy00YzJkLWI3NjYtZTQxNGM3Yjc3ZjEw");
+        IndicatorUtils.IGNORE_LIST.add("N2QwNmM5M2QtNzM2Yy00ZDYzLWE2ODMtYzc1ODNmNjc2M2U3");
+        IndicatorUtils.IGNORE_LIST.add("OWU5NmQyODktNmRhNy00MzE4LWI4NjktMDczNzg5ZDZhNGFj");
+        IndicatorUtils.IGNORE_LIST.add("MzY5MjRhNjYtZTQ0ZC00MzE2LWIxN2ItOWU0ZjFlYjA1Y2Rj");
     }
 
     @EventHandler
@@ -72,7 +76,7 @@ public class IndicatorUtils
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());
         ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
-        IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().getProfile().getName();
+        IndicatorUtils.USERNAME = GameProfileUtils.getUsername();
     }
 
     @EventHandler
@@ -190,7 +194,11 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
+        for (String uuid : IndicatorUtils.IGNORE_LIST)
+        {
+            return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment() || GameProfileUtils.getUUID().equals(UUID.fromString(Base64Utils.decode(uuid)));
+        }
+        return false;
     }
 
     private void initModInfo(ModMetadata info)

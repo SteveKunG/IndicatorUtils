@@ -45,7 +45,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
 
                 if (!event.isCanceled())
                 {
-                    if (ConfigManager.hideBossHealthBar)
+                    if (!ConfigManager.hideBossHealthBar)
                     {
                         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
                         this.mc.getTextureManager().bindTexture(this.GUI_BARS_TEXTURES);
@@ -55,15 +55,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
                     this.mc.fontRendererObj.drawStringWithShadow(s, i / 2 - this.mc.fontRendererObj.getStringWidth(s) / 2, j - 9, 16777215);
                 }
 
-                if (!ConfigManager.hideBossHealthBar)
-                {
-                    j += 12;
-                }
-                else
-                {
-                    j += event.getIncrement();
-                }
-
+                j += ConfigManager.hideBossHealthBar ? 12 : event.getIncrement();
                 ForgeHooksClient.bossBarRenderPost(scaledresolution);
 
                 if (j >= scaledresolution.getScaledHeight() / 3)

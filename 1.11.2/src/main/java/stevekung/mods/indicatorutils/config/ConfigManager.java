@@ -441,7 +441,7 @@ public class ConfigManager
         ConfigManager.renderBossHealthBar = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", true);
+        prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", false);
         ConfigManager.hideBossHealthBar = prop.getBoolean();
         propOrder.add(prop.getName());
 

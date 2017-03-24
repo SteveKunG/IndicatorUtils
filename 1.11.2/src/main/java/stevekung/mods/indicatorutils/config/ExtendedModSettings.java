@@ -58,57 +58,46 @@ public class ExtendedModSettings
 
         try
         {
-            NBTTagCompound nbttagcompound = CompressedStreamTools.read(file);
+            NBTTagCompound nbt = CompressedStreamTools.read(file);
 
-            if (nbttagcompound == null)
+            if (nbt == null)
             {
                 return;
             }
 
-            ExtendedModSettings.TOGGLE_SPRINT = nbttagcompound.getBoolean("ToggleSprint");
-            ExtendedModSettings.TOGGLE_SNEAK = nbttagcompound.getBoolean("ToggleSneak");
-            ExtendedModSettings.AUTO_CLEAR_CHAT = nbttagcompound.getBoolean("AutoClearChat");
-            ExtendedModSettings.AUTO_SWIM = nbttagcompound.getBoolean("AutoSwim");
-            ExtendedModSettings.SHOW_CAPE = nbttagcompound.getBoolean("ShowCape");
+            ExtendedModSettings.TOGGLE_SPRINT = ExtendedModSettings.getBoolean(nbt, "ToggleSprint", ExtendedModSettings.TOGGLE_SPRINT);
+            ExtendedModSettings.TOGGLE_SNEAK = ExtendedModSettings.getBoolean(nbt, "ToggleSneak", ExtendedModSettings.TOGGLE_SNEAK);
+            ExtendedModSettings.AUTO_CLEAR_CHAT = ExtendedModSettings.getBoolean(nbt, "AutoClearChat", ExtendedModSettings.AUTO_CLEAR_CHAT);
+            ExtendedModSettings.AUTO_SWIM = ExtendedModSettings.getBoolean(nbt, "AutoSwim", ExtendedModSettings.AUTO_SWIM);
+            ExtendedModSettings.SHOW_CAPE = ExtendedModSettings.getBoolean(nbt, "ShowCape", ExtendedModSettings.SHOW_CAPE);
 
-            ExtendedModSettings.KEYSTROKE_X_OFFSET = nbttagcompound.getInteger("KeystrokeX");
-            ExtendedModSettings.KEYSTROKE_Y_OFFSET = nbttagcompound.getInteger("KeystrokeY");
-            ExtendedModSettings.ARMOR_STATUS_OFFSET = nbttagcompound.getInteger("ArmorStatusOffset");
-            ExtendedModSettings.POTION_STATUS_OFFSET = nbttagcompound.getInteger("PotionStatusOffset");
-            ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = nbttagcompound.getInteger("AutoClearChatTime");
-            ExtendedModSettings.CPS_X_OFFSET = nbttagcompound.getInteger("CpsX");
-            ExtendedModSettings.CPS_Y_OFFSET = nbttagcompound.getInteger("CpsY");
+            ExtendedModSettings.KEYSTROKE_X_OFFSET = ExtendedModSettings.getInteger(nbt, "KeystrokeX", ExtendedModSettings.KEYSTROKE_X_OFFSET);
+            ExtendedModSettings.KEYSTROKE_Y_OFFSET = ExtendedModSettings.getInteger(nbt, "KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
+            ExtendedModSettings.ARMOR_STATUS_OFFSET = ExtendedModSettings.getInteger(nbt, "ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
+            ExtendedModSettings.POTION_STATUS_OFFSET = ExtendedModSettings.getInteger(nbt, "PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
+            ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = ExtendedModSettings.getInteger(nbt, "AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);
+            ExtendedModSettings.CPS_X_OFFSET = ExtendedModSettings.getInteger(nbt, "CpsX", ExtendedModSettings.CPS_X_OFFSET);
+            ExtendedModSettings.CPS_Y_OFFSET = ExtendedModSettings.getInteger(nbt, "CpsY", ExtendedModSettings.CPS_Y_OFFSET);
+            ExtendedModSettings.MAX_POTION_DISPLAY = ExtendedModSettings.getInteger(nbt, "MaxPotionDisplay", ExtendedModSettings.MAX_POTION_DISPLAY);
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET = ExtendedModSettings.getInteger(nbt, "PotionLengthYOffset", ExtendedModSettings.POTION_LENGTH_Y_OFFSET);
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = ExtendedModSettings.getInteger(nbt, "PotionLengthYOffsetOverlap", ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
+            ExtendedModSettings.CPS_OPACITY = ExtendedModSettings.getFloat(nbt, "CpsOpacity", ExtendedModSettings.CPS_OPACITY);
+            ExtendedModSettings.RENDER_INFO_OPACITY = ExtendedModSettings.getFloat(nbt, "RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
 
-            if (nbttagcompound.hasKey("MaxPotionDisplay", 99))
-            {
-                ExtendedModSettings.MAX_POTION_DISPLAY = nbttagcompound.getInteger("MaxPotionDisplay");
-            }
-            if (nbttagcompound.hasKey("PotionLengthYOffset", 99))
-            {
-                ExtendedModSettings.POTION_LENGTH_Y_OFFSET = nbttagcompound.getInteger("PotionLengthYOffset");
-            }
-            if (nbttagcompound.hasKey("PotionLengthYOffsetOverlap", 99))
-            {
-                ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = nbttagcompound.getInteger("PotionLengthYOffsetOverlap");
-            }
+            ExtendedModSettings.CPS_POSITION = ExtendedModSettings.getString(nbt, "CpsPosition", ExtendedModSettings.CPS_POSITION);
+            ExtendedModSettings.DISPLAY_MODE = ExtendedModSettings.getString(nbt, "DisplayMode", ExtendedModSettings.DISPLAY_MODE);
+            ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = ExtendedModSettings.getString(nbt, "AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
+            ExtendedModSettings.ENTITY_DETECT_TYPE = ExtendedModSettings.getString(nbt, "EntityDetectType", ExtendedModSettings.ENTITY_DETECT_TYPE);
+            ExtendedModSettings.CAPE_URL = ExtendedModSettings.getString(nbt, "CapeURL", ExtendedModSettings.CAPE_URL);
+            ExtendedModSettings.CHAT_MODE = ExtendedModSettings.getString(nbt, "ChatMode", ExtendedModSettings.CHAT_MODE);
+            ExtendedModSettings.HYPIXEL_NICK_NAME = ExtendedModSettings.getString(nbt, "HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
 
-            ExtendedModSettings.CPS_OPACITY = nbttagcompound.getFloat("CpsOpacity");
-            ExtendedModSettings.RENDER_INFO_OPACITY = nbttagcompound.getFloat("RenderInfoOpacity");
+            ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
+            ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
+            ExtendedModSettings.DISPLAY_MODE_USE_MODE = ExtendedModSettings.getString(nbt, "DisplayModeUseMode", ExtendedModSettings.DISPLAY_MODE_USE_MODE);
+            ExtendedModSettings.AUTO_SWIM_USE_MODE = ExtendedModSettings.getString(nbt, "AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
-            ExtendedModSettings.CPS_POSITION = nbttagcompound.getString("CpsPosition");
-            ExtendedModSettings.DISPLAY_MODE = nbttagcompound.getString("DisplayMode");
-            ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = nbttagcompound.getString("AutoClearChatMode");
-            ExtendedModSettings.ENTITY_DETECT_TYPE = nbttagcompound.getString("EntityDetectType");
-            ExtendedModSettings.CAPE_URL = nbttagcompound.getString("CapeURL");
-            ExtendedModSettings.CHAT_MODE = nbttagcompound.getString("ChatMode");
-            ExtendedModSettings.HYPIXEL_NICK_NAME = nbttagcompound.getString("HypixelNickName");
-
-            ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = nbttagcompound.getString("ToggleSprintUseMode");
-            ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = nbttagcompound.getString("ToggleSneakUseMode");
-            ExtendedModSettings.DISPLAY_MODE_USE_MODE = nbttagcompound.getString("DisplayModeUseMode");
-            ExtendedModSettings.AUTO_SWIM_USE_MODE = nbttagcompound.getString("AutoSwimUseMode");
-
-            ExtendedModSettings.readAutoLoginData(nbttagcompound.getTagList("AutoLoginData", 10));
+            ExtendedModSettings.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
 
             IULog.info("Loading extended settings : %s", file.getPath());
         }
@@ -183,6 +172,54 @@ public class ExtendedModSettings
         {
             NBTTagCompound nbt = list.getCompoundTagAt(i);
             ExtendedModSettings.loginData.addAutoLogin(nbt.getString("ServerIP"), nbt.getString("CommandName"), nbt.getString("Value"), nbt.getString("Username"));
+        }
+    }
+
+    private static boolean getBoolean(NBTTagCompound nbt, String key, boolean defaultValue)
+    {
+        if (nbt.hasKey(key, 99))
+        {
+            return nbt.getBoolean(key);
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    private static int getInteger(NBTTagCompound nbt, String key, int defaultValue)
+    {
+        if (nbt.hasKey(key, 99))
+        {
+            return nbt.getInteger(key);
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    private static float getFloat(NBTTagCompound nbt, String key, float defaultValue)
+    {
+        if (nbt.hasKey(key, 99))
+        {
+            return nbt.getFloat(key);
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    private static String getString(NBTTagCompound nbt, String key, String defaultValue)
+    {
+        if (nbt.hasKey(key, 8))
+        {
+            return nbt.getString(key);
+        }
+        else
+        {
+            return defaultValue;
         }
     }
 }

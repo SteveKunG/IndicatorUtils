@@ -91,7 +91,7 @@ public class ClientRendererHelper
 
     public static void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
     {
-        if (alpha > 0.0F)
+        if (alpha > 0.1F)
         {
             if (left < right)
             {

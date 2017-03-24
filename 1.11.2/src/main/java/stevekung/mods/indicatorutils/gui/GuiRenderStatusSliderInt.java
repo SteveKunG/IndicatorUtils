@@ -156,8 +156,8 @@ public class GuiRenderStatusSliderInt extends GuiButton
         KEYSTOKE_X("Keystroke (Advanced) X Position", -256.0F, 256.0F, 1.0F),
         KEYSTOKE_Y("Keystroke Y Position", -512.0F, 512.0F, 1.0F),
         MAX_POTION_DISPLAY("Max Potion Display", 2.0F, 8.0F, 1.0F),
-        POTION_LENGTH_Y_OFFSET("Potion Length Y Offset", 0.0F, 256.0F, 1.0F),
-        POTION_LENGTH_Y_OFFSET_OVERLAP("Potion Length Y Offset (Overlap)", 0.0F, 256.0F, 1.0F);
+        POTION_LENGTH_Y_OFFSET("Potion Length Y Offset", 1.0F, 256.0F, 1.0F),
+        POTION_LENGTH_Y_OFFSET_OVERLAP("Potion Length Y Offset (Overlap)", 1.0F, 256.0F, 1.0F);
 
         private String enumString;
         private float valueStep;

@@ -78,9 +78,20 @@ public class ExtendedModSettings
             ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = nbttagcompound.getInteger("AutoClearChatTime");
             ExtendedModSettings.CPS_X_OFFSET = nbttagcompound.getInteger("CpsX");
             ExtendedModSettings.CPS_Y_OFFSET = nbttagcompound.getInteger("CpsY");
-            ExtendedModSettings.MAX_POTION_DISPLAY = nbttagcompound.getInteger("MaxPotionDisplay");
-            ExtendedModSettings.POTION_LENGTH_Y_OFFSET = nbttagcompound.getInteger("PotionLengthYOffset");
-            ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = nbttagcompound.getInteger("PotionLengthYOffsetOverlap");
+
+            if (nbttagcompound.hasKey("MaxPotionDisplay", 99))
+            {
+                ExtendedModSettings.MAX_POTION_DISPLAY = nbttagcompound.getInteger("MaxPotionDisplay");
+            }
+            if (nbttagcompound.hasKey("PotionLengthYOffset", 99))
+            {
+                ExtendedModSettings.POTION_LENGTH_Y_OFFSET = nbttagcompound.getInteger("PotionLengthYOffset");
+            }
+            if (nbttagcompound.hasKey("PotionLengthYOffsetOverlap", 99))
+            {
+                ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = nbttagcompound.getInteger("PotionLengthYOffsetOverlap");
+            }
+
             ExtendedModSettings.CPS_OPACITY = nbttagcompound.getFloat("CpsOpacity");
             ExtendedModSettings.RENDER_INFO_OPACITY = nbttagcompound.getFloat("RenderInfoOpacity");
 

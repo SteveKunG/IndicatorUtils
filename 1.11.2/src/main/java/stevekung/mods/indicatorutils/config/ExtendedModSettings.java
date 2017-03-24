@@ -33,6 +33,9 @@ public class ExtendedModSettings
     public static int AUTO_CLEAR_CHAT_TIME = 60;
     public static int CPS_X_OFFSET = 3;
     public static int CPS_Y_OFFSET = 2;
+    public static int MAX_POTION_DISPLAY = 2;
+    public static int POTION_LENGTH_Y_OFFSET = 23;
+    public static int POTION_LENGTH_Y_OFFSET_OVERLAP = 45;
     public static float CPS_OPACITY = 0.5F;
     public static float RENDER_INFO_OPACITY = 0.0F;
 
@@ -75,6 +78,9 @@ public class ExtendedModSettings
             ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = nbttagcompound.getInteger("AutoClearChatTime");
             ExtendedModSettings.CPS_X_OFFSET = nbttagcompound.getInteger("CpsX");
             ExtendedModSettings.CPS_Y_OFFSET = nbttagcompound.getInteger("CpsY");
+            ExtendedModSettings.MAX_POTION_DISPLAY = nbttagcompound.getInteger("MaxPotionDisplay");
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET = nbttagcompound.getInteger("PotionLengthYOffset");
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = nbttagcompound.getInteger("PotionLengthYOffsetOverlap");
             ExtendedModSettings.CPS_OPACITY = nbttagcompound.getFloat("CpsOpacity");
             ExtendedModSettings.RENDER_INFO_OPACITY = nbttagcompound.getFloat("RenderInfoOpacity");
 
@@ -118,6 +124,9 @@ public class ExtendedModSettings
             nbttagcompound.setInteger("AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);
             nbttagcompound.setInteger("CpsX", ExtendedModSettings.CPS_X_OFFSET);
             nbttagcompound.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
+            nbttagcompound.setInteger("MaxPotionDisplay", ExtendedModSettings.MAX_POTION_DISPLAY);
+            nbttagcompound.setInteger("PotionLengthYOffset", ExtendedModSettings.POTION_LENGTH_Y_OFFSET);
+            nbttagcompound.setInteger("PotionLengthYOffsetOverlap", ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
             nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
             nbttagcompound.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
 

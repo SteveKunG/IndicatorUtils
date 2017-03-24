@@ -45,7 +45,7 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 7;
+    public static final int BUILD_VERSION = 9;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
@@ -58,7 +58,6 @@ public class IndicatorUtils
     {
         ModSecurityManager.lockedWithPirateUser("MCCommanderTH", false);
         ModSecurityManager.lockedWithUUID("eef3a603-1c1b-4c98-8264-d2f04b231ef4", false);
-        IndicatorUtils.IGNORE_LIST.add("ZWVmM2E2MDMtMWMxYi00Yzk4LTgyNjQtZDJmMDRiMjMxZWY0");
         IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTgtODQwNy00MWI5LWI4ZGItODljMmM4YjE5MmRj");
         IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
         IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");

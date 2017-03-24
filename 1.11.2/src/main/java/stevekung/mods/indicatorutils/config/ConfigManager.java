@@ -46,6 +46,7 @@ public class ConfigManager
     public static boolean enableCustomCapeFeature;
     public static boolean enableOldSneakFeature;
     public static boolean enableClearChatRecentSentMessage;
+    public static boolean enableChatBackground;
     public static boolean showChangeLogInGame;
     public static boolean enableVersionChecker;
     public static boolean mojangStatusCheckOnStartup;
@@ -89,9 +90,6 @@ public class ConfigManager
     public static String armorStatusPosition;
     public static String potionStatusPosition;
     public static String keystrokePosition;
-    public static int potionSize;
-    public static int potionLengthVal;
-    public static int potionLength;
 
     // Time Info Settings
     public static String timeZoneName;
@@ -292,6 +290,10 @@ public class ConfigManager
         ConfigManager.enableClearChatRecentSentMessage = prop.getBoolean();
         propOrder.add(prop.getName());
 
+        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Chat Background", true);
+        ConfigManager.enableChatBackground = prop.getBoolean();
+        propOrder.add(prop.getName());
+
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Show Change Log in Game", true);
         ConfigManager.showChangeLogInGame = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -465,24 +467,6 @@ public class ConfigManager
         prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Keystroke Position", "RIGHT");
         prop.setValidValues(new String[] { "RIGHT", "LEFT" });
         ConfigManager.keystrokePosition = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Size", 2);
-        prop.setMinValue(2).setMaxValue(8).setConfigEntryClass(NumberSliderEntry.class);
-        prop.setComment(I18n.format("gui.config.indicatorutils.advanced"));
-        ConfigManager.potionSize = prop.getInt();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Length Y Offset (More than default)", 45);
-        prop.setMinValue(1).setMaxValue(256).setConfigEntryClass(NumberSliderEntry.class);
-        prop.setComment(I18n.format("gui.config.indicatorutils.advanced"));
-        ConfigManager.potionLengthVal = prop.getInt();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Length Y Offset (Default)", 23);
-        prop.setMinValue(1).setMaxValue(128).setConfigEntryClass(NumberSliderEntry.class);
-        prop.setComment(I18n.format("gui.config.indicatorutils.advanced"));
-        ConfigManager.potionLength = prop.getInt();
         propOrder.add(prop.getName());
         return propOrder;
     }

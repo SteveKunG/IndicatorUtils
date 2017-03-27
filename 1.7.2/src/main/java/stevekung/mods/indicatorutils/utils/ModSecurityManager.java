@@ -6,11 +6,6 @@
 
 package stevekung.mods.indicatorutils.utils;
 
-import java.util.UUID;
-
-import net.minecraft.client.Minecraft;
-import net.minecraft.util.Session;
-
 public class ModSecurityManager
 {
     public static void lockedWithUUID(String uuid, boolean enable)
@@ -19,11 +14,7 @@ public class ModSecurityManager
         {
             return;
         }
-
-        Minecraft mc = Minecraft.getMinecraft();
-        Session session = mc.getSession();
-
-        if (!session.func_148256_e().getId().equals(UUID.fromString(uuid)))
+        if (!GameProfileUtils.getUUID().equals(uuid))
         {
             throw new InvalidUUIDException(uuid);
         }
@@ -35,11 +26,7 @@ public class ModSecurityManager
         {
             return;
         }
-
-        Minecraft mc = Minecraft.getMinecraft();
-        Session session = mc.getSession();
-
-        if (!session.getUsername().equals(username) && !session.func_148256_e().getId().equals(UUID.fromString(uuid)))
+        if (!GameProfileUtils.getUsername().equals(username) && !GameProfileUtils.getUUID().equals(uuid))
         {
             throw new InvalidUUIDException(username, uuid);
         }
@@ -51,11 +38,7 @@ public class ModSecurityManager
         {
             return;
         }
-
-        Minecraft mc = Minecraft.getMinecraft();
-        Session session = mc.getSession();
-
-        if (!session.getUsername().equals(username))
+        if (!GameProfileUtils.getUsername().equals(username))
         {
             throw new InvalidUsernameException(username);
         }

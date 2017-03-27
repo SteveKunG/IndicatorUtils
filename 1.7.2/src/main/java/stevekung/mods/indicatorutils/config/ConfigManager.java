@@ -45,6 +45,7 @@ public class ConfigManager
     public static boolean highlightPotionColor;
     public static boolean enableModifiedMovementHandler;
     public static boolean enableCustomCapeFeature;
+    public static boolean enableChatBackground;
     public static boolean showChangeLogInGame;
     public static boolean enableVersionChecker;
     public static boolean mojangStatusCheckOnStartup;
@@ -94,9 +95,6 @@ public class ConfigManager
     public static String armorStatusPosition;
     public static String potionStatusPosition;
     public static String keystrokePosition;
-    public static int potionSize;
-    public static int potionLengthVal;
-    public static int potionLength;
 
     // Time Info Settings
     public static String timeZoneName;
@@ -104,6 +102,7 @@ public class ConfigManager
     public static boolean useShortDate;
     public static boolean enableCurrentTime;
     public static boolean enableGameTime;
+    public static boolean enableMoonPhase;
     public static boolean enableWeatherStatus;
     public static boolean enableTimeZone;
     public static boolean enableStandardWorldTime;
@@ -156,6 +155,8 @@ public class ConfigManager
     public static String customColorThunder;
     public static String customColorHeldItem;
     public static String customColorHeldItemArrowCount;
+    public static String customColorMoonPhase;
+    public static String customColorMoonPhaseStatus;
 
     // Custom Text Settings
     public static boolean useCustomTextPing;
@@ -184,10 +185,12 @@ public class ConfigManager
     public static String customTextLookingAt;
     public static boolean useCustomTextDirection;
     public static String customTextDirection;
-    public static boolean useCustomWeather;
+    public static boolean useCustomTextWeather;
     public static String customTextWeather;
     public static String customTextRaining;
     public static String customTextThunder;
+    public static boolean useCustomMoonPhaseText;
+    public static String customTextMoonPhase;
 
     public static void init(File file)
     {
@@ -271,6 +274,10 @@ public class ConfigManager
         ConfigManager.enableCustomCapeFeature = prop.getBoolean();
         prop.comment = I18n.format("gui.config.indicatorutils.customcape");
         prop.setRequiresMcRestart(true);
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable Chat Background", true);
+        ConfigManager.enableChatBackground = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Show Change Log in Game", true);
@@ -420,7 +427,7 @@ public class ConfigManager
         ConfigManager.renderBossHealthBar = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", true);
+        prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Hide Boss Health Bar", false);
         ConfigManager.hideBossHealthBar = prop.getBoolean();
         propOrder.add(prop.getName());
         return propOrder;
@@ -468,24 +475,6 @@ public class ConfigManager
         prop.setValidValues(new String[] { "RIGHT", "LEFT" });
         ConfigManager.keystrokePosition = prop.getString();
         propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Size", 2);
-        prop.setMinValue(2).setMaxValue(8).setConfigEntryClass(NumberSliderEntry.class);
-        prop.comment = I18n.format("gui.config.indicatorutils.advanced");
-        ConfigManager.potionSize = prop.getInt();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Length Y Offset (More than default)", 45);
-        prop.setMinValue(1).setMaxValue(256).setConfigEntryClass(NumberSliderEntry.class);
-        prop.comment = I18n.format("gui.config.indicatorutils.advanced");
-        ConfigManager.potionLengthVal = prop.getInt();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Length Y Offset (Default)", 23);
-        prop.setMinValue(1).setMaxValue(128).setConfigEntryClass(NumberSliderEntry.class);
-        prop.comment = I18n.format("gui.config.indicatorutils.advanced");
-        ConfigManager.potionLength = prop.getInt();
-        propOrder.add(prop.getName());
         return propOrder;
     }
 
@@ -512,6 +501,10 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Game Time", true);
         ConfigManager.enableGameTime = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Moon Phase", false);
+        ConfigManager.enableMoonPhase = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Weather Status", true);
@@ -812,6 +805,18 @@ public class ConfigManager
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
         ConfigManager.customColorHeldItemArrowCount = prop.getString();
         propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Moon Phase", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
+        ConfigManager.customColorMoonPhase = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Moon Phase Status", "white");
+        prop.setConfigEntryClass(ConfigColorEntryIU.class);
+        prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
+        ConfigManager.customColorMoonPhaseStatus = prop.getString();
+        propOrder.add(prop.getName());
         return propOrder;
     }
 
@@ -923,7 +928,7 @@ public class ConfigManager
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Weather Text", false);
-        ConfigManager.useCustomWeather = prop.getBoolean();
+        ConfigManager.useCustomTextWeather = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Weather Prefix Text", "\"text\":\" | \"");
@@ -936,6 +941,14 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Thunder Text", "\"text\":\"Thunder\"");
         ConfigManager.customTextThunder = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Moon Phase Text", false);
+        ConfigManager.useCustomMoonPhaseText = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Moon Phase Text", "\"text\":\"Moon Phase: \"");
+        ConfigManager.customTextMoonPhase = prop.getString();
         propOrder.add(prop.getName());
         return propOrder;
     }

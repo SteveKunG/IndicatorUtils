@@ -10,8 +10,6 @@ import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
-import javax.xml.bind.DatatypeConverter;
-
 import org.apache.commons.lang3.Validate;
 
 import com.google.common.collect.Queues;
@@ -28,6 +26,7 @@ import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatorutils.utils.Base64Utils;
 
 public class NewChatEventHandler
 {
@@ -105,7 +104,7 @@ public class NewChatEventHandler
                 {
                     if (Minecraft.getMinecraft().func_147104_D().serverIP.equalsIgnoreCase(login.getServerIP()) && IndicatorUtils.USERNAME.equals(login.getUsername()))
                     {
-                        player.sendChatMessage(login.getCommand() + new String(DatatypeConverter.parseBase64Binary(login.getValue())));
+                        player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
                     }
                 }
             }

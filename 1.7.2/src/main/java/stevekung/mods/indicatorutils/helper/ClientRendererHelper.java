@@ -86,36 +86,39 @@ public class ClientRendererHelper
 
     public static void drawRectNew(int left, int top, int right, int bottom, int color, float alpha)
     {
-        int j1;
+        if (alpha > 0.1F)
+        {
+            int j1;
 
-        if (left < right)
-        {
-            j1 = left;
-            left = right;
-            right = j1;
+            if (left < right)
+            {
+                j1 = left;
+                left = right;
+                right = j1;
+            }
+            if (top < bottom)
+            {
+                j1 = top;
+                top = bottom;
+                bottom = j1;
+            }
+            float f = (color >> 16 & 255) / 255.0F;
+            float f1 = (color >> 8 & 255) / 255.0F;
+            float f2 = (color & 255) / 255.0F;
+            Tessellator tessellator = Tessellator.instance;
+            GL11.glEnable(GL11.GL_BLEND);
+            GL11.glDisable(GL11.GL_TEXTURE_2D);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+            GL11.glColor4f(f, f1, f2, alpha);
+            tessellator.startDrawingQuads();
+            tessellator.addVertex(left, bottom, 0.0D);
+            tessellator.addVertex(right, bottom, 0.0D);
+            tessellator.addVertex(right, top, 0.0D);
+            tessellator.addVertex(left, top, 0.0D);
+            tessellator.draw();
+            GL11.glEnable(GL11.GL_TEXTURE_2D);
+            GL11.glDisable(GL11.GL_BLEND);
         }
-        if (top < bottom)
-        {
-            j1 = top;
-            top = bottom;
-            bottom = j1;
-        }
-        float f = (color >> 16 & 255) / 255.0F;
-        float f1 = (color >> 8 & 255) / 255.0F;
-        float f2 = (color & 255) / 255.0F;
-        Tessellator tessellator = Tessellator.instance;
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glDisable(GL11.GL_TEXTURE_2D);
-        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
-        GL11.glColor4f(f, f1, f2, alpha);
-        tessellator.startDrawingQuads();
-        tessellator.addVertex(left, bottom, 0.0D);
-        tessellator.addVertex(right, bottom, 0.0D);
-        tessellator.addVertex(right, top, 0.0D);
-        tessellator.addVertex(left, top, 0.0D);
-        tessellator.draw();
-        GL11.glEnable(GL11.GL_TEXTURE_2D);
-        GL11.glDisable(GL11.GL_BLEND);
     }
 
     public static void drawString(String message, float x, float y, EnumTextColor color, boolean shadow)

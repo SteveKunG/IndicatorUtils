@@ -426,23 +426,24 @@ public class StatusRendererHelper
     {
         if (ConfigManager.enablePotionStatus)
         {
+            boolean iconAndTime = ConfigManager.potionStatusStyle.equalsIgnoreCase("ICON_AND_TIME");
+            boolean showIcon = ConfigManager.showPotionIcon;
+            ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
+            int size = ExtendedModSettings.MAX_POTION_DISPLAY;
+            int length = ExtendedModSettings.POTION_LENGTH_Y_OFFSET;
+            int lengthOverlap = ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP;
+            Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
+
             if (ConfigManager.potionStatusPosition.equals("HOTBAR_LEFT"))
             {
-                boolean showIcon = ConfigManager.showPotionIcon;
-                boolean iconAndTime = ConfigManager.potionStatusStyle.equals("ICON_AND_TIME");
-                ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
                 int xPotion = scaledRes.getScaledWidth() / 2 - 91 - 35;
                 int yPotion = scaledRes.getScaledHeight() - OffsetHelper.getHotbarPotionOffset();
-                int size = ConfigManager.potionSize;
-                int length = ConfigManager.potionLength;
-                int lengthVal = ConfigManager.potionLengthVal;
-                Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
                 if (!collection.isEmpty())
                 {
                     if (collection.size() > size)
                     {
-                        length = lengthVal / (collection.size() - 1);
+                        length = lengthOverlap / (collection.size() - 1);
                     }
 
                     for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
@@ -486,21 +487,14 @@ public class StatusRendererHelper
             }
             else if (ConfigManager.potionStatusPosition.equals("HOTBAR_RIGHT"))
             {
-                boolean showIcon = ConfigManager.showPotionIcon;
-                boolean iconAndTime = ConfigManager.potionStatusStyle.equals("ICON_AND_TIME");
-                ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
                 int xPotion = scaledRes.getScaledWidth() / 2 + 91 - 20;
                 int yPotion = scaledRes.getScaledHeight() - 36;
-                int size = ConfigManager.potionSize;
-                int length = ConfigManager.potionLength;
-                int lengthVal = ConfigManager.potionLengthVal;
-                Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
                 if (!collection.isEmpty())
                 {
                     if (collection.size() > size)
                     {
-                        length = lengthVal / (collection.size() - 1);
+                        length = lengthOverlap / (collection.size() - 1);
                     }
 
                     for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
@@ -545,21 +539,14 @@ public class StatusRendererHelper
                 if (!mc.gameSettings.showDebugInfo)
                 {
                     boolean right = ConfigManager.potionStatusPosition.equals("RIGHT");
-                    boolean showIcon = ConfigManager.showPotionIcon;
-                    boolean iconAndTime = ConfigManager.potionStatusStyle.equals("ICON_AND_TIME");
-                    ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
                     int xPotion = right ? scaledRes.getScaledWidth() - 32 : -24;
                     int yPotion = scaledRes.getScaledHeight() - 220 + ExtendedModSettings.POTION_STATUS_OFFSET + 90;
-                    int size = ConfigManager.potionSize;
-                    int length = ConfigManager.potionLength;
-                    int lengthVal = ConfigManager.potionLengthVal;
-                    Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
                     if (!collection.isEmpty())
                     {
                         if (collection.size() > size)
                         {
-                            length = lengthVal / (collection.size() - 1);
+                            length = lengthOverlap / (collection.size() - 1);
                         }
 
                         for (Iterator<PotionEffect> iterator = mc.thePlayer.getActivePotionEffects().iterator(); iterator.hasNext();)
@@ -645,7 +632,7 @@ public class StatusRendererHelper
                 String rainingText = json.text("Raining").setChatStyle(json.colorFromConfig(ConfigManager.customColorRaining)).getFormattedText();
                 String thunderText = json.text("Thunder").setChatStyle(json.colorFromConfig(ConfigManager.customColorThunder)).getFormattedText();
 
-                if (ConfigManager.useCustomWeather)
+                if (ConfigManager.useCustomTextWeather)
                 {
                     prefixText = JsonUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
                     rainingText = JsonUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
@@ -662,6 +649,10 @@ public class StatusRendererHelper
                 {
                     list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.theWorld.getWorldTime() % 24000));
                 }
+            }
+            if (ConfigManager.enableMoonPhase)
+            {
+                list.add(GameInfoHelper.INSTANCE.getMoonPhase(mc));
             }
             if (ConfigManager.enableTimeZone)
             {
@@ -707,7 +698,7 @@ public class StatusRendererHelper
                     int xPosition = scaledRes.getScaledWidth() - 2 - stringWidth;
                     float yPosition = y + height * i;
                     int stringWidth2 = mc.fontRenderer.getStringWidth(string) + 2;
-                    int yOverlay = 3 + height * i;
+                    int yOverlay = (int) yPosition;
 
                     if (!swapToRight)
                     {

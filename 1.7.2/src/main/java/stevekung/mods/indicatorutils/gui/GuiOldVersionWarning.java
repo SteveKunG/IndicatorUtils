@@ -11,8 +11,12 @@ import java.net.URI;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.helper.OldMethodHelper;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
@@ -23,6 +27,17 @@ public class GuiOldVersionWarning extends GuiScreen
     private int urlY;
     private int urlWidth;
     private int urlHeight;
+
+    @SuppressWarnings("unchecked")
+    @Override
+    public void initGui()
+    {
+        if (IndicatorUtils.ALLOWED)
+        {
+            this.buttonList.clear();
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + 32, this.height - 30), I18n.format("Ignore this message")));
+        }
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -45,11 +60,25 @@ public class GuiOldVersionWarning extends GuiScreen
     }
 
     @Override
+    protected void actionPerformed(GuiButton button)
+    {
+        if (IndicatorUtils.ALLOWED)
+        {
+            if (button.id == 0)
+            {
+                this.mc.displayGuiScreen(new GuiMainMenu());
+            }
+        }
+    }
+
+    @Override
     protected void keyTyped(char typedChar, int keyCode) {}
 
     @Override
     protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
     {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+
         if (mouseX > this.urlX && mouseX < this.urlX + this.urlWidth && mouseY > this.urlY && mouseY < this.urlY + this.urlHeight)
         {
             try

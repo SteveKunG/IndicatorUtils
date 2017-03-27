@@ -394,7 +394,7 @@ public class IndicatorUtilsEventHandler
                 int k = (int)(BossStatus.healthScale * (short1 + 1));
                 byte b0 = 12;
 
-                if (ConfigManager.hideBossHealthBar)
+                if (!ConfigManager.hideBossHealthBar)
                 {
                     mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);
                     mc.ingameGUI.drawTexturedModalRect(j, b0, 0, 74, short1, 5);

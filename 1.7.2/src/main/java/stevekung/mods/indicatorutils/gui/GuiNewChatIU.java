@@ -26,6 +26,7 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
+import stevekung.mods.indicatorutils.config.ConfigManager;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewChatIU extends GuiNewChat
@@ -109,7 +110,12 @@ public class GuiNewChatIU extends GuiNewChat
                             {
                                 byte b0 = 0;
                                 int j2 = -j1 * 9;
-                                drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
+
+                                if (ConfigManager.enableChatBackground)
+                                {
+                                    drawRect(b0, j2 - 9, b0 + i1 + 4, j2, i2 / 2 << 24);
+                                }
+
                                 GL11.glEnable(GL11.GL_BLEND); // FORGE: BugFix MC-36812 Chat Opacity Broken in 1.7.x
                                 String s = chatline.func_151461_a().getFormattedText();
                                 this.mc.fontRenderer.drawStringWithShadow(s, b0, j2 - 8, 16777215 + (i2 << 24));
@@ -142,9 +148,6 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Clears the chat.
-     */
     @Override
     public void clearChatMessages()
     {
@@ -159,9 +162,6 @@ public class GuiNewChatIU extends GuiNewChat
         this.printChatMessageWithOptionalDeletion(p_146227_1_, 0);
     }
 
-    /**
-     * prints the ChatComponent to Chat. If the ID is not 0, deletes an existing Chat Line of that ID from the GUI
-     */
     @Override
     public void printChatMessageWithOptionalDeletion(IChatComponent p_146234_1_, int p_146234_2_)
     {
@@ -285,18 +285,12 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Gets the list of messages previously sent through the chat GUI
-     */
     @Override
     public List<String> getSentMessages()
     {
         return this.sentMessages;
     }
 
-    /**
-     * Adds this string to the list of sent messages, for recall using the up/down arrow keys
-     */
     @Override
     public void addToSentMessages(String p_146239_1_)
     {
@@ -306,9 +300,6 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Resets the chat scroll (executed when the GUI is closed, among others)
-     */
     @Override
     public void resetScroll()
     {
@@ -316,9 +307,6 @@ public class GuiNewChatIU extends GuiNewChat
         this.field_146251_k = false;
     }
 
-    /**
-     * Scrolls the chat by the given number of lines.
-     */
     @Override
     public void scroll(int p_146229_1_)
     {
@@ -398,18 +386,12 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Returns true if the chat GUI is open
-     */
     @Override
     public boolean getChatOpen()
     {
         return this.mc.currentScreen instanceof GuiChat;
     }
 
-    /**
-     * finds and deletes a Chat line by ID
-     */
     @Override
     public void deleteChatLine(int p_146242_1_)
     {
@@ -456,20 +438,6 @@ public class GuiNewChatIU extends GuiNewChat
     public float func_146244_h()
     {
         return this.mc.gameSettings.chatScale;
-    }
-
-    public static int func_146233_a(float p_146233_0_)
-    {
-        short short1 = 320;
-        byte b0 = 40;
-        return MathHelper.floor_float(p_146233_0_ * (short1 - b0) + b0);
-    }
-
-    public static int func_146243_b(float p_146243_0_)
-    {
-        short short1 = 180;
-        byte b0 = 20;
-        return MathHelper.floor_float(p_146243_0_ * (short1 - b0) + b0);
     }
 
     @Override

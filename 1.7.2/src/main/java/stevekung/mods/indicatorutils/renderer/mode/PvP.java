@@ -38,13 +38,13 @@ public class PvP
                 ScaledResolution scaledRes = new ScaledResolution(mc.gameSettings, mc.displayWidth, mc.displayHeight);
                 boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;
                 int height = mc.fontRenderer.FONT_HEIGHT + 1;
-                float y = 3.5F + height * i;
                 int xPosition = scaledRes.getScaledWidth() - 2 - mc.fontRenderer.getStringWidth(string);
 
                 if (!mc.gameSettings.showDebugInfo)
                 {
                     int stringWidth = mc.fontRenderer.getStringWidth(string) + 2;
-                    int yOverlay = 3 + height * i;
+                    float yPosition = 3.5F + height * i;
+                    int yOverlay = (int) yPosition;
 
                     if (swapToRight)
                     {
@@ -54,7 +54,7 @@ public class PvP
                     {
                         ClientRendererHelper.drawRectNew(1, yOverlay - 1, 2 + stringWidth + 1, yOverlay + height - 1, 16777216, ExtendedModSettings.RENDER_INFO_OPACITY);
                     }
-                    ClientRendererHelper.drawString(string, swapToRight ? xPosition : 3.5F, y, EnumTextColor.WHITE, true);
+                    ClientRendererHelper.drawString(string, swapToRight ? xPosition : 3.5F, yPosition, EnumTextColor.WHITE, true);
                 }
             }
         }

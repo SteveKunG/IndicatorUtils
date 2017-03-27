@@ -8,11 +8,10 @@ package stevekung.mods.indicatorutils;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.Map.Entry;
-import java.util.UUID;
+
+import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
@@ -46,17 +45,27 @@ public class IndicatorUtils
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
     public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 8;
+    public static final int BUILD_VERSION = 9;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
     public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
+    public static List<String> IGNORE_LIST = Lists.newArrayList();
+    public static boolean ALLOWED;
 
     static
     {
         ModSecurityManager.lockedWithPirateUser("MCCommanderTH", false);
         ModSecurityManager.lockedWithUUID("eef3a603-1c1b-4c98-8264-d2f04b231ef4", false);
+        IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTgtODQwNy00MWI5LWI4ZGItODljMmM4YjE5MmRj");
+        IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
+        IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");
+        IndicatorUtils.IGNORE_LIST.add("MmNkODhhZDAtODliMS00Y2E3LTkwN2UtNzgwNjZmZTM2YjA4");
+        IndicatorUtils.IGNORE_LIST.add("ZjFkZmRkNDctNmUwMy00YzJkLWI3NjYtZTQxNGM3Yjc3ZjEw");
+        IndicatorUtils.IGNORE_LIST.add("N2QwNmM5M2QtNzM2Yy00ZDYzLWE2ODMtYzc1ODNmNjc2M2U3");
+        IndicatorUtils.IGNORE_LIST.add("OWU5NmQyODktNmRhNy00MzE4LWI4NjktMDczNzg5ZDZhNGFj");
+        IndicatorUtils.IGNORE_LIST.add("MzY5MjRhNjYtZTQ0ZC00MzE2LWIxN2ItOWU0ZjFlYjA1Y2Rj");
     }
 
     @EventHandler
@@ -67,7 +76,17 @@ public class IndicatorUtils
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());
         ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
-        IndicatorUtils.USERNAME = Minecraft.getMinecraft().getSession().getProfile().getName();
+        IndicatorUtils.USERNAME = GameProfileUtils.getUsername();
+
+        for (String list : IndicatorUtils.IGNORE_LIST)
+        {
+            list = Base64Utils.decode(list);
+
+            if (list.trim().contains(GameProfileUtils.getUUID().toString()))
+            {
+                IndicatorUtils.ALLOWED = true;
+            }
+        }
     }
 
     @EventHandler
@@ -161,7 +180,7 @@ public class IndicatorUtils
             if (!ExtendedModSettings.CAPE_URL.isEmpty())
             {
                 CapeUtils.textureUploaded = true;
-                CapeUtils.setCapeURL(CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL), true);
+                CapeUtils.setCapeURL(Base64Utils.decode(ExtendedModSettings.CAPE_URL), true);
                 IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
             }
             else
@@ -184,7 +203,7 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        return Minecraft.getMinecraft().getSession().getProfile().getName().equals("SteveKunG") && Minecraft.getMinecraft().getSession().getProfile().getId().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
+        return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals(UUID.fromString("eef3a603-1c1b-4c98-8264-d2f04b231ef4")) || IndicatorUtils.isObfuscatedEnvironment();
     }
 
     private void initModInfo(ModMetadata info)

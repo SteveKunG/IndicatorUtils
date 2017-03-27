@@ -20,6 +20,7 @@ import net.minecraft.util.IChatComponent;
 import net.minecraft.util.MathHelper;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatorutils.config.ConfigManager;
 
 @SideOnly(Side.CLIENT)
 public class GuiNewChatIU extends GuiNewChat
@@ -90,7 +91,12 @@ public class GuiNewChatIU extends GuiNewChat
                             {
                                 int i2 = 0;
                                 int j2 = -i1 * 9;
-                                drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
+
+                                if (ConfigManager.enableChatBackground)
+                                {
+                                    drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
+                                }
+
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
                                 this.mc.fontRendererObj.drawStringWithShadow(s, i2, j2 - 8, 16777215 + (l1 << 24));
@@ -201,9 +207,6 @@ public class GuiNewChatIU extends GuiNewChat
         return this.sentMessages;
     }
 
-    /**
-     * Adds this string to the list of sent messages, for recall using the up/down arrow keys
-     */
     @Override
     public void addToSentMessages(String p_146239_1_)
     {
@@ -213,9 +216,6 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Resets the chat scroll (executed when the GUI is closed, among others)
-     */
     @Override
     public void resetScroll()
     {
@@ -223,9 +223,6 @@ public class GuiNewChatIU extends GuiNewChat
         this.isScrolled = false;
     }
 
-    /**
-     * Scrolls the chat by the given number of lines.
-     */
     @Override
     public void scroll(int p_146229_1_)
     {
@@ -244,9 +241,6 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Gets the chat component under the mouse
-     */
     @Override
     public IChatComponent getChatComponent(int p_146236_1_, int p_146236_2_)
     {
@@ -305,18 +299,12 @@ public class GuiNewChatIU extends GuiNewChat
         }
     }
 
-    /**
-     * Returns true if the chat GUI is open
-     */
     @Override
     public boolean getChatOpen()
     {
         return this.mc.currentScreen instanceof GuiChat;
     }
 
-    /**
-     * finds and deletes a Chat line by ID
-     */
     @Override
     public void deleteChatLine(int p_146242_1_)
     {
@@ -358,27 +346,10 @@ public class GuiNewChatIU extends GuiNewChat
         return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
     }
 
-    /**
-     * Returns the chatscale from mc.gameSettings.chatScale
-     */
     @Override
     public float getChatScale()
     {
         return this.mc.gameSettings.chatScale;
-    }
-
-    public static int calculateChatboxWidth(float p_146233_0_)
-    {
-        int i = 320;
-        int j = 40;
-        return MathHelper.floor_float(p_146233_0_ * (i - j) + j);
-    }
-
-    public static int calculateChatboxHeight(float p_146243_0_)
-    {
-        int i = 180;
-        int j = 20;
-        return MathHelper.floor_float(p_146243_0_ * (i - j) + j);
     }
 
     @Override

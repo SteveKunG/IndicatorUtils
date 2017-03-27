@@ -16,6 +16,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.resources.I18n;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.Base64Utils;
 import stevekung.mods.indicatorutils.utils.CapeUtils;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
@@ -34,7 +35,7 @@ public class GuiCapeDownloader extends GuiScreen
         this.inputField.setMaxStringLength(32767);
         this.inputField.setFocused(true);
         this.inputField.setCanLoseFocus(true);
-        this.inputField.setText(ExtendedModSettings.CAPE_URL.isEmpty() ? "" : CapeUtils.decodeCapeURL(ExtendedModSettings.CAPE_URL));
+        this.inputField.setText(ExtendedModSettings.CAPE_URL.isEmpty() ? "" : Base64Utils.decode(ExtendedModSettings.CAPE_URL));
         this.buttonList.add(this.doneBtn = new GuiButton(0, this.width / 2 - 50 - 100 - 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.done")));
         this.doneBtn.enabled = !this.inputField.getText().isEmpty();
         this.buttonList.add(this.cancelBtn = new GuiButton(1, this.width / 2 + 50 + 4, this.height / 4 + 100 + 12, 100, 20, I18n.format("gui.cancel")));

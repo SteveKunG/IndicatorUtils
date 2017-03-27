@@ -6,14 +6,19 @@
 
 package stevekung.mods.indicatorutils.gui;
 
+import java.io.IOException;
 import java.net.URI;
 
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 @SideOnly(Side.CLIENT)
@@ -23,6 +28,16 @@ public class GuiOldVersionWarning extends GuiScreen
     private int urlY;
     private int urlWidth;
     private int urlHeight;
+
+    @Override
+    public void initGui()
+    {
+        if (IndicatorUtils.ALLOWED)
+        {
+            this.buttonList.clear();
+            this.buttonList.add(new GuiButton(0, this.width / 2 - 100, Math.min(this.height / 2 + 32, this.height - 30), I18n.format("Ignore this message")));
+        }
+    }
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks)
@@ -45,11 +60,25 @@ public class GuiOldVersionWarning extends GuiScreen
     }
 
     @Override
+    protected void actionPerformed(GuiButton button) throws IOException
+    {
+        if (IndicatorUtils.ALLOWED)
+        {
+            if (button.id == 0)
+            {
+                this.mc.displayGuiScreen(new GuiMainMenu());
+            }
+        }
+    }
+
+    @Override
     protected void keyTyped(char typedChar, int keyCode) {}
 
     @Override
-    protected void mouseClicked(int mouseX, int mouseY, int mouseButton)
+    protected void mouseClicked(int mouseX, int mouseY, int mouseButton) throws IOException
     {
+        super.mouseClicked(mouseX, mouseY, mouseButton);
+
         if (mouseX > this.urlX && mouseX < this.urlX + this.urlWidth && mouseY > this.urlY && mouseY < this.urlY + this.urlHeight)
         {
             try

@@ -12,7 +12,6 @@ import java.net.URL;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
-import javax.xml.bind.DatatypeConverter;
 
 import org.lwjgl.opengl.GL11;
 
@@ -58,7 +57,7 @@ public class CapeUtils
             try
             {
                 CapeUtils.CAPE_TEXTURE.put(IndicatorUtils.USERNAME, new DynamicTexture(ImageIO.read(jurl)));
-                ExtendedModSettings.CAPE_URL = CapeUtils.encodeCapeURL(url);
+                ExtendedModSettings.CAPE_URL = Base64Utils.encode(url);
                 ExtendedModSettings.saveExtendedSettings();
                 CapeUtils.textureUploaded = false;
             }
@@ -86,15 +85,5 @@ public class CapeUtils
         {
             Minecraft.getMinecraft().thePlayer.addChatMessage(json.text("Downloaded new cape texture from URL"));
         }
-    }
-
-    public static String decodeCapeURL(String url)
-    {
-        return new String(DatatypeConverter.parseBase64Binary(url));
-    }
-
-    public static String encodeCapeURL(String url)
-    {
-        return DatatypeConverter.printBase64Binary(url.getBytes());
     }
 }

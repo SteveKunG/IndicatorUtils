@@ -15,6 +15,7 @@ import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.utils.GameProfileUtils;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class GameInfoHelper
@@ -25,7 +26,7 @@ public class GameInfoHelper
     {
         for (Entry<String, Integer> entry : IndicatorUtilsEventHandler.playerPingMap.entrySet())
         {
-            if (entry.getKey().contains(Minecraft.getMinecraft().getSession().func_148256_e().getName()))
+            if (entry.getKey().contains(GameProfileUtils.getUsername()))
             {
                 return entry.getValue();
             }
@@ -124,6 +125,52 @@ public class GameInfoHelper
         int j = i / 60;
         i = i % 60;
         return i < 10 ? j + ":0" + i : j + ":" + i;
+    }
+
+    public String getMoonPhase(Minecraft mc)
+    {
+        int[] moonPhaseFactors = new int[] {4, 3, 2, 1, 0, -1, -2, -3};
+        int phase = moonPhaseFactors[mc.theWorld.provider.getMoonPhase(mc.theWorld.getWorldTime())];
+        JsonUtils json = new JsonUtils();
+        String status;
+
+        switch (phase)
+        {
+        case 4:
+        default:
+            status = "Full Moon";
+            break;
+        case 3:
+            status = "Waning Gibbous";
+            break;
+        case 2:
+            status = "Last Quarter";
+            break;
+        case 1:
+            status = "Waning Crescent";
+            break;
+        case 0:
+            status = "New Moon";
+            break;
+        case -1:
+            status = "Waxing Crescent";
+            break;
+        case -2:
+            status = "First Quarter";
+            break;
+        case -3:
+            status = "Waxing Gibbous";
+            break;
+        }
+
+        String moonPhaseText = json.text("Moon Phase: ").setChatStyle(json.colorFromConfig(ConfigManager.customColorMoonPhase)).getFormattedText();
+        String moonPhaseStatusText = json.text(status).setChatStyle(json.colorFromConfig(ConfigManager.customColorMoonPhaseStatus)).getFormattedText();
+
+        if (ConfigManager.useCustomMoonPhaseText)
+        {
+            moonPhaseText = JsonUtils.rawTextToJson(ConfigManager.customTextMoonPhase).getFormattedText();
+        }
+        return moonPhaseText + moonPhaseStatusText;
     }
 
     public String[] getColorCode()

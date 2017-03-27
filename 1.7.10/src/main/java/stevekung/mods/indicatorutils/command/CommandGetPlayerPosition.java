@@ -31,7 +31,7 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
     @Override
     public void processCommand(ICommandSender sender, String[] args) throws CommandException
     {
-        if (!IndicatorUtils.isSteveKunG())
+        if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
             FMLCommonHandler.instance().exitJava(-1, true);
         }

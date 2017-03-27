@@ -541,9 +541,9 @@ public class StatusRendererHelper
             boolean iconAndTime = ConfigManager.potionStatusStyle.equalsIgnoreCase("ICON_AND_TIME");
             boolean showIcon = ConfigManager.showPotionIcon;
             ScaledResolution scaledRes = new ScaledResolution(mc);
-            int size = ConfigManager.potionSize;
-            int length = ConfigManager.potionLength;
-            int lengthVal = ConfigManager.potionLengthVal;
+            int size = ExtendedModSettings.MAX_POTION_DISPLAY;
+            int length = ExtendedModSettings.POTION_LENGTH_Y_OFFSET;
+            int lengthOverlap = ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP;
             Collection<PotionEffect> collection = mc.thePlayer.getActivePotionEffects();
 
             if (ObjectModeHelper.getPotionStatusMode(PotionStatusPosition.HOTBAR_LEFT))
@@ -555,7 +555,7 @@ public class StatusRendererHelper
                 {
                     if (collection.size() > size)
                     {
-                        length = lengthVal / (collection.size() - 1);
+                        length = lengthOverlap / (collection.size() - 1);
                     }
 
                     for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
@@ -605,7 +605,7 @@ public class StatusRendererHelper
                 {
                     if (collection.size() > size)
                     {
-                        length = lengthVal / (collection.size() - 1);
+                        length = lengthOverlap / (collection.size() - 1);
                     }
 
                     for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
@@ -656,7 +656,7 @@ public class StatusRendererHelper
                     {
                         if (collection.size() > size)
                         {
-                            length = lengthVal / (collection.size() - 1);
+                            length = lengthOverlap / (collection.size() - 1);
                         }
 
                         for (PotionEffect potioneffect : Ordering.natural().sortedCopy(collection))
@@ -741,7 +741,7 @@ public class StatusRendererHelper
                 String rainingText = json.text("Raining").setStyle(json.colorFromConfig(ConfigManager.customColorRaining)).getFormattedText();
                 String thunderText = json.text("Thunder").setStyle(json.colorFromConfig(ConfigManager.customColorThunder)).getFormattedText();
 
-                if (ConfigManager.useCustomWeather)
+                if (ConfigManager.useCustomTextWeather)
                 {
                     prefixText = JsonUtils.rawTextToJson(ConfigManager.customTextWeather).getFormattedText();
                     rainingText = JsonUtils.rawTextToJson(ConfigManager.customTextRaining).getFormattedText();
@@ -758,6 +758,10 @@ public class StatusRendererHelper
                 {
                     list.add(GameInfoHelper.INSTANCE.getInGameTime(mc.theWorld.getWorldTime() % 24000));
                 }
+            }
+            if (ConfigManager.enableMoonPhase)
+            {
+                list.add(GameInfoHelper.INSTANCE.getMoonPhase(mc));
             }
             if (ConfigManager.enableTimeZone)
             {
@@ -819,7 +823,7 @@ public class StatusRendererHelper
                     int xPosition = scaledRes.getScaledWidth() - 2 - stringWidth;
                     float yPosition = y + height * i;
                     int stringWidth2 = mc.fontRendererObj.getStringWidth(string) + 2;
-                    int yOverlay = 3 + height * i;
+                    int yOverlay = (int) yPosition;
 
                     if (!swapToRight)
                     {

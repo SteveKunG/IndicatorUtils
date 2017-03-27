@@ -24,6 +24,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
+import stevekung.mods.indicatorutils.utils.GameProfileUtils;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandEntityDetector extends ClientCommandBaseIU
@@ -37,7 +38,7 @@ public class CommandEntityDetector extends ClientCommandBaseIU
     @Override
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
-        if (!IndicatorUtils.isSteveKunG())
+        if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
             FMLCommonHandler.instance().exitJava(-1, true);
         }
@@ -235,7 +236,7 @@ public class CommandEntityDetector extends ClientCommandBaseIU
             }
             else if (player != null && player.getName().equalsIgnoreCase(args[0]))
             {
-                if (Minecraft.getMinecraft().getSession().getProfile().getName().equalsIgnoreCase(args[0]))
+                if (GameProfileUtils.getUsername().equalsIgnoreCase(args[0]))
                 {
                     sender.addChatMessage(new JsonUtils().text("Cannot set entity detector type to yourself!").setStyle(new JsonUtils().red()));
                     return;
@@ -267,7 +268,7 @@ public class CommandEntityDetector extends ClientCommandBaseIU
         {
             if (i < playerInfo.size())
             {
-                playerList.add(playerInfo.get(i).getGameProfile().getName().replace(Minecraft.getMinecraft().getSession().getProfile().getName(), ""));
+                playerList.add(playerInfo.get(i).getGameProfile().getName().replace(GameProfileUtils.getUsername(), ""));
             }
         }
         if (args.length == 1)

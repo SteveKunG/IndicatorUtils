@@ -6,8 +6,6 @@
 
 package stevekung.mods.indicatorutils.handler;
 
-import javax.xml.bind.DatatypeConverter;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
@@ -18,6 +16,7 @@ import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.AutoLogin.AutoLoginData;
+import stevekung.mods.indicatorutils.utils.Base64Utils;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class NewChatEventHandler
@@ -72,7 +71,7 @@ public class NewChatEventHandler
                 {
                     if (Minecraft.getMinecraft().getCurrentServerData().serverIP.equalsIgnoreCase(login.getServerIP()) && IndicatorUtils.USERNAME.equals(login.getUsername()))
                     {
-                        player.sendChatMessage(login.getCommand() + new String(DatatypeConverter.parseBase64Binary(login.getValue())));
+                        player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
                     }
                 }
             }

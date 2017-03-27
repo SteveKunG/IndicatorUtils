@@ -12,6 +12,7 @@ import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.gui.GuiOldVersionWarning;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
@@ -21,6 +22,11 @@ public class OldVersionWarningEventHandler
     @SideOnly(Side.CLIENT)
     public void onGuiOpen(GuiOpenEvent event)
     {
+        if (IndicatorUtils.isSteveKunG())
+        {
+            MinecraftForge.EVENT_BUS.unregister(this);
+            return;
+        }
         if (VersionChecker.INSTANCE.isLatestVersion())
         {
             if (event.getGui() instanceof GuiMainMenu)

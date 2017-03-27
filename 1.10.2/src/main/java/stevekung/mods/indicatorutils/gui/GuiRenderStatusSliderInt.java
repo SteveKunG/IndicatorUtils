@@ -101,6 +101,18 @@ public class GuiRenderStatusSliderInt extends GuiButton
         {
             ExtendedModSettings.KEYSTROKE_Y_OFFSET = ivalue;
         }
+        else if (settingsOption == Options.MAX_POTION_DISPLAY)
+        {
+            ExtendedModSettings.MAX_POTION_DISPLAY = ivalue;
+        }
+        else if (settingsOption == Options.POTION_LENGTH_Y_OFFSET)
+        {
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET = ivalue;
+        }
+        else if (settingsOption == Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
+        {
+            ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = ivalue;
+        }
     }
 
     public int getOptionValue(Options settingOption)
@@ -121,6 +133,18 @@ public class GuiRenderStatusSliderInt extends GuiButton
         {
             return ExtendedModSettings.KEYSTROKE_Y_OFFSET;
         }
+        else if (settingOption == Options.MAX_POTION_DISPLAY)
+        {
+            return ExtendedModSettings.MAX_POTION_DISPLAY;
+        }
+        else if (settingOption == Options.POTION_LENGTH_Y_OFFSET)
+        {
+            return ExtendedModSettings.POTION_LENGTH_Y_OFFSET;
+        }
+        else if (settingOption == Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
+        {
+            return ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP;
+        }
         return 0;
     }
 
@@ -130,7 +154,10 @@ public class GuiRenderStatusSliderInt extends GuiButton
         ARMOR_Y("Armor Status Y Position", -512.0F, 512.0F, 1.0F),
         POTION_Y("Potion Status Y Position", -512.0F, 512.0F, 1.0F),
         KEYSTOKE_X("Keystroke (Advanced) X Position", -256.0F, 256.0F, 1.0F),
-        KEYSTOKE_Y("Keystroke Y Position", -512.0F, 512.0F, 1.0F);
+        KEYSTOKE_Y("Keystroke Y Position", -512.0F, 512.0F, 1.0F),
+        MAX_POTION_DISPLAY("Max Potion Display", 2.0F, 8.0F, 1.0F),
+        POTION_LENGTH_Y_OFFSET("Potion Length Y Offset", 1.0F, 256.0F, 1.0F),
+        POTION_LENGTH_Y_OFFSET_OVERLAP("Potion Length Y Offset (Overlap)", 1.0F, 256.0F, 1.0F);
 
         private String enumString;
         private float valueStep;

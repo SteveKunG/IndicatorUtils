@@ -53,7 +53,7 @@ public class GuiNewChatFast extends GuiNewChat
                 }
 
                 float f1 = this.getChatScale();
-                int k = MathHelper.ceil(this.getChatWidth() / f1);
+                int k = MathHelper.ceiling_float_int(this.getChatWidth() / f1);
                 GlStateManager.pushMatrix();
                 GlStateManager.translate(2.0F, 8.0F, 0.0F);
                 GlStateManager.scale(f1, f1, 1.0F);
@@ -72,7 +72,7 @@ public class GuiNewChatFast extends GuiNewChat
                             double d0 = j1 / 200.0D;
                             d0 = 1.0D - d0;
                             d0 = d0 * 10.0D;
-                            d0 = MathHelper.clamp(d0, 0.0D, 1.0D);
+                            d0 = MathHelper.clamp_double(d0, 0.0D, 1.0D);
                             d0 = d0 * d0;
                             int l1 = (int)(255.0D * d0);
 
@@ -126,15 +126,11 @@ public class GuiNewChatFast extends GuiNewChat
     }
 
     @Override
-    public void clearChatMessages(boolean p_146231_1_)
+    public void clearChatMessages()
     {
         this.drawnChatLines.clear();
         this.chatLines.clear();
-
-        if (p_146231_1_)
-        {
-            this.sentMessages.clear();
-        }
+        this.sentMessages.clear();
     }
 
     @Override
@@ -157,7 +153,7 @@ public class GuiNewChatFast extends GuiNewChat
             this.deleteChatLine(chatLineId);
         }
 
-        int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
+        int i = MathHelper.floor_double(this.getChatWidth() / this.getChatScale());
         List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
         boolean flag = this.getChatOpen();
 
@@ -254,14 +250,14 @@ public class GuiNewChatFast extends GuiNewChat
             float f = this.getChatScale();
             int j = mouseX / i - 2;
             int k = mouseY / i - 40;
-            j = MathHelper.floor(j / f);
-            k = MathHelper.floor(k / f);
+            j = MathHelper.floor_double(j / f);
+            k = MathHelper.floor_double(k / f);
 
             if (j >= 0 && k >= 0)
             {
                 int l = Math.min(this.getLineCount(), this.drawnChatLines.size());
 
-                if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
+                if (j <= MathHelper.floor_double(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
                 {
                     int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
 

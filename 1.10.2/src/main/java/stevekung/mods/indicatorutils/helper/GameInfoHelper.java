@@ -152,6 +152,52 @@ public class GameInfoHelper
         return i < 10 ? j + ":0" + i : j + ":" + i;
     }
 
+    public String getMoonPhase(Minecraft mc)
+    {
+        int[] moonPhaseFactors = new int[] {4, 3, 2, 1, 0, -1, -2, -3};
+        int phase = moonPhaseFactors[mc.theWorld.provider.getMoonPhase(mc.theWorld.getWorldTime())];
+        JsonUtils json = new JsonUtils();
+        String status;
+
+        switch (phase)
+        {
+        case 4:
+        default:
+            status = "Full Moon";
+            break;
+        case 3:
+            status = "Waning Gibbous";
+            break;
+        case 2:
+            status = "Last Quarter";
+            break;
+        case 1:
+            status = "Waning Crescent";
+            break;
+        case 0:
+            status = "New Moon";
+            break;
+        case -1:
+            status = "Waxing Crescent";
+            break;
+        case -2:
+            status = "First Quarter";
+            break;
+        case -3:
+            status = "Waxing Gibbous";
+            break;
+        }
+
+        String moonPhaseText = json.text("Moon Phase: ").setStyle(json.colorFromConfig(ConfigManager.customColorMoonPhase)).getFormattedText();
+        String moonPhaseStatusText = json.text(status).setStyle(json.colorFromConfig(ConfigManager.customColorMoonPhaseStatus)).getFormattedText();
+
+        if (ConfigManager.useCustomMoonPhaseText)
+        {
+            moonPhaseText = JsonUtils.rawTextToJson(ConfigManager.customTextMoonPhase).getFormattedText();
+        }
+        return moonPhaseText + moonPhaseStatusText;
+    }
+
     public String[] getColorCode()
     {
         return new String[] {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f"};

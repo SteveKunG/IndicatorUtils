@@ -927,7 +927,7 @@ public class ConfigManager
         ConfigManager.customTextDirection = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Weather Text", false);
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Weather Text", false);
         ConfigManager.useCustomTextWeather = prop.getBoolean();
         propOrder.add(prop.getName());
 

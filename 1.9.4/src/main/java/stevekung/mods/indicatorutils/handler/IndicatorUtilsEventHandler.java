@@ -55,6 +55,7 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
 import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
+import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -153,6 +154,12 @@ public class IndicatorUtilsEventHandler
                 }
             }
         }
+    }
+
+    @SubscribeEvent
+    public void onClientConnectedToServer(ClientConnectedToServerEvent event)
+    {
+        ReflectionUtils.set(!IndicatorUtils.isObfuscatedEnvironment() ? "field_73840_e" : "persistantChatGUI", new GuiNewChatFast(Minecraft.getMinecraft()), GuiIngame.class, Minecraft.getMinecraft().ingameGUI);
     }
 
     @SubscribeEvent

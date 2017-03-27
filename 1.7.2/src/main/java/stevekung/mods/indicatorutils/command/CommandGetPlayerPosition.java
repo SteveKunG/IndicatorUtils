@@ -33,7 +33,7 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
     {
         if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
-            OldMethodHelper.exitJava(-1, true);
+            OldMethodHelper.exitJava();
         }
         if (args.length < 1)
         {

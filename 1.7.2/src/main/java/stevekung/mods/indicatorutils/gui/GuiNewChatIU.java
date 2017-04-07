@@ -18,7 +18,6 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ChatLine;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiNewChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
@@ -154,6 +153,7 @@ public class GuiNewChatIU extends GuiNewChat
         this.field_146253_i.clear();
         this.chatLines.clear();
         this.sentMessages.clear();
+        super.clearChatMessages();
     }
 
     @Override
@@ -387,12 +387,6 @@ public class GuiNewChatIU extends GuiNewChat
     }
 
     @Override
-    public boolean getChatOpen()
-    {
-        return this.mc.currentScreen instanceof GuiChat;
-    }
-
-    @Override
     public void deleteChatLine(int p_146242_1_)
     {
         Iterator<ChatLine> iterator = this.field_146253_i.iterator();
@@ -420,29 +414,5 @@ public class GuiNewChatIU extends GuiNewChat
                 break;
             }
         }
-    }
-
-    @Override
-    public int func_146228_f()
-    {
-        return func_146233_a(this.mc.gameSettings.chatWidth);
-    }
-
-    @Override
-    public int func_146246_g()
-    {
-        return func_146243_b(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
-    }
-
-    @Override
-    public float func_146244_h()
-    {
-        return this.mc.gameSettings.chatScale;
-    }
-
-    @Override
-    public int func_146232_i()
-    {
-        return this.func_146246_g() / 9;
     }
 }

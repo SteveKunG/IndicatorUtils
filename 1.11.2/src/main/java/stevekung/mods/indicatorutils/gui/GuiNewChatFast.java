@@ -8,7 +8,10 @@ import javax.annotation.Nullable;
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.*;
+import net.minecraft.client.gui.ChatLine;
+import net.minecraft.client.gui.GuiNewChat;
+import net.minecraft.client.gui.GuiUtilRenderComponents;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.math.MathHelper;
@@ -126,15 +129,16 @@ public class GuiNewChatFast extends GuiNewChat
     }
 
     @Override
-    public void clearChatMessages(boolean p_146231_1_)
+    public void clearChatMessages(boolean clearSent)
     {
         this.drawnChatLines.clear();
         this.chatLines.clear();
 
-        if (p_146231_1_)
+        if (clearSent)
         {
             this.sentMessages.clear();
         }
+        super.clearChatMessages(clearSent);
     }
 
     @Override
@@ -298,12 +302,6 @@ public class GuiNewChatFast extends GuiNewChat
     }
 
     @Override
-    public boolean getChatOpen()
-    {
-        return this.mc.currentScreen instanceof GuiChat;
-    }
-
-    @Override
     public void deleteChatLine(int id)
     {
         Iterator<ChatLine> iterator = this.drawnChatLines.iterator();
@@ -330,29 +328,5 @@ public class GuiNewChatFast extends GuiNewChat
                 break;
             }
         }
-    }
-
-    @Override
-    public int getChatWidth()
-    {
-        return calculateChatboxWidth(this.mc.gameSettings.chatWidth);
-    }
-
-    @Override
-    public int getChatHeight()
-    {
-        return calculateChatboxHeight(this.getChatOpen() ? this.mc.gameSettings.chatHeightFocused : this.mc.gameSettings.chatHeightUnfocused);
-    }
-
-    @Override
-    public float getChatScale()
-    {
-        return this.mc.gameSettings.chatScale;
-    }
-
-    @Override
-    public int getLineCount()
-    {
-        return this.getChatHeight() / 9;
     }
 }

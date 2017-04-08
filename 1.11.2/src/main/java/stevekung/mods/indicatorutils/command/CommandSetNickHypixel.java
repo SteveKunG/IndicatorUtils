@@ -35,6 +35,7 @@ public class CommandSetNickHypixel extends ClientCommandBaseIU
             if (GameInfoHelper.INSTANCE.isHypixel())
             {
                 ExtendedModSettings.HYPIXEL_NICK_NAME = args[0];
+                ExtendedModSettings.saveExtendedSettings();
                 Minecraft.getMinecraft().player.sendChatMessage("/nick " + args[0]);
                 return;
             }

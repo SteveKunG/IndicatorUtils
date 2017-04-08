@@ -99,6 +99,7 @@ public class ConfigManager
     public static boolean enableGameTime;
     public static boolean enableMoonPhase;
     public static boolean enableWeatherStatus;
+    public static boolean enableSlimeChunkFinder;
     public static boolean enableTimeZone;
     public static boolean enableStandardWorldTime;
 
@@ -502,6 +503,10 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Weather Status", true);
         ConfigManager.enableWeatherStatus = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Slime Chunk Finder", false);
+        ConfigManager.enableSlimeChunkFinder = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Time Zone", false);

@@ -19,6 +19,7 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
@@ -194,13 +195,7 @@ public class IndicatorUtils
 
     public static boolean isObfuscatedEnvironment()
     {
-        try
-        {
-            Minecraft.class.getField("mcDataDir");
-            return true;
-        }
-        catch (Throwable e) {}
-        return false;
+        return Launch.blackboard.get("fml.deobfuscatedEnvironment") == Boolean.TRUE;
     }
 
     public static boolean isSteveKunG()

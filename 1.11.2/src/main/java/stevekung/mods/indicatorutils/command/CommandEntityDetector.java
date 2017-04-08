@@ -21,7 +21,6 @@ import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.GameProfileUtils;
@@ -40,7 +39,7 @@ public class CommandEntityDetector extends ClientCommandBaseIU
     {
         if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
-            FMLCommonHandler.instance().exitJava(-1, true);
+            Minecraft.getMinecraft().shutdown();
         }
         if (args.length == 1)
         {

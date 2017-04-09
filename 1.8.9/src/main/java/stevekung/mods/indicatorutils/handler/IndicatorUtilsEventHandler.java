@@ -76,6 +76,7 @@ import stevekung.mods.indicatorutils.renderer.mode.Global;
 import stevekung.mods.indicatorutils.renderer.mode.PvP;
 import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.*;
+import stevekung.mods.indicatorutils.window.WindowGameXYZ;
 
 public class IndicatorUtilsEventHandler
 {
@@ -113,6 +114,8 @@ public class IndicatorUtilsEventHandler
 
     public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
     private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
+
+    private static boolean windowStartup = true;
 
     public IndicatorUtilsEventHandler()
     {
@@ -175,6 +178,7 @@ public class IndicatorUtilsEventHandler
         this.initReflection();
         this.replaceChatGUI();
         this.getPingForNullUUID();
+        this.initWindow();
 
         if (event.phase == Phase.START)
         {
@@ -935,6 +939,31 @@ public class IndicatorUtilsEventHandler
                     IndicatorUtilsEventHandler.PLAYER_PING_MAP.put(gameprofile.getName(), networkplayerinfo1.getResponseTime());
                 }
             }
+        }
+    }
+
+    private void initWindow()
+    {
+        if (IndicatorUtilsEventHandler.windowStartup)
+        {
+            new WindowGameXYZ().setVisible(ConfigManager.enableXYZWindow);
+            IndicatorUtilsEventHandler.windowStartup = false;
+        }
+
+        String windowText1 = "";
+        String windowText2 = "";
+
+        if (this.mc.getRenderViewEntity() != null)
+        {
+            BlockPos pos = new BlockPos(this.mc.getRenderViewEntity().posX, this.mc.getRenderViewEntity().getEntityBoundingBox().minY, this.mc.getRenderViewEntity().posZ);
+
+            if (ConfigManager.enableOverworldCoordinate && this.mc.thePlayer.dimension == -1)
+            {
+                windowText1 = "Overworld " + "XYZ: " + pos.getX() * 8 + " " + pos.getY() + " " + pos.getZ() * 8;
+            }
+            String inNether = this.mc.thePlayer.dimension == -1 ? "Nether " : "";
+            windowText2 = inNether + "XYZ: " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
+            WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
         }
     }
 

@@ -634,6 +634,11 @@ public class StatusRendererHelper
             {
                 list.add(timeZoneText + timeZoneValue);
             }
+            if (ConfigManager.enableSlimeChunkFinder)
+            {
+                String isSlimeChunk = GameInfoHelper.INSTANCE.isSlimeChunk(mc.thePlayer.getPosition()) ? "Yes" : "No";
+                list.add("Slime Chunk: " + isSlimeChunk);
+            }
             if (ConfigManager.enableStandardWorldTime)
             {
                 SimpleDateFormat gmt = new SimpleDateFormat("d MMM yyyy HH:mm:ss z", Locale.US);

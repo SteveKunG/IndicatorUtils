@@ -10,6 +10,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
@@ -19,7 +20,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
-import net.minecraftforge.fml.common.FMLCommonHandler;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
@@ -37,7 +37,7 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
     {
         if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
-            FMLCommonHandler.instance().exitJava(-1, true);
+            Minecraft.getMinecraft().shutdown();
         }
         if (args.length < 1)
         {

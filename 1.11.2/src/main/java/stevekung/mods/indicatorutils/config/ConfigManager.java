@@ -65,6 +65,7 @@ public class ConfigManager
     public static boolean enableFPS;
     public static boolean enableXYZ;
     public static boolean enableOverworldCoordinate;
+    public static boolean enableXYZWindow;
     public static boolean enableLookingAtBlock;
     public static boolean enableDirection;
     public static boolean enableBiome;
@@ -370,6 +371,11 @@ public class ConfigManager
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Overworld Coordinate in the Nether", true);
         ConfigManager.enableOverworldCoordinate = prop.getBoolean();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable XYZ Window", false);
+        ConfigManager.enableXYZWindow = prop.getBoolean();
+        prop.setRequiresMcRestart(true);
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Looking at Block", false);

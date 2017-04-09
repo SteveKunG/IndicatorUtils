@@ -8,7 +8,7 @@ package stevekung.mods.indicatorutils.command;
 
 import java.util.List;
 
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -33,7 +33,7 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
     {
         if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
-            FMLCommonHandler.instance().exitJava(-1, true);
+            Minecraft.getMinecraft().shutdown();
         }
         if (args.length < 1)
         {

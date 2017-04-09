@@ -29,6 +29,7 @@ import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -657,6 +658,11 @@ public class StatusRendererHelper
             if (ConfigManager.enableTimeZone)
             {
                 list.add(timeZoneText + timeZoneValue);
+            }
+            if (ConfigManager.enableSlimeChunkFinder)
+            {
+                String isSlimeChunk = GameInfoHelper.INSTANCE.isSlimeChunk(MathHelper.floor_double(mc.thePlayer.posX), MathHelper.floor_double(mc.thePlayer.posZ)) ? "Yes" : "No";
+                list.add("Slime Chunk: " + isSlimeChunk);
             }
             if (ConfigManager.enableStandardWorldTime)
             {

@@ -43,6 +43,7 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.GuiIngameForge;
@@ -67,6 +68,7 @@ import stevekung.mods.indicatorutils.renderer.mode.Global;
 import stevekung.mods.indicatorutils.renderer.mode.PvP;
 import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.*;
+import stevekung.mods.indicatorutils.window.WindowGameXYZ;
 
 public class IndicatorUtilsEventHandler
 {
@@ -100,6 +102,7 @@ public class IndicatorUtilsEventHandler
     public static List<String> playerList = Lists.<String>newArrayList();
     public static Map<String, Integer> playerPingMap = Maps.<String, Integer>newHashMap();
     public static boolean setTCPNoDelay = false;
+    private static boolean windowStartup = true;
 
     public IndicatorUtilsEventHandler()
     {
@@ -162,6 +165,7 @@ public class IndicatorUtilsEventHandler
     {
         this.initReflection();
         this.replaceChatGUI();
+        this.initWindow();
 
         if (this.mc.getNetHandler() != null && IndicatorUtilsEventHandler.setTCPNoDelay)
         {
@@ -974,6 +978,33 @@ public class IndicatorUtilsEventHandler
             IndicatorUtilsEventHandler.AUTO_FISH_ENABLED = false;
             IndicatorUtilsEventHandler.AUTO_FISH_TICK = 0;
             IULog.info("Stopping AutoFish Command");
+        }
+    }
+
+    private void initWindow()
+    {
+        if (IndicatorUtilsEventHandler.windowStartup)
+        {
+            new WindowGameXYZ().setVisible(ConfigManager.enableXYZWindow);
+            IndicatorUtilsEventHandler.windowStartup = false;
+        }
+
+        String windowText1 = "";
+        String windowText2 = "";
+
+        if (this.mc.renderViewEntity != null)
+        {
+            int x = MathHelper.floor_double(this.mc.thePlayer.posX);
+            int y = MathHelper.floor_double(this.mc.thePlayer.boundingBox.minY);
+            int z = MathHelper.floor_double(this.mc.thePlayer.posZ);
+
+            if (ConfigManager.enableOverworldCoordinate && this.mc.thePlayer.dimension == -1)
+            {
+                windowText1 = "Overworld " + "XYZ: " + x * 8 + " " + y + " " + z * 8;
+            }
+            String inNether = this.mc.thePlayer.dimension == -1 ? "Nether " : "";
+            windowText2 = inNether + "XYZ: " + x + " " + y + " " + z;
+            WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
         }
     }
 }

@@ -22,9 +22,9 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.relauncher.FMLInjectionData;
 import cpw.mods.fml.relauncher.Side;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
 import net.minecraftforge.common.MinecraftForge;
 import stevekung.mods.indicatorutils.command.*;
@@ -45,8 +45,8 @@ public class IndicatorUtils
     public static final String NAME = "Indicator Utils";
     public static final String MOD_ID = "indicatorutils";
     public static final int MAJOR_VERSION = 2;
-    public static final int MINOR_VERSION = 0;
-    public static final int BUILD_VERSION = 9;
+    public static final int MINOR_VERSION = 1;
+    public static final int BUILD_VERSION = 0;
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
@@ -121,6 +121,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAFK());
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
+            ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
 
             if (ConfigManager.enableCustomCapeFeature)
             {
@@ -159,13 +160,7 @@ public class IndicatorUtils
 
     public static boolean isObfuscatedEnvironment()
     {
-        try
-        {
-            Minecraft.class.getField("mcDataDir");
-            return true;
-        }
-        catch (Throwable e) {}
-        return false;
+        return Launch.blackboard.get("fml.deobfuscatedEnvironment") == Boolean.TRUE;
     }
 
     public static boolean isSteveKunG()

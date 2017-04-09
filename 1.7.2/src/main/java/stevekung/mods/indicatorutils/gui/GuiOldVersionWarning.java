@@ -10,6 +10,7 @@ import java.net.URI;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiMainMenu;
@@ -17,7 +18,6 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.EnumChatFormatting;
 import stevekung.mods.indicatorutils.IndicatorUtils;
-import stevekung.mods.indicatorutils.helper.OldMethodHelper;
 import stevekung.mods.indicatorutils.utils.VersionChecker;
 
 @SideOnly(Side.CLIENT)
@@ -86,7 +86,7 @@ public class GuiOldVersionWarning extends GuiScreen
                 Class<?> oclass = Class.forName("java.awt.Desktop");
                 Object object = oclass.getMethod("getDesktop").invoke((Object) null);
                 oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { new URI("http://adf.ly/1cDWrG") });
-                OldMethodHelper.exitJava();
+                Minecraft.getMinecraft().shutdown();
             }
             catch (Throwable throwable)
             {

@@ -8,6 +8,7 @@ package stevekung.mods.indicatorutils.command;
 
 import java.util.List;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -17,7 +18,6 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
-import stevekung.mods.indicatorutils.helper.OldMethodHelper;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
 public class CommandGetPlayerPosition extends ClientCommandBaseIU
@@ -33,7 +33,7 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
     {
         if (!IndicatorUtils.isSteveKunG() && !IndicatorUtils.ALLOWED)
         {
-            OldMethodHelper.exitJava();
+            Minecraft.getMinecraft().shutdown();
         }
         if (args.length < 1)
         {

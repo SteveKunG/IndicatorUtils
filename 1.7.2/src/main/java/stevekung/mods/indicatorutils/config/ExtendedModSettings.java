@@ -38,6 +38,7 @@ public class ExtendedModSettings
     public static int POTION_LENGTH_Y_OFFSET_OVERLAP = 45;
     public static float CPS_OPACITY = 0.5F;
     public static float RENDER_INFO_OPACITY = 0.0F;
+    public static long SLIME_CHUNK_SEED = 0L;
 
     public static String CPS_POSITION = "left";
     public static String DISPLAY_MODE = "default";
@@ -81,6 +82,7 @@ public class ExtendedModSettings
             ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = ExtendedModSettings.getInteger(nbt, "PotionLengthYOffsetOverlap", ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
             ExtendedModSettings.CPS_OPACITY = ExtendedModSettings.getFloat(nbt, "CpsOpacity", ExtendedModSettings.CPS_OPACITY);
             ExtendedModSettings.RENDER_INFO_OPACITY = ExtendedModSettings.getFloat(nbt, "RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
+            ExtendedModSettings.SLIME_CHUNK_SEED = ExtendedModSettings.getLong(nbt, "SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
 
             ExtendedModSettings.CPS_POSITION = ExtendedModSettings.getString(nbt, "CpsPosition", ExtendedModSettings.CPS_POSITION);
             ExtendedModSettings.DISPLAY_MODE = ExtendedModSettings.getString(nbt, "DisplayMode", ExtendedModSettings.DISPLAY_MODE);
@@ -122,6 +124,7 @@ public class ExtendedModSettings
             nbttagcompound.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
             nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
             nbttagcompound.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
+            nbttagcompound.setLong("SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
 
             nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
             nbttagcompound.setString("DisplayMode", ExtendedModSettings.DISPLAY_MODE);
@@ -207,6 +210,18 @@ public class ExtendedModSettings
         if (nbt.hasKey(key, 8))
         {
             return nbt.getString(key);
+        }
+        else
+        {
+            return defaultValue;
+        }
+    }
+
+    private static long getLong(NBTTagCompound nbt, String key, long defaultValue)
+    {
+        if (nbt.hasKey(key, 99))
+        {
+            return nbt.getLong(key);
         }
         else
         {

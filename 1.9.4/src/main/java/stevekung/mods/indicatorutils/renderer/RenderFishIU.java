@@ -75,6 +75,10 @@ public class RenderFishIU extends Render<EntityFishHook>
             int k = entityplayer.getPrimaryHand() == EnumHandSide.RIGHT ? 1 : -1;
             ItemStack itemstack = entityplayer.getHeldItemMainhand();
 
+            if (itemstack == null)
+            {
+                return;
+            }
             if (itemstack.getItem() != Items.FISHING_ROD)
             {
                 k = -k;

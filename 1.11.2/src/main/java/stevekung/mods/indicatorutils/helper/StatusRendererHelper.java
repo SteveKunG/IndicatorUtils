@@ -763,7 +763,7 @@ public class StatusRendererHelper
             {
                 list.add(GameInfoHelper.INSTANCE.getMoonPhase(mc));
             }
-            if (ConfigManager.enableSlimeChunkFinder)
+            if (ConfigManager.enableSlimeChunkFinder && mc.player.dimension == 0)
             {
                 String isSlimeChunk = GameInfoHelper.INSTANCE.isSlimeChunk(mc.player.getPosition()) ? "Yes" : "No";
                 list.add("Slime Chunk: " + isSlimeChunk);

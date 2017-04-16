@@ -767,7 +767,7 @@ public class StatusRendererHelper
             {
                 list.add(timeZoneText + timeZoneValue);
             }
-            if (ConfigManager.enableSlimeChunkFinder)
+            if (ConfigManager.enableSlimeChunkFinder && mc.thePlayer.dimension == 0)
             {
                 String isSlimeChunk = GameInfoHelper.INSTANCE.isSlimeChunk(mc.thePlayer.getPosition()) ? "Yes" : "No";
                 list.add("Slime Chunk: " + isSlimeChunk);

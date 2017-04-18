@@ -26,8 +26,8 @@ public class GuiNewChatFast extends GuiNewChat
 {
     private Minecraft mc;
     private List<String> sentMessages = Lists.<String>newArrayList();
-    private List<ChatLine> chatLines = Lists.<ChatLine>newArrayList();
-    private List<ChatLine> drawnChatLines = Lists.<ChatLine>newArrayList();
+    public List<ChatLine> chatLines = Lists.<ChatLine>newArrayList();
+    public List<ChatLine> drawnChatLines = Lists.<ChatLine>newArrayList();
     private int scrollPos;
     private boolean isScrolled;
 

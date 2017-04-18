@@ -58,15 +58,15 @@ public class IndicatorUtils
     static
     {
         ModSecurityManager.lockedWithPirateUser("MCCommanderTH", false);
-        ModSecurityManager.lockedWithUUID("eef3a603-1c1b-4c98-8264-d2f04b231ef4", false);
-        IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTgtODQwNy00MWI5LWI4ZGItODljMmM4YjE5MmRj");
-        IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
-        IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");
-        IndicatorUtils.IGNORE_LIST.add("MmNkODhhZDAtODliMS00Y2E3LTkwN2UtNzgwNjZmZTM2YjA4");
-        IndicatorUtils.IGNORE_LIST.add("ZjFkZmRkNDctNmUwMy00YzJkLWI3NjYtZTQxNGM3Yjc3ZjEw");
-        IndicatorUtils.IGNORE_LIST.add("N2QwNmM5M2QtNzM2Yy00ZDYzLWE2ODMtYzc1ODNmNjc2M2U3");
-        IndicatorUtils.IGNORE_LIST.add("OWU5NmQyODktNmRhNy00MzE4LWI4NjktMDczNzg5ZDZhNGFj");
-        IndicatorUtils.IGNORE_LIST.add("MzY5MjRhNjYtZTQ0ZC00MzE2LWIxN2ItOWU0ZjFlYjA1Y2Rj");
+        ModSecurityManager.lockedWithUUID("eef3a6031c1b4c988264d2f04b231ef4", false);
+        IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTg4NDA3NDFiOWI4ZGI4OWMyYzhiMTkyZGM=");
+        IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDBkZTA0NGQyNTgyNDU0NmZhZmJjMTc3MjA=");
+        IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmI1MzhjNDI3YThmZjUzMGJlZWUyZWE0ZDM=");
+        IndicatorUtils.IGNORE_LIST.add("MmNkODhhZDA4OWIxNGNhNzkwN2U3ODA2NmZlMzZiMDg=");
+        IndicatorUtils.IGNORE_LIST.add("ZjFkZmRkNDc2ZTAzNGMyZGI3NjZlNDE0YzdiNzdmMTA=");
+        IndicatorUtils.IGNORE_LIST.add("N2QwNmM5M2Q3MzZjNGQ2M2E2ODNjNzU4M2Y2NzYzZTc=");
+        IndicatorUtils.IGNORE_LIST.add("OWU5NmQyODk2ZGE3NDMxOGI4NjkwNzM3ODlkNmE0YWM=");
+        IndicatorUtils.IGNORE_LIST.add("MzY5MjRhNjZlNDRkNDMxNmIxN2I5ZTRmMWViMDVjZGM=");
     }
 
     @EventHandler
@@ -165,7 +165,7 @@ public class IndicatorUtils
 
     public static boolean isSteveKunG()
     {
-        return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals("eef3a603-1c1b-4c98-8264-d2f04b231ef4") || IndicatorUtils.isObfuscatedEnvironment();
+        return GameProfileUtils.getUsername().equals("SteveKunG") && GameProfileUtils.getUUID().equals("eef3a6031c1b4c988264d2f04b231ef4") || IndicatorUtils.isObfuscatedEnvironment();
     }
 
     private void initModInfo(ModMetadata info)

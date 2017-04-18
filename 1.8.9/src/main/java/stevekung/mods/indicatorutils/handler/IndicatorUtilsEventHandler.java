@@ -100,10 +100,6 @@ public class IndicatorUtilsEventHandler
     private int pressTimeDelay;
 
     private int clearChatTick;
-    private List<String> sentMessages;
-    private List<ChatLine> chatLines;
-    private List<ChatLine> drawnChatLines;
-
     private Minecraft mc;
     private JsonUtils json;
 
@@ -160,7 +156,7 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        ReflectionUtils.set(!IndicatorUtils.isObfuscatedEnvironment() ? "field_73840_e" : "persistantChatGUI", new GuiNewChatIU(Minecraft.getMinecraft()), GuiIngame.class, Minecraft.getMinecraft().ingameGUI);
+        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatIU(Minecraft.getMinecraft());
     }
 
     @SubscribeEvent
@@ -175,7 +171,7 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        this.initReflection();
+        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
         this.replaceChatGUI();
         this.getPingForNullUUID();
         this.initWindow();
@@ -622,14 +618,6 @@ public class IndicatorUtilsEventHandler
         }
     }
 
-    private void initReflection()
-    {
-        this.sentMessages = ReflectionUtils.get("sentMessages", "field_146248_g", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        this.chatLines = ReflectionUtils.get("chatLines", "field_146252_h", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        this.drawnChatLines = ReflectionUtils.get("drawnChatLines", "field_146253_i", GuiNewChat.class, this.mc.ingameGUI.getChatGUI());
-        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
-    }
-
     private void runAutoFish()
     {
         if (IndicatorUtilsEventHandler.AUTO_FISH_ENABLED)
@@ -798,28 +786,22 @@ public class IndicatorUtilsEventHandler
 
             if (chatTick % ExtendedModSettings.AUTO_CLEAR_CHAT_TIME == 0)
             {
-                if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlychat"))
+                if (this.mc.ingameGUI.getChatGUI() instanceof GuiNewChatIU)
                 {
-                    if (this.chatLines != null && this.drawnChatLines != null)
+                    GuiNewChatIU chat = (GuiNewChatIU) this.mc.ingameGUI.getChatGUI();
+
+                    if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlychat"))
                     {
-                        this.chatLines.clear();
-                        this.drawnChatLines.clear();
+                        chat.chatLines.clear();
+                        chat.field_146253_i.clear();
                     }
-                }
-                else if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlysentmessage"))
-                {
-                    if (this.sentMessages != null)
+                    else if (ExtendedModSettings.AUTO_CLEAR_CHAT_MODE.equalsIgnoreCase("onlysentmessage"))
                     {
-                        this.sentMessages.clear();
+                        chat.getSentMessages().clear();
                     }
-                }
-                else
-                {
-                    if (this.sentMessages != null && this.chatLines != null && this.drawnChatLines != null)
+                    else
                     {
-                        this.sentMessages.clear();
-                        this.chatLines.clear();
-                        this.drawnChatLines.clear();
+                        chat.clearChatMessages();
                     }
                 }
             }

@@ -13,7 +13,7 @@ buildscript {
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-version = "2.1.1"
+version = "2.1.2"
 group = "stevekung.mods.indicatorutils"
 archivesBaseName = "Indicator-Utils-All"
 
@@ -48,7 +48,7 @@ processResources {
 }
 
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**']
+ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**', 'indicatorutils_at.cfg']
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }
@@ -57,6 +57,11 @@ task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	from(zipTree(project.ext.coreJar)) {
 		includes.addAll(project.ext.coreFiles)
 	}
+	manifest {
+        attributes.put("FMLCorePlugin", "stevekung.mods.indicatorutils.IndicatorUtilsPlugin")
+        attributes.put("FMLCorePluginContainsFMLMod", "true")
+        attributes.put("AccessTransformer", "indicatorutils_at.cfg")
+    }
 }
 
 task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {

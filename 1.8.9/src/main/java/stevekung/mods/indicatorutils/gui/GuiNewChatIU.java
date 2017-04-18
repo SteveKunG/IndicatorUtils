@@ -30,8 +30,8 @@ public class GuiNewChatIU extends GuiNewChat
 {
     private final Minecraft mc;
     private final List<String> sentMessages = Lists.<String>newArrayList();
-    private final List<ChatLine> chatLines = Lists.<ChatLine>newArrayList();
-    private final List<ChatLine> field_146253_i = Lists.<ChatLine>newArrayList();
+    public final List<ChatLine> chatLines = Lists.<ChatLine>newArrayList();
+    public final List<ChatLine> field_146253_i = Lists.<ChatLine>newArrayList();
     private int scrollPos;
     private boolean isScrolled;
 

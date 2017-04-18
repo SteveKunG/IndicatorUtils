@@ -36,9 +36,7 @@ import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
-import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigManager;
-import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 
 @SuppressWarnings("deprecation")
 public class BlockhitAnimationHandler
@@ -255,7 +253,7 @@ public class BlockhitAnimationHandler
         d0 = entity.prevPosX + (entity.posX - entity.prevPosX) * p_78467_1_;
         d1 = entity.prevPosY + (entity.posY - entity.prevPosY) * p_78467_1_ + f1;
         d2 = entity.prevPosZ + (entity.posZ - entity.prevPosZ) * p_78467_1_;
-        ReflectionUtils.set(IndicatorUtils.isObfuscatedEnvironment() ? "cloudFog" : "field_78500_U", Boolean.valueOf(this.mc.renderGlobal.hasCloudFog(d0, d1, d2, p_78467_1_)), EntityRenderer.class, this.entityRenderer);
+        this.entityRenderer.cloudFog = this.mc.renderGlobal.hasCloudFog(d0, d1, d2, p_78467_1_);
     }
 
     private void renderItemInFirstPerson(float partialTicks)
@@ -597,11 +595,11 @@ public class BlockhitAnimationHandler
 
     private void initReflection()
     {
-        this.itemToRender = (ItemStack)ReflectionUtils.get("itemToRender", "field_78453_b", ItemRenderer.class, this.itemRenderer);
-        this.prevEquippedProgress = ((Float)ReflectionUtils.get("prevEquippedProgress", "field_78451_d", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.equippedProgress = ((Float)ReflectionUtils.get("equippedProgress", "field_78454_c", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.fovModifierHandPrev = ((Float)ReflectionUtils.get("fovModifierHandPrev", "field_78506_S", EntityRenderer.class, this.entityRenderer)).floatValue();
-        this.fovModifierHand = ((Float)ReflectionUtils.get("fovModifierHand", "field_78507_R", EntityRenderer.class, this.entityRenderer)).floatValue();
+        this.itemToRender = this.itemRenderer.itemToRender;
+        this.prevEquippedProgress = this.itemRenderer.prevEquippedProgress;//((Float)ReflectionUtils.get("prevEquippedProgress", "field_78451_d", ItemRenderer.class, this.itemRenderer)).floatValue();
+        this.equippedProgress = this.itemRenderer.equippedProgress;//((Float)ReflectionUtils.get("equippedProgress", "field_78454_c", ItemRenderer.class, this.itemRenderer)).floatValue();
+        this.fovModifierHandPrev = this.entityRenderer.fovModifierHandPrev;//((Float)ReflectionUtils.get("fovModifierHandPrev", "field_78506_S", EntityRenderer.class, this.entityRenderer)).floatValue();
+        this.fovModifierHand = this.entityRenderer.fovModifierHand;//((Float)ReflectionUtils.get("fovModifierHand", "field_78507_R", EntityRenderer.class, this.entityRenderer)).floatValue();
     }
 
     private void init()

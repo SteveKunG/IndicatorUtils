@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 
-import cpw.mods.fml.relauncher.ReflectionHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
@@ -87,7 +86,7 @@ public class RenderInfoBase
     public static String renderFPS()
     {
         JsonUtils json = new JsonUtils();
-        int fpsValue = ReflectionHelper.getPrivateValue(Minecraft.class, Minecraft.getMinecraft(), new String[] { "debugFPS", "field_71470_ab" });
+        int fpsValue = Minecraft.debugFPS;
         String fps = json.text("FPS: ").setChatStyle(json.colorFromConfig(ConfigManager.customColorFPS)).getFormattedText();
         String color = ConfigManager.customColorFPSValue1;
 

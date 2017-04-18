@@ -32,8 +32,8 @@ public class GuiNewChatIU extends GuiNewChat
 {
     private final Minecraft mc;
     private final List<String> sentMessages = new ArrayList<String>();
-    private final List<ChatLine> chatLines = new ArrayList<ChatLine>();
-    private final List<ChatLine> field_146253_i = new ArrayList<ChatLine>();
+    public final List<ChatLine> chatLines = new ArrayList<ChatLine>();
+    public final List<ChatLine> field_146253_i = new ArrayList<ChatLine>();
     private int field_146250_j;
     private boolean field_146251_k;
 

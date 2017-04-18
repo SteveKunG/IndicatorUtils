@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.MathHelper;
@@ -37,7 +36,8 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
         }
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.getplayerpos.usage");
+            this.addWrongUsageMessage(sender, "commands.getplayerpos.usage");
+            return;
         }
         else
         {
@@ -45,7 +45,8 @@ public class CommandGetPlayerPosition extends ClientCommandBaseIU
 
             if (args.length > 1)
             {
-                throw new WrongUsageException("commands.getplayerpos.usage");
+                this.addWrongUsageMessage(sender, "commands.getplayerpos.usage");
+                return;
             }
 
             if (player == null)

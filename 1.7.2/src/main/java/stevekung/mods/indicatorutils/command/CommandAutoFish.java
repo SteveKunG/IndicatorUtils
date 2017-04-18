@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.init.Items;
 import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
@@ -32,13 +31,15 @@ public class CommandAutoFish extends ClientCommandBaseIU
 
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.autofish.usage");
+            this.addWrongUsageMessage(sender, "commands.autofish.usage");
+            return;
         }
         else
         {
             if (args.length > 1)
             {
-                throw new WrongUsageException("commands.autofish.usage");
+                this.addWrongUsageMessage(sender, "commands.autofish.usage");
+                return;
             }
             if ("disable".equalsIgnoreCase(args[0]))
             {
@@ -75,7 +76,8 @@ public class CommandAutoFish extends ClientCommandBaseIU
             }
             else
             {
-                throw new WrongUsageException("commands.autofish.usage");
+                this.addWrongUsageMessage(sender, "commands.autofish.usage");
+                return;
             }
         }
     }

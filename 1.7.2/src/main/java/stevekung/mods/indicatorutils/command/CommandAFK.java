@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
@@ -35,7 +34,8 @@ public class CommandAFK extends ClientCommandBaseIU
 
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.afk.usage");
+            this.addWrongUsageMessage(sender, "commands.afk.usage");
+            return;
         }
         else
         {
@@ -43,7 +43,8 @@ public class CommandAFK extends ClientCommandBaseIU
             {
                 if (args.length > 1)
                 {
-                    throw new WrongUsageException("commands.afk.usage");
+                    this.addWrongUsageMessage(sender, "commands.afk.usage");
+                    return;
                 }
                 if (IndicatorUtilsEventHandler.AFK_ENABLED)
                 {
@@ -95,7 +96,8 @@ public class CommandAFK extends ClientCommandBaseIU
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.afk.usage");
+                    this.addWrongUsageMessage(sender, "commands.afk.usage");
+                    return;
                 }
 
                 if (IndicatorUtilsEventHandler.AFK_ENABLED)
@@ -116,7 +118,8 @@ public class CommandAFK extends ClientCommandBaseIU
             {
                 if (args.length == 1 || args.length > 2)
                 {
-                    throw new WrongUsageException("commands.afk.mode.usage");
+                    this.addWrongUsageMessage(sender, "commands.afk.mode.usage");
+                    return;
                 }
 
                 if ("idle".equalsIgnoreCase(args[1]))
@@ -142,12 +145,14 @@ public class CommandAFK extends ClientCommandBaseIU
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.afk.mode.usage");
+                    this.addWrongUsageMessage(sender, "commands.afk.mode.usage");
+                    return;
                 }
             }
             else
             {
-                throw new WrongUsageException("commands.afk.usage");
+                this.addWrongUsageMessage(sender, "commands.afk.usage");
+                return;
             }
         }
     }

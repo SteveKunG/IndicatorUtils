@@ -18,10 +18,9 @@ import com.google.common.collect.Lists;
 
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
+import net.minecraft.command.WrongUsageException;
 import net.minecraft.event.ClickEvent;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.IChatComponent;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.*;
 
 public abstract class ClientCommandBaseIU extends CommandBase
 {
@@ -121,5 +120,13 @@ public abstract class ClientCommandBaseIU extends CommandBase
             }
         }
         return list;
+    }
+
+    protected void addWrongUsageMessage(ICommandSender sender, String usage)
+    {
+        WrongUsageException e = new WrongUsageException(usage);
+        ChatComponentTranslation component = new ChatComponentTranslation("commands.generic.usage", new Object[] {new ChatComponentTranslation(e.getMessage(), e.getErrorOjbects())});
+        component.getChatStyle().setColor(EnumChatFormatting.RED);
+        sender.addChatMessage(component);
     }
 }

@@ -11,7 +11,6 @@ import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.gui.GuiRenderStatusSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
@@ -31,7 +30,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
 
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.indicatorutils.usage");
+            this.addWrongUsageMessage(sender, "commands.indicatorutils.usage");
+            return;
         }
         else
         {
@@ -39,7 +39,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesprint.usage");
+                    return;
                 }
 
                 if ("enable".equalsIgnoreCase(args[1]))
@@ -58,7 +59,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length < 3 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesprint.mode.usage");
+                        return;
                     }
 
                     if ("keybinding".equalsIgnoreCase(args[2]))
@@ -75,19 +77,22 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     }
                     else
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesprint.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesprint.mode.usage");
+                        return;
                     }
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesprint.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesprint.usage");
+                    return;
                 }
             }
             else if ("togglesneak".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesneak.usage");
+                    return;
                 }
 
                 if ("enable".equalsIgnoreCase(args[1]))
@@ -106,7 +111,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length < 3 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesneak.mode.usage");
+                        return;
                     }
                     if ("keybinding".equalsIgnoreCase(args[2]))
                     {
@@ -122,19 +128,22 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     }
                     else
                     {
-                        throw new WrongUsageException("commands.indicatorutils.togglesneak.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesneak.mode.usage");
+                        return;
                     }
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.indicatorutils.togglesneak.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.togglesneak.usage");
+                    return;
                 }
             }
             else if ("cps".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1 || args.length > 2)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.cps.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.cps.usage");
+                    return;
                 }
 
                 if ("left".equalsIgnoreCase(args[1]))
@@ -163,21 +172,24 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.indicatorutils.cps.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.cps.usage");
+                    return;
                 }
             }
             else if ("displaymode".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                    return;
                 }
 
                 if ("default".equalsIgnoreCase(args[1]))
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                        return;
                     }
                     ExtendedModSettings.DISPLAY_MODE = "default";
                     sender.addChatMessage(json.text("Set display mode to Default"));
@@ -187,7 +199,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                        return;
                     }
                     ExtendedModSettings.DISPLAY_MODE = "uhc";
                     sender.addChatMessage(json.text("Set display mode to UHC"));
@@ -197,7 +210,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                        return;
                     }
                     ExtendedModSettings.DISPLAY_MODE = "pvp";
                     sender.addChatMessage(json.text("Set display mode to PvP"));
@@ -207,7 +221,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                        return;
                     }
                     ExtendedModSettings.DISPLAY_MODE = "command";
                     sender.addChatMessage(json.text("Set display mode to Command Block"));
@@ -217,7 +232,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.mode.usage");
+                        return;
                     }
 
                     if ("keybinding".equalsIgnoreCase(args[2]))
@@ -234,26 +250,30 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     }
                     else
                     {
-                        throw new WrongUsageException("commands.indicatorutils.displaymode.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.mode.usage");
+                        return;
                     }
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.indicatorutils.displaymode.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
+                    return;
                 }
             }
             else if ("autoswim".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.usage");
+                    return;
                 }
 
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.usage");
+                        return;
                     }
                     ExtendedModSettings.AUTO_SWIM = true;
                     sender.addChatMessage(json.text("Set auto swim to Enabled"));
@@ -263,7 +283,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.usage");
+                        return;
                     }
                     ExtendedModSettings.AUTO_SWIM = false;
                     sender.addChatMessage(json.text("Set auto swim to Disabled"));
@@ -273,7 +294,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.mode.usage");
+                        return;
                     }
 
                     if ("keybinding".equalsIgnoreCase(args[2]))
@@ -290,26 +312,30 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     }
                     else
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoswim.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.mode.usage");
+                        return;
                     }
                 }
                 else
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoswim.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.autoswim.usage");
+                    return;
                 }
             }
             else if ("autoclearchat".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1)
                 {
-                    throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
+                    this.addWrongUsageMessage(sender, "commands.indicatorutils.autoclearchat.usage");
+                    return;
                 }
 
                 if ("enable".equalsIgnoreCase(args[1]))
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoclearchat.usage");
+                        return;
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = true;
                     sender.addChatMessage(json.text("Set auto clear chat to Enabled"));
@@ -319,7 +345,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length > 2)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoclearchat.usage");
+                        return;
                     }
                     ExtendedModSettings.AUTO_CLEAR_CHAT = false;
                     sender.addChatMessage(json.text("Set auto clear chat to Disabled"));
@@ -329,7 +356,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.mode.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoclearchat.mode.usage");
+                        return;
                     }
 
                     if ("all".equalsIgnoreCase(args[2]))
@@ -355,7 +383,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                 {
                     if (args.length == 2 || args.length > 3)
                     {
-                        throw new WrongUsageException("commands.indicatorutils.autoclearchat.set.usage");
+                        this.addWrongUsageMessage(sender, "commands.indicatorutils.autoclearchat.set.usage");
+                        return;
                     }
 
                     ExtendedModSettings.AUTO_CLEAR_CHAT_TIME = CommandBase.parseIntWithMin(sender, args[2], 1);
@@ -375,7 +404,8 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
             }
             else
             {
-                throw new WrongUsageException("commands.indicatorutils.usage");
+                this.addWrongUsageMessage(sender, "commands.indicatorutils.usage");
+                return;
             }
         }
     }

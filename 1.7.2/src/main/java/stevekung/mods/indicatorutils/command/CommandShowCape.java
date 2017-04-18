@@ -12,7 +12,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
@@ -29,13 +28,15 @@ public class CommandShowCape extends ClientCommandBaseIU
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.capeiu.usage");
+            this.addWrongUsageMessage(sender, "commands.capeiu.usage");
+            return;
         }
         else
         {
             if (args.length > 1)
             {
-                throw new WrongUsageException("commands.capeiu.usage");
+                this.addWrongUsageMessage(sender, "commands.capeiu.usage");
+                return;
             }
 
             if ("disable".equals(args[0]))

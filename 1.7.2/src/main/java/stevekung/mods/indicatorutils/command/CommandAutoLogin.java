@@ -14,7 +14,6 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
@@ -40,7 +39,8 @@ public class CommandAutoLogin extends ClientCommandBaseIU
 
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.autologin.usage");
+            this.addWrongUsageMessage(sender, "commands.autologin.usage");
+            return;
         }
         else
         {
@@ -50,7 +50,8 @@ public class CommandAutoLogin extends ClientCommandBaseIU
 
                 if (args.length <= 2)
                 {
-                    throw new WrongUsageException("commands.autologin.usage");
+                    this.addWrongUsageMessage(sender, "commands.autologin.usage");
+                    return;
                 }
                 if (!mc.isSingleplayer())
                 {
@@ -121,7 +122,8 @@ public class CommandAutoLogin extends ClientCommandBaseIU
             }
             else
             {
-                throw new WrongUsageException("commands.autologin.usage");
+                this.addWrongUsageMessage(sender, "commands.autologin.usage");
+                return;
             }
         }
     }

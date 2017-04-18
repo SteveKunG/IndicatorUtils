@@ -10,7 +10,6 @@ import org.apache.commons.lang3.StringUtils;
 
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.WrongUsageException;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.JsonUtils;
 
@@ -27,7 +26,8 @@ public class CommandSlimeChunkSeed extends ClientCommandBaseIU
     {
         if (args.length < 1)
         {
-            throw new WrongUsageException("commands.slimeseed.usage");
+            this.addWrongUsageMessage(sender, "commands.slimeseed.usage");
+            return;
         }
         else
         {

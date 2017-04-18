@@ -16,7 +16,6 @@ import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
-import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 
 public class GuiBossOverlayIU extends GuiBossOverlay
 {
@@ -32,13 +31,13 @@ public class GuiBossOverlayIU extends GuiBossOverlay
     @Override
     public void renderBossHealth()
     {
-        if (!IndicatorUtilsEventHandler.MAP_BOSS_INFOS.isEmpty())
+        if (!this.mc.ingameGUI.getBossOverlay().mapBossInfos.isEmpty())
         {
             ScaledResolution scaledresolution = new ScaledResolution(this.mc);
             int i = scaledresolution.getScaledWidth();
             int j = 12;
 
-            for (BossInfoLerping bossinfolerping : IndicatorUtilsEventHandler.MAP_BOSS_INFOS.values())
+            for (BossInfoLerping bossinfolerping : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
                 RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.mc.fontRendererObj.FONT_HEIGHT);
@@ -58,7 +57,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
                 j += ConfigManager.hideBossHealthBar ? 12 : event.getIncrement();
                 ForgeHooksClient.bossBarRenderPost(scaledresolution);
 
-                if (j >= scaledresolution.getScaledHeight() / 3)
+                if (ConfigManager.hideBossHealthBar ? j >= scaledresolution.getScaledHeight() / 4.5D : j >= scaledresolution.getScaledHeight() / 3)
                 {
                     break;
                 }

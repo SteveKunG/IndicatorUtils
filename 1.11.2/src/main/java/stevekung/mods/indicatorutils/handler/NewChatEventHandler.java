@@ -27,7 +27,7 @@ public class NewChatEventHandler
         Minecraft.getMinecraft().addScheduledTask(() -> { MinecraftForge.EVENT_BUS.register(new EntityJoinWorldEventHandler()); });
     }
 
-    private static class EntityJoinWorldEventHandler
+    public static class EntityJoinWorldEventHandler
     {
         @SubscribeEvent
         public void onEntityJoinWorld(EntityJoinWorldEvent event)

@@ -6,7 +6,10 @@
 
 package stevekung.mods.indicatorutils.handler;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -38,7 +41,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.world.BossInfoLerping;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.MouseEvent;
@@ -98,7 +100,6 @@ public class IndicatorUtilsEventHandler
     private int pressTime;
     private int pressOneTimeTick;
     private int pressTimeDelay;
-
     private int clearChatTick;
 
     private Minecraft mc;
@@ -106,7 +107,6 @@ public class IndicatorUtilsEventHandler
 
     private GuiPlayerTabOverlayIU overlayPlayerList;
     private GuiBossOverlayIU overlayBoss;
-    public static Map<UUID, BossInfoLerping> MAP_BOSS_INFOS;
 
     private long sneakTimeOld = 0L;
     private boolean sneakingOld = false;
@@ -159,7 +159,7 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        ReflectionUtils.set(!IndicatorUtils.isObfuscatedEnvironment() ? "field_73840_e" : "persistantChatGUI", new GuiNewChatFast(Minecraft.getMinecraft()), GuiIngame.class, Minecraft.getMinecraft().ingameGUI);
+        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast(Minecraft.getMinecraft());
     }
 
     @SubscribeEvent
@@ -174,7 +174,8 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        this.initReflection();
+        this.overlayBoss = new GuiBossOverlayIU(this.mc);
+        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
         this.replaceChatGUI();
         this.getPingForNullUUID();
         this.initWindow();
@@ -590,13 +591,6 @@ public class IndicatorUtilsEventHandler
                 Gui.drawRect(this.mc.currentScreen.width - 100, this.mc.currentScreen.height - 35, this.mc.currentScreen.width, this.mc.currentScreen.height - 34, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
             }
         }
-    }
-
-    private void initReflection()
-    {
-        IndicatorUtilsEventHandler.MAP_BOSS_INFOS = ReflectionUtils.get("mapBossInfos", "field_184060_g", GuiBossOverlay.class, this.mc.ingameGUI.getBossOverlay());
-        this.overlayBoss = new GuiBossOverlayIU(this.mc);
-        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 
     private void runAutoFish()

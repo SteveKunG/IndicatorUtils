@@ -40,7 +40,6 @@ import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.event.RenderHandEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
-import stevekung.mods.indicatorutils.utils.ReflectionUtils;
 
 public class BlockhitAnimationHandler
 {
@@ -583,14 +582,14 @@ public class BlockhitAnimationHandler
 
     private void initReflection()
     {
-        this.itemStackMainHand = (ItemStack)ReflectionUtils.get("itemStackMainHand", "field_187467_d", ItemRenderer.class, this.itemRenderer);
-        this.itemStackOffHand = (ItemStack)ReflectionUtils.get("itemStackOffHand", "field_187468_e", ItemRenderer.class, this.itemRenderer);
-        this.equippedProgressMainHand = ((Float)ReflectionUtils.get("equippedProgressMainHand", "field_187469_f", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.prevEquippedProgressMainHand = ((Float)ReflectionUtils.get("prevEquippedProgressMainHand", "field_187470_g", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.equippedProgressOffHand = ((Float)ReflectionUtils.get("equippedProgressOffHand", "field_187471_h", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.prevEquippedProgressOffHand = ((Float)ReflectionUtils.get("prevEquippedProgressOffHand", "field_187472_i", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.fovModifierHandPrev = ((Float)ReflectionUtils.get("fovModifierHandPrev", "field_78506_S", EntityRenderer.class, this.entityRenderer)).floatValue();
-        this.fovModifierHand = ((Float)ReflectionUtils.get("fovModifierHand", "field_78507_R", EntityRenderer.class, this.entityRenderer)).floatValue();
+        this.itemStackMainHand = this.itemRenderer.itemStackMainHand;
+        this.itemStackOffHand = this.itemRenderer.itemStackOffHand;
+        this.equippedProgressMainHand = this.itemRenderer.equippedProgressMainHand;
+        this.prevEquippedProgressMainHand = this.itemRenderer.prevEquippedProgressMainHand;
+        this.equippedProgressOffHand = this.itemRenderer.equippedProgressOffHand;
+        this.prevEquippedProgressOffHand = this.itemRenderer.prevEquippedProgressOffHand;
+        this.fovModifierHandPrev = this.entityRenderer.fovModifierHandPrev;
+        this.fovModifierHand = this.entityRenderer.fovModifierHand;
     }
 
     private void init()

@@ -596,10 +596,10 @@ public class BlockhitAnimationHandler
     private void initReflection()
     {
         this.itemToRender = this.itemRenderer.itemToRender;
-        this.prevEquippedProgress = this.itemRenderer.prevEquippedProgress;//((Float)ReflectionUtils.get("prevEquippedProgress", "field_78451_d", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.equippedProgress = this.itemRenderer.equippedProgress;//((Float)ReflectionUtils.get("equippedProgress", "field_78454_c", ItemRenderer.class, this.itemRenderer)).floatValue();
-        this.fovModifierHandPrev = this.entityRenderer.fovModifierHandPrev;//((Float)ReflectionUtils.get("fovModifierHandPrev", "field_78506_S", EntityRenderer.class, this.entityRenderer)).floatValue();
-        this.fovModifierHand = this.entityRenderer.fovModifierHand;//((Float)ReflectionUtils.get("fovModifierHand", "field_78507_R", EntityRenderer.class, this.entityRenderer)).floatValue();
+        this.prevEquippedProgress = this.itemRenderer.prevEquippedProgress;
+        this.equippedProgress = this.itemRenderer.equippedProgress;
+        this.fovModifierHandPrev = this.entityRenderer.fovModifierHandPrev;
+        this.fovModifierHand = this.entityRenderer.fovModifierHand;
     }
 
     private void init()

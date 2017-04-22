@@ -6,6 +6,7 @@
 
 package stevekung.mods.indicatorutils.handler;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -43,6 +44,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -168,6 +170,30 @@ public class IndicatorUtilsEventHandler
         if (event.getModID().equalsIgnoreCase(IndicatorUtils.MOD_ID))
         {
             ConfigManager.syncConfig(false);
+        }
+    }
+
+    @SubscribeEvent
+    public void onReceivedChat(ClientChatReceivedEvent event)
+    {
+        String originalText = "Click the link to visit our website and claim your reward: ";
+        String originalText1 = "Today's voting link is ";
+        String originalText2 = "! Follow the instructions on the website to redeem 5,000 XP and 3,000 Arcade Coins!";
+
+        if (GameInfoHelper.INSTANCE.isHypixel())
+        {
+            if (event.getMessage().getUnformattedText().contains(originalText))
+            {
+                String replacedText = event.getMessage().getUnformattedText().replace(originalText, "");
+                this.openLink(replacedText);
+            }
+            if (event.getMessage().getUnformattedText().contains(originalText1) || event.getMessage().getUnformattedText().contains(originalText2))
+            {
+                this.mc.displayGuiScreen((GuiScreen)null);
+                String replacedText = event.getMessage().getUnformattedText().replace(originalText1, "");
+                String replacedText1 = replacedText.replace(originalText2, "");
+                this.openLink("http://" + replacedText1);
+            }
         }
     }
 
@@ -913,6 +939,21 @@ public class IndicatorUtilsEventHandler
             String inNether = this.mc.player.dimension == -1 ? "Nether " : "";
             windowText2 = inNether + "XYZ: " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
             WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
+        }
+    }
+
+    private void openLink(String url)
+    {
+        try
+        {
+            URI uri = new URI(url);
+            Class<?> oclass = Class.forName("java.awt.Desktop");
+            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
+        }
+        catch (Throwable throwable)
+        {
+            throwable.printStackTrace();
         }
     }
 

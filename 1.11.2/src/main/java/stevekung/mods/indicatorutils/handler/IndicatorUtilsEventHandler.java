@@ -200,7 +200,15 @@ public class IndicatorUtilsEventHandler
                     }
                     replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
                     replacedText = replacedText.replace(votingText2, "");
-                    this.openLink("http://" + replacedText);
+
+                    if (replacedText.contains("vote.hypixel.net/0"))
+                    {
+                        this.openLink("http://minecraftservers.org/vote/221843");
+                    }
+                    if (replacedText.contains("vote.hypixel.net/1"))
+                    {
+                        this.openLink("http://minecraft-server-list.com/server/292028/vote/");
+                    }
                 }
             }
         }
@@ -957,7 +965,7 @@ public class IndicatorUtilsEventHandler
         {
             URI uri = new URI(url);
             Class<?> oclass = Class.forName("java.awt.Desktop");
-            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+            Object object = oclass.getMethod("getDesktop").invoke((Object)null);
             oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
         }
         catch (Throwable throwable)

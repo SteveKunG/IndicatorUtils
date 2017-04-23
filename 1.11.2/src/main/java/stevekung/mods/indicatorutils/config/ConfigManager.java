@@ -31,6 +31,7 @@ public class ConfigManager
     public static String TIME_INFO_SETTINGS = "indicatorutiltimeinfogui";
     public static String CUSTOM_COLOR_SETTINGS = "indicatorutilcustomcolorgui";
     public static String CUSTOM_TEXT_SETTINGS = "indicatorutilcustomtextgui";
+    public static String OTHER_SETTINGS = "indicatorutilothergui";
 
     // Main Settings
     public static boolean enableAllRenderInfo;
@@ -189,6 +190,11 @@ public class ConfigManager
     public static boolean useCustomMoonPhaseText;
     public static String customTextMoonPhase;
 
+    // Other Settings
+    public static String dailyRewardMessage;
+    public static String votingLinkMessage1;
+    public static String votingLinkMessage2;
+
     public static void init(File file)
     {
         ConfigManager.config = new Configuration(file);
@@ -216,6 +222,7 @@ public class ConfigManager
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.TIME_INFO_SETTINGS, ConfigManager.addTimeInfoSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.CUSTOM_COLOR_SETTINGS, ConfigManager.addCustomColorSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.CUSTOM_TEXT_SETTINGS, ConfigManager.addCustomTextSetting(prop));
+            ConfigManager.config.setCategoryPropertyOrder(ConfigManager.OTHER_SETTINGS, ConfigManager.addOtherSetting(prop));
 
             if (ConfigManager.config.hasChanged())
             {
@@ -955,6 +962,23 @@ public class ConfigManager
         return propOrder;
     }
 
+    private static List<String> addOtherSetting(Property prop)
+    {
+        List<String> propOrder = new ArrayList<String>();
+        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Daily Reward Message", "Click the link to visit our website and claim your reward: ");
+        ConfigManager.dailyRewardMessage = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Voting Link Message 1", "Today's voting link is ");
+        ConfigManager.votingLinkMessage1 = prop.getString();
+        propOrder.add(prop.getName());
+
+        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Voting Link Message 2", "! Follow the instructions on the website to redeem 5,000 XP and 3,000 Arcade Coins!");
+        ConfigManager.votingLinkMessage2 = prop.getString();
+        propOrder.add(prop.getName());
+        return propOrder;
+    }
+
     public static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> list = new ArrayList<IConfigElement>();
@@ -970,6 +994,8 @@ public class ConfigManager
         ConfigCategory configCustomText = ConfigManager.config.getCategory(ConfigManager.CUSTOM_TEXT_SETTINGS);
         configCustomText.setComment(I18n.format("gui.config.indicatorutils.advanced"));
         list.add(new ConfigElement(configCustomText));
+
+        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.OTHER_SETTINGS)));
         return list;
     }
 }

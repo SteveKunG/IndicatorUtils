@@ -176,23 +176,32 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onReceivedChat(ClientChatReceivedEvent event)
     {
-        String originalText = "Click the link to visit our website and claim your reward: ";
-        String originalText1 = "Today's voting link is ";
-        String originalText2 = "! Follow the instructions on the website to redeem 5,000 XP and 3,000 Arcade Coins!";
+        String dailyText = ConfigManager.dailyRewardMessage;
+        String votingText1 = ConfigManager.votingLinkMessage1;
+        String votingText2 = ConfigManager.votingLinkMessage2;
+        String unformattedText = event.getMessage().getUnformattedText();
 
-        if (GameInfoHelper.INSTANCE.isHypixel())
+        if (GameInfoHelper.INSTANCE.isHypixel() && IndicatorUtils.isSteveKunG())
         {
-            if (event.getMessage().getUnformattedText().contains(originalText))
+            if (event.getType() == 0)
             {
-                String replacedText = event.getMessage().getUnformattedText().replace(originalText, "");
-                this.openLink(replacedText);
-            }
-            if (event.getMessage().getUnformattedText().contains(originalText1) || event.getMessage().getUnformattedText().contains(originalText2))
-            {
-                this.mc.displayGuiScreen((GuiScreen)null);
-                String replacedText = event.getMessage().getUnformattedText().replace(originalText1, "");
-                String replacedText1 = replacedText.replace(originalText2, "");
-                this.openLink("http://" + replacedText1);
+                if (unformattedText.contains(dailyText))
+                {
+                    String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
+                    this.openLink(replacedText);
+                }
+                if (unformattedText.contains(votingText1))
+                {
+                    String replacedText = unformattedText.replace(votingText1, "");
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        replacedText = replacedText.replace("\u00a7" + i, "");
+                    }
+                    replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
+                    replacedText = replacedText.replace(votingText2, "");
+                    this.openLink("http://" + replacedText);
+                }
             }
         }
     }

@@ -47,6 +47,7 @@ public class ExtendedModSettings
     public static String CAPE_URL = "";
     public static String CHAT_MODE = "";
     public static String HYPIXEL_NICK_NAME = "";
+    public static String REALMS_MESSAGE = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
@@ -93,6 +94,7 @@ public class ExtendedModSettings
             ExtendedModSettings.CAPE_URL = ExtendedModSettings.getString(nbt, "CapeURL", ExtendedModSettings.CAPE_URL);
             ExtendedModSettings.CHAT_MODE = ExtendedModSettings.getString(nbt, "ChatMode", ExtendedModSettings.CHAT_MODE);
             ExtendedModSettings.HYPIXEL_NICK_NAME = ExtendedModSettings.getString(nbt, "HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
+            ExtendedModSettings.REALMS_MESSAGE = ExtendedModSettings.getString(nbt, "RealmsMessage", ExtendedModSettings.REALMS_MESSAGE);
 
             ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
@@ -140,6 +142,7 @@ public class ExtendedModSettings
             nbttagcompound.setString("CapeURL", ExtendedModSettings.CAPE_URL);
             nbttagcompound.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
             nbttagcompound.setString("HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
+            nbttagcompound.setString("RealmsMessage", ExtendedModSettings.REALMS_MESSAGE);
 
             nbttagcompound.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             nbttagcompound.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);

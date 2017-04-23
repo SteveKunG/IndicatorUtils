@@ -48,6 +48,7 @@ commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'
 commands.autologin.list.empty=There are no auto login data entries was saved
 commands.setnick.usage=/setnick <nick>
 commands.slimeseed.usage=/slimeseed <seed>
+commands.autorealms.usage=/autorealms <message...>
 
 # KEY BINDING
 key.indicatorutils.category=Indicator Utils

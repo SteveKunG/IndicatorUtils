@@ -6,6 +6,7 @@
 
 package stevekung.mods.indicatorutils.handler;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -43,6 +44,7 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -168,6 +170,47 @@ public class IndicatorUtilsEventHandler
         if (event.getModID().equalsIgnoreCase(IndicatorUtils.MOD_ID))
         {
             ConfigManager.syncConfig(false);
+        }
+    }
+
+    @SubscribeEvent
+    public void onReceivedChat(ClientChatReceivedEvent event)
+    {
+        String dailyText = ConfigManager.dailyRewardMessage;
+        String votingText1 = ConfigManager.votingLinkMessage1;
+        String votingText2 = ConfigManager.votingLinkMessage2;
+        String unformattedText = event.getMessage().getUnformattedText();
+
+        if (GameInfoHelper.INSTANCE.isHypixel() && IndicatorUtils.isSteveKunG())
+        {
+            if (event.getType() == 0)
+            {
+                if (unformattedText.contains(dailyText))
+                {
+                    String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
+                    this.openLink(replacedText);
+                }
+                if (unformattedText.contains(votingText1))
+                {
+                    String replacedText = unformattedText.replace(votingText1, "");
+
+                    for (int i = 0; i < 10; i++)
+                    {
+                        replacedText = replacedText.replace("\u00a7" + i, "");
+                    }
+                    replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
+                    replacedText = replacedText.replace(votingText2, "");
+
+                    if (replacedText.contains("vote.hypixel.net/0"))
+                    {
+                        this.openLink("http://minecraftservers.org/vote/221843");
+                    }
+                    if (replacedText.contains("vote.hypixel.net/1"))
+                    {
+                        this.openLink("http://minecraft-server-list.com/server/292028/vote/");
+                    }
+                }
+            }
         }
     }
 
@@ -915,6 +958,21 @@ public class IndicatorUtilsEventHandler
             String inNether = this.mc.thePlayer.dimension == -1 ? "Nether " : "";
             windowText2 = inNether + "XYZ: " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
             WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
+        }
+    }
+
+    private void openLink(String url)
+    {
+        try
+        {
+            URI uri = new URI(url);
+            Class<?> oclass = Class.forName("java.awt.Desktop");
+            Object object = oclass.getMethod("getDesktop").invoke((Object)null);
+            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
+        }
+        catch (Throwable throwable)
+        {
+            throwable.printStackTrace();
         }
     }
 

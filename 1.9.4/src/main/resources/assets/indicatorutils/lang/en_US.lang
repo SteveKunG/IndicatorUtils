@@ -6,6 +6,7 @@ indicatorutiloffsetgui=Offset Settings
 indicatorutiltimeinfogui=Time Info Settings
 indicatorutilcustomcolorgui=Custom Text Color Settings
 indicatorutilcustomtextgui=Custom Text Settings
+indicatorutilothergui=Other Settings
 
 # CONFIG GUI MISC
 gui.indicatorutils.config.name0=Indicator Utils

@@ -115,11 +115,6 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
             ClientCommandHandler.instance.registerCommand(new CommandSetNickHypixel());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
-
-            if (ConfigManager.enableCustomCapeFeature)
-            {
-                ClientCommandHandler.instance.registerCommand(new CommandShowCape());
-            }
         }
 
         if (ConfigManager.replaceVanillaFishingLine)

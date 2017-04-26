@@ -42,7 +42,6 @@ commands.afk.usage=/afk <start:reason|stop|changereason|mode...>
 commands.afk.mode.usage=/afk mode <idle|move>
 commands.afk.reason=%s
 commands.autofish.usage=/autofish <enable|disable>
-commands.capeiu.usage=/capeiu <enable|disable>
 commands.autologin.usage=/autologin <add|remove|list> <command> <value>
 commands.autologin.list.count=Showing %s auto login data entry
 commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'

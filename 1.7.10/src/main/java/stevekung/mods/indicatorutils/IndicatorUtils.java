@@ -126,10 +126,6 @@ public class IndicatorUtils
 
             if (ConfigManager.enableCustomCapeFeature)
             {
-                ClientCommandHandler.instance.registerCommand(new CommandShowCape());
-            }
-            if (ConfigManager.enableCustomCapeFeature)
-            {
                 RenderingRegistry.registerEntityRenderingHandler(EntityPlayerSP.class, new RenderPlayerMOD());
                 RenderingRegistry.registerEntityRenderingHandler(EntityOtherPlayerMP.class, new RenderPlayerMOD());
             }

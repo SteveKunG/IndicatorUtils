@@ -7,15 +7,16 @@
 package stevekung.mods.indicatorutils;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
@@ -136,15 +137,9 @@ public class IndicatorUtils
         {
             try
             {
-                Field field = RenderManager.class.getDeclaredField(IndicatorUtils.isObfuscatedEnvironment() ? "playerRenderer" : "field_178637_m");
-                field.setAccessible(true);
-                field.set(Minecraft.getMinecraft().getRenderManager(), new RenderPlayerMOD());
-                field = RenderManager.class.getDeclaredField(IndicatorUtils.isObfuscatedEnvironment() ? "skinMap" : "field_178636_l");
-                field.setAccessible(true);
-                @SuppressWarnings("unchecked")
-                Map<String, RenderPlayer> skinMap = (Map<String, RenderPlayer>) field.get(Minecraft.getMinecraft().getRenderManager());
+                Minecraft.getMinecraft().getRenderManager().playerRenderer = new RenderPlayerMOD();
 
-                for (Iterator<Entry<String, RenderPlayer>> it = skinMap.entrySet().iterator(); it.hasNext();)
+                for (Iterator<Entry<String, RenderPlayer>> it = Minecraft.getMinecraft().getRenderManager().skinMap.entrySet().iterator(); it.hasNext();)
                 {
                     Entry<String, RenderPlayer> entry = it.next();
 
@@ -159,9 +154,8 @@ public class IndicatorUtils
                         IULog.info("Successfully removed RenderPlayer.class.skinMap:slim");
                     }
                 }
-                skinMap.put("default", new RenderPlayerMOD());
-                skinMap.put("slim", new RenderPlayerMOD(true));
-                field.set(Minecraft.getMinecraft().getRenderManager(), skinMap);
+                Minecraft.getMinecraft().getRenderManager().skinMap.put("default", new RenderPlayerMOD());
+                Minecraft.getMinecraft().getRenderManager().skinMap.put("slim", new RenderPlayerMOD(true));
             }
             catch (Exception e) {}
         }

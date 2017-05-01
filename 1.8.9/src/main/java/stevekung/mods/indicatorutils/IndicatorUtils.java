@@ -135,29 +135,25 @@ public class IndicatorUtils
 
         if (ConfigManager.enableCustomCapeFeature)
         {
-            try
+            Minecraft.getMinecraft().getRenderManager().playerRenderer = new RenderPlayerMOD();
+
+            for (Iterator<Entry<String, RenderPlayer>> it = Minecraft.getMinecraft().getRenderManager().skinMap.entrySet().iterator(); it.hasNext();)
             {
-                Minecraft.getMinecraft().getRenderManager().playerRenderer = new RenderPlayerMOD();
+                Entry<String, RenderPlayer> entry = it.next();
 
-                for (Iterator<Entry<String, RenderPlayer>> it = Minecraft.getMinecraft().getRenderManager().skinMap.entrySet().iterator(); it.hasNext();)
+                if (entry.getKey().equalsIgnoreCase("default"))
                 {
-                    Entry<String, RenderPlayer> entry = it.next();
-
-                    if (entry.getKey().equalsIgnoreCase("default"))
-                    {
-                        it.remove();
-                        IULog.info("Successfully removed RenderPlayer.class.skinMap:default");
-                    }
-                    if (entry.getKey().equalsIgnoreCase("slim"))
-                    {
-                        it.remove();
-                        IULog.info("Successfully removed RenderPlayer.class.skinMap:slim");
-                    }
+                    it.remove();
+                    IULog.info("Successfully removed RenderPlayer.class.skinMap:default");
                 }
-                Minecraft.getMinecraft().getRenderManager().skinMap.put("default", new RenderPlayerMOD());
-                Minecraft.getMinecraft().getRenderManager().skinMap.put("slim", new RenderPlayerMOD(true));
+                if (entry.getKey().equalsIgnoreCase("slim"))
+                {
+                    it.remove();
+                    IULog.info("Successfully removed RenderPlayer.class.skinMap:slim");
+                }
             }
-            catch (Exception e) {}
+            Minecraft.getMinecraft().getRenderManager().skinMap.put("default", new RenderPlayerMOD());
+            Minecraft.getMinecraft().getRenderManager().skinMap.put("slim", new RenderPlayerMOD(true));
         }
     }
 

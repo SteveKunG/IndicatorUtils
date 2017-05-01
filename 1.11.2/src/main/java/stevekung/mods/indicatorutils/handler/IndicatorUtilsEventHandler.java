@@ -44,11 +44,8 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
-import net.minecraftforge.client.event.ClientChatReceivedEvent;
-import net.minecraftforge.client.event.MouseEvent;
-import net.minecraftforge.client.event.RenderGameOverlayEvent;
+import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
-import net.minecraftforge.client.event.RenderLivingEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -75,6 +72,7 @@ import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
+import stevekung.mods.indicatorutils.renderer.LayerCapeMOD;
 import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
 import stevekung.mods.indicatorutils.renderer.mode.Global;
 import stevekung.mods.indicatorutils.renderer.mode.PvP;
@@ -161,7 +159,17 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast(Minecraft.getMinecraft());
+        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatFast(this.mc);
+    }
+
+    @SubscribeEvent
+    public void onGuiOpen(GuiOpenEvent event)
+    {
+        if (ConfigManager.enableCustomCapeFeature)
+        {
+            this.mc.getRenderManager().getSkinMap().get("default").addLayer(new LayerCapeMOD(this.mc.getRenderManager().getSkinMap().get("default")));
+            this.mc.getRenderManager().getSkinMap().get("slim").addLayer(new LayerCapeMOD(this.mc.getRenderManager().getSkinMap().get("slim")));
+        }
     }
 
     @SubscribeEvent

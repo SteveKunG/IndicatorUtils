@@ -35,6 +35,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 
@@ -52,26 +53,40 @@ public class BlockhitAnimationHandler
     private RenderManager renderManager;
     private Minecraft mc;
     private GameSettings gameSettings;
-    private boolean isOF = false;
-    private boolean init = false;
     private KeyBinding zoom;
+
+    public BlockhitAnimationHandler()
+    {
+        this.mc = Minecraft.getMinecraft();
+        this.itemRenderer = this.mc.getItemRenderer();
+        this.renderManager = this.mc.getRenderManager();
+        this.gameSettings = this.mc.gameSettings;
+        this.entityRenderer = this.mc.entityRenderer;
+
+        for (KeyBinding key : this.gameSettings.keyBindings)
+        {
+            if (key.getKeyDescription().contains("of.key.zoom"))
+            {
+                this.zoom = key;
+            }
+        }
+        this.farPlaneDistance = this.mc.gameSettings.renderDistanceChunks * 16;
+    }
 
     @SubscribeEvent
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        this.init();
-
-        if (this.isZoomed())
-        {
-            event.setCanceled(true);
-            return;
-        }
-        event.setCanceled(true);
         this.initReflection();
-        GlStateManager.clear(256);
-        this.renderHand(event.partialTicks, event.renderPass);
-        this.renderWorldDirections(event.partialTicks);
+        event.setCanceled(true);
+
+        if (!this.isZoomed())
+        {
+            GlStateManager.clear(256);
+            this.renderHand(event.partialTicks, event.renderPass);
+            this.renderWorldDirections(event.partialTicks);
+        }
     }
+
 
     private void renderHand(float partialTicks, int xOffset)
     {
@@ -602,33 +617,9 @@ public class BlockhitAnimationHandler
         this.fovModifierHand = this.entityRenderer.fovModifierHand;
     }
 
-    private void init()
-    {
-        if (!this.init)
-        {
-            this.mc = Minecraft.getMinecraft();
-            this.itemRenderer = this.mc.getItemRenderer();
-            this.renderManager = this.mc.getRenderManager();
-            this.gameSettings = this.mc.gameSettings;
-            this.entityRenderer = this.mc.entityRenderer;
-            KeyBinding[] k = this.gameSettings.keyBindings;
-
-            for (KeyBinding key : k)
-            {
-                if (key.getKeyDescription().contains("zoom"))
-                {
-                    this.isOF = true;
-                    this.zoom = key;
-                }
-            }
-            this.init = true;
-        }
-        this.farPlaneDistance = this.mc.gameSettings.renderDistanceChunks * 16;
-    }
-
     private boolean isZoomed()
     {
-        if (this.isOF && (this.zoom.isKeyDown() || this.zoom.isPressed()))
+        if (FMLClientHandler.instance().hasOptifine() && this.zoom.isKeyDown())
         {
             return true;
         }

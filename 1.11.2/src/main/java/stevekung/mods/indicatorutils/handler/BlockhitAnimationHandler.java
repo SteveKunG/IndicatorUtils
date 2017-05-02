@@ -38,6 +38,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.storage.MapData;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 
@@ -59,24 +60,34 @@ public class BlockhitAnimationHandler
     private RenderManager renderManager;
     private Minecraft mc;
     private GameSettings gameSettings;
-    private boolean isOF = false;
-    private boolean init = false;
     private KeyBinding zoom;
+
+    public BlockhitAnimationHandler()
+    {
+        this.mc = Minecraft.getMinecraft();
+        this.itemRenderer = this.mc.getItemRenderer();
+        this.renderManager = this.mc.getRenderManager();
+        this.gameSettings = this.mc.gameSettings;
+        this.entityRenderer = this.mc.entityRenderer;
+
+        for (KeyBinding key : this.gameSettings.keyBindings)
+        {
+            if (key.getKeyDescription().contains("of.key.zoom"))
+            {
+                this.zoom = key;
+            }
+        }
+        this.farPlaneDistance = this.mc.gameSettings.renderDistanceChunks * 16;
+    }
 
     @SubscribeEvent
     public void onRenderFirstHand(RenderHandEvent event)
     {
-        this.init();
         this.initReflection();
+        event.setCanceled(true);
 
-        if (this.isZoomed())
+        if (!this.isZoomed())
         {
-            event.setCanceled(true);
-            return;
-        }
-        else
-        {
-            event.setCanceled(true);
             GlStateManager.clear(256);
             this.renderHand(event.getPartialTicks(), event.getRenderPass());
         }
@@ -592,33 +603,9 @@ public class BlockhitAnimationHandler
         this.fovModifierHand = this.entityRenderer.fovModifierHand;
     }
 
-    private void init()
-    {
-        if (!this.init)
-        {
-            this.mc = Minecraft.getMinecraft();
-            this.itemRenderer = this.mc.getItemRenderer();
-            this.renderManager = this.mc.getRenderManager();
-            this.gameSettings = this.mc.gameSettings;
-            this.entityRenderer = this.mc.entityRenderer;
-            KeyBinding[] k = this.gameSettings.keyBindings;
-
-            for (KeyBinding key : k)
-            {
-                if (key.getKeyDescription().contains("zoom"))
-                {
-                    this.isOF = true;
-                    this.zoom = key;
-                }
-            }
-            this.init = true;
-        }
-        this.farPlaneDistance = this.mc.gameSettings.renderDistanceChunks * 16;
-    }
-
     private boolean isZoomed()
     {
-        if (this.isOF && (this.zoom.isKeyDown() || this.zoom.isPressed()))
+        if (FMLClientHandler.instance().hasOptifine() && this.zoom.isKeyDown())
         {
             return true;
         }

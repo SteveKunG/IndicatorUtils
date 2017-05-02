@@ -10,9 +10,10 @@ import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraftforge.client.IClientCommand;
 import net.minecraftforge.common.ForgeHooks;
 
-public abstract class ClientCommandBaseIU extends CommandBase
+public abstract class ClientCommandBaseIU extends CommandBase implements IClientCommand
 {
     @Override
     public String getUsage(ICommandSender sender)
@@ -24,6 +25,12 @@ public abstract class ClientCommandBaseIU extends CommandBase
     public int getRequiredPermissionLevel()
     {
         return 0;
+    }
+
+    @Override
+    public boolean allowUsageWithoutPrefix(ICommandSender sender, String message)
+    {
+        return false;
     }
 
     protected ITextComponent getChatComponentFromNthArg(String[] args, int index)

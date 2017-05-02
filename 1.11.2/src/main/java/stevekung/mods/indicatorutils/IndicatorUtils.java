@@ -33,12 +33,15 @@ import net.minecraftforge.fml.relauncher.Side;
 import stevekung.mods.indicatorutils.command.*;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
-import stevekung.mods.indicatorutils.handler.*;
+import stevekung.mods.indicatorutils.handler.BlockhitAnimationHandler;
+import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
+import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
+import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.utils.*;
 
-@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.20.0.2265,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
+@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.20.0.2294,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
 {
     public static final String NAME = "Indicator Utils";
@@ -75,7 +78,6 @@ public class IndicatorUtils
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());
-        ReflectionUtils.setFinal("instance", new ClientCommandHandlerIU(), ClientCommandHandler.class, ClientCommandHandler.instance);
         IndicatorUtils.USERNAME = GameProfileUtils.getUsername();
 
         for (String list : IndicatorUtils.IGNORE_LIST)

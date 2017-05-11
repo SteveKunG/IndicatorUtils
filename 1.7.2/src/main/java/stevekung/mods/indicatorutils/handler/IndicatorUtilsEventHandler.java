@@ -112,7 +112,6 @@ public class IndicatorUtilsEventHandler
     public void onCheckVersion(PlayerTickEvent event)
     {
         String changeLog = "http://pastebin.com/rJ7He59c";
-        JsonUtils json = new JsonUtils();
 
         if (event.player.worldObj.isRemote)
         {
@@ -120,8 +119,8 @@ public class IndicatorUtilsEventHandler
             {
                 if (!IndicatorUtils.STATUS_CHECK[1] && VersionChecker.INSTANCE.noConnection())
                 {
-                    event.player.addChatMessage(json.text("Unable to check latest version, Please check your internet connection").setChatStyle(json.red()));
-                    event.player.addChatMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setChatStyle(json.red()));
+                    event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setChatStyle(this.json.red()));
+                    event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setChatStyle(this.json.red()));
                     IndicatorUtils.STATUS_CHECK[1] = true;
                     return;
                 }
@@ -131,7 +130,7 @@ public class IndicatorUtilsEventHandler
                     {
                         if (ConfigManager.showChangeLogInGame)
                         {
-                            event.player.addChatMessage(json.text(log).setChatStyle(json.style().setColor(EnumChatFormatting.GRAY).setChatClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
+                            event.player.addChatMessage(this.json.text(log).setChatStyle(this.json.style().setColor(EnumChatFormatting.GRAY).setChatClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, changeLog))));
                         }
                     }
                     IndicatorUtils.STATUS_CHECK[0] = true;
@@ -143,7 +142,7 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
-        Minecraft.getMinecraft().ingameGUI.persistantChatGUI = new GuiNewChatIU(Minecraft.getMinecraft());
+        this.mc.ingameGUI.persistantChatGUI = new GuiNewChatIU(this.mc);
         IndicatorUtilsEventHandler.setTCPNoDelay = true;
     }
 
@@ -987,6 +986,10 @@ public class IndicatorUtilsEventHandler
             String inNether = this.mc.thePlayer.dimension == -1 ? "Nether " : "";
             windowText2 = inNether + "XYZ: " + x + " " + y + " " + z;
             WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
+        }
+        else
+        {
+            WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + "<br>" + "Unknown" + "</div>" + "</html>");
         }
     }
 }

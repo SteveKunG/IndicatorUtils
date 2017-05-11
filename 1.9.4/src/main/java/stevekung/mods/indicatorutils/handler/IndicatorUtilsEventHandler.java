@@ -7,10 +7,7 @@
 package stevekung.mods.indicatorutils.handler;
 
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -28,6 +25,7 @@ import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLivingBase;
+import net.minecraft.client.renderer.entity.RenderPlayer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -120,6 +118,8 @@ public class IndicatorUtilsEventHandler
     {
         this.mc = Minecraft.getMinecraft();
         this.json = new JsonUtils();
+        this.overlayBoss = new GuiBossOverlayIU(this.mc);
+        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 
     // Credit to Jarbelar
@@ -128,7 +128,6 @@ public class IndicatorUtilsEventHandler
     public void onCheckVersion(PlayerTickEvent event)
     {
         String changeLog = "http://pastebin.com/rJ7He59c";
-        JsonUtils json = new JsonUtils();
 
         if (event.player.worldObj.isRemote)
         {
@@ -136,8 +135,8 @@ public class IndicatorUtilsEventHandler
             {
                 if (!IndicatorUtils.STATUS_CHECK[1] && VersionChecker.INSTANCE.noConnection())
                 {
-                    event.player.addChatMessage(json.text("Unable to check latest version, Please check your internet connection").setStyle(json.red()));
-                    event.player.addChatMessage(json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(json.red()));
+                    event.player.addChatMessage(this.json.text("Unable to check latest version, Please check your internet connection").setStyle(this.json.red()));
+                    event.player.addChatMessage(this.json.text(VersionChecker.INSTANCE.getExceptionMessage()).setStyle(this.json.red()));
                     IndicatorUtils.STATUS_CHECK[1] = true;
                     return;
                 }
@@ -147,7 +146,7 @@ public class IndicatorUtilsEventHandler
                     {
                         if (ConfigManager.showChangeLogInGame)
                         {
-                            event.player.addChatMessage(json.text(log).setStyle(json.style().setColor(TextFormatting.GRAY).setClickEvent(json.click(ClickEvent.Action.OPEN_URL, changeLog))));
+                            event.player.addChatMessage(this.json.text(log).setStyle(this.json.style().setColor(TextFormatting.GRAY).setClickEvent(this.json.click(ClickEvent.Action.OPEN_URL, changeLog))));
                         }
                     }
                     IndicatorUtils.STATUS_CHECK[0] = true;
@@ -167,8 +166,10 @@ public class IndicatorUtilsEventHandler
     {
         if (ConfigManager.enableCustomCapeFeature)
         {
-            this.mc.getRenderManager().getSkinMap().get("default").addLayer(new LayerCapeMOD(this.mc.getRenderManager().getSkinMap().get("default")));
-            this.mc.getRenderManager().getSkinMap().get("slim").addLayer(new LayerCapeMOD(this.mc.getRenderManager().getSkinMap().get("slim")));
+            RenderPlayer renderDefault = this.mc.getRenderManager().getSkinMap().get("default");
+            RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
+            renderDefault.addLayer(new LayerCapeMOD(renderDefault));
+            renderSlim.addLayer(new LayerCapeMOD(renderSlim));
         }
     }
 
@@ -189,34 +190,53 @@ public class IndicatorUtilsEventHandler
         String votingText2 = ConfigManager.votingLinkMessage2;
         String unformattedText = event.getMessage().getUnformattedText();
 
-        if (GameInfoHelper.INSTANCE.isHypixel() && IndicatorUtils.isSteveKunG())
+        if (GameInfoHelper.INSTANCE.isHypixel())
         {
             if (event.getType() == 0)
             {
-                if (unformattedText.contains(dailyText))
+                if (IndicatorUtils.isSteveKunG())
                 {
-                    String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
-                    this.openLink(replacedText);
+                    if (unformattedText.contains(dailyText))
+                    {
+                        String replacedText = unformattedText.replace(dailyText, "").replace("\n", "");
+                        this.openLink(replacedText);
+                    }
+                    if (unformattedText.contains(votingText1))
+                    {
+                        String replacedText = unformattedText.replace(votingText1, "");
+
+                        for (int i = 0; i < 10; i++)
+                        {
+                            replacedText = replacedText.replace("\u00a7" + i, "");
+                        }
+                        replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
+                        replacedText = replacedText.replace(votingText2, "");
+
+                        if (replacedText.contains("vote.hypixel.net/0"))
+                        {
+                            this.openLink("http://minecraftservers.org/vote/221843");
+                        }
+                        if (replacedText.contains("vote.hypixel.net/1"))
+                        {
+                            this.openLink("http://minecraft-server-list.com/server/292028/vote/");
+                        }
+                    }
                 }
-                if (unformattedText.contains(votingText1))
+                if (unformattedText.contains("isn't online!"))
                 {
-                    String replacedText = unformattedText.replace(votingText1, "");
+                    List<String> words = Arrays.asList(unformattedText.split("[ ]"));
+                    Collections.reverse(words);
+                    StringBuilder reverseString = new StringBuilder();
 
-                    for (int i = 0; i < 10; i++)
+                    for (String word : words)
                     {
-                        replacedText = replacedText.replace("\u00a7" + i, "");
+                        reverseString.append(word + " ");
                     }
-                    replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
-                    replacedText = replacedText.replace(votingText2, "");
 
-                    if (replacedText.contains("vote.hypixel.net/0"))
-                    {
-                        this.openLink("http://minecraftservers.org/vote/221843");
-                    }
-                    if (replacedText.contains("vote.hypixel.net/1"))
-                    {
-                        this.openLink("http://minecraft-server-list.com/server/292028/vote/");
-                    }
+                    reverseString.substring(0, reverseString.length() - 1);
+                    String message = reverseString.toString().replace("online! isn't ", "");
+                    String[] name = message.trim().split("\\s+");
+                    this.mc.thePlayer.sendChatMessage("/p remove " + name[0]);
                 }
             }
         }
@@ -225,8 +245,6 @@ public class IndicatorUtilsEventHandler
     @SubscribeEvent
     public void onClientTick(ClientTickEvent event)
     {
-        this.overlayBoss = new GuiBossOverlayIU(this.mc);
-        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
         this.replaceChatGUI();
         this.getPingForNullUUID();
         this.initWindow();
@@ -966,6 +984,10 @@ public class IndicatorUtilsEventHandler
             String inNether = this.mc.thePlayer.dimension == -1 ? "Nether " : "";
             windowText2 = inNether + "XYZ: " + pos.getX() + " " + pos.getY() + " " + pos.getZ();
             WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + windowText1 + "<br>" + windowText2 + "</div>" + "</html>");
+        }
+        else
+        {
+            WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + "<br>" + "Unknown" + "</div>" + "</html>");
         }
     }
 

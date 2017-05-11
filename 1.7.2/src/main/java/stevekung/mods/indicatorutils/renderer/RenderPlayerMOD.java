@@ -14,7 +14,6 @@ import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.model.ModelBiped;
 import net.minecraft.client.renderer.entity.RenderBiped;
 import net.minecraft.client.renderer.entity.RenderPlayer;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemArmor;
 import net.minecraft.item.ItemStack;
@@ -96,18 +95,5 @@ public class RenderPlayerMOD extends RenderPlayer
             }
         }
         return -1;
-    }
-
-    @Override
-    public void renderFirstPersonArm(EntityPlayer p_82441_1_)
-    {
-        float f = 1.0F;
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(770, 771);
-        GL11.glColor3f(f, f, f);
-        this.modelBipedMain.onGround = 0.0F;
-        this.modelBipedMain.setRotationAngles(0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F, p_82441_1_);
-        this.modelBipedMain.bipedRightArm.render(0.0625F);
-        GL11.glDisable(GL11.GL_BLEND);
     }
 }

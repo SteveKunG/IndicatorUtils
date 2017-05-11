@@ -55,6 +55,7 @@ public class IndicatorUtils
     public static String USERNAME;
     public static List<String> IGNORE_LIST = Lists.newArrayList();
     public static boolean ALLOWED;
+    private static boolean DEOBFUSCATED;
 
     static
     {
@@ -68,6 +69,12 @@ public class IndicatorUtils
         IndicatorUtils.IGNORE_LIST.add("N2QwNmM5M2QtNzM2Yy00ZDYzLWE2ODMtYzc1ODNmNjc2M2U3");
         IndicatorUtils.IGNORE_LIST.add("OWU5NmQyODktNmRhNy00MzE4LWI4NjktMDczNzg5ZDZhNGFj");
         IndicatorUtils.IGNORE_LIST.add("MzY5MjRhNjYtZTQ0ZC00MzE2LWIxN2ItOWU0ZjFlYjA1Y2Rj");
+
+        try
+        {
+            IndicatorUtils.DEOBFUSCATED = Launch.classLoader.getClassBytes("net.minecraft.world.World") != null;
+        }
+        catch (Exception e) {}
     }
 
     @EventHandler
@@ -157,7 +164,7 @@ public class IndicatorUtils
 
     public static boolean isObfuscatedEnvironment()
     {
-        return Launch.blackboard.get("fml.deobfuscatedEnvironment") == Boolean.TRUE;
+        return IndicatorUtils.DEOBFUSCATED;
     }
 
     public static boolean isSteveKunG()

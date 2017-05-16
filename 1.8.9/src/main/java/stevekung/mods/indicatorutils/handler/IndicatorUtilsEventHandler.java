@@ -19,6 +19,7 @@ import com.mojang.authlib.GameProfile;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -626,7 +627,7 @@ public class IndicatorUtilsEventHandler
 
         if (distance < range * range)
         {
-            if (!mc.gameSettings.hideGUI && !entity.isInvisible() && flag)
+            if (!mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP))
             {
                 String heart = new JsonUtils().text("\u2764 ").setChatStyle(new JsonUtils().colorFromConfig(color)).getFormattedText();
                 StatusRendererHelper.renderHealthStatus(entity, heart + String.format("%.1f", health), event.x, event.y, event.z, entity.getDistanceSqToEntity(mc.getRenderViewEntity()));

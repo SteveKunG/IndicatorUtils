@@ -20,6 +20,7 @@ import com.mojang.authlib.GameProfile;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.network.NetworkPlayerInfo;
@@ -614,7 +615,7 @@ public class IndicatorUtilsEventHandler
 
         if (distance < range * range)
         {
-            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag)
+            if (!this.mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP))
             {
                 String heart = this.json.text("\u2764 ").setStyle(this.json.colorFromConfig(color)).getFormattedText();
                 StatusRendererHelper.renderHealthStatus(entity, heart + String.format("%.1f", health), event.getX(), event.getY(), event.getZ(), entity.getDistanceSqToEntity(this.mc.getRenderViewEntity()));

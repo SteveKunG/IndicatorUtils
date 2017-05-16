@@ -117,7 +117,6 @@ public class IndicatorUtilsEventHandler
     {
         this.mc = Minecraft.getMinecraft();
         this.json = new JsonUtils();
-        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 
     // Credit to Jarbelar
@@ -157,6 +156,7 @@ public class IndicatorUtilsEventHandler
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatIU(this.mc);
+        this.overlayPlayerList = new GuiPlayerTabOverlayIU(this.mc, this.mc.ingameGUI);
     }
 
     @SubscribeEvent

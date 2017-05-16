@@ -97,8 +97,9 @@ public class IndicatorUtilsEventHandler
     private int pressTime;
     private int pressOneTimeTick;
     private int pressTimeDelay;
-
     private int clearChatTick;
+    private int closeScreen;
+
     private Minecraft mc;
     private JsonUtils json;
 
@@ -205,6 +206,7 @@ public class IndicatorUtilsEventHandler
                         {
                             this.openLink("http://minecraft-server-list.com/server/292028/vote/");
                         }
+                        this.closeScreen = 20;
                     }
                 }
                 if (unformattedText.contains("isn't online!"))
@@ -252,7 +254,16 @@ public class IndicatorUtilsEventHandler
             {
                 this.pressTime = 0;
             }
+            if (this.closeScreen > 1)
+            {
+                --this.closeScreen;
+            }
 
+            if (this.closeScreen == 1)
+            {
+                this.mc.displayGuiScreen((GuiScreen)null);
+                this.closeScreen = 0;
+            }
             if (IndicatorUtilsEventHandler.REC_ENABLED)
             {
                 ++this.recTick;
@@ -287,6 +298,7 @@ public class IndicatorUtilsEventHandler
     {
         this.stopCommandTick();
         IndicatorUtilsEventHandler.PLAYER_PING_MAP.clear();
+        this.closeScreen = 0;
     }
 
     @SubscribeEvent

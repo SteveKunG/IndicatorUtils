@@ -112,7 +112,7 @@ public class StatusRendererHelper
             ScaledResolution scaledRes = new ScaledResolution(mc);
             boolean flag = ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.LEFT);
 
-            if (flag && mc.currentScreen instanceof GuiChat && !ConfigManager.displayArmorHeldWhileChatOpen && !(mc.displayWidth >= 1268 && mc.displayHeight >= 720))
+            if (flag && mc.currentScreen instanceof GuiChat && !ConfigManager.displayArmorHeldWhileChatOpen && !GameInfoHelper.INSTANCE.isHalfScreen(mc))
             {
                 return;
             }

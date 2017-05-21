@@ -108,7 +108,7 @@ public class StatusRendererHelper
             ScaledResolution scaledRes = new ScaledResolution(mc);
             boolean flag = ObjectModeHelper.getArmorStatusMode(ArmorStatusPosition.LEFT);
 
-            if (flag && mc.currentScreen instanceof GuiChat && !ConfigManager.displayArmorHeldWhileChatOpen && !(mc.displayWidth >= 1268 && mc.displayHeight >= 720))
+            if (flag && mc.currentScreen instanceof GuiChat && !ConfigManager.displayArmorHeldWhileChatOpen && !GameInfoHelper.INSTANCE.isHalfScreen(mc))
             {
                 return;
             }
@@ -174,23 +174,13 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-
-                            if (itemCount == 0 || itemCount == 1)
-                            {
-                                countString = "";
-                            }
-                            if (arrowCount == 0)
-                            {
-                                arrowCountString = "";
-                            }
-
                             ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 + 91 + 4, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.bow))
                             {
                                 GlStateManager.disableDepth();
-                                font.drawString(arrowCountString, scaledRes.getScaledWidth() / 2 + 90 + 8, scaledRes.getScaledHeight() - 20, EnumTextColor.WHITE, true);
+                                font.drawString(StatusRendererHelper.getArrowCount(arrowCount, arrowCountString), scaledRes.getScaledWidth() / 2 + 90 + 8, scaledRes.getScaledHeight() - 20, EnumTextColor.WHITE, true);
                                 GlStateManager.enableDepth();
                             }
                         }
@@ -224,7 +214,7 @@ public class StatusRendererHelper
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 + 90 + 24, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
                         }
                     }
-                    if (ConfigManager.enableHeldItemInHand && !mc.thePlayer.isSpectator())
+                    if (ConfigManager.enableHeldItemInHand)
                     {
                         if (mainItem != null)
                         {
@@ -237,25 +227,15 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-
-                            if (itemCount == 0 || itemCount == 1)
-                            {
-                                countString = "";
-                            }
-                            if (arrowCount == 0)
-                            {
-                                arrowCountString = "";
-                            }
-
                             width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                             ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
-                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.bow))
                             {
                                 width = font.getStringWidth(arrowCountString);
                                 GlStateManager.disableDepth();
-                                font.drawString(arrowCountString, scaledRes.getScaledWidth() / 2 - 94 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 52, EnumTextColor.WHITE, true);
+                                font.drawString(StatusRendererHelper.getArrowCount(arrowCount, arrowCountString), scaledRes.getScaledWidth() / 2 - 94 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 52, EnumTextColor.WHITE, true);
                                 GlStateManager.enableDepth();
                             }
                         }
@@ -304,25 +284,15 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-
-                            if (itemCount == 0 || itemCount == 1)
-                            {
-                                countString = "";
-                            }
-                            if (arrowCount == 0)
-                            {
-                                arrowCountString = "";
-                            }
-
                             width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                             ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
-                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 16, EnumTextColor.WHITE, true);
+                            ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 16, EnumTextColor.WHITE, true);
 
                             if (mainItem.getItem().equals(Items.bow))
                             {
                                 width = font.getStringWidth(arrowCountString);
                                 GlStateManager.disableDepth();
-                                font.drawString(arrowCountString, scaledRes.getScaledWidth() / 2 - 94 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 12, EnumTextColor.WHITE, true);
+                                font.drawString(StatusRendererHelper.getArrowCount(arrowCount, arrowCountString), scaledRes.getScaledWidth() / 2 - 94 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 12, EnumTextColor.WHITE, true);
                                 GlStateManager.enableDepth();
                             }
                         }
@@ -374,25 +344,15 @@ public class StatusRendererHelper
 
                         String countString = json.text(String.valueOf(itemCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                         String arrowCountString = json.text(String.valueOf(arrowCount)).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-
-                        if (itemCount == 0 || itemCount == 1)
-                        {
-                            countString = "";
-                        }
-                        if (arrowCount == 0)
-                        {
-                            arrowCountString = "";
-                        }
-
                         width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                         ClientRendererHelper.renderItemWithEffect(mainItem, armorPosition, bootItem + 16);
-                        ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString, flag ? armorTextPosition : width, bootText + 16, EnumTextColor.WHITE, true);
+                        ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), flag ? armorTextPosition : width, bootText + 16, EnumTextColor.WHITE, true);
 
                         if (mainItem.getItem().equals(Items.bow))
                         {
                             width = scaledRes.getScaledWidth() - armorTextPosition + 18 - font.getStringWidth(arrowCountString);
                             GlStateManager.disableDepth();
-                            font.drawString(arrowCountString, flag ? armorTextPosition - 16 : width, bootText + 16 + 4, EnumTextColor.WHITE, true);
+                            font.drawString(StatusRendererHelper.getArrowCount(arrowCount, arrowCountString), flag ? armorTextPosition - 16 : width, bootText + 16 + 4, EnumTextColor.WHITE, true);
                             GlStateManager.enableDepth();
                         }
                     }
@@ -715,6 +675,11 @@ public class StatusRendererHelper
         return this.getArmorType(ArmorType.BOOTS) != null && this.getArmorType(ArmorType.BOOTS).getItem() instanceof ItemArmor;
     }
 
+    public boolean isUnbreakableArmor(ArmorType type)
+    {
+        return StatusRendererHelper.INSTANCE.getArmorType(type).hasTagCompound() && StatusRendererHelper.INSTANCE.getArmorType(type).getTagCompound().getBoolean("Unbreakable");
+    }
+
     public int calculateArmorDurabilityPercent(ArmorType type)
     {
         if (this.getArmorType(type).getMaxDamage() <= 0)
@@ -773,22 +738,23 @@ public class StatusRendererHelper
 
     public static String getArmorStatusType(ArmorType armorType)
     {
+        if (StatusRendererHelper.INSTANCE.isUnbreakableArmor(armorType))
+        {
+            return "";
+        }
         if (ConfigManager.armorStatusMode.equalsIgnoreCase("NORMAL_1"))
         {
             return StatusRendererHelper.INSTANCE.getArmorDurability1(armorType);
         }
-        else if (ConfigManager.armorStatusMode.equalsIgnoreCase("NORMAL_2"))
+        if (ConfigManager.armorStatusMode.equalsIgnoreCase("NORMAL_2"))
         {
             return StatusRendererHelper.INSTANCE.getArmorDurability2(armorType);
         }
-        else if (ConfigManager.armorStatusMode.equalsIgnoreCase("PERCENT"))
+        if (ConfigManager.armorStatusMode.equalsIgnoreCase("PERCENT"))
         {
             return new JsonUtils().text(String.valueOf(StatusRendererHelper.INSTANCE.calculateArmorDurabilityPercent(armorType) + "%")).setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorArmorPercent)).getFormattedText();
         }
-        else
-        {
-            return "";
-        }
+        return "";
     }
 
     public static String getHeldItemStatus(ItemStack itemStack)
@@ -799,18 +765,25 @@ public class StatusRendererHelper
         {
             return json.text(String.valueOf(StatusRendererHelper.INSTANCE.calculateItemDurabilityPercent(itemStack) + "%")).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
         }
-        else if (ConfigManager.heldItemStatusMode.equalsIgnoreCase("NORMAL_2"))
+        if (ConfigManager.heldItemStatusMode.equalsIgnoreCase("NORMAL_2"))
         {
             return json.text(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage())).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText() + "/" + json.text(String.valueOf(itemStack.getMaxDamage())).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
         }
-        else if (ConfigManager.heldItemStatusMode.equalsIgnoreCase("NORMAL"))
+        if (ConfigManager.heldItemStatusMode.equalsIgnoreCase("NORMAL"))
         {
             return json.text(String.valueOf(itemStack.getMaxDamage() - itemStack.getItemDamage())).setChatStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
         }
-        else
-        {
-            return "";
-        }
+        return "";
+    }
+
+    public static String getItemStackCount(ItemStack itemStack, int count, String defaultString)
+    {
+        return count == 0 || count == 1 || itemStack.stackSize == 1 && itemStack.hasTagCompound() && itemStack.getTagCompound().getBoolean("Unbreakable") ? "" : defaultString;
+    }
+
+    public static String getArrowCount(int count, String defaultString)
+    {
+        return count == 0 ? "" : defaultString;
     }
 
     public void setDisplayMode(int type)

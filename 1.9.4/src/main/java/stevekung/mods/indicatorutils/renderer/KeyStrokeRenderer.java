@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.GlStateManager;
 import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
+import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 
 public class KeystrokeRenderer
@@ -37,7 +38,7 @@ public class KeystrokeRenderer
         }
         else
         {
-            if (mc.displayWidth >= 1268 && mc.displayHeight >= 720)
+            if (GameInfoHelper.INSTANCE.isHalfScreen(mc))
             {
                 if (ConfigManager.keystrokeSize.equalsIgnoreCase("NORMAL"))
                 {

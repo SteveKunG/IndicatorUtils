@@ -193,4 +193,9 @@ public class GameInfoHelper
         Random rnd = new Random(ExtendedModSettings.SLIME_CHUNK_SEED + x * x * 4987142 + x * 5947611 + z * z * 4392871L + z * 389711 ^ 987234911L);
         return rnd.nextInt(10) == 0;
     }
+
+    public boolean isHalfScreen(Minecraft mc)
+    {
+        return mc.displayWidth >= 1280 && mc.displayHeight >= 720;
+    }
 }

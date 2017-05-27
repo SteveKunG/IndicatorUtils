@@ -110,7 +110,7 @@ public class IndicatorUtilsEventHandler
     private boolean sneakingOld = false;
 
     public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
-    private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
+    public static Ordering<NetworkPlayerInfo> ORDERING = Ordering.from(new PlayerComparator());
 
     private static boolean windowStartup = true;
 
@@ -191,12 +191,7 @@ public class IndicatorUtilsEventHandler
                     if (unformattedText.contains(votingText1))
                     {
                         String replacedText = unformattedText.replace(votingText1, "");
-
-                        for (int i = 0; i < 10; i++)
-                        {
-                            replacedText = replacedText.replace("\u00a7" + i, "");
-                        }
-                        replacedText = replacedText.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "");
+                        replacedText = GameInfoHelper.INSTANCE.removeFormattingCodes(replacedText);
                         replacedText = replacedText.replace(votingText2, "");
 
                         if (replacedText.contains("vote.hypixel.net/0"))
@@ -225,6 +220,10 @@ public class IndicatorUtilsEventHandler
                     String message = reverseString.toString().replace("online! isn't ", "");
                     String[] name = message.trim().split("\\s+");
                     this.mc.thePlayer.sendChatMessage("/p remove " + name[0]);
+                }
+                if (unformattedText.contains("Get free coins by clicking"))
+                {
+                    this.mc.thePlayer.sendChatMessage("/tip all");
                 }
             }
         }
@@ -980,7 +979,7 @@ public class IndicatorUtilsEventHandler
         if (this.mc.thePlayer != null)
         {
             NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
-            List<NetworkPlayerInfo> list = this.ordering.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+            List<NetworkPlayerInfo> list = IndicatorUtilsEventHandler.ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
             int maxPlayers = list.size();
 
             for (int i = 0; i < maxPlayers; ++i)

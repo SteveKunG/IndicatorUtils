@@ -52,7 +52,7 @@ public class GuiNewChatIU extends GuiChat
         }
         if (GameInfoHelper.INSTANCE.isHypixel())
         {
-            String skywars = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase();
+            String skywars = this.mc.theWorld != null && this.mc.theWorld.getScoreboard() != null && this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
 
             this.buttonList.add(new GuiButton(100, this.width - 63, enableCPS ? this.height - 56 : this.height - 35, 60, 20, "Reset Chat"));
             this.buttonList.add(new GuiButton(101, this.width - 63, enableCPS ? this.height - 77 : this.height - 56, 60, 20, "Party Chat"));
@@ -84,31 +84,35 @@ public class GuiNewChatIU extends GuiChat
     public void updateScreen()
     {
         super.updateScreen();
-        String skywars = this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase();
 
-        if (GameInfoHelper.INSTANCE.removeFormattingCodes(skywars).contains("skywars"))
+        if (GameInfoHelper.INSTANCE.isHypixel())
         {
-            if (GuiNewChatIU.page == 0)
+            String skywars = this.mc.theWorld != null && this.mc.theWorld.getScoreboard() != null && this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1) != null ? this.mc.theWorld.getScoreboard().getObjectiveInDisplaySlot(1).getDisplayName().toLowerCase() : "";
+
+            if (GameInfoHelper.INSTANCE.removeFormattingCodes(skywars).contains("skywars"))
             {
-                this.swLobby.visible = true;
-                this.swSoloNormal.visible = true;
-                this.swSoloInsane.visible = true;
-                this.nextSWMode.visible = true;
-                this.swTeamNormal.visible = false;
-                this.swTeamInsane.visible = false;
-                this.swMegaMode.visible = false;
-                this.previousSWMode.visible = false;
-            }
-            else
-            {
-                this.swLobby.visible = false;
-                this.swSoloNormal.visible = false;
-                this.swSoloInsane.visible = false;
-                this.nextSWMode.visible = false;
-                this.swTeamNormal.visible = true;
-                this.swTeamInsane.visible = true;
-                this.swMegaMode.visible = true;
-                this.previousSWMode.visible = true;
+                if (GuiNewChatIU.page == 0)
+                {
+                    this.swLobby.visible = true;
+                    this.swSoloNormal.visible = true;
+                    this.swSoloInsane.visible = true;
+                    this.nextSWMode.visible = true;
+                    this.swTeamNormal.visible = false;
+                    this.swTeamInsane.visible = false;
+                    this.swMegaMode.visible = false;
+                    this.previousSWMode.visible = false;
+                }
+                else
+                {
+                    this.swLobby.visible = false;
+                    this.swSoloNormal.visible = false;
+                    this.swSoloInsane.visible = false;
+                    this.nextSWMode.visible = false;
+                    this.swTeamNormal.visible = true;
+                    this.swTeamInsane.visible = true;
+                    this.swMegaMode.visible = true;
+                    this.previousSWMode.visible = true;
+                }
             }
         }
     }

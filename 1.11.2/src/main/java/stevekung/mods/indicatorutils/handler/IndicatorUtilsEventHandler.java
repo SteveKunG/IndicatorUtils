@@ -112,7 +112,7 @@ public class IndicatorUtilsEventHandler
     private boolean sneakingOld = false;
 
     public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
-    private Ordering<NetworkPlayerInfo> ordering = Ordering.from(new PlayerComparator());
+    public static Ordering<NetworkPlayerInfo> ORDERING = Ordering.from(new PlayerComparator());
 
     private static boolean windowStartup = true;
 
@@ -240,6 +240,10 @@ public class IndicatorUtilsEventHandler
                     String message = reverseString.toString().replace("online! isn't ", "");
                     String[] name = message.trim().split("\\s+");
                     this.mc.player.sendChatMessage("/p remove " + name[0]);
+                }
+                if (unformattedText.contains("Get free coins by clicking"))
+                {
+                    this.mc.player.sendChatMessage("/tip all");
                 }
             }
         }
@@ -958,7 +962,7 @@ public class IndicatorUtilsEventHandler
         if (this.mc.player != null)
         {
             NetHandlerPlayClient nethandlerplayclient = this.mc.player.connection;
-            List<NetworkPlayerInfo> list = this.ordering.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+            List<NetworkPlayerInfo> list = IndicatorUtilsEventHandler.ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
             int maxPlayers = list.size();
 
             for (int i = 0; i < maxPlayers; ++i)

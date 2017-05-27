@@ -54,11 +54,6 @@ public class GameInfoHelper
         return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("hypixel");
     }
 
-    public boolean isMineplex()
-    {
-        return Minecraft.getMinecraft().getCurrentServerData() != null && Minecraft.getMinecraft().getCurrentServerData().serverIP.contains("mineplex");
-    }
-
     public List<String> getPlayerInfoListClient()
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
@@ -222,5 +217,14 @@ public class GameInfoHelper
     public boolean isHalfScreen(Minecraft mc)
     {
         return mc.displayWidth >= 1280 && mc.displayHeight >= 720;
+    }
+
+    public String removeFormattingCodes(String text)
+    {
+        for (int i = 0; i < 10; i++)
+        {
+            text = text.replace("\u00a7" + i, "");
+        }
+        return text = text.replace("\u00a7" + "a", "").replace("\u00a7" + "b", "").replace("\u00a7" + "c", "").replace("\u00a7" + "d", "").replace("\u00a7" + "e", "").replace("\u00a7" + "f", "").replace("\u00a7" + "k", "").replace("\u00a7" + "l", "").replace("\u00a7" + "m", "").replace("\u00a7" + "n", "").replace("\u00a7" + "o", "").replace("\u00a7" + "r", "");
     }
 }

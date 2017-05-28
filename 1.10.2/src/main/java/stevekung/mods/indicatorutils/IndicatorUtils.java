@@ -120,7 +120,6 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandEntityDetector());
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
-            ClientCommandHandler.instance.registerCommand(new CommandSetNickHypixel());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
         }
 

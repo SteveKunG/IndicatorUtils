@@ -8,13 +8,14 @@ package stevekung.mods.indicatorutils.handler;
 
 import java.net.URI;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
-import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.collect.Ordering;
 import com.mojang.authlib.GameProfile;
 
 import net.minecraft.block.material.Material;
@@ -34,14 +35,12 @@ import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemStack;
 import net.minecraft.scoreboard.ScoreObjective;
-import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
-import net.minecraft.world.GameType;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -57,8 +56,6 @@ import net.minecraftforge.fml.common.gameevent.TickEvent.PlayerTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.RenderTickEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientConnectedToServerEvent;
 import net.minecraftforge.fml.common.network.FMLNetworkEvent.ClientDisconnectionFromServerEvent;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 import stevekung.mods.indicatorutils.IndicatorUtils;
 import stevekung.mods.indicatorutils.config.ConfigGuiFactory;
 import stevekung.mods.indicatorutils.config.ConfigManager;
@@ -111,8 +108,6 @@ public class IndicatorUtilsEventHandler
     private boolean sneakingOld = false;
 
     public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
-    public static Ordering<NetworkPlayerInfo> ORDERING = Ordering.from(new PlayerComparator());
-
     private static boolean windowStartup = true;
 
     public IndicatorUtilsEventHandler()
@@ -193,8 +188,16 @@ public class IndicatorUtilsEventHandler
 
         if (GameInfoHelper.INSTANCE.isHypixel())
         {
+            Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
+            Matcher nickMatcher = nickPattern.matcher(unformattedText);
+
             if (event.getType() == 0)
             {
+                if (nickMatcher.matches())
+                {
+                    ExtendedModSettings.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
+                    ExtendedModSettings.saveExtendedSettings();
+                }
                 if (IndicatorUtils.isSteveKunG())
                 {
                     if (unformattedText.contains(dailyText))
@@ -952,7 +955,7 @@ public class IndicatorUtilsEventHandler
         if (this.mc.thePlayer != null)
         {
             NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.connection;
-            List<NetworkPlayerInfo> list = IndicatorUtilsEventHandler.ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+            List<NetworkPlayerInfo> list = Lists.newArrayList(nethandlerplayclient.getPlayerInfoMap());
             int maxPlayers = list.size();
 
             for (int i = 0; i < maxPlayers; ++i)
@@ -1008,20 +1011,6 @@ public class IndicatorUtilsEventHandler
         catch (Throwable throwable)
         {
             throwable.printStackTrace();
-        }
-    }
-
-    @SideOnly(Side.CLIENT)
-    static class PlayerComparator implements Comparator<NetworkPlayerInfo>
-    {
-        private PlayerComparator() {}
-
-        @Override
-        public int compare(NetworkPlayerInfo info1, NetworkPlayerInfo info2)
-        {
-            ScorePlayerTeam scoreplayerteam = info1.getPlayerTeam();
-            ScorePlayerTeam scoreplayerteam1 = info2.getPlayerTeam();
-            return ComparisonChain.start().compareTrueFirst(info1.getGameType() != GameType.SPECTATOR, info2.getGameType() != GameType.SPECTATOR).compare(scoreplayerteam != null ? scoreplayerteam.getRegisteredName() : "", scoreplayerteam1 != null ? scoreplayerteam1.getRegisteredName() : "").compare(info1.getGameProfile().getName(), info2.getGameProfile().getName()).result();
         }
     }
 }

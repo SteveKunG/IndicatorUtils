@@ -6,6 +6,7 @@
 
 package stevekung.mods.indicatorutils.gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;
@@ -25,7 +26,6 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.WorldSettings;
-import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 
@@ -43,7 +43,7 @@ public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
     public void renderPlayerlist(int width, Scoreboard scoreboard, ScoreObjective scoreObjective)
     {
         NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
-        List<NetworkPlayerInfo> list = IndicatorUtilsEventHandler.ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.field_175252_a.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
         int j = 0;
 

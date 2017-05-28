@@ -209,20 +209,22 @@ public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
     @Override
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo networkPlayerInfo)
     {
+        int ping = networkPlayerInfo.getResponseTime();
         EnumTextColor color = EnumTextColor.GREEN;
 
-        if (networkPlayerInfo.getResponseTime() >= 200 && networkPlayerInfo.getResponseTime() <= 300)
+        if (ping >= 200 && ping <= 300)
         {
             color = EnumTextColor.YELLOW;
         }
-        else if (networkPlayerInfo.getResponseTime() >= 301 && networkPlayerInfo.getResponseTime() <= 499)
+        else if (ping >= 301 && ping <= 499)
         {
             color = EnumTextColor.RED;
         }
-        else if (networkPlayerInfo.getResponseTime() >= 500)
+        else if (ping >= 500)
         {
             color = EnumTextColor.DARK_RED;
         }
-        ClientRendererHelper.drawString(String.valueOf(networkPlayerInfo.getResponseTime()), x1 + x2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(networkPlayerInfo.getResponseTime())), y + 0.5F, color, true);
+        String pingText = String.valueOf(ping);
+        ClientRendererHelper.drawString(pingText, x1 + x2 - this.mc.fontRendererObj.getStringWidth(pingText), y + 0.5F, color, true);
     }
 }

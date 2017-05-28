@@ -8,6 +8,8 @@ package stevekung.mods.indicatorutils.handler;
 
 import java.net.URI;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
@@ -179,6 +181,14 @@ public class IndicatorUtilsEventHandler
 
         if (GameInfoHelper.INSTANCE.isHypixel())
         {
+            Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
+            Matcher nickMatcher = nickPattern.matcher(unformattedText);
+
+            if (nickMatcher.matches())
+            {
+                ExtendedModSettings.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
+                ExtendedModSettings.saveExtendedSettings();
+            }
             if (event.type == 0)
             {
                 if (IndicatorUtils.isSteveKunG())

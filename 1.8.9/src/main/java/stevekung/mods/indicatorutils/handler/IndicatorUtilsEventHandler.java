@@ -14,6 +14,7 @@ import java.util.regex.Pattern;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.input.Mouse;
 
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.mojang.authlib.GameProfile;
 
@@ -981,7 +982,7 @@ public class IndicatorUtilsEventHandler
         if (this.mc.thePlayer != null)
         {
             NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.sendQueue;
-            List<NetworkPlayerInfo> list = new ArrayList(nethandlerplayclient.getPlayerInfoMap());
+            List<NetworkPlayerInfo> list = Lists.newArrayList(nethandlerplayclient.getPlayerInfoMap());
             int maxPlayers = list.size();
 
             for (int i = 0; i < maxPlayers; ++i)

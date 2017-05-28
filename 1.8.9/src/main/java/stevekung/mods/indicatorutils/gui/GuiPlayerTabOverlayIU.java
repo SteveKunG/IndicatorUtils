@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.mojang.authlib.GameProfile;

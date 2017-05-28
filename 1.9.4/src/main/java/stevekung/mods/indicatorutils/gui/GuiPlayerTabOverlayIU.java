@@ -27,7 +27,6 @@ import net.minecraft.scoreboard.Scoreboard;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.WorldSettings;
-import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 
@@ -45,7 +44,7 @@ public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
     public void renderPlayerlist(int width, Scoreboard scoreboard, @Nullable ScoreObjective scoreObjective)
     {
         NetHandlerPlayClient nethandlerplayclient = this.mc.thePlayer.connection;
-        List<NetworkPlayerInfo> list = IndicatorUtilsEventHandler.ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
+        List<NetworkPlayerInfo> list = GuiPlayerTabOverlay.ENTRY_ORDERING.sortedCopy(nethandlerplayclient.getPlayerInfoMap());
         int i = 0;
         int j = 0;
 
@@ -211,20 +210,22 @@ public class GuiPlayerTabOverlayIU extends GuiPlayerTabOverlay
     @Override
     protected void drawPing(int x1, int x2, int y, NetworkPlayerInfo networkPlayerInfo)
     {
+        int ping = networkPlayerInfo.getResponseTime();
         EnumTextColor color = EnumTextColor.GREEN;
 
-        if (networkPlayerInfo.getResponseTime() >= 200 && networkPlayerInfo.getResponseTime() <= 300)
+        if (ping >= 200 && ping <= 300)
         {
             color = EnumTextColor.YELLOW;
         }
-        else if (networkPlayerInfo.getResponseTime() >= 301 && networkPlayerInfo.getResponseTime() <= 499)
+        else if (ping >= 301 && ping <= 499)
         {
             color = EnumTextColor.RED;
         }
-        else if (networkPlayerInfo.getResponseTime() >= 500)
+        else if (ping >= 500)
         {
             color = EnumTextColor.DARK_RED;
         }
-        ClientRendererHelper.drawString(String.valueOf(networkPlayerInfo.getResponseTime()), x1 + x2 - this.mc.fontRendererObj.getStringWidth(String.valueOf(networkPlayerInfo.getResponseTime())), y + 0.5F, color, true);
+        String pingText = String.valueOf(ping);
+        ClientRendererHelper.drawString(pingText, x1 + x2 - this.mc.fontRendererObj.getStringWidth(pingText), y + 0.5F, color, true);
     }
 }

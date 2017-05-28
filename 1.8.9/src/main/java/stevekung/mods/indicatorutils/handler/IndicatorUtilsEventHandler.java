@@ -184,13 +184,13 @@ public class IndicatorUtilsEventHandler
             Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
             Matcher nickMatcher = nickPattern.matcher(unformattedText);
 
-            if (nickMatcher.matches())
-            {
-                ExtendedModSettings.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
-                ExtendedModSettings.saveExtendedSettings();
-            }
             if (event.type == 0)
             {
+                if (nickMatcher.matches())
+                {
+                    ExtendedModSettings.HYPIXEL_NICK_NAME = nickMatcher.group("nick");
+                    ExtendedModSettings.saveExtendedSettings();
+                }
                 if (IndicatorUtils.isSteveKunG())
                 {
                     if (unformattedText.contains(dailyText))

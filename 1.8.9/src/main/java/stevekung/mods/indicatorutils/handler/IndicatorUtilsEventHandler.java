@@ -29,6 +29,7 @@ import net.minecraft.client.renderer.entity.RendererLivingEntity;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
+import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.event.ClickEvent;
 import net.minecraft.init.Items;
@@ -629,7 +630,7 @@ public class IndicatorUtilsEventHandler
 
         if (distance < range * range)
         {
-            if (!mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP))
+            if (!mc.gameSettings.hideGUI && !entity.isInvisible() && flag && !(entity instanceof EntityPlayerSP || entity instanceof EntityArmorStand))
             {
                 String heart = new JsonUtils().text("\u2764 ").setChatStyle(new JsonUtils().colorFromConfig(color)).getFormattedText();
                 StatusRendererHelper.renderHealthStatus(entity, heart + String.format("%.1f", health), event.x, event.y, event.z, entity.getDistanceSqToEntity(mc.getRenderViewEntity()));

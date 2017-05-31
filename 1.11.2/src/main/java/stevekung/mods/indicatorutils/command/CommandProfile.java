@@ -19,8 +19,8 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
-import net.minecraftforge.common.config.Property;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.profile.ProfileConfigData;
 import stevekung.mods.indicatorutils.profile.ProfileData;
 import stevekung.mods.indicatorutils.profile.ProfileData.ProfileSettingData;
 import stevekung.mods.indicatorutils.profile.ProfileSettings;
@@ -38,6 +38,7 @@ public class CommandProfile extends ClientCommandBaseIU
     public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
     {
         JsonUtils json = new JsonUtils();
+        ProfileConfigData configData = new ProfileConfigData();
 
         if (args.length < 1)
         {
@@ -56,7 +57,8 @@ public class CommandProfile extends ClientCommandBaseIU
                     sender.sendMessage(json.text("Profile data was already set for name: " + args[1] + "!").setStyle(json.red()));
                     return;
                 }
-                ProfileSettings.profileData.addProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableFPS);
+                ProfileSettings.profileData.addProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
+                        ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand);
                 sender.sendMessage(json.text("Add profile data name: " + args[1]));
                 ProfileSettings.saveExtendedSettings();
             }
@@ -78,15 +80,7 @@ public class CommandProfile extends ClientCommandBaseIU
                     {
                         if (args[1].equals(data.getProfileName()))
                         {
-                            Property prop1 = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Ping", true);
-                            Property prop2 = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable FPS", true);
-
-                            prop1.set((boolean) data.getObjects()[0]);
-                            prop2.set((boolean) data.getObjects()[1]);
-
-                            ConfigManager.enablePing = prop1.getBoolean();
-                            ConfigManager.enableFPS = prop2.getBoolean();
-
+                            configData.load(data);
                             ConfigManager.config.save();
                             sender.sendMessage(json.text("Load profile data for name: " + args[1]));
                         }
@@ -95,6 +89,28 @@ public class CommandProfile extends ClientCommandBaseIU
                     {
                         sender.sendMessage(json.text("Cannot load profile data from: " + args[1]).setStyle(json.red()));
                         return;
+                    }
+                }
+            }
+            else if ("save".equalsIgnoreCase(args[0]))
+            {
+                if (args.length < 2)
+                {
+                    throw new WrongUsageException("commands.profileiu.save.usage");
+                }
+                for (ProfileData.ProfileSettingData data : ProfileSettings.profileData.getProfileList())
+                {
+                    if (ProfileSettings.profileData.getProfile(args[1]) == null)
+                    {
+                        sender.sendMessage(json.text("Cannot save profile data to: " + args[1]).setStyle(json.red()));
+                        return;
+                    }
+                    if (args[1].equals(data.getProfileName()))
+                    {
+                        ProfileSettings.profileData.saveProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
+                                ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand);
+                        ProfileSettings.saveExtendedSettings();
+                        sender.sendMessage(json.text("Save profile data for name: " + args[1]));
                     }
                 }
             }
@@ -146,11 +162,11 @@ public class CommandProfile extends ClientCommandBaseIU
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "load", "remove", "list");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "add", "load", "save", "remove", "list");
         }
         if (args.length == 2)
         {
-            if ("load".equalsIgnoreCase(args[0]) || "remove".equalsIgnoreCase(args[0]))
+            if ("load".equalsIgnoreCase(args[0]) || "remove".equalsIgnoreCase(args[0]) || "save".equalsIgnoreCase(args[0]))
             {
                 Collection<ProfileSettingData> collection = ProfileSettings.profileData.getProfileList();
                 List<String> list = Lists.newArrayList();

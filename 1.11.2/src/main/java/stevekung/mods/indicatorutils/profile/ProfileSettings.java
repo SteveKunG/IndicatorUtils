@@ -30,10 +30,8 @@ public class ProfileSettings
             {
                 return;
             }
-
             ProfileSettings.readAutoLoginData(nbt.getTagList("ProfileData", 10));
-
-            IULog.info("Loading extended settings : %s", file.getPath());
+            IULog.info("Loading profile data settings : %s", file.getPath());
         }
         catch (Exception e) {}
     }
@@ -45,9 +43,7 @@ public class ProfileSettings
         try
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-
             nbttagcompound.setTag("ProfileData", ProfileSettings.writeAutoLoginData());
-
             CompressedStreamTools.safeWrite(nbttagcompound, file);
         }
         catch (Exception e) {}
@@ -62,7 +58,17 @@ public class ProfileSettings
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setString("Name", login.getProfileName());
             nbt.setBoolean("Ping", (boolean) login.getObjects()[0]);
-            nbt.setBoolean("FPS", (boolean) login.getObjects()[1]);
+            nbt.setBoolean("IP", (boolean) login.getObjects()[1]);
+            nbt.setBoolean("FPS", (boolean) login.getObjects()[2]);
+            nbt.setBoolean("XYZ", (boolean) login.getObjects()[3]);
+            nbt.setBoolean("LookBlock", (boolean) login.getObjects()[4]);
+            nbt.setBoolean("Direction", (boolean) login.getObjects()[5]);
+            nbt.setBoolean("Biome", (boolean) login.getObjects()[6]);
+            nbt.setBoolean("Armor", (boolean) login.getObjects()[7]);
+            nbt.setBoolean("Potion", (boolean) login.getObjects()[8]);
+            nbt.setBoolean("Keystroke", (boolean) login.getObjects()[9]);
+            nbt.setBoolean("CPS", (boolean) login.getObjects()[10]);
+            nbt.setBoolean("Held", (boolean) login.getObjects()[11]);
             list.appendTag(nbt);
         }
         return list;
@@ -73,7 +79,8 @@ public class ProfileSettings
         for (int i = 0; i < list.tagCount(); ++i)
         {
             NBTTagCompound nbt = list.getCompoundTagAt(i);
-            ProfileSettings.profileData.addProfileData(nbt.getString("Name"), nbt.getBoolean("Ping"), nbt.getBoolean("FPS"));
+            ProfileSettings.profileData.addProfileData(nbt.getString("Name"), nbt.getBoolean("Ping"), nbt.getBoolean("IP"), nbt.getBoolean("FPS"), nbt.getBoolean("XYZ"), nbt.getBoolean("LookBlock"),
+                    nbt.getBoolean("Direction"), nbt.getBoolean("Biome"), nbt.getBoolean("Armor"), nbt.getBoolean("Potion"), nbt.getBoolean("Keystroke"), nbt.getBoolean("CPS"), nbt.getBoolean("Held"));
         }
     }
 }

@@ -39,9 +39,16 @@ public class ProfileData
         }
     }
 
-    public void removeProfile(String data)
+    public ProfileSettingData saveProfileData(String name, Object... objects)
     {
-        this.profileData.remove(data);
+        ProfileSettingData profile = new ProfileSettingData(name, objects);
+        this.profileData.put(name, profile);
+        return profile;
+    }
+
+    public void removeProfile(String name)
+    {
+        this.profileData.remove(name);
     }
 
     public Collection<ProfileSettingData> getProfileList()

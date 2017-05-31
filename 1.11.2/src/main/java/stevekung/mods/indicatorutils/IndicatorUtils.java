@@ -38,6 +38,7 @@ import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
 import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.profile.ProfileSettings;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.utils.*;
 
@@ -57,6 +58,8 @@ public class IndicatorUtils
     public static List<String> IGNORE_LIST = Lists.newArrayList();
     public static boolean ALLOWED;
     private static boolean DEOBFUSCATED;
+
+    //Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.8F, 0.8F)
 
     static
     {
@@ -82,6 +85,7 @@ public class IndicatorUtils
     public void preInit(FMLPreInitializationEvent event)
     {
         ExtendedModSettings.loadExtendedSettings();
+        ProfileSettings.loadExtendedSettings();
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());
@@ -124,6 +128,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
             ClientCommandHandler.instance.registerCommand(new CommandAutoRealms());
+            ClientCommandHandler.instance.registerCommand(new CommandProfile());
         }
 
         if (ConfigManager.replaceVanillaFishingLine)

@@ -64,16 +64,11 @@ import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.gui.*;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.renderer.HUDInfo;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.LayerCapeMOD;
-import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
-import stevekung.mods.indicatorutils.renderer.mode.Global;
-import stevekung.mods.indicatorutils.renderer.mode.PvP;
-import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.*;
 import stevekung.mods.indicatorutils.window.WindowGameXYZ;
 
@@ -406,22 +401,7 @@ public class IndicatorUtilsEventHandler
             }
             if (ConfigManager.enableAllRenderInfo)
             {
-                if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
-                {
-                    UHC.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.PVP))
-                {
-                    PvP.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.COMMAND_BLOCK))
-                {
-                    CommandBlock.init(this.mc);
-                }
-                else
-                {
-                    Global.init(this.mc);
-                }
+                HUDInfo.init(this.mc);
 
                 if (ConfigManager.enableCPS)
                 {
@@ -497,24 +477,6 @@ public class IndicatorUtilsEventHandler
             else
             {
                 IndicatorUtilsEventHandler.REC_ENABLED = true;
-            }
-        }
-        if (ExtendedModSettings.DISPLAY_MODE_USE_MODE.equalsIgnoreCase("keybinding"))
-        {
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_NEXT.isKeyDown())
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode + 1) % 4;
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
-            }
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS.isKeyDown())
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode - 1) % 4;
-
-                if (StatusRendererHelper.INSTANCE.enumRenderMode < 0)
-                {
-                    StatusRendererHelper.INSTANCE.enumRenderMode = 3;
-                }
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
             }
         }
         if (ExtendedModSettings.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("keybinding"))

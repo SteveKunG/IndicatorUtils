@@ -36,6 +36,7 @@ import stevekung.mods.indicatorutils.config.ConfigManager;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.handler.*;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.profile.ProfileSettings;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
 import stevekung.mods.indicatorutils.utils.*;
@@ -81,6 +82,7 @@ public class IndicatorUtils
     public void preInit(FMLPreInitializationEvent event)
     {
         ExtendedModSettings.loadExtendedSettings();
+        ProfileSettings.loadProfileSettings();
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());
@@ -122,6 +124,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
+            ClientCommandHandler.instance.registerCommand(new CommandProfile());
         }
 
         if (ConfigManager.replaceVanillaFishingLine)

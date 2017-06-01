@@ -46,7 +46,6 @@ import stevekung.mods.indicatorutils.utils.JsonUtils;
 public class StatusRendererHelper
 {
     public static StatusRendererHelper INSTANCE = new StatusRendererHelper();
-    public int enumRenderMode;
 
     public static void renderHealthStatus(EntityLivingBase entityLivingBase, String text, double x, double y, double z, double d)
     {
@@ -784,34 +783,6 @@ public class StatusRendererHelper
     public static String getArrowCount(int count, String defaultString)
     {
         return count == 0 ? "" : defaultString;
-    }
-
-    public void setDisplayMode(int type)
-    {
-        String mode = "";
-
-        if (type == 0)
-        {
-            mode = "Default Mode";
-            ExtendedModSettings.DISPLAY_MODE = "default";
-        }
-        if (type == 1)
-        {
-            mode = "UHC Mode";
-            ExtendedModSettings.DISPLAY_MODE = "uhc";
-        }
-        if (type == 2)
-        {
-            mode = "PvP Mode";
-            ExtendedModSettings.DISPLAY_MODE = "pvp";
-        }
-        if (type == 3)
-        {
-            mode = "Command Block Mode";
-            ExtendedModSettings.DISPLAY_MODE = "command";
-        }
-        ExtendedModSettings.saveExtendedSettings();
-        GameInfoHelper.INSTANCE.setActionBarMessage(new JsonUtils().text("Change display mode to " + "[" + mode + "]"), false);
     }
 
     private static Locale getDateFormat()

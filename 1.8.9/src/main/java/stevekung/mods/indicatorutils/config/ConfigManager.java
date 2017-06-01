@@ -25,7 +25,7 @@ import stevekung.mods.indicatorutils.utils.IULog;
 
 public class ConfigManager
 {
-    private static Configuration config;
+    public static Configuration config;
     public static String MAIN_SETTINGS = "indicatorutilmaingui";
     public static String RENDER_INFO_SETTINGS = "indicatorutilrenderinfogui";
     public static String INGAME_RENDER_SETTINGS = "indicatorutilingamerendergui";
@@ -90,8 +90,6 @@ public class ConfigManager
     public static boolean hideBossHealthBar;
 
     // Key Binding Settings
-    public static String keyDisplayModeNext;
-    public static String keyDisplayModePrevious;
     public static String keyToggleSprint;
     public static String keyToggleSneak;
     public static String keyAutoSwim;
@@ -468,14 +466,6 @@ public class ConfigManager
     private static List<String> addKeyBindingSetting(Property prop)
     {
         List<String> propOrder = new ArrayList<String>();
-        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Display Mode Next (Ctrl) + (Key)", "29,27");
-        ConfigManager.keyDisplayModeNext = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Display Mode Previous (Ctrl) + (Key)", "29,26");
-        ConfigManager.keyDisplayModePrevious = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sprint (Ctrl) + (Key)", "29,31");
         ConfigManager.keyToggleSprint = prop.getString();
         propOrder.add(prop.getName());

@@ -25,9 +25,7 @@ keycodeexample.tooltip=Copy this URL and set your custom key code
 commands.getplayerpos.success=%s position is: X:%s Y:%s Z:%s
 commands.getplayerpos.playernull=Player %s doesn't exist
 commands.getplayerpos.usage=/getplayerpos <player>
-commands.indicatorutils.usage=/iu <displaymode|togglesprint|togglesneak|cps|autoclearchat|autoswim|gui>
-commands.indicatorutils.displaymode.usage=/iu displaymode <default|uhc|pvp|command|mode>
-commands.indicatorutils.displaymode.mode.usage=/iu displaymode mode <keybinding|command>
+commands.indicatorutils.usage=/iu <togglesprint|togglesneak|cps|autoclearchat|autoswim|gui>
 commands.indicatorutils.togglesprint.usage=/iu togglesprint <enable|disable|mode>
 commands.indicatorutils.togglesneak.usage=/iu togglesneak <enable|disable|mode>
 commands.indicatorutils.togglesprint.mode.usage=/iu togglesprint mode <keybinding|command>
@@ -47,6 +45,14 @@ commands.autologin.list.count=Showing %s auto login data entry
 commands.autologin.list.entry=- Auto Login Data for '%s' created by '%s'
 commands.autologin.list.empty=There are no auto login data entries was saved
 commands.slimeseed.usage=/slimeseed <seed>
+commands.profileiu.usage=/profileiu <add|load|save|remove|list>
+commands.profileiu.add.usage=/profileiu add <name>
+commands.profileiu.load.usage=/profileiu load <name>
+commands.profileiu.save.usage=/profileiu save <name>
+commands.profileiu.remove.usage=/profileiu remove <name>
+commands.profileiu.list.empty=There are no profile data entries was saved
+commands.profileiu.list.count=Showing %s profile data entry
+commands.profileiu.list.entry=- Profile Data : '%s'
 
 # KEY BINDING
 key.indicatorutils.category=Indicator Utils

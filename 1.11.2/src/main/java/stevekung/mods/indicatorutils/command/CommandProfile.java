@@ -61,7 +61,8 @@ public class CommandProfile extends ClientCommandBaseIU
                 ProfileSettings.profileData.addProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
                         ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand,
                         ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
-                        ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
+                        ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET, ConfigManager.enableCurrentTime, ConfigManager.enableGameTime, ConfigManager.enableMoonPhase, ConfigManager.enableWeatherStatus,
+                        ConfigManager.enableSlimeChunkFinder);
                 sender.sendMessage(json.text("Add profile data name: " + args[1]));
                 ProfileSettings.saveProfileSettings();
             }
@@ -114,7 +115,8 @@ public class CommandProfile extends ClientCommandBaseIU
                         ProfileSettings.profileData.saveProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
                                 ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand,
                                 ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
-                                ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
+                                ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET, ConfigManager.enableCurrentTime, ConfigManager.enableGameTime, ConfigManager.enableMoonPhase, ConfigManager.enableWeatherStatus,
+                                ConfigManager.enableSlimeChunkFinder);
                         ProfileSettings.saveProfileSettings();
                         sender.sendMessage(json.text("Save profile data for name: " + args[1]));
                     }

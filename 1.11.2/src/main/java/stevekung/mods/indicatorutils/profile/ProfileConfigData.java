@@ -80,6 +80,26 @@ public class ProfileConfigData
         ExtendedModSettings.ARMOR_STATUS_OFFSET = (int) data.getObjects()[17];
         ExtendedModSettings.POTION_STATUS_OFFSET = (int) data.getObjects()[18];
         ExtendedModSettings.KEYSTROKE_Y_OFFSET = (int) data.getObjects()[19];
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Current Time", true);
+        this.set(prop, data.getObjects()[20]);
+        ConfigManager.enableCurrentTime = prop.getBoolean();
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Game Time", true);
+        this.set(prop, data.getObjects()[21]);
+        ConfigManager.enableGameTime = prop.getBoolean();
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Moon Phase", false);
+        this.set(prop, data.getObjects()[22]);
+        ConfigManager.enableMoonPhase = prop.getBoolean();
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Weather Status", true);
+        this.set(prop, data.getObjects()[23]);
+        ConfigManager.enableWeatherStatus = prop.getBoolean();
+
+        prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Enable Slime Chunk Finder", false);
+        this.set(prop, data.getObjects()[24]);
+        ConfigManager.enableSlimeChunkFinder = prop.getBoolean();
     }
 
     public void set(Property prop, Object object)

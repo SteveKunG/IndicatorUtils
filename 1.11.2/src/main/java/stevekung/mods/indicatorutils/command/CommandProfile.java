@@ -63,7 +63,7 @@ public class CommandProfile extends ClientCommandBaseIU
                         ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
                         ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
                 sender.sendMessage(json.text("Add profile data name: " + args[1]));
-                ProfileSettings.saveExtendedSettings();
+                ProfileSettings.saveProfileSettings();
             }
             else if ("load".equalsIgnoreCase(args[0]))
             {
@@ -85,6 +85,7 @@ public class CommandProfile extends ClientCommandBaseIU
                         {
                             configData.load(data);
                             ConfigManager.config.save();
+                            ExtendedModSettings.saveExtendedSettings();
                             sender.sendMessage(json.text("Load profile data for name: " + args[1]));
                         }
                     }
@@ -114,7 +115,7 @@ public class CommandProfile extends ClientCommandBaseIU
                                 ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand,
                                 ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
                                 ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
-                        ProfileSettings.saveExtendedSettings();
+                        ProfileSettings.saveProfileSettings();
                         sender.sendMessage(json.text("Save profile data for name: " + args[1]));
                     }
                 }

@@ -18,7 +18,7 @@ public class ProfileSettings
 {
     public static ProfileData profileData = new ProfileData();
 
-    public static void loadExtendedSettings()
+    public static void loadProfileSettings()
     {
         File file = new File(Minecraft.getMinecraft().mcDataDir, "indicatorutils_profiles.dat");
 
@@ -30,26 +30,26 @@ public class ProfileSettings
             {
                 return;
             }
-            ProfileSettings.readAutoLoginData(nbt.getTagList("ProfileData", 10));
+            ProfileSettings.readProfileData(nbt.getTagList("ProfileData", 10));
             IULog.info("Loading profile data settings : %s", file.getPath());
         }
         catch (Exception e) {}
     }
 
-    public static void saveExtendedSettings()
+    public static void saveProfileSettings()
     {
         File file = new File(Minecraft.getMinecraft().mcDataDir, "indicatorutils_profiles.dat");
 
         try
         {
             NBTTagCompound nbttagcompound = new NBTTagCompound();
-            nbttagcompound.setTag("ProfileData", ProfileSettings.writeAutoLoginData());
+            nbttagcompound.setTag("ProfileData", ProfileSettings.writeProfileData());
             CompressedStreamTools.safeWrite(nbttagcompound, file);
         }
         catch (Exception e) {}
     }
 
-    private static NBTTagList writeAutoLoginData()
+    private static NBTTagList writeProfileData()
     {
         NBTTagList list = new NBTTagList();
 
@@ -77,12 +77,17 @@ public class ProfileSettings
             nbt.setInteger("ArmorOffset", (int) login.getObjects()[17]);
             nbt.setInteger("PotionOffset", (int) login.getObjects()[18]);
             nbt.setInteger("KeystrokeY", (int) login.getObjects()[19]);
+            nbt.setBoolean("Time", (boolean) login.getObjects()[20]);
+            nbt.setBoolean("GameTime", (boolean) login.getObjects()[21]);
+            nbt.setBoolean("MoonPhase", (boolean) login.getObjects()[22]);
+            nbt.setBoolean("WeatherStat", (boolean) login.getObjects()[23]);
+            nbt.setBoolean("SlimeChunk", (boolean) login.getObjects()[24]);
             list.appendTag(nbt);
         }
         return list;
     }
 
-    private static void readAutoLoginData(NBTTagList list)
+    private static void readProfileData(NBTTagList list)
     {
         for (int i = 0; i < list.tagCount(); ++i)
         {
@@ -90,7 +95,7 @@ public class ProfileSettings
             ProfileSettings.profileData.addProfileData(nbt.getString("Name"), nbt.getBoolean("Ping"), nbt.getBoolean("IP"), nbt.getBoolean("FPS"), nbt.getBoolean("XYZ"), nbt.getBoolean("LookBlock"),
                     nbt.getBoolean("Direction"), nbt.getBoolean("Biome"), nbt.getBoolean("Armor"), nbt.getBoolean("Potion"), nbt.getBoolean("Keystroke"), nbt.getBoolean("CPS"), nbt.getBoolean("Held"),
                     nbt.getString("ArmorStat"), nbt.getString("PotionStat"), nbt.getString("ArmorPos"), nbt.getString("PotionPos"), nbt.getString("KeystokePos"), nbt.getInteger("ArmorOffset"),
-                    nbt.getInteger("PotionOffset"), nbt.getInteger("KeystrokeY"));
+                    nbt.getInteger("PotionOffset"), nbt.getInteger("KeystrokeY"), nbt.getBoolean("Time"), nbt.getBoolean("GameTime"), nbt.getBoolean("MoonPhase"), nbt.getBoolean("WeatherStat"), nbt.getBoolean("SlimeChunk"));
         }
     }
 }

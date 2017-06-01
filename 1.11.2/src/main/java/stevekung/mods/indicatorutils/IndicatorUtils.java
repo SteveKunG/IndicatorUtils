@@ -85,7 +85,7 @@ public class IndicatorUtils
     public void preInit(FMLPreInitializationEvent event)
     {
         ExtendedModSettings.loadExtendedSettings();
-        ProfileSettings.loadExtendedSettings();
+        ProfileSettings.loadProfileSettings();
         ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
         KeyBindingHandler.initKeyBinding();
         this.initModInfo(event.getModMetadata());

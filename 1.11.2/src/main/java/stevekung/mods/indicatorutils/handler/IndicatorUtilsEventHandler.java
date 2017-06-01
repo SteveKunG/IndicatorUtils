@@ -175,7 +175,7 @@ public class IndicatorUtilsEventHandler
         if (event.getGui() instanceof GuiIngameMenu)
         {
             event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
-            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 40, 135, 20, "Truemoney"));
+            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 41, 135, 20, "Truemoney"));
         }
     }
 

@@ -44,6 +44,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -167,42 +170,39 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
-    public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
+    public void onInitGui(InitGuiEvent.Post event)
     {
-        if (!(event.getGui() instanceof GuiIngameMenu))
+        if (event.getGui() instanceof GuiIngameMenu)
         {
-            return;
-        }
-        event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
-        event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 40, 135, 20, "Truemoney"));
-    }
-
-    @SubscribeEvent
-    public void onActionGui(GuiScreenEvent.ActionPerformedEvent.Post event)
-    {
-        if (!(event.getGui() instanceof GuiIngameMenu))
-        {
-            return;
-        }
-        switch (event.getButton().id)
-        {
-        case 200:
-            this.openLink("https://twitch.streamlabs.com/stevekung");
-            break;
-        case 201:
-            this.openLink("https://tipme.in.th/stevekung");
-            break;
+            event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
+            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 40, 135, 20, "Truemoney"));
         }
     }
 
     @SubscribeEvent
-    public void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
+    public void onActionGui(ActionPerformedEvent.Post event)
     {
-        if (!(event.getGui() instanceof GuiIngameMenu))
+        if (event.getGui() instanceof GuiIngameMenu)
         {
-            return;
+            switch (event.getButton().id)
+            {
+            case 200:
+                this.openLink("https://twitch.streamlabs.com/stevekung");
+                break;
+            case 201:
+                this.openLink("https://tipme.in.th/stevekung");
+                break;
+            }
         }
-        event.getGui().drawString(this.mc.fontRendererObj, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
+    }
+
+    @SubscribeEvent
+    public void onRenderGui(DrawScreenEvent.Post event)
+    {
+        if (event.getGui() instanceof GuiIngameMenu)
+        {
+            event.getGui().drawString(this.mc.fontRendererObj, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
+        }
     }
 
     @SubscribeEvent

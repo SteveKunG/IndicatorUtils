@@ -176,90 +176,6 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     return;
                 }
             }
-            else if ("displaymode".equalsIgnoreCase(args[0]))
-            {
-                if (args.length == 1)
-                {
-                    this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                    return;
-                }
-
-                if ("default".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                        return;
-                    }
-                    ExtendedModSettings.DISPLAY_MODE = "default";
-                    sender.addChatMessage(json.text("Set display mode to Default"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("uhc".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                        return;
-                    }
-                    ExtendedModSettings.DISPLAY_MODE = "uhc";
-                    sender.addChatMessage(json.text("Set display mode to UHC"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("pvp".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                        return;
-                    }
-                    ExtendedModSettings.DISPLAY_MODE = "pvp";
-                    sender.addChatMessage(json.text("Set display mode to PvP"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("command".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length > 2)
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                        return;
-                    }
-                    ExtendedModSettings.DISPLAY_MODE = "command";
-                    sender.addChatMessage(json.text("Set display mode to Command Block"));
-                    ExtendedModSettings.saveExtendedSettings();
-                }
-                else if ("mode".equalsIgnoreCase(args[1]))
-                {
-                    if (args.length == 2 || args.length > 3)
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.mode.usage");
-                        return;
-                    }
-
-                    if ("keybinding".equalsIgnoreCase(args[2]))
-                    {
-                        ExtendedModSettings.DISPLAY_MODE_USE_MODE = "keybinding";
-                        sender.addChatMessage(json.text("Set display mode to use Key Binding"));
-                        ExtendedModSettings.saveExtendedSettings();
-                    }
-                    else if ("command".equalsIgnoreCase(args[2]))
-                    {
-                        ExtendedModSettings.DISPLAY_MODE_USE_MODE = "command";
-                        sender.addChatMessage(json.text("Set display mode to use Command"));
-                        ExtendedModSettings.saveExtendedSettings();
-                    }
-                    else
-                    {
-                        this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.mode.usage");
-                        return;
-                    }
-                }
-                else
-                {
-                    this.addWrongUsageMessage(sender, "commands.indicatorutils.displaymode.usage");
-                    return;
-                }
-            }
             else if ("autoswim".equalsIgnoreCase(args[0]))
             {
                 if (args.length == 1)
@@ -415,14 +331,10 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
     {
         if (args.length == 1)
         {
-            return CommandBase.getListOfStringsMatchingLastWord(args, "displaymode", "togglesprint", "togglesneak", "cps", "autoclearchat", "autoswim", "gui");
+            return CommandBase.getListOfStringsMatchingLastWord(args, "togglesprint", "togglesneak", "cps", "autoclearchat", "autoswim", "gui");
         }
         if (args.length == 2)
         {
-            if (args[0].equalsIgnoreCase("displaymode"))
-            {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "default", "uhc", "pvp", "command", "mode");
-            }
             if (args[0].equalsIgnoreCase("autoclearchat"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "enable", "disable", "mode", "set");
@@ -438,7 +350,7 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
         }
         if (args.length == 3)
         {
-            if ((args[0].equalsIgnoreCase("togglesprint") || args[0].equalsIgnoreCase("togglesneak") || args[0].equalsIgnoreCase("displaymode") || args[0].equalsIgnoreCase("autoswim")) && args[1].equalsIgnoreCase("mode"))
+            if ((args[0].equalsIgnoreCase("togglesprint") || args[0].equalsIgnoreCase("togglesneak") || args[0].equalsIgnoreCase("autoswim")) && args[1].equalsIgnoreCase("mode"))
             {
                 return CommandBase.getListOfStringsMatchingLastWord(args, "keybinding", "command");
             }

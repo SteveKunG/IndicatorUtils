@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.mode;
+package stevekung.mods.indicatorutils.renderer;
 
 import java.util.List;
 
@@ -20,11 +20,11 @@ import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.RenderInfoBase;
 
-public class Global
+public class HUDInfo
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = Global.renderIndicator(mc);
+        List<String> list = HUDInfo.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);

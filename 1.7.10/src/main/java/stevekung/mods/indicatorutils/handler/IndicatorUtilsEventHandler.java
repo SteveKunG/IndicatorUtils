@@ -6,6 +6,7 @@
 
 package stevekung.mods.indicatorutils.handler;
 
+import java.net.URI;
 import java.util.*;
 
 import org.lwjgl.input.Keyboard;
@@ -48,6 +49,9 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.GuiIngameForge;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.client.event.MouseEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
@@ -59,15 +63,10 @@ import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.gui.*;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.renderer.HUDInfo;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
-import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
-import stevekung.mods.indicatorutils.renderer.mode.Global;
-import stevekung.mods.indicatorutils.renderer.mode.PvP;
-import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.*;
 import stevekung.mods.indicatorutils.window.WindowGameXYZ;
 
@@ -145,6 +144,42 @@ public class IndicatorUtilsEventHandler
     {
         this.mc.ingameGUI.persistantChatGUI = new GuiNewChatIU(this.mc);
         IndicatorUtilsEventHandler.setTCPNoDelay = true;
+    }
+
+    @SubscribeEvent
+    public void onInitGui(InitGuiEvent.Post event)
+    {
+        if (event.gui instanceof GuiIngameMenu)
+        {
+            event.buttonList.add(new GuiButton(200, event.gui.width - 145, 20, 135, 20, "Paypal"));
+            event.buttonList.add(new GuiButton(201, event.gui.width - 145, 41, 135, 20, "Truemoney"));
+        }
+    }
+
+    @SubscribeEvent
+    public void onActionGui(ActionPerformedEvent.Post event)
+    {
+        if (event.gui instanceof GuiIngameMenu)
+        {
+            switch (event.button.id)
+            {
+            case 200:
+                this.openLink("https://twitch.streamlabs.com/stevekung");
+                break;
+            case 201:
+                this.openLink("https://tipme.in.th/stevekung");
+                break;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGui(DrawScreenEvent.Post event)
+    {
+        if (event.gui instanceof GuiIngameMenu)
+        {
+            event.gui.drawString(this.mc.fontRenderer, "Donate to Indicator Utils", event.gui.width - 140, 8, 65481);
+        }
     }
 
     @SubscribeEvent
@@ -444,22 +479,7 @@ public class IndicatorUtilsEventHandler
             }
             if (ConfigManager.enableAllRenderInfo)
             {
-                if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
-                {
-                    UHC.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.PVP))
-                {
-                    PvP.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.COMMAND_BLOCK))
-                {
-                    CommandBlock.init(this.mc);
-                }
-                else
-                {
-                    Global.init(this.mc);
-                }
+                HUDInfo.init(this.mc);
 
                 if (ConfigManager.enableCPS)
                 {
@@ -530,31 +550,6 @@ public class IndicatorUtilsEventHandler
             else
             {
                 IndicatorUtilsEventHandler.REC_ENABLED = true;
-            }
-        }
-        if (ExtendedModSettings.DISPLAY_MODE_USE_MODE.equalsIgnoreCase("keybinding"))
-        {
-            String[] keyNext = ConfigManager.keyDisplayModeNext.split(",");
-            String[] keyPrevious = ConfigManager.keyDisplayModePrevious.split(",");
-            int keyNextCtrl = GameInfoHelper.INSTANCE.parseInt(keyNext[0], "Display Mode");
-            int keyNextOther = GameInfoHelper.INSTANCE.parseInt(keyNext[1], "Display Mode");
-            int keyPreviousCtrl = GameInfoHelper.INSTANCE.parseInt(keyPrevious[0], "Display Mode");
-            int keyPreviousOther = GameInfoHelper.INSTANCE.parseInt(keyPrevious[1], "Display Mode");
-
-            if (Keyboard.isKeyDown(keyNextCtrl) && Keyboard.isKeyDown(keyNextOther))
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode + 1) % 4;
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
-            }
-            if (Keyboard.isKeyDown(keyPreviousCtrl) && Keyboard.isKeyDown(keyPreviousOther))
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode - 1) % 4;
-
-                if (StatusRendererHelper.INSTANCE.enumRenderMode < 0)
-                {
-                    StatusRendererHelper.INSTANCE.enumRenderMode = 3;
-                }
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
             }
         }
         if (ExtendedModSettings.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("keybinding"))
@@ -991,6 +986,21 @@ public class IndicatorUtilsEventHandler
         else
         {
             WindowGameXYZ.label.setText("<html>" + "<div style='text-align: center;'>" + "<br>" + "Unknown" + "</div>" + "</html>");
+        }
+    }
+
+    private void openLink(String url)
+    {
+        try
+        {
+            URI uri = new URI(url);
+            Class<?> oclass = Class.forName("java.awt.Desktop");
+            Object object = oclass.getMethod("getDesktop").invoke((Object)null);
+            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
+        }
+        catch (Throwable throwable)
+        {
+            throwable.printStackTrace();
         }
     }
 }

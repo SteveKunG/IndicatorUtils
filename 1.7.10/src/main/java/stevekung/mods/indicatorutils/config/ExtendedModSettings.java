@@ -41,14 +41,12 @@ public class ExtendedModSettings
     public static long SLIME_CHUNK_SEED = 0L;
 
     public static String CPS_POSITION = "left";
-    public static String DISPLAY_MODE = "default";
     public static String AUTO_CLEAR_CHAT_MODE = "all";
     public static String CAPE_URL = "";
     public static String CHAT_MODE = "";
 
     public static String TOGGLE_SPRINT_USE_MODE = "command";
     public static String TOGGLE_SNEAK_USE_MODE = "command";
-    public static String DISPLAY_MODE_USE_MODE = "command";
     public static String AUTO_SWIM_USE_MODE = "command";
 
     public static void loadExtendedSettings()
@@ -85,14 +83,12 @@ public class ExtendedModSettings
             ExtendedModSettings.SLIME_CHUNK_SEED = ExtendedModSettings.getLong(nbt, "SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
 
             ExtendedModSettings.CPS_POSITION = ExtendedModSettings.getString(nbt, "CpsPosition", ExtendedModSettings.CPS_POSITION);
-            ExtendedModSettings.DISPLAY_MODE = ExtendedModSettings.getString(nbt, "DisplayMode", ExtendedModSettings.DISPLAY_MODE);
             ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = ExtendedModSettings.getString(nbt, "AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
             ExtendedModSettings.CAPE_URL = ExtendedModSettings.getString(nbt, "CapeURL", ExtendedModSettings.CAPE_URL);
             ExtendedModSettings.CHAT_MODE = ExtendedModSettings.getString(nbt, "ChatMode", ExtendedModSettings.CHAT_MODE);
 
             ExtendedModSettings.TOGGLE_SPRINT_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             ExtendedModSettings.TOGGLE_SNEAK_USE_MODE = ExtendedModSettings.getString(nbt, "ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
-            ExtendedModSettings.DISPLAY_MODE_USE_MODE = ExtendedModSettings.getString(nbt, "DisplayModeUseMode", ExtendedModSettings.DISPLAY_MODE_USE_MODE);
             ExtendedModSettings.AUTO_SWIM_USE_MODE = ExtendedModSettings.getString(nbt, "AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
             ExtendedModSettings.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
@@ -127,14 +123,12 @@ public class ExtendedModSettings
             nbttagcompound.setLong("SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
 
             nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
-            nbttagcompound.setString("DisplayMode", ExtendedModSettings.DISPLAY_MODE);
             nbttagcompound.setString("AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
             nbttagcompound.setString("CapeURL", ExtendedModSettings.CAPE_URL);
             nbttagcompound.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
 
             nbttagcompound.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
             nbttagcompound.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
-            nbttagcompound.setString("DisplayModeUseMode", ExtendedModSettings.DISPLAY_MODE_USE_MODE);
             nbttagcompound.setString("AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
             nbttagcompound.setTag("AutoLoginData", ExtendedModSettings.writeAutoLoginData());

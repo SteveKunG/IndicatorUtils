@@ -36,6 +36,7 @@ import stevekung.mods.indicatorutils.handler.IndicatorUtilsEventHandler;
 import stevekung.mods.indicatorutils.handler.NewChatEventHandler;
 import stevekung.mods.indicatorutils.handler.OldVersionWarningEventHandler;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.profile.ProfileSettings;
 import stevekung.mods.indicatorutils.renderer.CapeRenderer;
 import stevekung.mods.indicatorutils.renderer.RenderPlayerMOD;
 import stevekung.mods.indicatorutils.utils.*;
@@ -83,6 +84,7 @@ public class IndicatorUtils
         if (FMLCommonHandler.instance().getSide() == Side.CLIENT)
         {
             ExtendedModSettings.loadExtendedSettings();
+            ProfileSettings.loadProfileSettings();
             ConfigManager.init(new File(event.getModConfigurationDirectory(), "IndicatorUtils.cfg"));
             KeyBindingHandler.initKeyBinding();
             this.initModInfo(event.getModMetadata());
@@ -130,6 +132,7 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
+            ClientCommandHandler.instance.registerCommand(new CommandProfile());
 
             if (ConfigManager.enableCustomCapeFeature)
             {

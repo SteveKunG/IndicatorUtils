@@ -7,7 +7,6 @@
 package stevekung.mods.indicatorutils.helper;
 
 import stevekung.mods.indicatorutils.config.ConfigManager;
-import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 
 public class ObjectModeHelper
 {
@@ -45,22 +44,6 @@ public class ObjectModeHelper
         }
     }
 
-    public static boolean getDisplayMode(EnumDisplayMode mode)
-    {
-        switch (mode)
-        {
-        case DEFAULT:
-        default:
-            return ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("default");
-        case UHC:
-            return ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("uhc");
-        case PVP:
-            return ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("pvp");
-        case COMMAND_BLOCK:
-            return ExtendedModSettings.DISPLAY_MODE.equalsIgnoreCase("command");
-        }
-    }
-
     public static enum ArmorStatusPosition
     {
         LEFT,
@@ -76,13 +59,5 @@ public class ObjectModeHelper
         RIGHT,
         HOTBAR_LEFT,
         HOTBAR_RIGHT;
-    }
-
-    public static enum EnumDisplayMode
-    {
-        DEFAULT,
-        UHC,
-        PVP,
-        COMMAND_BLOCK;
     }
 }

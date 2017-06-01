@@ -44,6 +44,9 @@ import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.GuiIngameForge;
 import net.minecraftforge.client.event.*;
+import net.minecraftforge.client.event.GuiScreenEvent.ActionPerformedEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.DrawScreenEvent;
+import net.minecraftforge.client.event.GuiScreenEvent.InitGuiEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent.ElementType;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Loader;
@@ -64,16 +67,11 @@ import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.gui.*;
 import stevekung.mods.indicatorutils.helper.ClientRendererHelper;
 import stevekung.mods.indicatorutils.helper.GameInfoHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper;
-import stevekung.mods.indicatorutils.helper.ObjectModeHelper.EnumDisplayMode;
 import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.keybinding.KeyBindingHandler;
+import stevekung.mods.indicatorutils.renderer.HUDInfo;
 import stevekung.mods.indicatorutils.renderer.KeystrokeRenderer;
 import stevekung.mods.indicatorutils.renderer.LayerCapeMOD;
-import stevekung.mods.indicatorutils.renderer.mode.CommandBlock;
-import stevekung.mods.indicatorutils.renderer.mode.Global;
-import stevekung.mods.indicatorutils.renderer.mode.PvP;
-import stevekung.mods.indicatorutils.renderer.mode.UHC;
 import stevekung.mods.indicatorutils.utils.*;
 import stevekung.mods.indicatorutils.window.WindowGameXYZ;
 
@@ -167,6 +165,42 @@ public class IndicatorUtilsEventHandler
             RenderPlayer renderSlim = this.mc.getRenderManager().getSkinMap().get("slim");
             renderDefault.addLayer(new LayerCapeMOD(renderDefault));
             renderSlim.addLayer(new LayerCapeMOD(renderSlim));
+        }
+    }
+
+    @SubscribeEvent
+    public void onInitGui(InitGuiEvent.Post event)
+    {
+        if (event.getGui() instanceof GuiIngameMenu)
+        {
+            event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
+            event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 41, 135, 20, "Truemoney"));
+        }
+    }
+
+    @SubscribeEvent
+    public void onActionGui(ActionPerformedEvent.Post event)
+    {
+        if (event.getGui() instanceof GuiIngameMenu)
+        {
+            switch (event.getButton().id)
+            {
+            case 200:
+                this.openLink("https://twitch.streamlabs.com/stevekung");
+                break;
+            case 201:
+                this.openLink("https://tipme.in.th/stevekung");
+                break;
+            }
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGui(DrawScreenEvent.Post event)
+    {
+        if (event.getGui() instanceof GuiIngameMenu)
+        {
+            event.getGui().drawString(this.mc.fontRendererObj, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
         }
     }
 
@@ -394,22 +428,7 @@ public class IndicatorUtilsEventHandler
             }
             if (ConfigManager.enableAllRenderInfo)
             {
-                if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.UHC))
-                {
-                    UHC.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.PVP))
-                {
-                    PvP.init(this.mc);
-                }
-                else if (ObjectModeHelper.getDisplayMode(EnumDisplayMode.COMMAND_BLOCK))
-                {
-                    CommandBlock.init(this.mc);
-                }
-                else
-                {
-                    Global.init(this.mc);
-                }
+                HUDInfo.init(this.mc);
 
                 if (ConfigManager.enableCPS)
                 {
@@ -475,24 +494,6 @@ public class IndicatorUtilsEventHandler
             else
             {
                 IndicatorUtilsEventHandler.REC_ENABLED = true;
-            }
-        }
-        if (ExtendedModSettings.DISPLAY_MODE_USE_MODE.equalsIgnoreCase("keybinding"))
-        {
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_NEXT.isKeyDown())
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode + 1) % 4;
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
-            }
-            if (KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS.isKeyDown())
-            {
-                StatusRendererHelper.INSTANCE.enumRenderMode = (StatusRendererHelper.INSTANCE.enumRenderMode - 1) % 4;
-
-                if (StatusRendererHelper.INSTANCE.enumRenderMode < 0)
-                {
-                    StatusRendererHelper.INSTANCE.enumRenderMode = 3;
-                }
-                StatusRendererHelper.INSTANCE.setDisplayMode(StatusRendererHelper.INSTANCE.enumRenderMode);
             }
         }
         if (ExtendedModSettings.TOGGLE_SPRINT_USE_MODE.equalsIgnoreCase("keybinding"))

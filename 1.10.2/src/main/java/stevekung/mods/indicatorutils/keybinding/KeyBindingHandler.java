@@ -18,8 +18,6 @@ public class KeyBindingHandler
     public static KeyBinding KEY_TOGGLE_SPRINT;
     public static KeyBinding KEY_TOGGLE_SNEAK;
     public static KeyBinding KEY_AUTO_SWIM;
-    public static KeyBinding KEY_DISPLAY_MODE_NEXT;
-    public static KeyBinding KEY_DISPLAY_MODE_PREVIOUS;
     public static KeyBinding KEY_REC_COMMAND;
     public static KeyBinding KEY_END_GAME_MESSAGE;
     public static KeyBinding KEY_OPEN_CAPE_DOWNLOADER_GUI;
@@ -29,8 +27,6 @@ public class KeyBindingHandler
         KeyBindingHandler.KEY_TOGGLE_SPRINT = new KeyBindingIU("key.togglesprint.desc", KeyModifier.CONTROL, Keyboard.KEY_S);
         KeyBindingHandler.KEY_TOGGLE_SNEAK = new KeyBindingIU("key.togglesneak.desc", KeyModifier.CONTROL, Keyboard.KEY_LSHIFT);
         KeyBindingHandler.KEY_AUTO_SWIM = new KeyBindingIU("key.autoswim.desc", KeyModifier.CONTROL, Keyboard.KEY_R);
-        KeyBindingHandler.KEY_DISPLAY_MODE_NEXT = new KeyBindingIU("key.displaymode.next.desc", KeyModifier.CONTROL, Keyboard.KEY_RBRACKET);
-        KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS = new KeyBindingIU("key.displaymode.previous.desc", KeyModifier.CONTROL, Keyboard.KEY_LBRACKET);
         KeyBindingHandler.KEY_REC_COMMAND = new KeyBinding("key.reccommand.desc", Keyboard.KEY_F9, "key.indicatorutils.category");
         KeyBindingHandler.KEY_END_GAME_MESSAGE = new KeyBinding("key.endgamemessage.desc", Keyboard.KEY_G, "key.indicatorutils.category");
 
@@ -43,8 +39,6 @@ public class KeyBindingHandler
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SPRINT);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_TOGGLE_SNEAK);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_AUTO_SWIM);
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_DISPLAY_MODE_NEXT);
-        ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_DISPLAY_MODE_PREVIOUS);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_REC_COMMAND);
         ClientRegistry.registerKeyBinding(KeyBindingHandler.KEY_END_GAME_MESSAGE);
     }

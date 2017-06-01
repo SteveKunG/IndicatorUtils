@@ -23,7 +23,7 @@ import stevekung.mods.indicatorutils.utils.IULog;
 
 public class ConfigManager
 {
-    private static Configuration config;
+    public static Configuration config;
     public static String MAIN_SETTINGS = "indicatorutilmaingui";
     public static String RENDER_INFO_SETTINGS = "indicatorutilrenderinfogui";
     public static String INGAME_RENDER_SETTINGS = "indicatorutilingamerendergui";

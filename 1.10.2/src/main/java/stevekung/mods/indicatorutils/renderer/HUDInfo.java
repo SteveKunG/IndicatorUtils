@@ -4,7 +4,7 @@
  *
  ******************************************************************************/
 
-package stevekung.mods.indicatorutils.renderer.mode;
+package stevekung.mods.indicatorutils.renderer;
 
 import java.util.Collection;
 import java.util.List;
@@ -24,11 +24,11 @@ import stevekung.mods.indicatorutils.helper.StatusRendererHelper;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 import stevekung.mods.indicatorutils.utils.RenderInfoBase;
 
-public class PvP
+public class HUDInfo
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = PvP.renderIndicator(mc);
+        List<String> list = HUDInfo.renderIndicator(mc);
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -80,7 +80,7 @@ public class PvP
         }
     }
 
-    private static List<String> renderIndicator(Minecraft mc)
+    public static List<String> renderIndicator(Minecraft mc)
     {
         List<String> list = Lists.newArrayList();
 
@@ -96,9 +96,21 @@ public class PvP
         {
             list.add(RenderInfoBase.renderFPS());
         }
+        if (ConfigManager.enableXYZ)
+        {
+            list.addAll(RenderInfoBase.renderXYZ());
+        }
+        if (ConfigManager.enableLookingAtBlock)
+        {
+            list.addAll(RenderInfoBase.renderLookingAtBlock());
+        }
         if (ConfigManager.enableDirection)
         {
             list.add(RenderInfoBase.renderDirection());
+        }
+        if (ConfigManager.enableBiome)
+        {
+            list.addAll(RenderInfoBase.renderBiome());
         }
         if (ConfigManager.enableCPS)
         {

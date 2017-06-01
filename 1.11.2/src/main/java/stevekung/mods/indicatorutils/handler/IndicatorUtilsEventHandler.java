@@ -167,6 +167,45 @@ public class IndicatorUtilsEventHandler
     }
 
     @SubscribeEvent
+    public void onInitGui(GuiScreenEvent.InitGuiEvent.Post event)
+    {
+        if (!(event.getGui() instanceof GuiIngameMenu))
+        {
+            return;
+        }
+        event.getButtonList().add(new GuiButton(200, event.getGui().width - 145, 20, 135, 20, "Paypal"));
+        event.getButtonList().add(new GuiButton(201, event.getGui().width - 145, 40, 135, 20, "Truemoney"));
+    }
+
+    @SubscribeEvent
+    public void onActionGui(GuiScreenEvent.ActionPerformedEvent.Post event)
+    {
+        if (!(event.getGui() instanceof GuiIngameMenu))
+        {
+            return;
+        }
+        switch (event.getButton().id)
+        {
+        case 200:
+            this.openLink("https://twitch.streamlabs.com/stevekung");
+            break;
+        case 201:
+            this.openLink("https://tipme.in.th/stevekung");
+            break;
+        }
+    }
+
+    @SubscribeEvent
+    public void onRenderGui(GuiScreenEvent.DrawScreenEvent.Post event)
+    {
+        if (!(event.getGui() instanceof GuiIngameMenu))
+        {
+            return;
+        }
+        event.getGui().drawString(this.mc.fontRendererObj, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
+    }
+
+    @SubscribeEvent
     public void onConfigChanged(ConfigChangedEvent event)
     {
         if (event.getModID().equalsIgnoreCase(IndicatorUtils.MOD_ID))

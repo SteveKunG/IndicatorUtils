@@ -20,6 +20,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.profile.ProfileConfigData;
 import stevekung.mods.indicatorutils.profile.ProfileData;
 import stevekung.mods.indicatorutils.profile.ProfileData.ProfileSettingData;
@@ -58,7 +59,9 @@ public class CommandProfile extends ClientCommandBaseIU
                     return;
                 }
                 ProfileSettings.profileData.addProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
-                        ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand);
+                        ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand,
+                        ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
+                        ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
                 sender.sendMessage(json.text("Add profile data name: " + args[1]));
                 ProfileSettings.saveExtendedSettings();
             }
@@ -108,7 +111,9 @@ public class CommandProfile extends ClientCommandBaseIU
                     if (args[1].equals(data.getProfileName()))
                     {
                         ProfileSettings.profileData.saveProfileData(args[1], ConfigManager.enablePing, ConfigManager.enableServerIP, ConfigManager.enableFPS, ConfigManager.enableXYZ, ConfigManager.enableLookingAtBlock,
-                                ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand);
+                                ConfigManager.enableDirection, ConfigManager.enableBiome, ConfigManager.enableArmorStatus, ConfigManager.enablePotionStatus, ConfigManager.enableKeystroke, ConfigManager.enableCPS, ConfigManager.enableHeldItemInHand,
+                                ConfigManager.armorStatusMode, ConfigManager.heldItemStatusMode, ConfigManager.armorStatusPosition, ConfigManager.potionStatusPosition, ConfigManager.keystrokePosition, ExtendedModSettings.ARMOR_STATUS_OFFSET,
+                                ExtendedModSettings.POTION_STATUS_OFFSET, ExtendedModSettings.KEYSTROKE_Y_OFFSET);
                         ProfileSettings.saveExtendedSettings();
                         sender.sendMessage(json.text("Save profile data for name: " + args[1]));
                     }

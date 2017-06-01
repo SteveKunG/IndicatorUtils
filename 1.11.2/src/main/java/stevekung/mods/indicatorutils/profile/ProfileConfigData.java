@@ -2,6 +2,7 @@ package stevekung.mods.indicatorutils.profile;
 
 import net.minecraftforge.common.config.Property;
 import stevekung.mods.indicatorutils.config.ConfigManager;
+import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.profile.ProfileData.ProfileSettingData;
 
 public class ProfileConfigData
@@ -55,6 +56,30 @@ public class ProfileConfigData
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Held Item", false);
         this.set(prop, data.getObjects()[11]);
         ConfigManager.enableHeldItemInHand = prop.getBoolean();
+
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Armor Status", "PERCENT");
+        prop.set((String) data.getObjects()[12]);
+        ConfigManager.armorStatusMode = prop.getString();
+
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Held Item Status", "NORMAL");
+        prop.set((String) data.getObjects()[13]);
+        ConfigManager.heldItemStatusMode = prop.getString();
+
+        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Armor Status Position", "LEFT");
+        prop.set((String) data.getObjects()[14]);
+        ConfigManager.armorStatusPosition = prop.getString();
+
+        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Potion Status Position", "LEFT");
+        prop.set((String) data.getObjects()[15]);
+        ConfigManager.potionStatusPosition = prop.getString();
+
+        prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Keystroke Position", "RIGHT");
+        prop.set((String) data.getObjects()[16]);
+        ConfigManager.keystrokePosition = prop.getString();
+
+        ExtendedModSettings.ARMOR_STATUS_OFFSET = (int) data.getObjects()[17];
+        ExtendedModSettings.POTION_STATUS_OFFSET = (int) data.getObjects()[18];
+        ExtendedModSettings.KEYSTROKE_Y_OFFSET = (int) data.getObjects()[19];
     }
 
     public void set(Property prop, Object object)

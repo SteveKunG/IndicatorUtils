@@ -69,6 +69,14 @@ public class ProfileSettings
             nbt.setBoolean("Keystroke", (boolean) login.getObjects()[9]);
             nbt.setBoolean("CPS", (boolean) login.getObjects()[10]);
             nbt.setBoolean("Held", (boolean) login.getObjects()[11]);
+            nbt.setString("ArmorStat", (String) login.getObjects()[12]);
+            nbt.setString("PotionStat", (String) login.getObjects()[13]);
+            nbt.setString("ArmorPos", (String) login.getObjects()[14]);
+            nbt.setString("PotionPos", (String) login.getObjects()[15]);
+            nbt.setString("KeystokePos", (String) login.getObjects()[16]);
+            nbt.setInteger("ArmorOffset", (int) login.getObjects()[17]);
+            nbt.setInteger("PotionOffset", (int) login.getObjects()[18]);
+            nbt.setInteger("KeystrokeY", (int) login.getObjects()[19]);
             list.appendTag(nbt);
         }
         return list;
@@ -80,7 +88,9 @@ public class ProfileSettings
         {
             NBTTagCompound nbt = list.getCompoundTagAt(i);
             ProfileSettings.profileData.addProfileData(nbt.getString("Name"), nbt.getBoolean("Ping"), nbt.getBoolean("IP"), nbt.getBoolean("FPS"), nbt.getBoolean("XYZ"), nbt.getBoolean("LookBlock"),
-                    nbt.getBoolean("Direction"), nbt.getBoolean("Biome"), nbt.getBoolean("Armor"), nbt.getBoolean("Potion"), nbt.getBoolean("Keystroke"), nbt.getBoolean("CPS"), nbt.getBoolean("Held"));
+                    nbt.getBoolean("Direction"), nbt.getBoolean("Biome"), nbt.getBoolean("Armor"), nbt.getBoolean("Potion"), nbt.getBoolean("Keystroke"), nbt.getBoolean("CPS"), nbt.getBoolean("Held"),
+                    nbt.getString("ArmorStat"), nbt.getString("PotionStat"), nbt.getString("ArmorPos"), nbt.getString("PotionPos"), nbt.getString("KeystokePos"), nbt.getInteger("ArmorOffset"),
+                    nbt.getInteger("PotionOffset"), nbt.getInteger("KeystrokeY"));
         }
     }
 }

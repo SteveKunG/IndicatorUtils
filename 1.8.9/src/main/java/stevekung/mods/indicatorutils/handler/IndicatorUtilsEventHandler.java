@@ -7,7 +7,10 @@
 package stevekung.mods.indicatorutils.handler;
 
 import java.net.URI;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -88,8 +91,8 @@ public class IndicatorUtilsEventHandler
     public static boolean AUTO_FISH_ENABLED;
     public static int AUTO_FISH_TICK;
 
-    public static List<Long> L_CLICK = new ArrayList<Long>();
-    public static List<Long> R_CLICK = new ArrayList<Long>();
+    public static List<Long> L_CLICK = Lists.newArrayList();
+    public static List<Long> R_CLICK = Lists.newArrayList();
 
     private int pressTime;
     private int pressOneTimeTick;

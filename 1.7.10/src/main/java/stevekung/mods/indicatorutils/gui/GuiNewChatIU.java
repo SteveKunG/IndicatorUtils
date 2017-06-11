@@ -31,9 +31,9 @@ import stevekung.mods.indicatorutils.config.ConfigManager;
 public class GuiNewChatIU extends GuiNewChat
 {
     private final Minecraft mc;
-    private final List<String> sentMessages = new ArrayList<String>();
-    public final List<ChatLine> chatLines = new ArrayList<ChatLine>();
-    public final List<ChatLine> field_146253_i = new ArrayList<ChatLine>();
+    private final List<String> sentMessages = Lists.newArrayList();
+    public final List<ChatLine> chatLines = Lists.newArrayList();
+    public final List<ChatLine> field_146253_i = Lists.newArrayList();
     private int field_146250_j;
     private boolean field_146251_k;
 

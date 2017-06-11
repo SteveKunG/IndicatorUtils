@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -260,8 +259,8 @@ public class CommandEntityDetector extends ClientCommandBaseIU
     public List<String> getTabCompletionOptions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().thePlayer.connection;
-        List<NetworkPlayerInfo> playerInfo = new ArrayList<NetworkPlayerInfo>(connection.getPlayerInfoMap());
-        List<String> playerList = Lists.newArrayList(new String[] { "all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "villager", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal" });
+        List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
+        List<String> playerList = Lists.newArrayList("all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "villager", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal");
 
         for (int i = 0; i < playerInfo.size(); ++i)
         {

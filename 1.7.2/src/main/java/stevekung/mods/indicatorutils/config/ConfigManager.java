@@ -7,8 +7,9 @@
 package stevekung.mods.indicatorutils.config;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
+
+import com.google.common.collect.Lists;
 
 import cpw.mods.fml.client.config.ConfigGuiType;
 import cpw.mods.fml.client.config.DummyConfigElement;
@@ -234,7 +235,7 @@ public class ConfigManager
 
     private static List<String> addMainSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.MAIN_SETTINGS, "Enable All Render Info", true);
         ConfigManager.enableAllRenderInfo = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -298,7 +299,7 @@ public class ConfigManager
 
     private static List<String> addRenderInfoSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Swap Main Render Info to Right", false);
         ConfigManager.swapMainRenderInfoToRight = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -418,7 +419,7 @@ public class ConfigManager
 
     private static List<String> addIngameRenderSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.INGAME_RENDER_SETTINGS, "Player List Ping Mode", "DEFAULT");
         prop.setValidValues(new String[] { "DEFAULT", "NUMBER" });
         ConfigManager.playerPingMode = prop.getString();
@@ -440,7 +441,7 @@ public class ConfigManager
 
     private static List<String> addKeyBindingSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.KEY_BINDING_SETTINGS, "Key Toggle Sprint (Ctrl) + (Key)", "29,31");
         ConfigManager.keyToggleSprint = prop.getString();
         propOrder.add(prop.getName());
@@ -457,7 +458,7 @@ public class ConfigManager
 
     private static List<String> addOffsetSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.OFFSET_SETTINGS, "Armor Status Position", "LEFT");
         prop.setValidValues(new String[] { "LEFT", "RIGHT", "HOTBAR", "HOTBAR_LEFT", "HOTBAR_RIGHT" });
         ConfigManager.armorStatusPosition = prop.getString();
@@ -477,7 +478,7 @@ public class ConfigManager
 
     private static List<String> addTimeInfoSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.TIME_INFO_SETTINGS, "Time Zone Name", "GMT");
         prop.setValidValues(new String[] { "GMT", "UTC", "EST", "AST", "NST", "PST", "CST", "CET", "EET", "WET" });
         ConfigManager.timeZoneName = prop.getString();
@@ -524,7 +525,7 @@ public class ConfigManager
 
     private static List<String> addCustomColorSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Ping", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
@@ -823,7 +824,7 @@ public class ConfigManager
 
     private static List<String> addCustomTextSetting(Property prop)
     {
-        List<String> propOrder = new ArrayList<String>();
+        List<String> propOrder = Lists.newArrayList();
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Ping Text", false);
         ConfigManager.useCustomTextPing = prop.getBoolean();
         propOrder.add(prop.getName());
@@ -957,7 +958,7 @@ public class ConfigManager
     @SuppressWarnings({ "rawtypes", "unchecked" })
     public static List<IConfigElement> getConfigElements()
     {
-        List<IConfigElement> list = new ArrayList<IConfigElement>();
+        List<IConfigElement> list = Lists.newArrayList();
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.MAIN_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.RENDER_INFO_SETTINGS)));
         list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.INGAME_RENDER_SETTINGS)));

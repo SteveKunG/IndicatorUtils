@@ -6,8 +6,6 @@
 
 package stevekung.mods.indicatorutils.handler;
 
-import org.apache.logging.log4j.core.helpers.Strings;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraftforge.common.MinecraftForge;
@@ -39,7 +37,6 @@ public class NewChatEventHandler
                 EntityPlayerSP player = (EntityPlayerSP) event.getEntity();
                 this.runHypixelCommand(player);
                 this.runAutoLoginCommand(player);
-                this.runRealmsCommand(player);
                 MinecraftForge.EVENT_BUS.unregister(this);
             }
         }
@@ -77,14 +74,6 @@ public class NewChatEventHandler
                         player.sendChatMessage(login.getCommand() + Base64Utils.decode(login.getValue()));
                     }
                 }
-            }
-        }
-
-        private void runRealmsCommand(EntityPlayerSP player)
-        {
-            if (Minecraft.getMinecraft().isConnectedToRealms() && Strings.isNotEmpty(ExtendedModSettings.REALMS_MESSAGE))
-            {
-                player.sendChatMessage(ExtendedModSettings.REALMS_MESSAGE);
             }
         }
     }

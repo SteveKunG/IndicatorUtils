@@ -54,7 +54,7 @@ public class CommandAutoLogin extends ClientCommandBaseIU
                 {
                     throw new WrongUsageException("commands.autologin.usage");
                 }
-                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
+                if (!mc.isSingleplayer())
                 {
                     if (data != null)
                     {
@@ -75,17 +75,12 @@ public class CommandAutoLogin extends ClientCommandBaseIU
                     sender.sendMessage(json.text("Cannot add auto login data in singleplayer!").setStyle(json.red()));
                     return;
                 }
-                else if (mc.isConnectedToRealms())
-                {
-                    sender.sendMessage(json.text("Cannot add auto login data in realms server!").setStyle(json.red()));
-                    return;
-                }
             }
             else if ("remove".equalsIgnoreCase(args[0]))
             {
                 ServerData data = mc.getCurrentServerData();
 
-                if (!mc.isSingleplayer() && !mc.isConnectedToRealms())
+                if (!mc.isSingleplayer())
                 {
                     if (data != null)
                     {
@@ -103,11 +98,6 @@ public class CommandAutoLogin extends ClientCommandBaseIU
                 else if (mc.isSingleplayer())
                 {
                     sender.sendMessage(json.text("Cannot remove auto login data in singleplayer!").setStyle(json.red()));
-                    return;
-                }
-                else if (mc.isConnectedToRealms())
-                {
-                    sender.sendMessage(json.text("Cannot remove auto login data in realms server!").setStyle(json.red()));
                     return;
                 }
             }

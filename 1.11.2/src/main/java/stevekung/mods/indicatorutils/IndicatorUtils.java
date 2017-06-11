@@ -127,7 +127,6 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoFish());
             ClientCommandHandler.instance.registerCommand(new CommandAutoLogin());
             ClientCommandHandler.instance.registerCommand(new CommandSlimeChunkSeed());
-            ClientCommandHandler.instance.registerCommand(new CommandAutoRealms());
             ClientCommandHandler.instance.registerCommand(new CommandProfile());
         }
 

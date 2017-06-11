@@ -90,29 +90,22 @@ public class RenderInfoBase
         Minecraft mc = Minecraft.getMinecraft();
         JsonUtils json = new JsonUtils();
 
-        if (mc.isConnectedToRealms())
+        if (mc.getCurrentServerData() != null && !mc.isSingleplayer())
         {
-            list.add(JsonUtils.rawTextToJson(ConfigManager.customTextRealms).getFormattedText());
-        }
-        else
-        {
-            if (mc.getCurrentServerData() != null && !mc.isSingleplayer())
+            String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
+            String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();
+            String version = "";
+
+            if (ConfigManager.useCustomTextIP)
             {
-                String ip = json.text("IP: ").setStyle(json.colorFromConfig(ConfigManager.customColorIP)).getFormattedText();
-                String serverIP = json.text(mc.getCurrentServerData().serverIP).setStyle(json.colorFromConfig(ConfigManager.customColorIPValue)).getFormattedText();
-                String version = "";
-
-                if (ConfigManager.useCustomTextIP)
-                {
-                    ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
-                }
-
-                if (ConfigManager.enableServerIPWithMCVersion)
-                {
-                    version = "/" + json.text(IndicatorUtils.MC_VERSION).setStyle(json.colorFromConfig(ConfigManager.customColorIPMCValue)).getFormattedText();
-                }
-                list.add(ip + serverIP + version);
+                ip = JsonUtils.rawTextToJson(ConfigManager.customTextIP).getFormattedText();
             }
+
+            if (ConfigManager.enableServerIPWithMCVersion)
+            {
+                version = "/" + json.text(IndicatorUtils.MC_VERSION).setStyle(json.colorFromConfig(ConfigManager.customColorIPMCValue)).getFormattedText();
+            }
+            list.add(ip + serverIP + version);
         }
         return list;
     }

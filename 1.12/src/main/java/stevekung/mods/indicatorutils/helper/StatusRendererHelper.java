@@ -624,7 +624,7 @@ public class StatusRendererHelper
     {
         if (!mc.gameSettings.showDebugInfo)
         {
-            List<String> list = Lists.newArrayList(new String[] {});
+            List<String> list = Lists.newArrayList();
             ScaledResolution scaledRes = new ScaledResolution(mc);
             boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;
             boolean shortDateBool = ConfigManager.useShortDate;

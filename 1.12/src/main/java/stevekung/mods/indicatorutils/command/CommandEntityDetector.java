@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.command;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
@@ -209,6 +208,10 @@ public class CommandEntityDetector extends ClientCommandBaseIU
             {
                 ExtendedModSettings.ENTITY_DETECT_TYPE = "llama";
             }
+            else if ("parrot".equalsIgnoreCase(args[0]))
+            {
+                ExtendedModSettings.ENTITY_DETECT_TYPE = "parrot";
+            }
             else if ("evoker".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.ENTITY_DETECT_TYPE = "evoker";
@@ -220,6 +223,10 @@ public class CommandEntityDetector extends ClientCommandBaseIU
             else if ("vindicator".equalsIgnoreCase(args[0]))
             {
                 ExtendedModSettings.ENTITY_DETECT_TYPE = "vindicator";
+            }
+            else if ("illusion_illager".equalsIgnoreCase(args[0]))
+            {
+                ExtendedModSettings.ENTITY_DETECT_TYPE = "illusion_illager";
             }
             else if ("villager".equalsIgnoreCase(args[0]))
             {
@@ -276,8 +283,8 @@ public class CommandEntityDetector extends ClientCommandBaseIU
     public List<String> getTabCompletions(MinecraftServer server, ICommandSender sender, String[] args, BlockPos pos)
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
-        List<NetworkPlayerInfo> playerInfo = new ArrayList<NetworkPlayerInfo>(connection.getPlayerInfoMap());
-        List<String> playerList = Lists.newArrayList(new String[] { "all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "llama", "villager", "evoker", "vex", "vindicator", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal" });
+        List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
+        List<String> playerList = Lists.newArrayList("all", "only_mob", "only_creature", "only_non_mob", "only_player", "reset", "zombie", "zombie_villager", "husk", "creeper", "skeleton", "wither_skeleton", "stray", "spider", "slime", "magma_cube", "ghast", "enderman", "silverfish", "blaze", "witch", "guardian", "elder_guardian", "shulker", "pig", "sheep", "cow", "chicken", "squid", "wolf", "snowman", "ocelot", "iron_golem", "horse", "donkey", "mule", "skeleton_horse", "zombie_horse", "rabbit", "polar_bear", "llama", "parrot", "villager", "evoker", "vex", "vindicator", "illusion_illager", "item", "xp", "armor_stand", "boat", "minecart", "ender_crystal");
 
         for (int i = 0; i < playerInfo.size(); ++i)
         {

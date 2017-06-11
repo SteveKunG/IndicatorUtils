@@ -6,7 +6,6 @@
 
 package stevekung.mods.indicatorutils.helper;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
@@ -57,7 +56,7 @@ public class GameInfoHelper
     public List<String> getPlayerInfoListClient()
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
-        List<NetworkPlayerInfo> playerInfo = new ArrayList<NetworkPlayerInfo>(connection.getPlayerInfoMap());
+        List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
         List<String> playerList = Lists.<String>newArrayList();
 
         for (int i = 0; i < playerInfo.size(); ++i)

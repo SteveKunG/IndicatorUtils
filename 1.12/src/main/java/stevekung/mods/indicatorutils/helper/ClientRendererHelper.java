@@ -662,6 +662,17 @@ public class ClientRendererHelper
                         list.setGlowing(false);
                     }
                 }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("parrot"))
+                {
+                    if (list instanceof EntityParrot)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
                 else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("evoker"))
                 {
                     if (list instanceof EntityEvoker)
@@ -698,6 +709,17 @@ public class ClientRendererHelper
                 else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("villager"))
                 {
                     if (list instanceof EntityVillager)
+                    {
+                        list.setGlowing(true);
+                    }
+                    else
+                    {
+                        list.setGlowing(false);
+                    }
+                }
+                else if (ExtendedModSettings.ENTITY_DETECT_TYPE.equalsIgnoreCase("illusion_illager"))
+                {
+                    if (list instanceof EntityIllusionIllager)
                     {
                         list.setGlowing(true);
                     }

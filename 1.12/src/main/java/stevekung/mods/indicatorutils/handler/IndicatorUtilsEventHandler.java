@@ -40,6 +40,7 @@ import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
+import net.minecraft.util.text.ChatType;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.event.ClickEvent;
 import net.minecraftforge.client.GuiIngameForge;
@@ -227,7 +228,7 @@ public class IndicatorUtilsEventHandler
             Pattern nickPattern = Pattern.compile("^You are now nicked as (?<nick>\\w+)!");
             Matcher nickMatcher = nickPattern.matcher(unformattedText);
 
-            if (event.getType() == 0)
+            if (event.getType() == ChatType.CHAT)
             {
                 if (nickMatcher.matches())
                 {

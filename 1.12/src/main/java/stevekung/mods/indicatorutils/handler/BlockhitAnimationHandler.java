@@ -10,7 +10,7 @@ import javax.annotation.Nullable;
 
 import org.lwjgl.util.glu.Project;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -135,7 +135,7 @@ public class BlockhitAnimationHandler
     {
         AbstractClientPlayer abstractclientplayer = this.mc.player;
         float f = abstractclientplayer.getSwingProgress(partialTicks);
-        EnumHand enumhand = Objects.firstNonNull(abstractclientplayer.swingingHand, EnumHand.MAIN_HAND);
+        EnumHand enumhand = MoreObjects.firstNonNull(abstractclientplayer.swingingHand, EnumHand.MAIN_HAND);
         float f1 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
         float f2 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
         boolean flag = true;

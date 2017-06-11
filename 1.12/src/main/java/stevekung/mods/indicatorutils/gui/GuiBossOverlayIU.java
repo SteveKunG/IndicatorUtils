@@ -7,12 +7,12 @@
 package stevekung.mods.indicatorutils.gui;
 
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.BossInfoClient;
 import net.minecraft.client.gui.GuiBossOverlay;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.BossInfo;
-import net.minecraft.world.BossInfoLerping;
 import net.minecraftforge.client.ForgeHooksClient;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import stevekung.mods.indicatorutils.config.ConfigManager;
@@ -37,7 +37,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
             int i = scaledresolution.getScaledWidth();
             int j = 12;
 
-            for (BossInfoLerping bossinfolerping : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
+            for (BossInfoClient bossinfolerping : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
                 RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.mc.fontRendererObj.FONT_HEIGHT);

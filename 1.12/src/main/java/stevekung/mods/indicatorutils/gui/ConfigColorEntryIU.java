@@ -22,7 +22,7 @@ public class ConfigColorEntryIU extends CycleValueEntryIU
     }
 
     @Override
-    public void drawEntry(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected)
+    public void func_192634_a(int slotIndex, int x, int y, int listWidth, int slotHeight, int mouseX, int mouseY, boolean isSelected, float partialTicks)
     {
         int color = GuiUtils.getColorCode(GameInfoHelper.INSTANCE.getColorCode()[this.currentIndex].charAt(0), true);
 
@@ -31,7 +31,7 @@ public class ConfigColorEntryIU extends CycleValueEntryIU
             color = 3618615;
         }
         this.btnValue.packedFGColour = color;
-        super.drawEntry(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected);
+        super.func_192634_a(slotIndex, x, y, listWidth, slotHeight, mouseX, mouseY, isSelected, partialTicks);
     }
 
     @Override

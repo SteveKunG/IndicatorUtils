@@ -44,7 +44,7 @@ public class IndicatorUtilsDummyContainer extends DummyModContainer
     public List<ArtifactVersion> getDependencies()
     {
         LinkedList<ArtifactVersion> deps = new LinkedList<ArtifactVersion>();
-        deps.add(VersionParser.parseVersionReference("required-after:Forge@[13.20.0.2265,)"));
+        deps.add(VersionParser.parseVersionReference("required-after:Forge@[14.21.0.2321,)"));
         return deps;
     }
 

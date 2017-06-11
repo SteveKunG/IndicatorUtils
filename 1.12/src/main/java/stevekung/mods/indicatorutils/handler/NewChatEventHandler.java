@@ -6,7 +6,7 @@
 
 package stevekung.mods.indicatorutils.handler;
 
-import org.apache.logging.log4j.core.helpers.Strings;
+import org.apache.logging.log4j.util.Strings;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

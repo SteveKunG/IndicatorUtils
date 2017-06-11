@@ -42,7 +42,7 @@ import stevekung.mods.indicatorutils.profile.ProfileSettings;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.utils.*;
 
-@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[13.20.0.2294,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
+@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[14.21.0.2321,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
 {
     public static final String NAME = "Indicator Utils";

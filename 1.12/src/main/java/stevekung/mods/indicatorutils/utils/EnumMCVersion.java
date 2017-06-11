@@ -13,7 +13,8 @@ public enum EnumMCVersion
     MC_1_8_9(2, "1.8.9"),
     MC_1_9_4(3, "1.9.4"),
     MC_1_10_2(4, "1.10.2"),
-    MC_1_11_2(5, "1.11.2");
+    MC_1_11_2(5, "1.11.2"),
+    MC_1_12(5, "1.12");
 
     private int versionIndex;
     private String version;

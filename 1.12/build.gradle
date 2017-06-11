@@ -1,0 +1,72 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven { url = "http://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+version = "2.1.2"
+group = "stevekung.mods.indicatorutils"
+archivesBaseName = "Indicator-Utils-All"
+
+sourceCompatibility = targetCompatibility = "1.8"
+
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+	options.encoding = 'UTF-8'
+	options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
+}
+
+minecraft {
+    version = "1.12-14.21.0.2321"
+    runDir = "run"
+    mappings = "snapshot_20161220"
+	makeObfSourceJar = false
+}
+
+dependencies {}
+
+processResources {
+    inputs.property "version", project.version
+    inputs.property "mcversion", project.minecraft.version
+
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+    }
+}
+
+ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
+ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**', 'indicatorutils_at.cfg']
+
+task buildJar(type: Jar, dependsOn: "rePackAllJar") {
+	outputs.upToDateWhen { false }
+	baseName = "Indicator-Utils-1.11.2"
+
+	from(zipTree(project.ext.coreJar)) {
+		includes.addAll(project.ext.coreFiles)
+	}
+	manifest {
+        attributes.put("FMLCorePlugin", "stevekung.mods.indicatorutils.IndicatorUtilsPlugin")
+        attributes.put("FMLCorePluginContainsFMLMod", "true")
+        attributes.put("AccessTransformer", "indicatorutils_at.cfg")
+    }
+}
+
+task rePackAllJar(type: Jar, dependsOn: "copyModFiles") {
+	from 'temporary'
+}
+
+task copyModFiles(type: Copy, dependsOn: "reobfJar") {
+	from(zipTree(project.ext.coreJar))
+	into 'temporary'
+}

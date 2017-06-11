@@ -50,7 +50,7 @@ ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**',
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }
-	baseName = "Indicator-Utils-1.11.2"
+	baseName = "Indicator-Utils-1.12"
 
 	from(zipTree(project.ext.coreJar)) {
 		includes.addAll(project.ext.coreFiles)

@@ -24,7 +24,7 @@ public class HUDInfo
 {
     public static void init(Minecraft mc)
     {
-        List<String> list = HUDInfo.renderIndicator(mc);
+        List<String> list = HUDInfo.renderIndicator();
         StatusRendererHelper.renderArmorStatus(mc);
         StatusRendererHelper.renderTimeInformation(mc);
         StatusRendererHelper.renderPotionEffect(mc);
@@ -60,7 +60,7 @@ public class HUDInfo
         }
     }
 
-    public static List<String> renderIndicator(Minecraft mc)
+    public static List<String> renderIndicator()
     {
         List<String> list = Lists.newArrayList();
 

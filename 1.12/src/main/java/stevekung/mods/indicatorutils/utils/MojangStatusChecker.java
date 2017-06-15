@@ -12,7 +12,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import net.minecraft.util.text.TextFormatting;
@@ -56,9 +55,8 @@ public enum MojangStatusChecker
         {
             URL url = new URL("http://status.mojang.com/check?service=" + this.serviceURL);
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
-            JsonObject jsonObject = (JsonObject) new JsonParser().parse(bufferedReader);
-            JsonElement status = jsonObject.get(this.serviceURL);
-            return ServerStatus.get(status.getAsString());
+            JsonElement jsonElement = new JsonParser().parse(bufferedReader).getAsJsonObject().get(this.serviceURL);
+            return ServerStatus.get(jsonElement.getAsString());
         }
         catch (IOException e)
         {

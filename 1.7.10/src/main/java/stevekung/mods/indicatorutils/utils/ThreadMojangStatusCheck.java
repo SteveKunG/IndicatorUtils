@@ -28,7 +28,7 @@ public class ThreadMojangStatusCheck extends Thread
         {
             if (this.startup)
             {
-                for (MojangStatusChecker statusChecker : MojangStatusChecker.values())
+                for (MojangStatusChecker statusChecker : MojangStatusChecker.valuesCached())
                 {
                     ServerStatus status = statusChecker.getStatus();
                     IULog.info(statusChecker.getName() + ": " + status.getStatus());
@@ -36,7 +36,7 @@ public class ThreadMojangStatusCheck extends Thread
             }
             else
             {
-                for (MojangStatusChecker statusChecker : MojangStatusChecker.values())
+                for (MojangStatusChecker statusChecker : MojangStatusChecker.valuesCached())
                 {
                     String service = statusChecker.getName();
                     ServerStatus status = statusChecker.getStatus();

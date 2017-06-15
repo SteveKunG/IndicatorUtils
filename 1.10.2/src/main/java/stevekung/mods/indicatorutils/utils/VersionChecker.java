@@ -70,7 +70,7 @@ public class VersionChecker implements Runnable
 
         try
         {
-            for (EnumMCVersion mcVersion : EnumMCVersion.values())
+            for (EnumMCVersion mcVersion : EnumMCVersion.valuesCached())
             {
                 if (IndicatorUtils.MC_VERSION.equals(mcVersion.getVersion()))
                 {

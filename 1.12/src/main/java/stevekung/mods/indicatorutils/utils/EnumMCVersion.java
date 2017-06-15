@@ -18,11 +18,17 @@ public enum EnumMCVersion
 
     private int versionIndex;
     private String version;
+    private static EnumMCVersion[] values = EnumMCVersion.values();
 
     private EnumMCVersion(int versionIndex, String version)
     {
         this.versionIndex = versionIndex;
         this.version = version;
+    }
+
+    public static EnumMCVersion[] valuesCached()
+    {
+        return EnumMCVersion.values;
     }
 
     public int getVersionIndex()

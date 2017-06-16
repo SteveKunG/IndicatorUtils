@@ -32,7 +32,6 @@ public class ConfigManager
     public static String TIME_INFO_SETTINGS = "indicatorutiltimeinfogui";
     public static String CUSTOM_COLOR_SETTINGS = "indicatorutilcustomcolorgui";
     public static String CUSTOM_TEXT_SETTINGS = "indicatorutilcustomtextgui";
-    public static String OTHER_SETTINGS = "indicatorutilothergui";
 
     // Main Settings
     public static boolean enableAllRenderInfo;
@@ -57,9 +56,7 @@ public class ConfigManager
     public static boolean swapMainRenderInfoToRight;
     public static String armorStatusMode;
     public static String healthStatusMode;
-    public static String keystrokeMode;
     public static String potionStatusStyle;
-    public static String keystrokeSize;
     public static String heldItemStatusMode;
     public static boolean enablePing;
     public static boolean enableServerIP;
@@ -78,7 +75,7 @@ public class ConfigManager
     public static boolean enableKeystrokeSprintSneak;
     public static boolean enableKeystrokeBlocking;
     public static boolean enableCPS;
-    public static boolean enableRPS;
+    public static boolean enableRCPS;
     public static boolean enableHeldItemInHand;
     public static boolean showPotionIcon;
 
@@ -129,8 +126,8 @@ public class ConfigManager
     public static String customColorBiomeValue;
     public static String customColorCPS;
     public static String customColorCPSValue;
-    public static String customColorRPS;
-    public static String customColorRPSValue;
+    public static String customColorRCPS;
+    public static String customColorRCPSValue;
     public static String customColorArmorPercent;
     public static String customColorArmorMaxDurability;
     public static String customColorArmorDamageDurability;
@@ -171,8 +168,8 @@ public class ConfigManager
     public static String customTextBiome;
     public static boolean useCustomTextCPS;
     public static String customTextCPS;
-    public static boolean useCustomTextRPS;
-    public static String customTextRPS;
+    public static boolean useCustomTextRCPS;
+    public static String customTextRCPS;
     public static boolean useCustomTextTime;
     public static String customTextTime;
     public static boolean useCustomTextGameTime;
@@ -189,11 +186,6 @@ public class ConfigManager
     public static String customTextThunder;
     public static boolean useCustomMoonPhaseText;
     public static String customTextMoonPhase;
-
-    // Other Settings
-    public static String dailyRewardMessage;
-    public static String votingLinkMessage1;
-    public static String votingLinkMessage2;
 
     public static void init(File file)
     {
@@ -222,7 +214,6 @@ public class ConfigManager
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.TIME_INFO_SETTINGS, ConfigManager.addTimeInfoSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.CUSTOM_COLOR_SETTINGS, ConfigManager.addCustomColorSetting(prop));
             ConfigManager.config.setCategoryPropertyOrder(ConfigManager.CUSTOM_TEXT_SETTINGS, ConfigManager.addCustomTextSetting(prop));
-            ConfigManager.config.setCategoryPropertyOrder(ConfigManager.OTHER_SETTINGS, ConfigManager.addOtherSetting(prop));
 
             if (ConfigManager.config.hasChanged())
             {
@@ -336,19 +327,9 @@ public class ConfigManager
         ConfigManager.healthStatusMode = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke Mode", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "ADVANCED" });
-        ConfigManager.keystrokeMode = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Potion Status Style", "DEFAULT");
         prop.setValidValues(new String[] { "DEFAULT", "ICON_AND_TIME" });
         ConfigManager.potionStatusStyle = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke GUI Size", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "SMALL" });
-        ConfigManager.keystrokeSize = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Held Item Status", "NORMAL");
@@ -425,8 +406,8 @@ public class ConfigManager
         ConfigManager.enableCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable RPS", false);
-        ConfigManager.enableRPS = prop.getBoolean();
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable RCPS", false);
+        ConfigManager.enableRCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Held Item", false);
@@ -667,16 +648,16 @@ public class ConfigManager
         ConfigManager.customColorCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS", "white");
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RCPS", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorRPS = prop.getString();
+        ConfigManager.customColorRCPS = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS Value", "white");
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RCPS Value", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorRPSValue = prop.getString();
+        ConfigManager.customColorRCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Percent", "white");
@@ -884,12 +865,12 @@ public class ConfigManager
         ConfigManager.customTextCPS = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom RPS Text", false);
-        ConfigManager.useCustomTextRPS = prop.getBoolean();
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom RCPS Text", false);
+        ConfigManager.useCustomTextRCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "RPS Text", "\"text\":\" RPS: \"");
-        ConfigManager.customTextRPS = prop.getString();
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "RCPS Text", "\"text\":\" RCPS: \"");
+        ConfigManager.customTextRCPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Time Text", false);
@@ -958,23 +939,6 @@ public class ConfigManager
         return propOrder;
     }
 
-    private static List<String> addOtherSetting(Property prop)
-    {
-        List<String> propOrder = Lists.newArrayList();
-        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Daily Reward Message", "Click the link to visit our website and claim your reward: ");
-        ConfigManager.dailyRewardMessage = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Voting Link Message 1", "Today's voting link is ");
-        ConfigManager.votingLinkMessage1 = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.OTHER_SETTINGS, "Voting Link Message 2", "! Follow the instructions on the website to redeem 5,000 XP and 3,000 Arcade Coins!");
-        ConfigManager.votingLinkMessage2 = prop.getString();
-        propOrder.add(prop.getName());
-        return propOrder;
-    }
-
     public static List<IConfigElement> getConfigElements()
     {
         List<IConfigElement> list = Lists.newArrayList();
@@ -990,8 +954,6 @@ public class ConfigManager
         ConfigCategory configCustomText = ConfigManager.config.getCategory(ConfigManager.CUSTOM_TEXT_SETTINGS);
         configCustomText.setComment(I18n.format("gui.config.indicatorutils.advanced"));
         list.add(new ConfigElement(configCustomText));
-
-        list.add(new ConfigElement(ConfigManager.config.getCategory(ConfigManager.OTHER_SETTINGS)));
         return list;
     }
 }

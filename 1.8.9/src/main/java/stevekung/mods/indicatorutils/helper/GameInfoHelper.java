@@ -58,7 +58,7 @@ public class GameInfoHelper
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().thePlayer.sendQueue;
         List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
-        List<String> playerList = Lists.<String>newArrayList();
+        List<String> playerList = Lists.newArrayList();
 
         for (int i = 0; i < playerInfo.size(); ++i)
         {
@@ -123,7 +123,7 @@ public class GameInfoHelper
         return IndicatorUtilsEventHandler.L_CLICK.size();
     }
 
-    public int getRPS()
+    public int getRCPS()
     {
         Iterator<Long> iterator = IndicatorUtilsEventHandler.R_CLICK.iterator();
 

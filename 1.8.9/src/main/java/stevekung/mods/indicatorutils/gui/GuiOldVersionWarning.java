@@ -83,7 +83,7 @@ public class GuiOldVersionWarning extends GuiScreen
         {
             try
             {
-                Class<?> oclass = Class.forName("java.awt.Desktop");
+                Class oclass = Class.forName("java.awt.Desktop");
                 Object object = oclass.getMethod("getDesktop").invoke((Object) null);
                 oclass.getMethod("browse", new Class[] { URI.class }).invoke(object, new Object[] { new URI("http://adf.ly/1cDWrG") });
                 Minecraft.getMinecraft().shutdown();

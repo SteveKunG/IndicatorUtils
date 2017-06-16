@@ -151,22 +151,22 @@ public class GuiNewChatSettings extends GuiChat
         if (ConfigManager.enableCPS && ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
         {
             String cps = new JsonUtils().text("CPS: ").setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-            String rps = ConfigManager.enableRPS ? new JsonUtils().text(" RPS: ").setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+            String rcps = ConfigManager.enableRCPS ? new JsonUtils().text(" RCPS: ").setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRCPS)).getFormattedText() : "";
             String cpsValue = new JsonUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-            String rpsValue = ConfigManager.enableRPS ? new JsonUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+            String rcpsValue = ConfigManager.enableRCPS ? new JsonUtils().text(String.valueOf(GameInfoHelper.INSTANCE.getRCPS())).setChatStyle(new JsonUtils().colorFromConfig(ConfigManager.customColorRCPSValue)).getFormattedText() : "";
 
             if (ConfigManager.useCustomTextCPS)
             {
                 cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
             }
-            if (ConfigManager.useCustomTextRPS)
+            if (ConfigManager.useCustomTextRCPS)
             {
-                rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                rcps = JsonUtils.rawTextToJson(ConfigManager.customTextRCPS).getFormattedText();
             }
 
             int minX = ExtendedModSettings.CPS_X_OFFSET;
             int minY = ExtendedModSettings.CPS_Y_OFFSET;
-            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(cps + cpsValue + rps + rpsValue) + 4;
+            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4;
             int maxY = ExtendedModSettings.CPS_Y_OFFSET + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)

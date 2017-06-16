@@ -10,6 +10,7 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import com.google.common.collect.Lists;
 import com.google.common.eventbus.EventBus;
 
 import net.minecraftforge.fml.common.DummyModContainer;
@@ -43,8 +44,8 @@ public class IndicatorUtilsDummyContainer extends DummyModContainer
     @Override
     public List<ArtifactVersion> getDependencies()
     {
-        LinkedList<ArtifactVersion> deps = new LinkedList<ArtifactVersion>();
-        deps.add(VersionParser.parseVersionReference("required-after:Forge@[11.15.1.1722,)"));
+        LinkedList<ArtifactVersion> deps = Lists.newLinkedList();
+        deps.add(VersionParser.parseVersionReference(IndicatorUtils.FORGE_VERSION.replace(";", "")));
         return deps;
     }
 

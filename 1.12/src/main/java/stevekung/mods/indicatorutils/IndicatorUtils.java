@@ -42,7 +42,7 @@ import stevekung.mods.indicatorutils.profile.ProfileSettings;
 import stevekung.mods.indicatorutils.renderer.RenderFishIU;
 import stevekung.mods.indicatorutils.utils.*;
 
-@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[14.21.0.2321,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
+@Mod(modid = IndicatorUtils.MOD_ID, name = IndicatorUtils.NAME, version = IndicatorUtils.VERSION, dependencies = "after:forge@[14.21.0.2331,);", clientSideOnly = true, guiFactory = IndicatorUtils.GUI_FACTORY)
 public class IndicatorUtils
 {
     public static final String NAME = "Indicator Utils";
@@ -58,8 +58,6 @@ public class IndicatorUtils
     public static List<String> IGNORE_LIST = Lists.newArrayList();
     public static boolean ALLOWED;
     private static boolean DEOBFUSCATED;
-
-    //Color.HSBtoRGB((float)(System.currentTimeMillis() % 1000L) / 1000.0F, 0.8F, 0.8F)
 
     static
     {

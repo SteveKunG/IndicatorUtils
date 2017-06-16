@@ -27,7 +27,6 @@ public class ExtendedModSettings
     public static boolean SHOW_CAPE = true;
 
     public static int KEYSTROKE_Y_OFFSET = 0;
-    public static int KEYSTROKE_X_OFFSET = 0;
     public static int ARMOR_STATUS_OFFSET = 0;
     public static int POTION_STATUS_OFFSET = 0;
     public static int AUTO_CLEAR_CHAT_TIME = 60;
@@ -39,6 +38,32 @@ public class ExtendedModSettings
     public static float CPS_OPACITY = 0.5F;
     public static float RENDER_INFO_OPACITY = 0.0F;
     public static long SLIME_CHUNK_SEED = 0L;
+
+    public static int KEYSTROKE_BLOCK_RED = 255;
+    public static int KEYSTROKE_BLOCK_GREEN = 255;
+    public static int KEYSTROKE_BLOCK_BLUE = 255;
+    public static int KEYSTROKE_CPS_RED = 255;
+    public static int KEYSTROKE_CPS_GREEN = 255;
+    public static int KEYSTROKE_CPS_BLUE = 255;
+    public static int KEYSTROKE_WASD_RED = 255;
+    public static int KEYSTROKE_WASD_GREEN = 255;
+    public static int KEYSTROKE_WASD_BLUE = 255;
+    public static int KEYSTROKE_LMBRMB_RED = 255;
+    public static int KEYSTROKE_LMBRMB_GREEN = 255;
+    public static int KEYSTROKE_LMBRMB_BLUE = 255;
+    public static int KEYSTROKE_SPRINT_RED = 255;
+    public static int KEYSTROKE_SPRINT_GREEN = 255;
+    public static int KEYSTROKE_SPRINT_BLUE = 255;
+    public static int KEYSTROKE_SNEAK_RED = 255;
+    public static int KEYSTROKE_SNEAK_GREEN = 255;
+    public static int KEYSTROKE_SNEAK_BLUE = 255;
+
+    public static boolean KEYSTROKE_BLOCK_RAINBOW = false;
+    public static boolean KEYSTROKE_CPS_RAINBOW = false;
+    public static boolean KEYSTROKE_WASD_RAINBOW = false;
+    public static boolean KEYSTROKE_LMBRMB_RAINBOW = false;
+    public static boolean KEYSTROKE_SPRINT_RAINBOW = false;
+    public static boolean KEYSTROKE_SNEAK_RAINBOW = false;
 
     public static String CPS_POSITION = "left";
     public static String AUTO_CLEAR_CHAT_MODE = "all";
@@ -71,7 +96,6 @@ public class ExtendedModSettings
             ExtendedModSettings.AUTO_SWIM = ExtendedModSettings.getBoolean(nbt, "AutoSwim", ExtendedModSettings.AUTO_SWIM);
             ExtendedModSettings.SHOW_CAPE = ExtendedModSettings.getBoolean(nbt, "ShowCape", ExtendedModSettings.SHOW_CAPE);
 
-            ExtendedModSettings.KEYSTROKE_X_OFFSET = ExtendedModSettings.getInteger(nbt, "KeystrokeX", ExtendedModSettings.KEYSTROKE_X_OFFSET);
             ExtendedModSettings.KEYSTROKE_Y_OFFSET = ExtendedModSettings.getInteger(nbt, "KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
             ExtendedModSettings.ARMOR_STATUS_OFFSET = ExtendedModSettings.getInteger(nbt, "ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
             ExtendedModSettings.POTION_STATUS_OFFSET = ExtendedModSettings.getInteger(nbt, "PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
@@ -84,6 +108,32 @@ public class ExtendedModSettings
             ExtendedModSettings.CPS_OPACITY = ExtendedModSettings.getFloat(nbt, "CpsOpacity", ExtendedModSettings.CPS_OPACITY);
             ExtendedModSettings.RENDER_INFO_OPACITY = ExtendedModSettings.getFloat(nbt, "RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
             ExtendedModSettings.SLIME_CHUNK_SEED = ExtendedModSettings.getLong(nbt, "SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
+
+            ExtendedModSettings.KEYSTROKE_BLOCK_RED = ExtendedModSettings.getInteger(nbt, "KSBlockR", ExtendedModSettings.KEYSTROKE_BLOCK_RED);
+            ExtendedModSettings.KEYSTROKE_BLOCK_GREEN = ExtendedModSettings.getInteger(nbt, "KSBlockG", ExtendedModSettings.KEYSTROKE_BLOCK_GREEN);
+            ExtendedModSettings.KEYSTROKE_BLOCK_BLUE = ExtendedModSettings.getInteger(nbt, "KSBlockB", ExtendedModSettings.KEYSTROKE_BLOCK_BLUE);
+            ExtendedModSettings.KEYSTROKE_CPS_RED = ExtendedModSettings.getInteger(nbt, "KSCPSR", ExtendedModSettings.KEYSTROKE_CPS_RED);
+            ExtendedModSettings.KEYSTROKE_CPS_GREEN = ExtendedModSettings.getInteger(nbt, "KSCPSG", ExtendedModSettings.KEYSTROKE_CPS_GREEN);
+            ExtendedModSettings.KEYSTROKE_CPS_BLUE = ExtendedModSettings.getInteger(nbt, "KSCPSB", ExtendedModSettings.KEYSTROKE_CPS_BLUE);
+            ExtendedModSettings.KEYSTROKE_WASD_RED = ExtendedModSettings.getInteger(nbt, "KSWASDR", ExtendedModSettings.KEYSTROKE_WASD_RED);
+            ExtendedModSettings.KEYSTROKE_WASD_GREEN = ExtendedModSettings.getInteger(nbt, "KSWASDG", ExtendedModSettings.KEYSTROKE_WASD_GREEN);
+            ExtendedModSettings.KEYSTROKE_WASD_BLUE = ExtendedModSettings.getInteger(nbt, "KSWASDB", ExtendedModSettings.KEYSTROKE_WASD_BLUE);
+            ExtendedModSettings.KEYSTROKE_LMBRMB_RED = ExtendedModSettings.getInteger(nbt, "KSLMBRMBR", ExtendedModSettings.KEYSTROKE_LMBRMB_RED);
+            ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN = ExtendedModSettings.getInteger(nbt, "KSLMBRMBG", ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN);
+            ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE = ExtendedModSettings.getInteger(nbt, "KSLMBRMBB", ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE);
+            ExtendedModSettings.KEYSTROKE_SPRINT_RED = ExtendedModSettings.getInteger(nbt, "KSSprintR", ExtendedModSettings.KEYSTROKE_SPRINT_RED);
+            ExtendedModSettings.KEYSTROKE_SPRINT_GREEN = ExtendedModSettings.getInteger(nbt, "KSSprintG", ExtendedModSettings.KEYSTROKE_SPRINT_GREEN);
+            ExtendedModSettings.KEYSTROKE_SPRINT_BLUE = ExtendedModSettings.getInteger(nbt, "KSSprintB", ExtendedModSettings.KEYSTROKE_SPRINT_BLUE);
+            ExtendedModSettings.KEYSTROKE_SNEAK_RED = ExtendedModSettings.getInteger(nbt, "KSSneakR", ExtendedModSettings.KEYSTROKE_SNEAK_RED);
+            ExtendedModSettings.KEYSTROKE_SNEAK_GREEN = ExtendedModSettings.getInteger(nbt, "KSSneakG", ExtendedModSettings.KEYSTROKE_SNEAK_GREEN);
+            ExtendedModSettings.KEYSTROKE_SNEAK_BLUE = ExtendedModSettings.getInteger(nbt, "KSSneakB", ExtendedModSettings.KEYSTROKE_SNEAK_BLUE);
+
+            ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSBlockRB", ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
+            ExtendedModSettings.KEYSTROKE_CPS_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSCPSRB", ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
+            ExtendedModSettings.KEYSTROKE_WASD_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSWASDRB", ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
+            ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSLMBRMBRB", ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
+            ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSSprintRB", ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
+            ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW = ExtendedModSettings.getBoolean(nbt, "KSSneakRB", ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
 
             ExtendedModSettings.CPS_POSITION = ExtendedModSettings.getString(nbt, "CpsPosition", ExtendedModSettings.CPS_POSITION);
             ExtendedModSettings.AUTO_CLEAR_CHAT_MODE = ExtendedModSettings.getString(nbt, "AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
@@ -117,7 +167,6 @@ public class ExtendedModSettings
             nbttagcompound.setBoolean("AutoSwim", ExtendedModSettings.AUTO_SWIM);
             nbttagcompound.setBoolean("ShowCape", ExtendedModSettings.SHOW_CAPE);
 
-            nbttagcompound.setInteger("KeystrokeX", ExtendedModSettings.KEYSTROKE_X_OFFSET);
             nbttagcompound.setInteger("KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
             nbttagcompound.setInteger("ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
             nbttagcompound.setInteger("PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
@@ -130,6 +179,32 @@ public class ExtendedModSettings
             nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
             nbttagcompound.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
             nbttagcompound.setLong("SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
+
+            nbttagcompound.setInteger("KSBlockR", ExtendedModSettings.KEYSTROKE_BLOCK_RED);
+            nbttagcompound.setInteger("KSBlockG", ExtendedModSettings.KEYSTROKE_BLOCK_GREEN);
+            nbttagcompound.setInteger("KSBlockB", ExtendedModSettings.KEYSTROKE_BLOCK_BLUE);
+            nbttagcompound.setInteger("KSCPSR", ExtendedModSettings.KEYSTROKE_CPS_RED);
+            nbttagcompound.setInteger("KSCPSG", ExtendedModSettings.KEYSTROKE_CPS_GREEN);
+            nbttagcompound.setInteger("KSCPSB", ExtendedModSettings.KEYSTROKE_CPS_BLUE);
+            nbttagcompound.setInteger("KSWASDR", ExtendedModSettings.KEYSTROKE_WASD_RED);
+            nbttagcompound.setInteger("KSWASDG", ExtendedModSettings.KEYSTROKE_WASD_GREEN);
+            nbttagcompound.setInteger("KSWASDB", ExtendedModSettings.KEYSTROKE_WASD_BLUE);
+            nbttagcompound.setInteger("KSLMBRMBR", ExtendedModSettings.KEYSTROKE_LMBRMB_RED);
+            nbttagcompound.setInteger("KSLMBRMBG", ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN);
+            nbttagcompound.setInteger("KSLMBRMBB", ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE);
+            nbttagcompound.setInteger("KSSprintR", ExtendedModSettings.KEYSTROKE_SPRINT_RED);
+            nbttagcompound.setInteger("KSSprintG", ExtendedModSettings.KEYSTROKE_SPRINT_GREEN);
+            nbttagcompound.setInteger("KSSprintB", ExtendedModSettings.KEYSTROKE_SPRINT_BLUE);
+            nbttagcompound.setInteger("KSSneakR", ExtendedModSettings.KEYSTROKE_SNEAK_RED);
+            nbttagcompound.setInteger("KSSneakG", ExtendedModSettings.KEYSTROKE_SNEAK_GREEN);
+            nbttagcompound.setInteger("KSSneakB", ExtendedModSettings.KEYSTROKE_SNEAK_BLUE);
+
+            nbttagcompound.setBoolean("KSBlockRB", ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
+            nbttagcompound.setBoolean("KSCPSRB", ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
+            nbttagcompound.setBoolean("KSWASDRB", ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
+            nbttagcompound.setBoolean("KSLMBRMBRB", ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
+            nbttagcompound.setBoolean("KSSprintRB", ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
+            nbttagcompound.setBoolean("KSSneakRB", ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
 
             nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
             nbttagcompound.setString("AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);

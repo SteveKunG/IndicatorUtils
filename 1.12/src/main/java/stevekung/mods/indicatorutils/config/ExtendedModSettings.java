@@ -160,67 +160,67 @@ public class ExtendedModSettings
 
         try
         {
-            NBTTagCompound nbttagcompound = new NBTTagCompound();
-            nbttagcompound.setBoolean("ToggleSprint", ExtendedModSettings.TOGGLE_SPRINT);
-            nbttagcompound.setBoolean("ToggleSneak", ExtendedModSettings.TOGGLE_SNEAK);
-            nbttagcompound.setBoolean("AutoClearChat", ExtendedModSettings.AUTO_CLEAR_CHAT);
-            nbttagcompound.setBoolean("AutoSwim", ExtendedModSettings.AUTO_SWIM);
-            nbttagcompound.setBoolean("ShowCape", ExtendedModSettings.SHOW_CAPE);
+            NBTTagCompound nbt = new NBTTagCompound();
+            nbt.setBoolean("ToggleSprint", ExtendedModSettings.TOGGLE_SPRINT);
+            nbt.setBoolean("ToggleSneak", ExtendedModSettings.TOGGLE_SNEAK);
+            nbt.setBoolean("AutoClearChat", ExtendedModSettings.AUTO_CLEAR_CHAT);
+            nbt.setBoolean("AutoSwim", ExtendedModSettings.AUTO_SWIM);
+            nbt.setBoolean("ShowCape", ExtendedModSettings.SHOW_CAPE);
 
-            nbttagcompound.setInteger("KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
-            nbttagcompound.setInteger("ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
-            nbttagcompound.setInteger("PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
-            nbttagcompound.setInteger("AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);
-            nbttagcompound.setInteger("CpsX", ExtendedModSettings.CPS_X_OFFSET);
-            nbttagcompound.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
-            nbttagcompound.setInteger("MaxPotionDisplay", ExtendedModSettings.MAX_POTION_DISPLAY);
-            nbttagcompound.setInteger("PotionLengthYOffset", ExtendedModSettings.POTION_LENGTH_Y_OFFSET);
-            nbttagcompound.setInteger("PotionLengthYOffsetOverlap", ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
-            nbttagcompound.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
-            nbttagcompound.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
-            nbttagcompound.setLong("SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
+            nbt.setInteger("KeystrokeY", ExtendedModSettings.KEYSTROKE_Y_OFFSET);
+            nbt.setInteger("ArmorStatusOffset", ExtendedModSettings.ARMOR_STATUS_OFFSET);
+            nbt.setInteger("PotionStatusOffset", ExtendedModSettings.POTION_STATUS_OFFSET);
+            nbt.setInteger("AutoClearChatTime", ExtendedModSettings.AUTO_CLEAR_CHAT_TIME);
+            nbt.setInteger("CpsX", ExtendedModSettings.CPS_X_OFFSET);
+            nbt.setInteger("CpsY", ExtendedModSettings.CPS_Y_OFFSET);
+            nbt.setInteger("MaxPotionDisplay", ExtendedModSettings.MAX_POTION_DISPLAY);
+            nbt.setInteger("PotionLengthYOffset", ExtendedModSettings.POTION_LENGTH_Y_OFFSET);
+            nbt.setInteger("PotionLengthYOffsetOverlap", ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP);
+            nbt.setFloat("CpsOpacity", ExtendedModSettings.CPS_OPACITY);
+            nbt.setFloat("RenderInfoOpacity", ExtendedModSettings.RENDER_INFO_OPACITY);
+            nbt.setLong("SlimeChunkSeed", ExtendedModSettings.SLIME_CHUNK_SEED);
 
-            nbttagcompound.setInteger("KSBlockR", ExtendedModSettings.KEYSTROKE_BLOCK_RED);
-            nbttagcompound.setInteger("KSBlockG", ExtendedModSettings.KEYSTROKE_BLOCK_GREEN);
-            nbttagcompound.setInteger("KSBlockB", ExtendedModSettings.KEYSTROKE_BLOCK_BLUE);
-            nbttagcompound.setInteger("KSCPSR", ExtendedModSettings.KEYSTROKE_CPS_RED);
-            nbttagcompound.setInteger("KSCPSG", ExtendedModSettings.KEYSTROKE_CPS_GREEN);
-            nbttagcompound.setInteger("KSCPSB", ExtendedModSettings.KEYSTROKE_CPS_BLUE);
-            nbttagcompound.setInteger("KSWASDR", ExtendedModSettings.KEYSTROKE_WASD_RED);
-            nbttagcompound.setInteger("KSWASDG", ExtendedModSettings.KEYSTROKE_WASD_GREEN);
-            nbttagcompound.setInteger("KSWASDB", ExtendedModSettings.KEYSTROKE_WASD_BLUE);
-            nbttagcompound.setInteger("KSLMBRMBR", ExtendedModSettings.KEYSTROKE_LMBRMB_RED);
-            nbttagcompound.setInteger("KSLMBRMBG", ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN);
-            nbttagcompound.setInteger("KSLMBRMBB", ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE);
-            nbttagcompound.setInteger("KSSprintR", ExtendedModSettings.KEYSTROKE_SPRINT_RED);
-            nbttagcompound.setInteger("KSSprintG", ExtendedModSettings.KEYSTROKE_SPRINT_GREEN);
-            nbttagcompound.setInteger("KSSprintB", ExtendedModSettings.KEYSTROKE_SPRINT_BLUE);
-            nbttagcompound.setInteger("KSSneakR", ExtendedModSettings.KEYSTROKE_SNEAK_RED);
-            nbttagcompound.setInteger("KSSneakG", ExtendedModSettings.KEYSTROKE_SNEAK_GREEN);
-            nbttagcompound.setInteger("KSSneakB", ExtendedModSettings.KEYSTROKE_SNEAK_BLUE);
+            nbt.setInteger("KSBlockR", ExtendedModSettings.KEYSTROKE_BLOCK_RED);
+            nbt.setInteger("KSBlockG", ExtendedModSettings.KEYSTROKE_BLOCK_GREEN);
+            nbt.setInteger("KSBlockB", ExtendedModSettings.KEYSTROKE_BLOCK_BLUE);
+            nbt.setInteger("KSCPSR", ExtendedModSettings.KEYSTROKE_CPS_RED);
+            nbt.setInteger("KSCPSG", ExtendedModSettings.KEYSTROKE_CPS_GREEN);
+            nbt.setInteger("KSCPSB", ExtendedModSettings.KEYSTROKE_CPS_BLUE);
+            nbt.setInteger("KSWASDR", ExtendedModSettings.KEYSTROKE_WASD_RED);
+            nbt.setInteger("KSWASDG", ExtendedModSettings.KEYSTROKE_WASD_GREEN);
+            nbt.setInteger("KSWASDB", ExtendedModSettings.KEYSTROKE_WASD_BLUE);
+            nbt.setInteger("KSLMBRMBR", ExtendedModSettings.KEYSTROKE_LMBRMB_RED);
+            nbt.setInteger("KSLMBRMBG", ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN);
+            nbt.setInteger("KSLMBRMBB", ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE);
+            nbt.setInteger("KSSprintR", ExtendedModSettings.KEYSTROKE_SPRINT_RED);
+            nbt.setInteger("KSSprintG", ExtendedModSettings.KEYSTROKE_SPRINT_GREEN);
+            nbt.setInteger("KSSprintB", ExtendedModSettings.KEYSTROKE_SPRINT_BLUE);
+            nbt.setInteger("KSSneakR", ExtendedModSettings.KEYSTROKE_SNEAK_RED);
+            nbt.setInteger("KSSneakG", ExtendedModSettings.KEYSTROKE_SNEAK_GREEN);
+            nbt.setInteger("KSSneakB", ExtendedModSettings.KEYSTROKE_SNEAK_BLUE);
 
-            nbttagcompound.setBoolean("KSBlockRB", ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
-            nbttagcompound.setBoolean("KSCPSRB", ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
-            nbttagcompound.setBoolean("KSWASDRB", ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
-            nbttagcompound.setBoolean("KSLMBRMBRB", ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
-            nbttagcompound.setBoolean("KSSprintRB", ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
-            nbttagcompound.setBoolean("KSSneakRB", ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
+            nbt.setBoolean("KSBlockRB", ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
+            nbt.setBoolean("KSCPSRB", ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
+            nbt.setBoolean("KSWASDRB", ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
+            nbt.setBoolean("KSLMBRMBRB", ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
+            nbt.setBoolean("KSSprintRB", ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
+            nbt.setBoolean("KSSneakRB", ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
 
-            nbttagcompound.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
-            nbttagcompound.setString("AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
-            nbttagcompound.setString("EntityDetectType", ExtendedModSettings.ENTITY_DETECT_TYPE);
-            nbttagcompound.setString("CapeURL", ExtendedModSettings.CAPE_URL);
-            nbttagcompound.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
-            nbttagcompound.setString("HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
-            nbttagcompound.setString("RealmsMessage", ExtendedModSettings.REALMS_MESSAGE);
+            nbt.setString("CpsPosition", ExtendedModSettings.CPS_POSITION);
+            nbt.setString("AutoClearChatMode", ExtendedModSettings.AUTO_CLEAR_CHAT_MODE);
+            nbt.setString("EntityDetectType", ExtendedModSettings.ENTITY_DETECT_TYPE);
+            nbt.setString("CapeURL", ExtendedModSettings.CAPE_URL);
+            nbt.setString("ChatMode", ExtendedModSettings.CHAT_MODE);
+            nbt.setString("HypixelNickName", ExtendedModSettings.HYPIXEL_NICK_NAME);
+            nbt.setString("RealmsMessage", ExtendedModSettings.REALMS_MESSAGE);
 
-            nbttagcompound.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
-            nbttagcompound.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
-            nbttagcompound.setString("AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
+            nbt.setString("ToggleSprintUseMode", ExtendedModSettings.TOGGLE_SPRINT_USE_MODE);
+            nbt.setString("ToggleSneakUseMode", ExtendedModSettings.TOGGLE_SNEAK_USE_MODE);
+            nbt.setString("AutoSwimUseMode", ExtendedModSettings.AUTO_SWIM_USE_MODE);
 
-            nbttagcompound.setTag("AutoLoginData", ExtendedModSettings.writeAutoLoginData());
+            nbt.setTag("AutoLoginData", ExtendedModSettings.writeAutoLoginData());
 
-            CompressedStreamTools.safeWrite(nbttagcompound, file);
+            CompressedStreamTools.safeWrite(nbt, file);
         }
         catch (Exception e) {}
     }

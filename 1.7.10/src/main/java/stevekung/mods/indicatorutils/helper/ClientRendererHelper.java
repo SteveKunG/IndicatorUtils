@@ -16,6 +16,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatorutils.utils.ArmorType;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
 
@@ -210,5 +211,11 @@ public class ClientRendererHelper
             GL11.glBlendFunc(770, 771);
             GL11.glDisable(GL11.GL_LIGHTING);
         }
+    }
+
+    public static void bindKeystrokeTexture(String texture)
+    {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("indicatorutils:textures/gui/" + texture + ".png"));
+        GL11.glColor3f(1.0F, 1.0F, 1.0F);
     }
 }

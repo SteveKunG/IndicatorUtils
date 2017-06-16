@@ -31,6 +31,15 @@ public class GuiRenderStatusSliderInt extends GuiButton
         this.displayString = option.getEnumString() + ": " + this.getOptionValue(option);
     }
 
+    public GuiRenderStatusSliderInt(int buttonId, int x, int y, int width, Options option)
+    {
+        super(buttonId, x, y, width, 20, "");
+        this.sliderValue = 1.0F;
+        this.options = option;
+        this.sliderValue = option.normalizeValue(this.getOptionValue(option));
+        this.displayString = option.getEnumString() + ": " + this.getOptionValue(option);
+    }
+
     @Override
     public int getHoverState(boolean mouseOver)
     {
@@ -82,69 +91,141 @@ public class GuiRenderStatusSliderInt extends GuiButton
         this.dragging = false;
     }
 
-    public void setOptionValue(Options settingsOption, float value)
+    public void setOptionValue(Options option, float value)
     {
         int ivalue = (int) value;
 
-        if (settingsOption == Options.ARMOR_Y)
+        switch (option)
         {
+        case ARMOR_Y:
             ExtendedModSettings.ARMOR_STATUS_OFFSET = ivalue;
-        }
-        else if (settingsOption == Options.POTION_Y)
-        {
-            ExtendedModSettings.POTION_STATUS_OFFSET = ivalue;
-        }
-        else if (settingsOption == Options.KEYSTOKE_X)
-        {
-            ExtendedModSettings.KEYSTROKE_X_OFFSET = ivalue;
-        }
-        else if (settingsOption == Options.KEYSTOKE_Y)
-        {
+            break;
+        case KEYSTOKE_Y:
             ExtendedModSettings.KEYSTROKE_Y_OFFSET = ivalue;
-        }
-        else if (settingsOption == Options.MAX_POTION_DISPLAY)
-        {
+            break;
+        case KEYSTROKE_BLOCK_RED:
+            ExtendedModSettings.KEYSTROKE_BLOCK_RED = ivalue;
+            break;
+        case KEYSTROKE_BLOCK_GREEN:
+            ExtendedModSettings.KEYSTROKE_BLOCK_GREEN = ivalue;
+            break;
+        case KEYSTROKE_BLOCK_BLUE:
+            ExtendedModSettings.KEYSTROKE_BLOCK_BLUE = ivalue;
+            break;
+        case KEYSTROKE_CPS_RED:
+            ExtendedModSettings.KEYSTROKE_CPS_RED = ivalue;
+            break;
+        case KEYSTROKE_CPS_GREEN:
+            ExtendedModSettings.KEYSTROKE_CPS_GREEN = ivalue;
+            break;
+        case KEYSTROKE_CPS_BLUE:
+            ExtendedModSettings.KEYSTROKE_CPS_BLUE = ivalue;
+            break;
+        case KEYSTROKE_WASD_RED:
+            ExtendedModSettings.KEYSTROKE_WASD_RED = ivalue;
+            break;
+        case KEYSTROKE_WASD_GREEN:
+            ExtendedModSettings.KEYSTROKE_WASD_GREEN = ivalue;
+            break;
+        case KEYSTROKE_WASD_BLUE:
+            ExtendedModSettings.KEYSTROKE_WASD_BLUE = ivalue;
+            break;
+        case KEYSTROKE_LMBRMB_RED:
+            ExtendedModSettings.KEYSTROKE_LMBRMB_RED = ivalue;
+            break;
+        case KEYSTROKE_LMBRMB_GREEN:
+            ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN = ivalue;
+            break;
+        case KEYSTROKE_LMBRMB_BLUE:
+            ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE = ivalue;
+            break;
+        case KEYSTROKE_SPRINT_RED:
+            ExtendedModSettings.KEYSTROKE_SPRINT_RED = ivalue;
+            break;
+        case KEYSTROKE_SPRINT_GREEN:
+            ExtendedModSettings.KEYSTROKE_SPRINT_GREEN = ivalue;
+            break;
+        case KEYSTROKE_SPRINT_BLUE:
+            ExtendedModSettings.KEYSTROKE_SPRINT_BLUE = ivalue;
+            break;
+        case KEYSTROKE_SNEAK_RED:
+            ExtendedModSettings.KEYSTROKE_SNEAK_RED = ivalue;
+            break;
+        case KEYSTROKE_SNEAK_GREEN:
+            ExtendedModSettings.KEYSTROKE_SNEAK_GREEN = ivalue;
+            break;
+        case KEYSTROKE_SNEAK_BLUE:
+            ExtendedModSettings.KEYSTROKE_SNEAK_BLUE = ivalue;
+            break;
+        case MAX_POTION_DISPLAY:
             ExtendedModSettings.MAX_POTION_DISPLAY = ivalue;
-        }
-        else if (settingsOption == Options.POTION_LENGTH_Y_OFFSET)
-        {
+            break;
+        case POTION_LENGTH_Y_OFFSET:
             ExtendedModSettings.POTION_LENGTH_Y_OFFSET = ivalue;
-        }
-        else if (settingsOption == Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
-        {
+            break;
+        case POTION_LENGTH_Y_OFFSET_OVERLAP:
             ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP = ivalue;
+            break;
+        case POTION_Y:
+            ExtendedModSettings.POTION_STATUS_OFFSET = ivalue;
+            break;
+        default:
+            break;
         }
     }
 
-    public int getOptionValue(Options settingOption)
+    public int getOptionValue(Options option)
     {
-        if (settingOption == Options.ARMOR_Y)
+        switch (option)
         {
+        case ARMOR_Y:
             return ExtendedModSettings.ARMOR_STATUS_OFFSET;
-        }
-        else if (settingOption == Options.POTION_Y)
-        {
-            return ExtendedModSettings.POTION_STATUS_OFFSET;
-        }
-        else if (settingOption == Options.KEYSTOKE_X)
-        {
-            return ExtendedModSettings.KEYSTROKE_X_OFFSET;
-        }
-        else if (settingOption == Options.KEYSTOKE_Y)
-        {
+        case KEYSTOKE_Y:
             return ExtendedModSettings.KEYSTROKE_Y_OFFSET;
-        }
-        else if (settingOption == Options.MAX_POTION_DISPLAY)
-        {
+        case KEYSTROKE_BLOCK_RED:
+            return ExtendedModSettings.KEYSTROKE_BLOCK_RED;
+        case KEYSTROKE_BLOCK_GREEN:
+            return ExtendedModSettings.KEYSTROKE_BLOCK_GREEN;
+        case KEYSTROKE_BLOCK_BLUE:
+            return ExtendedModSettings.KEYSTROKE_BLOCK_BLUE;
+        case KEYSTROKE_CPS_RED:
+            return ExtendedModSettings.KEYSTROKE_CPS_RED;
+        case KEYSTROKE_CPS_GREEN:
+            return ExtendedModSettings.KEYSTROKE_CPS_GREEN;
+        case KEYSTROKE_CPS_BLUE:
+            return ExtendedModSettings.KEYSTROKE_CPS_BLUE;
+        case KEYSTROKE_WASD_RED:
+            return ExtendedModSettings.KEYSTROKE_WASD_RED;
+        case KEYSTROKE_WASD_GREEN:
+            return ExtendedModSettings.KEYSTROKE_WASD_GREEN;
+        case KEYSTROKE_WASD_BLUE:
+            return ExtendedModSettings.KEYSTROKE_WASD_BLUE;
+        case KEYSTROKE_LMBRMB_BLUE:
+            return ExtendedModSettings.KEYSTROKE_LMBRMB_BLUE;
+        case KEYSTROKE_LMBRMB_GREEN:
+            return ExtendedModSettings.KEYSTROKE_LMBRMB_GREEN;
+        case KEYSTROKE_LMBRMB_RED:
+            return ExtendedModSettings.KEYSTROKE_LMBRMB_RED;
+        case KEYSTROKE_SPRINT_RED:
+            return ExtendedModSettings.KEYSTROKE_SPRINT_RED;
+        case KEYSTROKE_SPRINT_GREEN:
+            return ExtendedModSettings.KEYSTROKE_SPRINT_GREEN;
+        case KEYSTROKE_SPRINT_BLUE:
+            return ExtendedModSettings.KEYSTROKE_SPRINT_BLUE;
+        case KEYSTROKE_SNEAK_RED:
+            return ExtendedModSettings.KEYSTROKE_SNEAK_RED;
+        case KEYSTROKE_SNEAK_GREEN:
+            return ExtendedModSettings.KEYSTROKE_SNEAK_GREEN;
+        case KEYSTROKE_SNEAK_BLUE:
+            return ExtendedModSettings.KEYSTROKE_SNEAK_BLUE;
+        case MAX_POTION_DISPLAY:
             return ExtendedModSettings.MAX_POTION_DISPLAY;
-        }
-        else if (settingOption == Options.POTION_LENGTH_Y_OFFSET)
-        {
+        case POTION_LENGTH_Y_OFFSET:
             return ExtendedModSettings.POTION_LENGTH_Y_OFFSET;
-        }
-        else if (settingOption == Options.POTION_LENGTH_Y_OFFSET_OVERLAP)
-        {
+        case POTION_LENGTH_Y_OFFSET_OVERLAP:
             return ExtendedModSettings.POTION_LENGTH_Y_OFFSET_OVERLAP;
+        case POTION_Y:
+            return ExtendedModSettings.POTION_STATUS_OFFSET;
         }
         return 0;
     }
@@ -154,11 +235,28 @@ public class GuiRenderStatusSliderInt extends GuiButton
     {
         ARMOR_Y("Armor Status Y Position", -512.0F, 512.0F, 1.0F),
         POTION_Y("Potion Status Y Position", -512.0F, 512.0F, 1.0F),
-        KEYSTOKE_X("Keystroke (Advanced) X Position", -256.0F, 256.0F, 1.0F),
         KEYSTOKE_Y("Keystroke Y Position", -512.0F, 512.0F, 1.0F),
         MAX_POTION_DISPLAY("Max Potion Display", 2.0F, 8.0F, 1.0F),
         POTION_LENGTH_Y_OFFSET("Potion Length Y Offset", 1.0F, 256.0F, 1.0F),
-        POTION_LENGTH_Y_OFFSET_OVERLAP("Potion Length Y Offset (Overlap)", 1.0F, 256.0F, 1.0F);
+        POTION_LENGTH_Y_OFFSET_OVERLAP("Potion Length Y Offset (Overlap)", 1.0F, 256.0F, 1.0F),
+        KEYSTROKE_WASD_RED("WASD Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_WASD_GREEN("WASD Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_WASD_BLUE("WASD Blue", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_LMBRMB_RED("LMB/RMB Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_LMBRMB_GREEN("LMB/RMB Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_LMBRMB_BLUE("LMB/RMB Blue", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_CPS_RED("CPS Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_CPS_GREEN("CPS Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_CPS_BLUE("CPS Blue", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SPRINT_RED("Sprint Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SPRINT_GREEN("Sprint Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SPRINT_BLUE("Sprint Blue", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SNEAK_RED("Sneak Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SNEAK_GREEN("Sneak Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_SNEAK_BLUE("Sneak Blue", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_BLOCK_RED("Block Red", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_BLOCK_GREEN("Block Green", 0.0F, 255.0F, 1.0F),
+        KEYSTROKE_BLOCK_BLUE("Block Blue", 0.0F, 255.0F, 1.0F);
 
         private String enumString;
         private float valueStep;

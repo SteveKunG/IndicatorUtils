@@ -55,9 +55,7 @@ public class ConfigManager
     public static boolean swapMainRenderInfoToRight;
     public static String armorStatusMode;
     public static String healthStatusMode;
-    public static String keystrokeMode;
     public static String potionStatusStyle;
-    public static String keystrokeSize;
     public static String heldItemStatusMode;
     public static boolean enablePing;
     public static boolean enableServerIP;
@@ -76,7 +74,7 @@ public class ConfigManager
     public static boolean enableKeystrokeSprintSneak;
     public static boolean enableKeystrokeBlocking;
     public static boolean enableCPS;
-    public static boolean enableRPS;
+    public static boolean enableRCPS;
     public static boolean enableHeldItemInHand;
     public static boolean showPotionIcon;
 
@@ -132,8 +130,8 @@ public class ConfigManager
     public static String customColorBiomeValue;
     public static String customColorCPS;
     public static String customColorCPSValue;
-    public static String customColorRPS;
-    public static String customColorRPSValue;
+    public static String customColorRCPS;
+    public static String customColorRCPSValue;
     public static String customColorArmorPercent;
     public static String customColorArmorMaxDurability;
     public static String customColorArmorDamageDurability;
@@ -174,8 +172,8 @@ public class ConfigManager
     public static String customTextBiome;
     public static boolean useCustomTextCPS;
     public static String customTextCPS;
-    public static boolean useCustomTextRPS;
-    public static String customTextRPS;
+    public static boolean useCustomTextRCPS;
+    public static String customTextRCPS;
     public static boolean useCustomTextTime;
     public static String customTextTime;
     public static boolean useCustomTextGameTime;
@@ -314,19 +312,9 @@ public class ConfigManager
         ConfigManager.healthStatusMode = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke Mode", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "ADVANCED" });
-        ConfigManager.keystrokeMode = prop.getString();
-        propOrder.add(prop.getName());
-
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Potion Status Style", "DEFAULT");
         prop.setValidValues(new String[] { "DEFAULT", "ICON_AND_TIME" });
         ConfigManager.potionStatusStyle = prop.getString();
-        propOrder.add(prop.getName());
-
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Keystroke GUI Size", "NORMAL");
-        prop.setValidValues(new String[] { "NORMAL", "SMALL" });
-        ConfigManager.keystrokeSize = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Held Item Status", "NORMAL");
@@ -403,8 +391,8 @@ public class ConfigManager
         ConfigManager.enableCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable RPS", false);
-        ConfigManager.enableRPS = prop.getBoolean();
+        prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable RCPS", false);
+        ConfigManager.enableRCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.RENDER_INFO_SETTINGS, "Enable Held Item", false);
@@ -664,16 +652,16 @@ public class ConfigManager
         ConfigManager.customColorCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS", "white");
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RCPS", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorRPS = prop.getString();
+        ConfigManager.customColorRCPS = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RPS Value", "white");
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "RCPS Value", "white");
         prop.setConfigEntryClass(ConfigColorEntryIU.class);
         prop.setValidValues(GameInfoHelper.INSTANCE.getJsonColor());
-        ConfigManager.customColorRPSValue = prop.getString();
+        ConfigManager.customColorRCPSValue = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_COLOR_SETTINGS, "Armor Percent", "white");
@@ -881,12 +869,12 @@ public class ConfigManager
         ConfigManager.customTextCPS = prop.getString();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom RPS Text", false);
-        ConfigManager.useCustomTextRPS = prop.getBoolean();
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom RCPS Text", false);
+        ConfigManager.useCustomTextRCPS = prop.getBoolean();
         propOrder.add(prop.getName());
 
-        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "RPS Text", "\"text\":\" RPS: \"");
-        ConfigManager.customTextRPS = prop.getString();
+        prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "RCPS Text", "\"text\":\" RCPS: \"");
+        ConfigManager.customTextRCPS = prop.getString();
         propOrder.add(prop.getName());
 
         prop = ConfigManager.config.get(ConfigManager.CUSTOM_TEXT_SETTINGS, "Use Custom Time Text", false);

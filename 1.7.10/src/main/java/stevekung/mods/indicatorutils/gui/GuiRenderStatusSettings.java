@@ -39,12 +39,12 @@ public class GuiRenderStatusSettings extends GuiScreen
         this.buttonList.add(new GuiButton(200, this.width / 2 - 100, this.height - 120, I18n.format("gui.done")));
         this.buttonList.add(new GuiRenderStatusSliderInt(201, this.width / 2 - 100, this.height / 4 - 50, GuiRenderStatusSliderInt.Options.ARMOR_Y));
         this.buttonList.add(new GuiRenderStatusSliderInt(202, this.width / 2 - 100, this.height / 4 - 25, GuiRenderStatusSliderInt.Options.POTION_Y));
-        this.buttonList.add(new GuiRenderStatusSliderInt(203, this.width / 2 - 100, this.height / 4, GuiRenderStatusSliderInt.Options.KEYSTOKE_X));
-        this.buttonList.add(new GuiRenderStatusSliderInt(204, this.width / 2 - 100, this.height / 4 + 25, GuiRenderStatusSliderInt.Options.KEYSTOKE_Y));
-        this.buttonList.add(new GuiRenderStatusSliderInt(205, this.width / 2 - 100, this.height / 4 + 50, GuiRenderStatusSliderInt.Options.MAX_POTION_DISPLAY));
-        this.buttonList.add(new GuiRenderStatusSliderInt(206, this.width / 2 - 100, this.height / 4 + 75, GuiRenderStatusSliderInt.Options.POTION_LENGTH_Y_OFFSET));
-        this.buttonList.add(new GuiRenderStatusSliderInt(207, this.width / 2 - 100, this.height / 4 + 100, GuiRenderStatusSliderInt.Options.POTION_LENGTH_Y_OFFSET_OVERLAP));
-        this.buttonList.add(new GuiRenderStatusSliderFloat(208, this.width / 2 - 100, this.height / 4 + 125, GuiRenderStatusSliderFloat.Options.RENDER_INFO_OPACITY));
+        this.buttonList.add(new GuiRenderStatusSliderInt(203, this.width / 2 - 100, this.height / 4, GuiRenderStatusSliderInt.Options.KEYSTOKE_Y));
+        this.buttonList.add(new GuiRenderStatusSliderInt(204, this.width / 2 - 100, this.height / 4 + 25, GuiRenderStatusSliderInt.Options.MAX_POTION_DISPLAY));
+        this.buttonList.add(new GuiRenderStatusSliderInt(205, this.width / 2 - 100, this.height / 4 + 50, GuiRenderStatusSliderInt.Options.POTION_LENGTH_Y_OFFSET));
+        this.buttonList.add(new GuiRenderStatusSliderInt(206, this.width / 2 - 100, this.height / 4 + 75, GuiRenderStatusSliderInt.Options.POTION_LENGTH_Y_OFFSET_OVERLAP));
+        this.buttonList.add(new GuiRenderStatusSliderFloat(207, this.width / 2 - 100, this.height / 4 + 100, GuiRenderStatusSliderFloat.Options.RENDER_INFO_OPACITY));
+        this.buttonList.add(new GuiButton(208, this.width / 2 - 100, this.height / 4 + 125, "Keystroke Color Settings"));
     }
 
     @Override
@@ -66,6 +66,10 @@ public class GuiRenderStatusSettings extends GuiScreen
             {
                 ExtendedModSettings.saveExtendedSettings();
                 this.mc.displayGuiScreen((GuiScreen)null);
+            }
+            if (button.id == 208)
+            {
+                new GuiKeystrokeColorSettings().display();
             }
         }
     }

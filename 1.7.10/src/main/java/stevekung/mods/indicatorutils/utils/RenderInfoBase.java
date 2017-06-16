@@ -197,19 +197,19 @@ public class RenderInfoBase
         if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("left"))
         {
             String cps = json.text("CPS: ").setChatStyle(json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-            String rps = ConfigManager.enableRPS ? json.text(" RPS: ").setChatStyle(json.colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+            String rcps = ConfigManager.enableRCPS ? json.text(" RCPS: ").setChatStyle(json.colorFromConfig(ConfigManager.customColorRCPS)).getFormattedText() : "";
             String cpsValue = json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setChatStyle(json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-            String rpsValue = ConfigManager.enableRPS ? json.text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setChatStyle(json.colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+            String rcpsValue = ConfigManager.enableRCPS ? json.text(String.valueOf(GameInfoHelper.INSTANCE.getRCPS())).setChatStyle(json.colorFromConfig(ConfigManager.customColorRCPSValue)).getFormattedText() : "";
 
             if (ConfigManager.useCustomTextCPS)
             {
                 cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
             }
-            if (ConfigManager.useCustomTextRPS)
+            if (ConfigManager.useCustomTextRCPS)
             {
-                rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                rcps = JsonUtils.rawTextToJson(ConfigManager.customTextRCPS).getFormattedText();
             }
-            list.add(cps + cpsValue + rps + rpsValue);
+            list.add(cps + cpsValue + rcps + rcpsValue);
         }
         return list;
     }

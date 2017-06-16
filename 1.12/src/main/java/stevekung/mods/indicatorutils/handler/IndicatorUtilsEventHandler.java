@@ -111,7 +111,7 @@ public class IndicatorUtilsEventHandler
     private long sneakTimeOld = 0L;
     private boolean sneakingOld = false;
 
-    public static Map<String, Integer> PLAYER_PING_MAP = Maps.<String, Integer>newHashMap();
+    public static Map<String, Integer> PLAYER_PING_MAP = Maps.newHashMap();
     private static boolean windowStartup = true;
 
     public IndicatorUtilsEventHandler()
@@ -1020,7 +1020,7 @@ public class IndicatorUtilsEventHandler
         try
         {
             URI uri = new URI(url);
-            Class<?> oclass = Class.forName("java.awt.Desktop");
+            Class oclass = Class.forName("java.awt.Desktop");
             Object object = oclass.getMethod("getDesktop").invoke((Object)null);
             oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
         }

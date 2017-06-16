@@ -57,7 +57,7 @@ public class GameInfoHelper
     {
         NetHandlerPlayClient connection = Minecraft.getMinecraft().player.connection;
         List<NetworkPlayerInfo> playerInfo = Lists.newArrayList(connection.getPlayerInfoMap());
-        List<String> playerList = Lists.<String>newArrayList();
+        List<String> playerList = Lists.newArrayList();
 
         for (int i = 0; i < playerInfo.size(); ++i)
         {

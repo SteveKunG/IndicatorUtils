@@ -22,6 +22,7 @@ import net.minecraft.entity.monster.*;
 import net.minecraft.entity.passive.*;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import stevekung.mods.indicatorutils.config.ExtendedModSettings;
 import stevekung.mods.indicatorutils.utils.ArmorType;
 import stevekung.mods.indicatorutils.utils.EnumTextColor;
@@ -212,6 +213,12 @@ public class ClientRendererHelper
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
         }
+    }
+
+    public static void bindKeystrokeTexture(String texture)
+    {
+        Minecraft.getMinecraft().getTextureManager().bindTexture(new ResourceLocation("indicatorutils:textures/gui/" + texture + ".png"));
+        GlStateManager.color(1.0F, 1.0F, 1.0F);
     }
 
     public static void runGlowingEntityDetector()

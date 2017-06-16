@@ -157,6 +157,12 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
                     sender.addChatMessage(json.text("Set CPS position to Record"));
                     ExtendedModSettings.saveExtendedSettings();
                 }
+                else if ("keystroke".equalsIgnoreCase(args[1]))
+                {
+                    ExtendedModSettings.CPS_POSITION = "keystroke";
+                    sender.addChatMessage(json.text("Set CPS position to Keystroke"));
+                    ExtendedModSettings.saveExtendedSettings();
+                }
                 else if ("custom".equalsIgnoreCase(args[1]))
                 {
                     ExtendedModSettings.CPS_POSITION = "custom";
@@ -325,7 +331,7 @@ public class CommandIndicatorUtils extends ClientCommandBaseIU
             }
             if (args[0].equalsIgnoreCase("cps"))
             {
-                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "custom");
+                return CommandBase.getListOfStringsMatchingLastWord(args, "left", "right", "record", "keystroke", "custom");
             }
         }
         if (args.length == 3)

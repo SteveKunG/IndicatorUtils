@@ -6,6 +6,8 @@
 
 package stevekung.mods.indicatorutils.utils;
 
+import java.awt.Color;
+
 public enum EnumTextColor
 {
     WHITE(16777215),
@@ -14,6 +16,8 @@ public enum EnumTextColor
     RED(16733525),
     DARK_RED(11141120),
     BLACK(0),
+    RAINBOW(0),
+    CUSTOM(0),
     ABSORPTION(EnumTextColor.rgbToDecimal(247, 219, 21)),
     REGENERATION(EnumTextColor.rgbToDecimal(244, 120, 226)),
     STRENGTH(EnumTextColor.rgbToDecimal(179, 55, 55)),
@@ -37,9 +41,8 @@ public enum EnumTextColor
     GLOWING(EnumTextColor.rgbToDecimal(146, 158, 96)),
     LEVITATION(EnumTextColor.rgbToDecimal(204, 252, 252)),
     LUCK(EnumTextColor.rgbToDecimal(50, 151, 0)),
-    UNLUCK(EnumTextColor.rgbToDecimal(190, 162, 76)),
+    UNLUCK(EnumTextColor.rgbToDecimal(190, 162, 76));
 
-    ;
     private int color;
 
     private EnumTextColor(int color)
@@ -50,6 +53,18 @@ public enum EnumTextColor
     public int getColor()
     {
         return this.color;
+    }
+
+    public EnumTextColor setRainbow()
+    {
+        this.color = Math.abs(Color.HSBtoRGB(System.currentTimeMillis() % 2500L / 2500.0F, 0.8F, 0.8F));
+        return this;
+    }
+
+    public EnumTextColor setColor(int color)
+    {
+        this.color = color;
+        return this;
     }
 
     public static int rgbToDecimal(int r, int g, int b)

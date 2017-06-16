@@ -15,7 +15,7 @@ import com.google.common.collect.Maps;
 
 public class AutoLogin
 {
-    private Map<String, AutoLoginData> autoLogin = Maps.<String, AutoLoginData>newHashMap();
+    private Map<String, AutoLoginData> autoLogin = Maps.newHashMap();
 
     @Nullable
     public AutoLoginData getAutoLogin(String data)

@@ -18,12 +18,12 @@ public abstract class ButtonEntry extends ListEntryBase
 {
     protected final GuiButtonExt btnValue;
 
-    public ButtonEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement<?> configElement)
+    public ButtonEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
     {
         this(owningScreen, owningEntryList, configElement, new GuiButtonExt(0, owningEntryList.controlX, 0, owningEntryList.controlWidth, 18, configElement.get() != null ? I18n.format(String.valueOf(configElement.get())) : ""));
     }
 
-    public ButtonEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement<?> configElement, GuiButtonExt button)
+    public ButtonEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement, GuiButtonExt button)
     {
         super(owningScreen, owningEntryList, configElement);
         this.btnValue = button;

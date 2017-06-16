@@ -97,7 +97,7 @@ public abstract class ClientCommandBaseIU extends CommandBase
     protected List<String> getListOfStringsMatchingLastWord2(String[] stringList, Collection<?> collection)
     {
         String s = stringList[stringList.length - 1];
-        List<String> list = Lists.<String>newArrayList();
+        List<String> list = Lists.newArrayList();
 
         if (!collection.isEmpty())
         {

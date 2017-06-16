@@ -90,7 +90,7 @@ public class GameInfoHelper
         return IndicatorUtilsEventHandler.L_CLICK.size();
     }
 
-    public int getRPS()
+    public int getRCPS()
     {
         Iterator<Long> iterator = IndicatorUtilsEventHandler.R_CLICK.iterator();
 

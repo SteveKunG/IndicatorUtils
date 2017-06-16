@@ -15,7 +15,7 @@ import stevekung.mods.indicatorutils.helper.GameInfoHelper;
 
 public class ConfigColorEntryIU extends CycleValueEntryIU
 {
-    public ConfigColorEntryIU(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement<?> configElement)
+    public ConfigColorEntryIU(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement configElement)
     {
         super(owningScreen, owningEntryList, configElement);
         this.btnValue.enabled = this.enabled();

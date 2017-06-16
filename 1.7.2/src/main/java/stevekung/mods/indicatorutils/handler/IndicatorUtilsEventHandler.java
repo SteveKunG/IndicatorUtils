@@ -7,7 +7,6 @@
 package stevekung.mods.indicatorutils.handler;
 
 import java.net.URI;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -18,6 +17,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 
 import cpw.mods.fml.client.event.ConfigChangedEvent;
 import cpw.mods.fml.common.Loader;
@@ -98,8 +98,8 @@ public class IndicatorUtilsEventHandler
     private Minecraft mc;
     private JsonUtils json;
 
-    public static List<String> playerList = Lists.<String>newArrayList();
-    public static Map<String, Integer> playerPingMap = Maps.<String, Integer>newHashMap();
+    public static List<String> playerList = Lists.newArrayList();
+    public static Map<String, Integer> playerPingMap = Maps.newHashMap();
     public static boolean setTCPNoDelay = false;
     private static boolean windowStartup = true;
 
@@ -219,7 +219,7 @@ public class IndicatorUtilsEventHandler
                 {
                     GuiPlayerInfo player = players.get(i);
                     playerList.add(player.name);
-                    Set<String> hs = new HashSet<String>();
+                    Set<String> hs = Sets.newHashSet();
                     hs.addAll(playerList);
                     playerList.clear();
                     playerList.addAll(hs);
@@ -470,16 +470,6 @@ public class IndicatorUtilsEventHandler
     {
         if (event.type == ElementType.TEXT)
         {
-            if (ConfigManager.enableKeystroke)
-            {
-                if (!this.mc.gameSettings.hideGUI)
-                {
-                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings)
-                    {
-                        KeystrokeRenderer.init(this.mc);
-                    }
-                }
-            }
             if (ConfigManager.enableAllRenderInfo)
             {
                 HUDInfo.init(this.mc);
@@ -487,26 +477,26 @@ public class IndicatorUtilsEventHandler
                 if (ConfigManager.enableCPS)
                 {
                     String cps = this.json.text("CPS: ").setChatStyle(this.json.colorFromConfig(ConfigManager.customColorCPS)).getFormattedText();
-                    String rps = ConfigManager.enableRPS ? this.json.text(" RPS: ").setChatStyle(this.json.colorFromConfig(ConfigManager.customColorRPS)).getFormattedText() : "";
+                    String rcps = ConfigManager.enableRCPS ? this.json.text(" RCPS: ").setChatStyle(this.json.colorFromConfig(ConfigManager.customColorRCPS)).getFormattedText() : "";
                     String cpsValue = this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getCPS())).setChatStyle(this.json.colorFromConfig(ConfigManager.customColorCPSValue)).getFormattedText();
-                    String rpsValue = ConfigManager.enableRPS ? this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getRPS())).setChatStyle(this.json.colorFromConfig(ConfigManager.customColorRPSValue)).getFormattedText() : "";
+                    String rcpsValue = ConfigManager.enableRCPS ? this.json.text(String.valueOf(GameInfoHelper.INSTANCE.getRCPS())).setChatStyle(this.json.colorFromConfig(ConfigManager.customColorRCPSValue)).getFormattedText() : "";
 
                     if (ConfigManager.useCustomTextCPS)
                     {
                         cps = JsonUtils.rawTextToJson(ConfigManager.customTextCPS).getFormattedText();
                     }
-                    if (ConfigManager.useCustomTextRPS)
+                    if (ConfigManager.useCustomTextRCPS)
                     {
-                        rps = JsonUtils.rawTextToJson(ConfigManager.customTextRPS).getFormattedText();
+                        rcps = JsonUtils.rawTextToJson(ConfigManager.customTextRCPS).getFormattedText();
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("record"))
                     {
-                        ClientRendererHelper.drawStringAtRecord(cps + cpsValue + rps + rpsValue, event.partialTicks);
+                        ClientRendererHelper.drawStringAtRecord(cps + cpsValue + rcps + rcpsValue, event.partialTicks);
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
                     {
-                        ClientRendererHelper.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRenderer.getStringWidth(cps + cpsValue + rps + rpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
-                        ClientRendererHelper.drawString(cps + cpsValue + rps + rpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
+                        ClientRendererHelper.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRenderer.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        ClientRendererHelper.drawString(cps + cpsValue + rcps + rcpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
 
@@ -690,6 +680,16 @@ public class IndicatorUtilsEventHandler
 
         if (event.phase == Phase.END)
         {
+            if (ConfigManager.enableKeystroke)
+            {
+                if (!this.mc.gameSettings.hideGUI)
+                {
+                    if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings || this.mc.currentScreen instanceof GuiKeystrokeColorSettings)
+                    {
+                        KeystrokeRenderer.init(this.mc);
+                    }
+                }
+            }
             if (mc.currentScreen instanceof GuiIngameMenu)
             {
                 int i = Mouse.getEventX() * mc.currentScreen.width / mc.displayWidth;
@@ -997,7 +997,7 @@ public class IndicatorUtilsEventHandler
         try
         {
             URI uri = new URI(url);
-            Class<?> oclass = Class.forName("java.awt.Desktop");
+            Class oclass = Class.forName("java.awt.Desktop");
             Object object = oclass.getMethod("getDesktop").invoke((Object)null);
             oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {uri});
         }

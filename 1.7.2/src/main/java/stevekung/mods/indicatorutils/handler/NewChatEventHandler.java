@@ -31,7 +31,7 @@ import stevekung.mods.indicatorutils.utils.Base64Utils;
 public class NewChatEventHandler
 {
     private Thread currentThread = Thread.currentThread();
-    private Queue<ListenableFutureTask<?>> queue = Queues.newArrayDeque();
+    private Queue<ListenableFutureTask> queue = Queues.newArrayDeque();
 
     @SubscribeEvent
     public void onClientConnectedToServer(ClientConnectedToServerEvent event)
@@ -46,19 +46,19 @@ public class NewChatEventHandler
         });
     }
 
-    private ListenableFuture<?> run(Runnable runnable)
+    private ListenableFuture run(Runnable runnable)
     {
         Validate.notNull(runnable);
         return this.callListenable(Executors.callable(runnable));
     }
 
-    private ListenableFuture<?> callListenable(Callable<?> callable)
+    private ListenableFuture callListenable(Callable callable)
     {
         Validate.notNull(callable);
 
         if (!this.isCurrentThread())
         {
-            ListenableFutureTask<?> listenablefuturetask = ListenableFutureTask.create(callable);
+            ListenableFutureTask listenablefuturetask = ListenableFutureTask.create(callable);
             synchronized (this.queue)
             {
                 this.queue.add(listenablefuturetask);

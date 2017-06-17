@@ -1,9 +1,3 @@
-/*******************************************************************************
- *
- * Copyright 2016 Wasinthorn Suksri/SteveKunG - Indicator Utils
- *
- ******************************************************************************/
-
 package stevekung.mods.indicatorutils;
 
 import java.io.File;
@@ -59,8 +53,6 @@ public class IndicatorUtils
 
     static
     {
-        ModSecurityManager.lockedWithPirateUser("MCCommanderTH", false);
-        ModSecurityManager.lockedWithUUID("eef3a603-1c1b-4c98-8264-d2f04b231ef4", false);
         IndicatorUtils.IGNORE_LIST.add("ZmJlNmVjYTgtODQwNy00MWI5LWI4ZGItODljMmM4YjE5MmRj");
         IndicatorUtils.IGNORE_LIST.add("ZGVlZTUwMDAtZGUwNC00ZDI1LTgyNDUtNDZmYWZiYzE3NzIw");
         IndicatorUtils.IGNORE_LIST.add("ZGVhMjE5MmItNTM4Yy00MjdhLThmZjUtMzBiZWVlMmVhNGQz");

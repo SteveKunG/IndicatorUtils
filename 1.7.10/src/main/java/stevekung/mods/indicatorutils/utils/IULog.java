@@ -1,9 +1,3 @@
-/*******************************************************************************
- *
- * Copyright 2016 Wasinthorn Suksri/SteveKunG - Indicator Utils
- *
- ******************************************************************************/
-
 package stevekung.mods.indicatorutils.utils;
 
 import org.apache.logging.log4j.Level;

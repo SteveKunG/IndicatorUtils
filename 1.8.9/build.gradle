@@ -26,7 +26,7 @@ compileJava {
 }
 
 minecraft {
-    version = "1.8.9-11.15.1.1902-1.8.9"
+    version = "1.8.9-11.15.1.2318-1.8.9"
     runDir = "run"
     mappings = "stable_20"
 	makeObfSourceJar = false
@@ -48,7 +48,7 @@ processResources {
 }
 
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
-ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**', 'indicatorutils_at.cfg']
+ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**', 'license.txt', 'indicatorutils_at.cfg']
 
 task buildJar(type: Jar, dependsOn: "rePackAllJar") {
 	outputs.upToDateWhen { false }

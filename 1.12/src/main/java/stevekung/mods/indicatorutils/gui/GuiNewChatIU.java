@@ -160,7 +160,7 @@ public class GuiNewChatIU extends GuiChat
 
             int minX = ExtendedModSettings.CPS_X_OFFSET;
             int minY = ExtendedModSettings.CPS_Y_OFFSET;
-            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRendererObj.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4;
+            int maxX = ExtendedModSettings.CPS_X_OFFSET + this.fontRenderer.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4;
             int maxY = ExtendedModSettings.CPS_Y_OFFSET + 12;
 
             if (mouseX >= minX && mouseX <= maxX && mouseY >= minY && mouseY <= maxY)

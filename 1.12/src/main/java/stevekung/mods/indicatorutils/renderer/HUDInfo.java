@@ -35,9 +35,9 @@ public class HUDInfo
             {
                 ScaledResolution scaledRes = new ScaledResolution(mc);
                 boolean swapToRight = ConfigManager.swapMainRenderInfoToRight;
-                int height = mc.fontRendererObj.FONT_HEIGHT + 1;
+                int height = mc.fontRenderer.FONT_HEIGHT + 1;
                 float y = 3.5F;
-                int xPosition = scaledRes.getScaledWidth() - 2 - mc.fontRendererObj.getStringWidth(string);
+                int xPosition = scaledRes.getScaledWidth() - 2 - mc.fontRenderer.getStringWidth(string);
 
                 if (swapToRight && !GameInfoHelper.INSTANCE.isBelowMinecraft19())
                 {
@@ -56,7 +56,7 @@ public class HUDInfo
                 }
                 if (!mc.gameSettings.showDebugInfo)
                 {
-                    int stringWidth = mc.fontRendererObj.getStringWidth(string) + 2;
+                    int stringWidth = mc.fontRenderer.getStringWidth(string) + 2;
                     float yPosition = y + height * i;
                     int yOverlay = (int) yPosition;
 

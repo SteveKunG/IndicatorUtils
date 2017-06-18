@@ -199,7 +199,7 @@ public class IndicatorUtilsEventHandler
     {
         if (event.getGui() instanceof GuiIngameMenu)
         {
-            event.getGui().drawString(this.mc.fontRendererObj, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
+            event.getGui().drawString(this.mc.fontRenderer, "Donate to Indicator Utils", event.getGui().width - 140, 8, 65481);
         }
     }
 
@@ -451,7 +451,7 @@ public class IndicatorUtilsEventHandler
                     }
                     if (ExtendedModSettings.CPS_POSITION.equalsIgnoreCase("custom"))
                     {
-                        ClientRendererHelper.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRendererObj.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
+                        ClientRendererHelper.drawRectNew(ExtendedModSettings.CPS_X_OFFSET, ExtendedModSettings.CPS_Y_OFFSET, ExtendedModSettings.CPS_X_OFFSET + this.mc.fontRenderer.getStringWidth(cps + cpsValue + rcps + rcpsValue) + 4, ExtendedModSettings.CPS_Y_OFFSET + 11, 16777216, ExtendedModSettings.CPS_OPACITY);
                         ClientRendererHelper.drawString(cps + cpsValue + rcps + rcpsValue, ExtendedModSettings.CPS_X_OFFSET + 2, ExtendedModSettings.CPS_Y_OFFSET + 2, 16777215, true);
                     }
                 }
@@ -465,7 +465,7 @@ public class IndicatorUtilsEventHandler
                     {
                         color = EnumTextColor.RED;
                     }
-                    ClientRendererHelper.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRendererObj.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
+                    ClientRendererHelper.drawString("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick), res.getScaledWidth() - this.mc.fontRenderer.getStringWidth("REC: " + GameInfoHelper.INSTANCE.ticksToElapsedTime(this.recTick)) - 2, res.getScaledHeight() - 10, color, true);
                 }
             }
         }
@@ -674,8 +674,8 @@ public class IndicatorUtilsEventHandler
                 }
                 GlStateManager.translate(0.0F, defaultval, 0.0F);
                 ClientRendererHelper.drawGradientRect(this.mc.currentScreen.width - 100, this.mc.currentScreen.height - 35, this.mc.currentScreen.width, this.mc.currentScreen.height, ClientRendererHelper.to32BitColor(150, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor), ClientRendererHelper.to32BitColor(250, 10 + deltaColor, 10 + deltaColor, 10 + deltaColor));
-                this.mc.fontRendererObj.drawString(I18n.format("gui.indicatorutils.config.name0"), this.mc.currentScreen.width - 50 - this.mc.fontRendererObj.getStringWidth(I18n.format("gui.indicatorutils.config.name0")) / 2, this.mc.currentScreen.height - 26, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
-                this.mc.fontRendererObj.drawString(I18n.format("gui.indicatorutils.config.name1"), this.mc.currentScreen.width - 50 - this.mc.fontRendererObj.getStringWidth(I18n.format("gui.indicatorutils.config.name1")) / 2, this.mc.currentScreen.height - 16, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
+                this.mc.fontRenderer.drawString(I18n.format("gui.indicatorutils.config.name0"), this.mc.currentScreen.width - 50 - this.mc.fontRenderer.getStringWidth(I18n.format("gui.indicatorutils.config.name0")) / 2, this.mc.currentScreen.height - 26, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
+                this.mc.fontRenderer.drawString(I18n.format("gui.indicatorutils.config.name1"), this.mc.currentScreen.width - 50 - this.mc.fontRenderer.getStringWidth(I18n.format("gui.indicatorutils.config.name1")) / 2, this.mc.currentScreen.height - 16, ClientRendererHelper.to32BitColor(255, 240, 240, 240));
                 Gui.drawRect(this.mc.currentScreen.width - 100, this.mc.currentScreen.height - 35, this.mc.currentScreen.width - 99, this.mc.currentScreen.height, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
                 Gui.drawRect(this.mc.currentScreen.width - 100, this.mc.currentScreen.height - 35, this.mc.currentScreen.width, this.mc.currentScreen.height - 34, ClientRendererHelper.to32BitColor(255, 0, 0, 0));
             }

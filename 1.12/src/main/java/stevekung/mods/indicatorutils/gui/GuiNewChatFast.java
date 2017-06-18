@@ -98,7 +98,7 @@ public class GuiNewChatFast extends GuiNewChat
 
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
-                                this.mc.fontRendererObj.drawStringWithShadow(s, 0.0F, j2 - 8, 16777215 + (l1 << 24));
+                                this.mc.fontRenderer.drawStringWithShadow(s, 0.0F, j2 - 8, 16777215 + (l1 << 24));
                                 GlStateManager.disableAlpha();
                                 GlStateManager.disableBlend();
                             }
@@ -108,7 +108,7 @@ public class GuiNewChatFast extends GuiNewChat
 
                 if (flag)
                 {
-                    int k2 = this.mc.fontRendererObj.FONT_HEIGHT;
+                    int k2 = this.mc.fontRenderer.FONT_HEIGHT;
                     GlStateManager.translate(-3.0F, 0.0F, 0.0F);
                     int l2 = j * k2 + j;
                     int i3 = l * k2 + l;
@@ -162,7 +162,7 @@ public class GuiNewChatFast extends GuiNewChat
         }
 
         int i = MathHelper.floor(this.getChatWidth() / this.getChatScale());
-        List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRendererObj, false, false);
+        List<ITextComponent> list = GuiUtilRenderComponents.splitText(chatComponent, i, this.mc.fontRenderer, false, false);
         boolean flag = this.getChatOpen();
 
         for (ITextComponent itextcomponent : list)
@@ -265,9 +265,9 @@ public class GuiNewChatFast extends GuiNewChat
             {
                 int l = Math.min(this.getLineCount(), this.drawnChatLines.size());
 
-                if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRendererObj.FONT_HEIGHT * l + l)
+                if (j <= MathHelper.floor(this.getChatWidth() / this.getChatScale()) && k < this.mc.fontRenderer.FONT_HEIGHT * l + l)
                 {
-                    int i1 = k / this.mc.fontRendererObj.FONT_HEIGHT + this.scrollPos;
+                    int i1 = k / this.mc.fontRenderer.FONT_HEIGHT + this.scrollPos;
 
                     if (i1 >= 0 && i1 < this.drawnChatLines.size())
                     {
@@ -278,7 +278,7 @@ public class GuiNewChatFast extends GuiNewChat
                         {
                             if (itextcomponent instanceof TextComponentString)
                             {
-                                j1 += this.mc.fontRendererObj.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString)itextcomponent).getText(), false));
+                                j1 += this.mc.fontRenderer.getStringWidth(GuiUtilRenderComponents.removeTextColorsIfConfigured(((TextComponentString)itextcomponent).getText(), false));
 
                                 if (j1 > j)
                                 {

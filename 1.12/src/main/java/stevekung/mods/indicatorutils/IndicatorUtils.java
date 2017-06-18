@@ -47,7 +47,7 @@ public class IndicatorUtils
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
-    public static final String FORGE_VERSION = "after:forge@[14.21.0.2331,);";
+    public static final String FORGE_VERSION = "after:forge@[14.21.0.2334,);";
     public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
     public static List<String> IGNORE_LIST = Lists.newArrayList();

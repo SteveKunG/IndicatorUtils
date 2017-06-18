@@ -70,7 +70,7 @@ public class StatusRendererHelper
 
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
-            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRendererObj;
+            FontRenderer fontrenderer = Minecraft.getMinecraft().fontRenderer;
             int j = fontrenderer.getStringWidth(text) / 2;
             GlStateManager.disableTexture2D();
             Tessellator tessellator = Tessellator.getInstance();
@@ -136,25 +136,25 @@ public class StatusRendererHelper
                     {
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT));
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT), EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 16);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 16, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
                         }
@@ -246,7 +246,7 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-                            width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
+                            width = mc.fontRenderer.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                             ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 48);
                             ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 48, EnumTextColor.WHITE, true);
 
@@ -269,7 +269,7 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-                            width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
+                            width = mc.fontRenderer.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
                             ClientRendererHelper.renderItemWithEffect(offItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.LEFT_AND_RIGHT) + 32);
                             ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : StatusRendererHelper.getItemStackCount(offItem, itemCount, countString), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.LEFT_AND_RIGHT) + 32, EnumTextColor.WHITE, true);
 
@@ -292,13 +292,13 @@ public class StatusRendererHelper
                     {
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR));
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR), EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
-                            width = mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
+                            width = mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) + 16);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) + 16, EnumTextColor.WHITE, true);
                         }
@@ -326,7 +326,7 @@ public class StatusRendererHelper
 
                             String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                             String arrowCountString = json.text(String.valueOf(arrowCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-                            width = mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
+                            width = mc.fontRenderer.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                             ClientRendererHelper.renderItemWithEffect(mainItem, scaledRes.getScaledWidth() / 2 - 91 - 20, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(false, EnumSide.HOTBAR) - 16);
                             ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), scaledRes.getScaledWidth() / 2 - 90 - 24 - width, scaledRes.getScaledHeight() - OffsetHelper.getHotbarArmorOffset(true, EnumSide.HOTBAR) - 16, EnumTextColor.WHITE, true);
 
@@ -370,25 +370,25 @@ public class StatusRendererHelper
                     {
                         if (StatusRendererHelper.INSTANCE.getHelmet())
                         {
-                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
+                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.HELMET, armorPosition, helItem);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.HELMET), flag ? armorTextPosition : width, helText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getChestplate())
                         {
-                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
+                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.CHESTPLATE, armorPosition, chestItem);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.CHESTPLATE), flag ? armorTextPosition : width, chestText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getLeggings())
                         {
-                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
+                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.LEGGINGS, armorPosition, legItem);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.LEGGINGS), flag ? armorTextPosition : width, legText, EnumTextColor.WHITE, true);
                         }
                         if (StatusRendererHelper.INSTANCE.getBoots())
                         {
-                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
+                            width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS));
                             ClientRendererHelper.renderArmorWithEffect(ArmorType.BOOTS, armorPosition, bootItem);
                             ClientRendererHelper.drawString(StatusRendererHelper.getArmorStatusType(ArmorType.BOOTS), flag ? armorTextPosition : width, bootText, EnumTextColor.WHITE, true);
                         }
@@ -407,7 +407,7 @@ public class StatusRendererHelper
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                         String arrowCountString = json.text(String.valueOf(arrowCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-                        width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
+                        width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : countString);
                         ClientRendererHelper.renderItemWithEffect(mainItem, armorPosition, bootItem + 16);
                         ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(mainItem) : StatusRendererHelper.getItemStackCount(mainItem, itemCount, countString), flag ? armorTextPosition : width, bootText + 16, EnumTextColor.WHITE, true);
 
@@ -430,7 +430,7 @@ public class StatusRendererHelper
 
                         String countString = json.text(String.valueOf(itemCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItem)).getFormattedText();
                         String arrowCountString = json.text(String.valueOf(arrowCount)).setStyle(json.colorFromConfig(ConfigManager.customColorHeldItemArrowCount)).getFormattedText();
-                        width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRendererObj.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
+                        width = scaledRes.getScaledWidth() - armorTextPosition - mc.fontRenderer.getStringWidth(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : countString);
                         ClientRendererHelper.renderItemWithEffect(offItem, armorPosition, bootItem + 32);
                         ClientRendererHelper.drawString(isTools ? StatusRendererHelper.getHeldItemStatus(offItem) : StatusRendererHelper.getItemStackCount(offItem, itemCount, countString), flag ? armorTextPosition : width, bootText + 32, EnumTextColor.WHITE, true);
 
@@ -497,8 +497,8 @@ public class StatusRendererHelper
                         {
                             s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                         }
-                        int stringwidth1 = mc.fontRendererObj.getStringWidth(s);
-                        int stringwidth2 = mc.fontRendererObj.getStringWidth(s1);
+                        int stringwidth1 = mc.fontRenderer.getStringWidth(s);
+                        int stringwidth2 = mc.fontRenderer.getStringWidth(s1);
 
                         if (!iconAndTime)
                         {
@@ -598,8 +598,8 @@ public class StatusRendererHelper
                             {
                                 s1 = s1 + " " + I18n.format("enchantment.level.4", new Object[0]);
                             }
-                            int stringwidth1 = mc.fontRendererObj.getStringWidth(s);
-                            int stringwidth2 = mc.fontRendererObj.getStringWidth(s1);
+                            int stringwidth1 = mc.fontRenderer.getStringWidth(s);
+                            int stringwidth2 = mc.fontRenderer.getStringWidth(s1);
 
                             if (!iconAndTime)
                             {
@@ -736,11 +736,11 @@ public class StatusRendererHelper
                             }
                         }
                     }
-                    int height = mc.fontRendererObj.FONT_HEIGHT + 1;
-                    int stringWidth = mc.fontRendererObj.getStringWidth(string);
+                    int height = mc.fontRenderer.FONT_HEIGHT + 1;
+                    int stringWidth = mc.fontRenderer.getStringWidth(string);
                     int xPosition = scaledRes.getScaledWidth() - 2 - stringWidth;
                     float yPosition = y + height * i;
-                    int stringWidth2 = mc.fontRendererObj.getStringWidth(string) + 2;
+                    int stringWidth2 = mc.fontRenderer.getStringWidth(string) + 2;
                     int yOverlay = (int) yPosition;
 
                     if (!swapToRight)

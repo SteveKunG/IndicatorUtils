@@ -34,7 +34,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
             for (BossInfoClient bossinfolerping : this.mc.ingameGUI.getBossOverlay().mapBossInfos.values())
             {
                 int k = i / 2 - 91;
-                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.mc.fontRendererObj.FONT_HEIGHT);
+                RenderGameOverlayEvent.BossInfo event = ForgeHooksClient.bossBarRenderPre(scaledresolution, bossinfolerping, k, j, 10 + this.mc.fontRenderer.FONT_HEIGHT);
 
                 if (!event.isCanceled())
                 {
@@ -45,7 +45,7 @@ public class GuiBossOverlayIU extends GuiBossOverlay
                         this.render(k, j, bossinfolerping);
                     }
                     String s = bossinfolerping.getName().getFormattedText();
-                    this.mc.fontRendererObj.drawStringWithShadow(s, i / 2 - this.mc.fontRendererObj.getStringWidth(s) / 2, j - 9, 16777215);
+                    this.mc.fontRenderer.drawStringWithShadow(s, i / 2 - this.mc.fontRenderer.getStringWidth(s) / 2, j - 9, 16777215);
                 }
 
                 j += ConfigManager.hideBossHealthBar ? 12 : event.getIncrement();

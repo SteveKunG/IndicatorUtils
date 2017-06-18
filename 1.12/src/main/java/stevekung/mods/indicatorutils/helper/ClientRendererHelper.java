@@ -127,7 +127,7 @@ public class ClientRendererHelper
 
     public static void drawString(String message, float x, float y, int color, boolean shadow)
     {
-        Minecraft.getMinecraft().fontRendererObj.drawString(message, x, y, color, shadow);
+        Minecraft.getMinecraft().fontRenderer.drawString(message, x, y, color, shadow);
     }
 
     public static void drawStringAtRecord(String text, float partialTicks)
@@ -149,7 +149,7 @@ public class ClientRendererHelper
         {
             GlStateManager.pushMatrix();
             GlStateManager.translate(i / 2, j - height + -0.5F, 0.0F);
-            ClientRendererHelper.drawRect(6, -6, mc.fontRendererObj.getStringWidth(text) / 2 + 2, -mc.fontRendererObj.getStringWidth(text) / 2 - 2, 16777216);
+            ClientRendererHelper.drawRect(6, -6, mc.fontRenderer.getStringWidth(text) / 2 + 2, -mc.fontRenderer.getStringWidth(text) / 2 - 2, 16777216);
             GlStateManager.popMatrix();
 
             GlStateManager.pushMatrix();
@@ -157,7 +157,7 @@ public class ClientRendererHelper
             GlStateManager.enableBlend();
             GlStateManager.tryBlendFuncSeparate(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA, GlStateManager.SourceFactor.ONE, GlStateManager.DestFactor.ZERO);
             int l = 16777215;
-            ClientRendererHelper.drawString(text, -mc.fontRendererObj.getStringWidth(text) / 2, -4, l + (l1 << 24 & -16777216), true);
+            ClientRendererHelper.drawString(text, -mc.fontRenderer.getStringWidth(text) / 2, -4, l + (l1 << 24 & -16777216), true);
             GlStateManager.disableBlend();
             GlStateManager.popMatrix();
         }
@@ -179,7 +179,7 @@ public class ClientRendererHelper
         GlStateManager.enableColorMaterial();
         GlStateManager.disableLighting();
         GlStateManager.enableCull();
-        Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRendererObj, StatusRendererHelper.INSTANCE.getArmorType(type), x, y);
+        Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, StatusRendererHelper.INSTANCE.getArmorType(type), x, y);
         GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
         GlStateManager.disableLighting();
     }
@@ -203,7 +203,7 @@ public class ClientRendererHelper
             GlStateManager.enableColorMaterial();
             GlStateManager.disableLighting();
             GlStateManager.enableCull();
-            Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRendererObj, itemStack, x, y);
+            Minecraft.getMinecraft().getRenderItem().renderItemOverlays(Minecraft.getMinecraft().fontRenderer, itemStack, x, y);
             GlStateManager.blendFunc(GlStateManager.SourceFactor.SRC_ALPHA, GlStateManager.DestFactor.ONE_MINUS_SRC_ALPHA);
             GlStateManager.disableLighting();
         }

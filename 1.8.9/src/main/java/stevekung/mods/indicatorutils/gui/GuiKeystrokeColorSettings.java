@@ -53,29 +53,29 @@ public class GuiKeystrokeColorSettings extends GuiScreen
         this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y - 25, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_WASD_GREEN));
         this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_WASD_BLUE));
 
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_RED));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_GREEN));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_BLUE));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_RED));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_GREEN));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_BLUE));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_RED));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_GREEN));
-        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_BLUE));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_RED));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_GREEN));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 155, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SPRINT_BLUE));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_RED));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_GREEN));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x - 50, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_SNEAK_BLUE));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 50, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_RED));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 75, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_GREEN));
+        this.buttonList.add(new GuiRenderStatusSliderInt(buttonId++, x + 55, y + 100, 100, GuiRenderStatusSliderInt.Options.KEYSTROKE_BLOCK_BLUE));
 
         this.buttonList.add(this.lmbrmbRainbow = new GuiButton(buttonId++, x - 155, y + 25, 100, 20, ""));
         this.buttonList.add(this.cpsRainbow = new GuiButton(buttonId++, x - 50, y + 25, 100, 20, ""));
         this.buttonList.add(this.wasdRainbow = new GuiButton(buttonId++, x + 55, y + 25, 100, 20, ""));
-        this.buttonList.add(this.blockRainbow = new GuiButton(buttonId++, x - 155, y + 125, 100, 20, ""));
-        this.buttonList.add(this.sprintRainbow = new GuiButton(buttonId++, x - 50, y + 125, 100, 20, ""));
-        this.buttonList.add(this.sneakRainbow = new GuiButton(buttonId++, x + 55, y + 125, 100, 20, ""));
+        this.buttonList.add(this.sprintRainbow = new GuiButton(buttonId++, x - 155, y + 125, 100, 20, ""));
+        this.buttonList.add(this.sneakRainbow = new GuiButton(buttonId++, x - 50, y + 125, 100, 20, ""));
+        this.buttonList.add(this.blockRainbow = new GuiButton(buttonId++, x + 55, y + 125, 100, 20, ""));
 
         this.lmbrmbRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
         this.cpsRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
         this.wasdRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
-        this.blockRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
         this.sprintRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
         this.sneakRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
+        this.blockRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
     }
 
     @Override
@@ -94,9 +94,9 @@ public class GuiKeystrokeColorSettings extends GuiScreen
         this.lmbrmbRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_LMBRMB_RAINBOW);
         this.cpsRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_CPS_RAINBOW);
         this.wasdRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_WASD_RAINBOW);
-        this.blockRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
         this.sprintRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW);
         this.sneakRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW);
+        this.blockRainbow.displayString = "Rainbow: " + this.getBooleanColor(ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW);
     }
 
     @Override
@@ -123,15 +123,15 @@ public class GuiKeystrokeColorSettings extends GuiScreen
                 ExtendedModSettings.saveExtendedSettings();
                 break;
             case 22:
-                ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW = !ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW;
-                ExtendedModSettings.saveExtendedSettings();
-                break;
-            case 23:
                 ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW = !ExtendedModSettings.KEYSTROKE_SPRINT_RAINBOW;
                 ExtendedModSettings.saveExtendedSettings();
                 break;
-            case 24:
+            case 23:
                 ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW = !ExtendedModSettings.KEYSTROKE_SNEAK_RAINBOW;
+                ExtendedModSettings.saveExtendedSettings();
+                break;
+            case 24:
+                ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW = !ExtendedModSettings.KEYSTROKE_BLOCK_RAINBOW;
                 ExtendedModSettings.saveExtendedSettings();
                 break;
             }

@@ -31,12 +31,12 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
         if (ConfigManager.enableModifiedMovementHandler)
         {
             this.moveStrafe = 0.0F;
-            this.field_192832_b = 0.0F;
+            this.moveForward = 0.0F;
             int afkMoveTick = IndicatorUtilsEventHandler.AFK_MOVE_TICK;
 
             if (afkMoveTick > 0 && afkMoveTick < 2)
             {
-                ++this.field_192832_b;
+                ++this.moveForward;
                 this.forwardKeyDown = true;
             }
             else if (afkMoveTick > 2 && afkMoveTick < 4)
@@ -46,7 +46,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
             }
             else if (afkMoveTick > 4 && afkMoveTick < 6)
             {
-                --this.field_192832_b;
+                --this.moveForward;
                 this.backKeyDown = true;
             }
             else if (afkMoveTick > 6 && afkMoveTick < 8)
@@ -57,7 +57,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
 
             if (this.gameSettings.keyBindForward.isKeyDown())
             {
-                ++this.field_192832_b;
+                ++this.moveForward;
                 this.forwardKeyDown = true;
             }
             else
@@ -67,7 +67,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
 
             if (this.gameSettings.keyBindBack.isKeyDown() && !(KeyBindingHandler.KEY_TOGGLE_SPRINT.isKeyDown() || KeyBindingHandler.KEY_TOGGLE_SNEAK.isKeyDown()))
             {
-                --this.field_192832_b;
+                --this.moveForward;
                 this.backKeyDown = true;
             }
             else
@@ -107,7 +107,7 @@ public class MovementInputFromOptionsIU extends MovementInputFromOptions
             if (this.sneak)
             {
                 this.moveStrafe = (float)(this.moveStrafe * 0.3D);
-                this.field_192832_b = (float)(this.field_192832_b * 0.3D);
+                this.moveForward = (float)(this.moveForward * 0.3D);
             }
         }
         else

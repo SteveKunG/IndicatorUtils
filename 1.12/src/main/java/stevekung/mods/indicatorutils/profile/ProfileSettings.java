@@ -25,7 +25,7 @@ public class ProfileSettings
                 return;
             }
             ProfileSettings.readProfileData(nbt.getTagList("ProfileData", 10));
-            IULog.info("Loading profile data settings : %s", file.getPath());
+            IULog.info("Loading profile data settings: {}", file.getPath());
         }
         catch (Exception e) {}
     }

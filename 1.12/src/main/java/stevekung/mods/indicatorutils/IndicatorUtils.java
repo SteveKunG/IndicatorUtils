@@ -2,16 +2,12 @@ package stevekung.mods.indicatorutils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -47,7 +43,7 @@ public class IndicatorUtils
     public static final String VERSION = IndicatorUtils.MAJOR_VERSION + "." + IndicatorUtils.MINOR_VERSION + "." + IndicatorUtils.BUILD_VERSION;
     public static final String MC_VERSION = (String) FMLInjectionData.data()[4];
     public static final String GUI_FACTORY = "stevekung.mods.indicatorutils.config.ConfigGuiFactory";
-    public static final String FORGE_VERSION = "after:forge@[14.21.0.2334,);";
+    public static final String FORGE_VERSION = "after:forge@[14.21.0.2382,);";
     public static final boolean[] STATUS_CHECK = { false, false };
     public static String USERNAME;
     public static List<String> IGNORE_LIST = Lists.newArrayList();
@@ -121,19 +117,10 @@ public class IndicatorUtils
             ClientCommandHandler.instance.registerCommand(new CommandAutoRealms());
             ClientCommandHandler.instance.registerCommand(new CommandProfile());
         }
-
         if (ConfigManager.replaceVanillaFishingLine)
         {
-            for (Iterator<Entry<Class<? extends Entity>, Render<? extends Entity>>> it = Minecraft.getMinecraft().getRenderManager().entityRenderMap.entrySet().iterator(); it.hasNext();)
-            {
-                Entry<Class<? extends Entity>, Render<? extends Entity>> entry = it.next();
-
-                if (entry.getKey().equals(EntityFishHook.class))
-                {
-                    it.remove();
-                    IULog.info("Successfully removed vanilla EntityFishHook rendering class");
-                }
-            }
+            Minecraft.getMinecraft().getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
+            IULog.info("Successfully removed {}", EntityFishHook.class.getSimpleName());
             Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishIU(Minecraft.getMinecraft().getRenderManager()));
         }
     }
@@ -149,11 +136,11 @@ public class IndicatorUtils
             {
                 CapeUtils.textureUploaded = true;
                 CapeUtils.setCapeURL(Base64Utils.decode(ExtendedModSettings.CAPE_URL), true);
-                IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
+                IULog.info("{} has old cape data, continue loading...", IndicatorUtils.USERNAME);
             }
             else
             {
-                IULog.info(IndicatorUtils.USERNAME + " don't have old cape data, continue loading...");
+                IULog.info("{} don't have old cape data, continue loading...", IndicatorUtils.USERNAME);
             }
         }
     }

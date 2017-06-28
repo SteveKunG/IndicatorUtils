@@ -1,38 +1,44 @@
 package stevekung.mods.indicatorutils.utils;
 
-import org.apache.logging.log4j.Level;
-
-import net.minecraftforge.fml.relauncher.FMLRelaunchLog;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class IULog
 {
+    private static final Logger LOG;
+
+    static
+    {
+        LOG = LogManager.getLogger("Indicator Utils");
+    }
+
     public static void info(String message)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.INFO, message);
+        IULog.LOG.info(message);
     }
 
     public static void error(String message)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.ERROR, message);
+        IULog.LOG.error(message);
     }
 
     public static void warning(String message)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.WARN, message);
+        IULog.LOG.warn(message);
     }
 
     public static void info(String message, Object... obj)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.INFO, message, obj);
+        IULog.LOG.info(message, obj);
     }
 
     public static void error(String message, Object... obj)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.ERROR, message, obj);
+        IULog.LOG.error(message, obj);
     }
 
     public static void warning(String message, Object... obj)
     {
-        FMLRelaunchLog.log("Indicator Utils", Level.WARN, message, obj);
+        IULog.LOG.warn(message, obj);
     }
 }

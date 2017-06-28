@@ -143,7 +143,7 @@ public class ExtendedModSettings
 
             ExtendedModSettings.readAutoLoginData(nbt.getTagList("AutoLoginData", 10));
 
-            IULog.info("Loading extended settings : %s", file.getPath());
+            IULog.info("Loading extended settings {}", file.getPath());
         }
         catch (Exception e) {}
     }

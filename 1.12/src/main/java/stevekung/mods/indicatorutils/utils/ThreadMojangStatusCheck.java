@@ -25,7 +25,7 @@ public class ThreadMojangStatusCheck extends Thread
                 for (MojangStatusChecker statusChecker : MojangStatusChecker.valuesCached())
                 {
                     ServerStatus status = statusChecker.getStatus();
-                    IULog.info(statusChecker.getName() + ": " + status.getStatus());
+                    IULog.info(statusChecker.getName() + ": {}", status.getStatus());
                 }
             }
             else

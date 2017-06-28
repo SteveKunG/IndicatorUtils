@@ -33,7 +33,7 @@ public class IndicatorUtilsPlugin implements IFMLLoadingPlugin, IFMLCallHook
     @Override
     public String getAccessTransformerClass()
     {
-        IULog.info("Calling access transformer class %s", IndicatorUtilsAT.class.getName());
+        IULog.info("Calling access transformer class {}", IndicatorUtilsAT.class.getName());
         return IndicatorUtilsAT.class.getName();
     }
 

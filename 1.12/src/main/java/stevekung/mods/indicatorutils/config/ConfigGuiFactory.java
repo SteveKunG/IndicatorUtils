@@ -15,20 +15,7 @@ public class ConfigGuiFactory implements IModGuiFactory
     public void initialize(Minecraft mc) {}
 
     @Override
-    public Class<? extends GuiScreen> mainConfigGuiClass()
-    {
-        return ConfigGUI.class;
-    }
-
-    @Override
     public Set<RuntimeOptionCategoryElement> runtimeGuiCategories()
-    {
-        return null;
-    }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    public RuntimeOptionGuiHandler getHandlerFor(RuntimeOptionCategoryElement element)
     {
         return null;
     }

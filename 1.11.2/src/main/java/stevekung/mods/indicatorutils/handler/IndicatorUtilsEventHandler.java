@@ -650,7 +650,7 @@ public class IndicatorUtilsEventHandler
                 int j = this.mc.currentScreen.height - Mouse.getEventY() * this.mc.currentScreen.height / this.mc.displayHeight - 1;
                 int k = Mouse.getEventButton();
                 int deltaColor = 0;
-                boolean galacticraft = Loader.isModLoaded("GalacticraftCore");
+                boolean galacticraft = Loader.isModLoaded("galacticraftcore");
                 float defaultval = galacticraft ? -35.0F : 0.0F;
                 boolean height = galacticraft ? j > this.mc.currentScreen.height - 70 && j < this.mc.currentScreen.height - 35 : j > this.mc.currentScreen.height - 35;
 

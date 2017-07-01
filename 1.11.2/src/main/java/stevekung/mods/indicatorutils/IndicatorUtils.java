@@ -2,16 +2,12 @@ package stevekung.mods.indicatorutils;
 
 import java.io.File;
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Map.Entry;
 import java.util.UUID;
 
 import com.google.common.collect.Lists;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.projectile.EntityFishHook;
 import net.minecraft.launchwrapper.Launch;
 import net.minecraftforge.client.ClientCommandHandler;
@@ -123,16 +119,8 @@ public class IndicatorUtils
 
         if (ConfigManager.replaceVanillaFishingLine)
         {
-            for (Iterator<Entry<Class<? extends Entity>, Render<? extends Entity>>> it = Minecraft.getMinecraft().getRenderManager().entityRenderMap.entrySet().iterator(); it.hasNext();)
-            {
-                Entry<Class<? extends Entity>, Render<? extends Entity>> entry = it.next();
-
-                if (entry.getKey().equals(EntityFishHook.class))
-                {
-                    it.remove();
-                    IULog.info("Successfully removed vanilla EntityFishHook rendering class");
-                }
-            }
+            Minecraft.getMinecraft().getRenderManager().entityRenderMap.entrySet().removeIf(entry -> entry.getKey().equals(EntityFishHook.class));
+            IULog.info("Successfully removed {}", EntityFishHook.class.getSimpleName());
             Minecraft.getMinecraft().getRenderManager().entityRenderMap.put(EntityFishHook.class, new RenderFishIU(Minecraft.getMinecraft().getRenderManager()));
         }
     }
@@ -148,11 +136,11 @@ public class IndicatorUtils
             {
                 CapeUtils.textureUploaded = true;
                 CapeUtils.setCapeURL(Base64Utils.decode(ExtendedModSettings.CAPE_URL), true);
-                IULog.info(IndicatorUtils.USERNAME + " has old cape data, continue loading...");
+                IULog.info("{} has old cape data, continue loading...", IndicatorUtils.USERNAME);
             }
             else
             {
-                IULog.info(IndicatorUtils.USERNAME + " don't have old cape data, continue loading...");
+                IULog.info("{} don't have old cape data, continue loading...", IndicatorUtils.USERNAME);
             }
         }
     }

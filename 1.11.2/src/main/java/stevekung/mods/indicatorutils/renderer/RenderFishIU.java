@@ -25,7 +25,7 @@ public class RenderFishIU extends Render<EntityFishHook>
     public RenderFishIU(RenderManager manager)
     {
         super(manager);
-        IULog.info("New RenderFishIU.class successfully loaded");
+        IULog.info("{} successfully initialized", this.getClass().getSimpleName());
     }
 
     @Override

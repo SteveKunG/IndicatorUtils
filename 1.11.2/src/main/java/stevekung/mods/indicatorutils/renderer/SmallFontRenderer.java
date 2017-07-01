@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.util.Locale;
 import java.util.Random;
 
-import org.apache.commons.io.IOUtils;
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -92,21 +90,15 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
     private void readFontTexture()
     {
-        IResource iresource = null;
         BufferedImage bufferedimage;
 
-        try
+        try (IResource iresource = this.getResource(this.locationFontTexture);)
         {
-            iresource = this.getResource(this.locationFontTexture);
             bufferedimage = TextureUtil.readBufferedImage(iresource.getInputStream());
         }
         catch (IOException ioexception)
         {
             throw new RuntimeException(ioexception);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(iresource);
         }
 
         int lvt_3_1_ = bufferedimage.getWidth();
@@ -155,20 +147,13 @@ public class SmallFontRenderer implements IResourceManagerReloadListener
 
     private void readGlyphSizes()
     {
-        IResource iresource = null;
-
-        try
+        try (IResource iresource = this.getResource(new ResourceLocation("font/glyph_sizes.bin"));)
         {
-            iresource = this.getResource(new ResourceLocation("font/glyph_sizes.bin"));
             iresource.getInputStream().read(this.glyphWidth);
         }
         catch (IOException ioexception)
         {
             throw new RuntimeException(ioexception);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(iresource);
         }
     }
 

@@ -12,18 +12,10 @@ buildscript {
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-
-version = "2.1.2"
+version = "2.1.3"
 group = "stevekung.mods.indicatorutils"
 archivesBaseName = "Indicator-Utils-All"
-
 sourceCompatibility = targetCompatibility = "1.8"
-
-compileJava {
-    sourceCompatibility = targetCompatibility = "1.8"
-	options.encoding = 'UTF-8'
-	options.compilerArgs << "-Xlint:deprecation" << "-Xlint:unchecked"
-}
 
 minecraft {
     version = "1.9.4-12.17.0.2051"
@@ -33,20 +25,7 @@ minecraft {
 }
 
 dependencies {}
-
-processResources {
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
-}
+processResources {}
 
 ext.coreJar = "build/libs/" + archivesBaseName + "-" + version + ".jar"
 ext.coreFiles = ['stevekung/mods/indicatorutils/**', 'assets/indicatorutils/**', 'assets/minecraft/**', 'license.txt', 'indicatorutils_at.cfg']

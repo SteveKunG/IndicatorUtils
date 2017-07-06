@@ -53,6 +53,7 @@ public class NewChatEventHandler
         if (!this.isCurrentThread())
         {
             ListenableFutureTask listenablefuturetask = ListenableFutureTask.create(callable);
+
             synchronized (this.queue)
             {
                 this.queue.add(listenablefuturetask);

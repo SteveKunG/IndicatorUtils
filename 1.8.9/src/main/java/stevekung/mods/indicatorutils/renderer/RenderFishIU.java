@@ -99,6 +99,6 @@ public class RenderFishIU extends Render<EntityFishHook>
     @Override
     protected ResourceLocation getEntityTexture(EntityFishHook entity)
     {
-        return FISH_PARTICLES;
+        return RenderFishIU.FISH_PARTICLES;
     }
 }

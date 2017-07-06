@@ -69,7 +69,7 @@ public class GuiOptionSliderIU extends GuiButton
                 ExtendedModSettings.CPS_OPACITY = this.sliderValue;
                 this.displayString = this.options.getEnumString() + " " + this.sliderValue;
             }
-            mc.getTextureManager().bindTexture(BUTTON_TEXTURES);
+            mc.getTextureManager().bindTexture(GuiButton.BUTTON_TEXTURES);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)), this.y, 0, 66, 4, 20);
             this.drawTexturedModalRect(this.x + (int)(this.sliderValue * (this.width - 8)) + 4, this.y, 196, 66, 4, 20);

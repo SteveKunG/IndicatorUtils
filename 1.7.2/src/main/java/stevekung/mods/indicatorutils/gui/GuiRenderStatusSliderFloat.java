@@ -70,7 +70,7 @@ public class GuiRenderStatusSliderFloat extends GuiButton
                 ExtendedModSettings.RENDER_INFO_OPACITY = this.sliderValue;
                 this.displayString = this.options.getEnumString() + " " + this.sliderValue;
             }
-            mc.getTextureManager().bindTexture(buttonTextures);
+            mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);

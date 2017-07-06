@@ -212,12 +212,12 @@ public class IndicatorUtilsEventHandler
                 if (i < players.size())
                 {
                     GuiPlayerInfo player = players.get(i);
-                    playerList.add(player.name);
+                    IndicatorUtilsEventHandler.playerList.add(player.name);
                     Set<String> hs = Sets.newHashSet();
-                    hs.addAll(playerList);
-                    playerList.clear();
-                    playerList.addAll(hs);
-                    playerPingMap.put(player.name, player.responseTime);
+                    hs.addAll(IndicatorUtilsEventHandler.playerList);
+                    IndicatorUtilsEventHandler.playerList.clear();
+                    IndicatorUtilsEventHandler.playerList.addAll(hs);
+                    IndicatorUtilsEventHandler.playerPingMap.put(player.name, player.responseTime);
                 }
             }
         }

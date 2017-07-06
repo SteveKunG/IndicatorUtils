@@ -54,7 +54,7 @@ public class GuiRenderStatusSliderInt extends GuiButton
                 this.sliderValue = this.options.normalizeValue(f);
                 this.displayString = this.options.getEnumString() + ": " + this.getOptionValue(this.options);
             }
-            mc.getTextureManager().bindTexture(buttonTextures);
+            mc.getTextureManager().bindTexture(GuiButton.buttonTextures);
             GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)), this.yPosition, 0, 66, 4, 20);
             this.drawTexturedModalRect(this.xPosition + (int)(this.sliderValue * (this.width - 8)) + 4, this.yPosition, 196, 66, 4, 20);

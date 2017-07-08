@@ -638,7 +638,7 @@ public class IndicatorUtilsEventHandler
         {
             if (ConfigManager.enableKeystroke)
             {
-                if (!this.mc.gameSettings.hideGUI)
+                if (!this.mc.gameSettings.hideGUI && !this.mc.gameSettings.showDebugInfo)
                 {
                     if (this.mc.currentScreen == null || this.mc.currentScreen instanceof GuiChat || this.mc.currentScreen instanceof GuiRenderStatusSettings || this.mc.currentScreen instanceof GuiKeystrokeColorSettings)
                     {

@@ -5,60 +5,84 @@ import org.lwjgl.opengl.GL11;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.model.ModelBiped;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 
 @SideOnly(Side.CLIENT)
 public class ModelBipedMOD extends ModelBiped
 {
-    public ModelBipedMOD()
-    {
-        this(0.0F);
-    }
+    private boolean renderingEnchantment;
 
-    public ModelBipedMOD(float p_i1148_1_)
+    public ModelBipedMOD(float modelSize)
     {
-        this(p_i1148_1_, 0.0F, 64, 32);
-    }
-
-    public ModelBipedMOD(float p_i1149_1_, float p_i1149_2_, int p_i1149_3_, int p_i1149_4_)
-    {
-        super(p_i1149_1_, p_i1149_2_, p_i1149_3_, p_i1149_4_);
+        super(modelSize);
     }
 
     @Override
-    public void render(Entity p_78088_1_, float p_78088_2_, float p_78088_3_, float p_78088_4_, float p_78088_5_, float p_78088_6_, float p_78088_7_)
+    public void setLivingAnimations(EntityLivingBase entity, float limbSwing, float limbSwingAmount, float partialTicks)
     {
-        this.setRotationAngles(p_78088_2_, p_78088_3_, p_78088_4_, p_78088_5_, p_78088_6_, p_78088_7_, p_78088_1_);
-        GL11.glPushMatrix();
-        GL11.glEnable(GL11.GL_BLEND);
-        GL11.glBlendFunc(770, 771);
+        super.setLivingAnimations(entity, limbSwing, limbSwingAmount, partialTicks);
+        this.renderingEnchantment = false;
+    }
 
+    @Override
+    public void render(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    {
+        this.actualRender(entity, limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale);
+        this.renderingEnchantment = true;
+    }
+
+    private void actualRender(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch, float scale)
+    {
+        this.setRotationAngles(limbSwing, limbSwingAmount, ageInTicks, netHeadYaw, headPitch, scale, entity);
+
+        if (!this.renderingEnchantment)
+        {
+            GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
+        }
+
+        GL11.glPushMatrix();
+
+        if (!this.renderingEnchantment)
+        {
+            GL11.glEnable(GL11.GL_BLEND);
+            OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        }
         if (this.isChild)
         {
-            float f6 = 2.0F;
-            GL11.glScalef(1.5F / f6, 1.5F / f6, 1.5F / f6);
-            GL11.glTranslatef(0.0F, 16.0F * p_78088_7_, 0.0F);
-            this.bipedHead.render(p_78088_7_);
-            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
-            GL11.glTranslatef(0.0F, 24.0F * p_78088_7_, 0.0F);
-            this.bipedBody.render(p_78088_7_);
-            this.bipedRightArm.render(p_78088_7_);
-            this.bipedLeftArm.render(p_78088_7_);
-            this.bipedRightLeg.render(p_78088_7_);
-            this.bipedLeftLeg.render(p_78088_7_);
-            this.bipedHeadwear.render(p_78088_7_);
+            GL11.glScalef(0.75F, 0.75F, 0.75F);
+            GL11.glTranslatef(0.0F, 16.0F * scale, 0.0F);
+            this.bipedHead.render(scale);
+            GL11.glPopMatrix();
+            GL11.glPushMatrix();
+            GL11.glScalef(0.5F, 0.5F, 0.5F);
+            GL11.glTranslatef(0.0F, 24.0F * scale, 0.0F);
+            this.bipedBody.render(scale);
+            this.bipedRightArm.render(scale);
+            this.bipedLeftArm.render(scale);
+            this.bipedRightLeg.render(scale);
+            this.bipedLeftLeg.render(scale);
+            this.bipedHeadwear.render(scale);
         }
         else
         {
-            this.bipedHead.render(p_78088_7_);
-            this.bipedBody.render(p_78088_7_);
-            this.bipedRightArm.render(p_78088_7_);
-            this.bipedLeftArm.render(p_78088_7_);
-            this.bipedRightLeg.render(p_78088_7_);
-            this.bipedLeftLeg.render(p_78088_7_);
-            this.bipedHeadwear.render(p_78088_7_);
+            if (entity.isSneaking())
+            {
+                GL11.glTranslatef(0.0F, 0.2F, 0.0F);
+            }
+            this.bipedHead.render(scale);
+            this.bipedBody.render(scale);
+            this.bipedRightArm.render(scale);
+            this.bipedLeftArm.render(scale);
+            this.bipedRightLeg.render(scale);
+            this.bipedLeftLeg.render(scale);
+            this.bipedHeadwear.render(scale);
         }
-        GL11.glDisable(GL11.GL_BLEND);
+        if (!this.renderingEnchantment)
+        {
+            GL11.glDisable(GL11.GL_BLEND);
+        }
         GL11.glPopMatrix();
     }
 }

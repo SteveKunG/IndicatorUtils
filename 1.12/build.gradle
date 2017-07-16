@@ -15,7 +15,7 @@ archivesBaseName = "Indicator-Utils-All"
 sourceCompatibility = targetCompatibility = "1.8"
 
 minecraft {
-    version = "1.12-14.21.1.2397"
+    version = "1.12-14.21.1.2412"
     runDir = "run"
     mappings = "snapshot_20170624"
 	makeObfSourceJar = false

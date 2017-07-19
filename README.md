@@ -6,4 +6,4 @@ Displaying all player status and more comfortable features!
 
 License
 ==============
-LICENSE: https://github.com/MCCommanderTH/IndicatorUtils/blob/master/LICENSE.md
+LICENSE: https://github.com/SteveKunG/IndicatorUtils/blob/master/LICENSE.md
